@@ -1,0 +1,62 @@
+version: "3.7"
+
+services:
+  nja_server:
+    restart: always
+    build: .
+    image: kakavip198kaka/nja_server:0.1
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.vimai != disabled
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        monitor: 60s
+        max_failure_ratio: 0.3
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=12345678
+      - DB_PORT=3306
+      - DB_DATABASE=nja
+    ports:
+      - 14444:14444
+    depends_on:
+      - mysql
+  
+  mysql:
+    restart: always
+    image: mysql:5.7.20
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
+    volumes:
+      - local_mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_USER: root
+      MYSQL_DATABASE: nja
+
+  php_myadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: 123789
+    ports:
+      - 18085:80
+    depends_on:
+      - mysql
+
+
+networks:
+  default:
+    driver: overlay
+    attachable: true
+volumes:
+  local_mysql_data:

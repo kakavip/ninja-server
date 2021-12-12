@@ -1,0 +1,9 @@
+.idea/
+*.jar
+*.rar
+*.zip
+out/
+
+*.class
+
+codefix/node_modules/

@@ -1,0 +1,1 @@
+ .\mvnw.cmd install:install-file -DlocalRepositoryPath=repo -DcreateChecksum=true -Dpackaging=jar -Dfile=".\lib\lib.jar" -DgroupId="com.lib.rmi" -DartifactId="rmi" -Dversion="1.0"
