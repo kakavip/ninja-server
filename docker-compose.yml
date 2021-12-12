@@ -32,6 +32,7 @@ services:
       - mysql
     volumes:
       - .:/app
+    command: ["java","-jar","/app/target/NinjaServer.jar"]
 
   mysql:
     restart: always
