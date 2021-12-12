@@ -23,14 +23,14 @@ services:
     environment:
       - DB_HOST=mysql
       - DB_USER=root
-      - DB_PASSWORD=12345678
+      - DB_PASS=12345678
       - DB_PORT=3306
       - DB_DATABASE=nja
     ports:
       - 14444:14444
     depends_on:
       - mysql
-  
+
   mysql:
     restart: always
     image: mysql:5.7.20
