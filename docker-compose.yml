@@ -30,6 +30,8 @@ services:
       - 14444:14444
     depends_on:
       - mysql
+    volumes:
+      - .:/app
 
   mysql:
     restart: always
