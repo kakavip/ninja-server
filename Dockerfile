@@ -2,7 +2,7 @@
 # Package stage
 #
 FROM openjdk:11-jre-slim
-WORKDIR /usr/local/app
+WORKDIR /app
 ADD . .
 EXPOSE 14444
-ENTRYPOINT ["java","-jar","/usr/local/app/target/NinjaServer.jar"]
+ENTRYPOINT ["java","-jar","/app/target/NinjaServer.jar"]
