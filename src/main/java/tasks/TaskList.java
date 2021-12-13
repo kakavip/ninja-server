@@ -10,7 +10,7 @@ public class TaskList {
         taskTemplates = new TaskTemplate[]{
                 builder()
                         .taskId(0)
-                        
+
                         .name("Nhiệm vụ chào làng")
                         .detail("")
                         .subNames(new String[]{
@@ -221,26 +221,26 @@ public class TaskList {
                                 {LUONG_ID, 200}
                         })
                         .build(),
-                builder()
-                        .taskId(11)
-                        .npcTalk("Gần mực thì đen gần đèn thì sáng, nên con hãy chọn bạn mà chơi")
-                        .minLevel(11)
-
-                        .name("NV Bạn bè giao hữu")
-                        .detail("")
-                        .subNames(new String[]{
-                                "Trình độ đạt cấp 11",
-                                "Giao lưu bạn hữu",
-                                "Báo cáo sư phụ"
-                        })
-                        .counts(new int[]{
-                                -1, 10, -1,
-                        })
-                        .rewards(new int[][]{
-                                {EXP_ID, 500000},
-                                {LUONG_ID, 200}
-                        })
-                        .build(),
+//                builder()
+//                        .taskId(11)
+//                        .npcTalk("Gần mực thì đen gần đèn thì sáng, nên con hãy chọn bạn mà chơi")
+//                        .minLevel(11)
+//
+//                        .name("NV Bạn bè giao hữu")
+//                        .detail("")
+//                        .subNames(new String[]{
+//                                "Trình độ đạt cấp 11",
+//                                "Giao lưu bạn hữu",
+//                                "Báo cáo sư phụ"
+//                        })
+//                        .counts(new int[]{
+//                                -1, 10, -1,
+//                        })
+//                        .rewards(new int[][]{
+//                                {EXP_ID, 500000},
+//                                {LUONG_ID, 200}
+//                        })
+//                        .build(),
                 builder()
                         .taskId(12)
                         .minLevel(12)
