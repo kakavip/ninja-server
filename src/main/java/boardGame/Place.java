@@ -344,21 +344,24 @@ public class Place {
             m.writer().writeByte(-54);
             m.writer().writeInt(b.id);
             for (byte i = 0; i < 5; ++i) {
-                final Item item = b.ItemMounts[i];
-                if (item != null) {
-                    m.writer().writeShort(item.id);
-                    m.writer().writeByte(item.getUpgrade());
-                    m.writer().writeLong(item.expires);
-                    m.writer().writeByte(item.sys);
-                    m.writer().writeByte(item.option.size());
-                    for (final Option Option : item.option) {
-                        m.writer().writeByte(Option.id);
-                        m.writer().writeInt(Option.param);
+                if (b.ItemMounts != null ) {
+                    final Item item = b.ItemMounts[i];
+                    if (item != null) {
+                        m.writer().writeShort(item.id);
+                        m.writer().writeByte(item.getUpgrade());
+                        m.writer().writeLong(item.expires);
+                        m.writer().writeByte(item.sys);
+                        m.writer().writeByte(item.option.size());
+                        for (final Option Option : item.option) {
+                            m.writer().writeByte(Option.id);
+                            m.writer().writeInt(Option.param);
+                        }
                     }
                 } else {
                     m.writer().writeShort(-1);
                 }
             }
+
             m.writer().flush();
             pdo.sendMessage(m);
             m.cleanup();
@@ -410,17 +413,17 @@ public class Place {
             server.manager.preload();
             System.gc();
         }
-        
+
         if ("baotrirewind".equals(chat)) {
             server.stop();
             return;
         }
-        
+
         if ("luu".equals(chat)) {
             p.flush();
             p.nj.flush();
             p.sendYellowMessage("Đã lưu dữ liệu");
-            return;          
+            return;
         }
 
         if (util.CheckString(chat, "auto \\d+ \\d")) {
@@ -3668,7 +3671,7 @@ public class Place {
 
         for (byte j = 0; j < p.nj.get().ItemBody.length; j++) {
             Item item = p.nj.get().ItemBody[j];
-            
+
             if (item != null && item.id == 774) {
                 for (int k = 0; k < getUsers().size(); k++) {
                     GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (byte) 23, 5000, 5000);

@@ -233,6 +233,7 @@ public class TaskList {
                                 "Giao lưu bạn hữu",
                                 "Báo cáo sư phụ"
                         })
+                        .bypass(true)
                         .counts(new int[]{
                                 -1, 1, -1,
                         })
@@ -276,6 +277,7 @@ public class TaskList {
                                 "Thách đấu cô Toyotomi",
                                 "Báo cáo Katana"
                         })
+                        .bypass(true)
                         .rewards(new int[][]{
                                 {EXP_ID, 500_000},
                                 {LUONG_ID, 1500},
@@ -383,6 +385,7 @@ public class TaskList {
                         })
                         .name("NV Đưa Jaian trở về")
                         .detail("")
+                        .bypass(true)
                         .subNames(new String[]{
                                 "Trình độ đạt cấp 25",
                                 "Giúp đỡ Jaian trở về",
@@ -394,7 +397,9 @@ public class TaskList {
                                 {XU_ID, 1_000_000},
                         })
                         .counts(new int[]{
-                                -1, -1, -1
+                                -1,
+                            -1,
+                            -1
                         })
                         .build(),
                 builder()

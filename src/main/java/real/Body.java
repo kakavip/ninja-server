@@ -115,7 +115,7 @@ public class Body implements ISoloer {
         this.KSkill = null;
         this.OSkill = null;
         this.setCSkill(-1);
-        this.ItemBody = null;
+        this.ItemBody = new Item[16];
         this.ItemMounts = null;
         this.CSkilldelay = 0L;
         this.mobMe = null;
@@ -633,35 +633,37 @@ public class Body implements ISoloer {
             return 0;
         }
         int param = 0;
-        for (final Item item : this.c.get().ItemBody) {
+        if (this.c.get().ItemBody != null) {
+            for (final Item item : this.c.get().ItemBody) {
 
-            if (item != null) {
-                for (final Option option : item.option) {
-                    if (option.id == id && !isUpgradeHide(option.id, item.getUpgrade())) {
-                        param += option.param;
+                if (item != null) {
+                    for (final Option option : item.option) {
+                        if (option.id == id && !isUpgradeHide(option.id, item.getUpgrade())) {
+                            param += option.param;
+                        }
                     }
-                }
-                if (item.ngocs != null && item.ngocs.size() > 0) {
-                    Option op = null;
-                    if (item.getData().type == 1) {
-                        op = VU_KHI_OPTION;
-                    } else if (item.getData().isTrangSuc()) {
-                        op = TRANG_SUC_OPTION;
-                    } else if (item.getData().isTrangPhuc()) {
-                        op = TRANG_BI_OPTION;
-                    }
+                    if (item.ngocs != null && item.ngocs.size() > 0) {
+                        Option op = null;
+                        if (item.getData().type == 1) {
+                            op = VU_KHI_OPTION;
+                        } else if (item.getData().isTrangSuc()) {
+                            op = TRANG_SUC_OPTION;
+                        } else if (item.getData().isTrangPhuc()) {
+                            op = TRANG_BI_OPTION;
+                        }
 
-                    if (op != null) {
-                        for (final Item ngoc : item.ngocs) {
+                        if (op != null) {
+                            for (final Item ngoc : item.ngocs) {
 
-                            int index = ngoc.option.indexOf(op);
-                            if (index != -1) {
-                                if (index + 1 < ngoc.option.size() &&
+                                int index = ngoc.option.indexOf(op);
+                                if (index != -1) {
+                                    if (index + 1 < ngoc.option.size() &&
                                         ngoc.option.get(index + 1).id == id) {
-                                    param += ngoc.option.get(index + 1).param;
-                                } else if (index + 2 < ngoc.option.size() &&
+                                        param += ngoc.option.get(index + 1).param;
+                                    } else if (index + 2 < ngoc.option.size() &&
                                         ngoc.option.get(index + 2).id == id) {
-                                    param += ngoc.option.get(index + 2).param;
+                                        param += ngoc.option.get(index + 2).param;
+                                    }
                                 }
                             }
                         }
@@ -669,11 +671,14 @@ public class Body implements ISoloer {
                 }
             }
         }
-        for (final Item mounts : this.c.get().ItemMounts) {
-            if (mounts != null) {
-                for (final Option option : mounts.option) {
-                    if (option.id == id) {
-                        param += option.param;
+
+        if (this.c.get().ItemMounts != null) {
+            for (final Item mounts : this.c.get().ItemMounts) {
+                if (mounts != null) {
+                    for (final Option option : mounts.option) {
+                        if (option.id == id) {
+                            param += option.param;
+                        }
                     }
                 }
             }

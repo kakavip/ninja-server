@@ -26,12 +26,17 @@ public class TaskTemplate implements Serializable {
     private int[][] mobs;
     private int[][] receiveItems;
     private int[] itemsPick;
+    private boolean bypass;
 
     public String getNpcTalk() {
         if (npcTalk == null) {
             return "Hãy nhận nhiệm vụ đi con";
         }
         return npcTalk;
+    }
+
+    public boolean getBypass() {
+        return this.bypass;
     }
 
     public int[] getItemsPick() {

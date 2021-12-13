@@ -1211,21 +1211,31 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             if (this.getTaskId() >= taskTemplates.length) {
                 return;
             }
+
             TaskTemplate taskTemplate = taskTemplates[this.getTaskId()];
-            this.taskCount = (short) (this.taskCount + 1);
-            if (this.taskCount >= taskTemplate.counts[this.getTaskIndex()]) {
-                this.setTaskIndex((byte) (this.getTaskIndex() + 1));
-                this.taskCount = 0;
-                if (this.getTaskIndex() >= taskTemplate.subNames.length) {
-                    this.setTaskId((byte) (this.getTaskId() + 1));
-                    this.setTaskIndex(-1);
-                    Service.finishTask(this);
-                } else {
-                    Service.nextTask(this);
-                }
-            } else {
-                Service.updateTask(this);
+            // NOTE bypass tasks
+            if (taskTemplate.getBypass() == true) {
+                this.setTaskId((byte) (this.getTaskId() + 1));
+                this.setTaskIndex(-1);
+                Service.finishTask(this);
             }
+            else {
+                this.taskCount = (short) (this.taskCount + 1);
+                if (this.taskCount >= taskTemplate.counts[this.getTaskIndex()]) {
+                    this.setTaskIndex((byte) (this.getTaskIndex() + 1));
+                    this.taskCount = 0;
+                    if (this.getTaskIndex() >= taskTemplate.subNames.length) {
+                        this.setTaskId((byte) (this.getTaskId() + 1));
+                        this.setTaskIndex(-1);
+                        Service.finishTask(this);
+                    } else {
+                        Service.nextTask(this);
+                    }
+                } else {
+                    Service.updateTask(this);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
