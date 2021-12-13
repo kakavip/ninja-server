@@ -234,7 +234,7 @@ public class TaskList {
                                 "Báo cáo sư phụ"
                         })
                         .counts(new int[]{
-                                -1, 10, -1,
+                                -1, 0, -1,
                         })
                         .rewards(new int[][]{
                                 {EXP_ID, 500000},
