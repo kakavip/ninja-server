@@ -665,10 +665,10 @@ public class MenuController {
                                     return;
                                 }
 
-                                if (p.nj.getEffId(34) == null) {
-                                    p.nj.getPlace().chatNPC(p, (short) 5, "Phải dùng thí luyện thiếp mới có thể vào được");
-                                    return;
-                                }
+//                                if (p.nj.getEffId(34) == null) {
+//                                    p.nj.getPlace().chatNPC(p, (short) 5, "Phải dùng thí luyện thiếp mới có thể vào được");
+//                                    return;
+//                                }
                                 if (p.nj.getLevel() < 60) {
                                     p.session.sendMessageLog("Trình độ 60 mới có thể sử dụng chức năng này");
                                     return;
