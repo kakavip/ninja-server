@@ -121,15 +121,15 @@ public class useSkill {
             case 70:
             case 71:
             case 72: {
-                if (p.nj.timeRemoveClone <= System.currentTimeMillis() && p.nj.quantityItemyTotal(545) <= 0) {
-                    p.sendYellowMessage("Không có đủ " + ItemData.ItemDataId(545).name);
-                    break;
-                }
+//                if (p.nj.timeRemoveClone <= System.currentTimeMillis() && p.nj.quantityItemyTotal(545) <= 0) {
+//                    p.sendYellowMessage("Không có đủ " + ItemData.ItemDataId(545).name);
+//                    break;
+//                }
                 p.nj.clone.open(System.currentTimeMillis() + 60000 * p.nj.getPramSkill(68), p.nj.getPramSkill(71));
-                if (p.nj.quantityItemyTotal(545) > 0) {
-                    p.nj.removeItemBags(545, 1);
-                    break;
-                }
+//                if (p.nj.quantityItemyTotal(545) > 0) {
+//                    p.nj.removeItemBags(545, 1);
+//                    break;
+//                }
                 break;
             }
             case 22: {
