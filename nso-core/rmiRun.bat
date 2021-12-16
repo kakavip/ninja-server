@@ -1,0 +1,1 @@
+rmiregistry -J-classpath -J.\lib.jar 16666

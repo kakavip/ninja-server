@@ -3,7 +3,7 @@ version: "3.7"
 services:
   nja_server:
     restart: always
-    build: .
+    build: ./nso-core
     image: kakavip198kaka/nja_server:0.1
     deploy:
       mode: replicated
@@ -30,8 +30,6 @@ services:
       - 14444:14444
     depends_on:
       - mysql
-    volumes:
-      - .:/app
     command: ["java","-jar","/app/target/NinjaServer.jar"]
 
   mysql:

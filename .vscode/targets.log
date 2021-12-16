@@ -7,7 +7,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 
 # This program built for i386-apple-darwin11.3.0
 
-# Make data base, printed on Mon Dec 13 02:00:09 2021
+# Make data base, printed on Thu Dec 16 14:54:08 2021
 
 # Variables
 
@@ -15,16 +15,12 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 RUBY_VERSION = ruby-2.4.6
-# environment
-DB_HOST = 127.0.0.1
 # automatic
 ?F = $(notdir $?)
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 PROVIDE_FULLSTACK_ACTION = true
-# environment
-DB_PORT = 13307
 # environment
 LC_CTYPE = en_US.UTF-8
 # environment
@@ -49,8 +45,8 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 _ = /usr/bin/make
 # environment
 DVM_DIR = /Users/kakavip/.dvm
-# makefile (from `Makefile', line 1)
-MAKEFILE_LIST :=  Makefile
+# makefile
+MAKEFILE_LIST := 
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
@@ -58,9 +54,9 @@ LOGIN_SHELL = 1
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-ipc-009557ad-5249-478d-a749-b6d107d4eee1.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-ipc-efbd9f60-12c8-420d-a0a2-b29763071526.sock
 # environment
-VSCODE_CWD = /Users/kakavip/Developers/games/sourcecode/ninja-server
+VSCODE_CWD = /Users/kakavip/Developers/games/sourcecode/ninja-server/nso-core
 # environment
 PATH = /usr/local/opt/maven@3.5/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6@global/bin:/Users/kakavip/.rvm/rubies/ruby-2.4.6/bin:/Users/kakavip/flutter/bin:/Users/kakavip/.dvm/bin:/usr/local/opt/ncurses/bin:/Users/kakavip/.local/bin:/Users/kakavip/.nvm/versions/node/v12.20.0/bin:/Users/kakavip/.cargo/bin:/Users/kakavip/.deno/bin:/Users/kakavip/miniconda3/bin:/Users/kakavip/miniconda3/condabin:/Users/kakavip/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/kakavip/Library/Android/sdk/emulator:/Users/kakavip/Library/Android/sdk/tools:/Users/kakavip/Library/Android/sdk/tools/bin:/Users/kakavip/Library/Android/sdk/platform-tools:/Users/kakavip/.rvm/bin
 # environment
@@ -82,7 +78,7 @@ ANDROID_HOME = /Users/kakavip/Library/Android/sdk
 # environment
 UUID = 3e1eb936-af4e-43ee-bfbb-c8e6d868865b
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.l8h62Bsapu/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.1W2Ikoc7Em/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -108,7 +104,7 @@ MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/kakavip/Library/Application Support/Code/CachedData/7db1a2b88f7557e0a43fec75b6ba7e50b3e9f77e
+VSCODE_CODE_CACHE_PATH = /Users/kakavip/Library/Application Support/Code/CachedData/fe719cd3e5825bf14e14182fddeb88ee8daf044f
 # environment
 LOGNAME = kakavip
 # environment
@@ -145,12 +141,10 @@ JAVA_HOME = /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 MAKE_VERSION := 3.81
 # environment
 USER = kakavip
-# environment
-DB_DATABASE = projects_d
 # makefile
 .DEFAULT_GOAL := 
 # environment
-TERM_SESSION_ID = 6117c2be-38a5-4d5e-8930-b49911f0ddfd
+TERM_SESSION_ID = 7ea69e8a-8658-459f-93bb-2a5dce8b8245
 # environment
 rvm_version = 1.29.12-next (master)
 # environment
@@ -170,7 +164,7 @@ TMPDIR = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/kakavip/Library/Application Support/Code/1.63.0-main.sock
+VSCODE_IPC_HOOK = /Users/kakavip/Library/Application Support/Code/1.63.1-main.sock
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -180,19 +174,17 @@ MFLAGS = -Rrqp
 # environment
 NVM_DIR = /Users/kakavip/.nvm
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.12957916027.12957916033.B390DD0B-D4AF-4514-84B0-8490976A7C9F
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.12960238113.12960238119.2341F0CF-0BD9-420D-94CA-218D5E3B9C95
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
 RECOMMENDER_API_URL = https://gw.api.openshift.io//api/v2
-# environment
-DB_PASS = 12345678
 # automatic
 +F = $(notdir $+)
 # environment
 DENO_INSTALL = /Users/kakavip/.deno
 # environment
-__INTELLIJ_COMMAND_HISTFILE__ = /Users/kakavip/Library/Caches/JetBrains/IntelliJIdea2021.3/terminal/history/ninja-server-history
+__INTELLIJ_COMMAND_HISTFILE__ = /Users/kakavip/Library/Caches/JetBrains/IntelliJIdea2021.3/terminal/history/nso-core-history
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
@@ -201,8 +193,6 @@ COMMAND_MODE = unix2003
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
-# environment
-DB_USER = root
 # environment
 PAGER = less
 # environment
@@ -226,7 +216,7 @@ CONDA_PREFIX = /Users/kakavip/miniconda3
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 1729
+VSCODE_PID = 22873
 # environment
 MY_RUBY_HOME = /Users/kakavip/.rvm/rubies/ruby-2.4.6
 # environment
@@ -234,7 +224,7 @@ _CE_CONDA =
 # environment
 LANG = C
 # variable set hash-table stats:
-# Load=111/1024=11%, Rehash=0, Collisions=4/134=3%
+# Load=106/1024=10%, Rehash=0, Collisions=4/127=3%
 
 # Pattern-specific Variable Values
 
@@ -242,9 +232,9 @@ LANG = C
 
 # Directories
 
-# . (device 16777220, inode 12959986179): 37 files, no impossibilities.
+# . (device 16777220, inode 12959986179): 12 files, no impossibilities.
 
-# 37 files, no impossibilities in 1 directories.
+# 12 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -269,10 +259,21 @@ all:
 
 # Not a target:
 Makefile:
+#  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  Last modified 2021-12-13 01:43:28
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+makefile:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
@@ -282,22 +283,32 @@ Makefile:
 #  Modification time never checked.
 #  File has not been updated.
 
+# Not a target:
+GNUmakefile:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+ 
+make: *** No rule to make target `all'.  Stop.
+ 
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
 # files hash-table stats:
-# Load=4/1024=0%, Rehash=0, Collisions=0/16=0%
+# Load=6/1024=1%, Rehash=0, Collisions=0/17=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
 
 # No general (`VPATH' variable) search path.
 
-# # of strings in strcache: 1
-# # of strcache buffers: 1
-# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
- 
-make: *** No rule to make target `all'.  Stop.
- 
-# strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
+# # of strings in strcache: 0
+# # of strcache buffers: 0
+# strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
+# strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Mon Dec 13 02:00:09 2021
+# Finished Make data base on Thu Dec 16 14:54:08 2021
 
  
