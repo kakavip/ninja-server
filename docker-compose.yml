@@ -8,9 +8,6 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      placement:
-        constraints:
-          - node.labels.vimai != disabled
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -31,6 +28,33 @@ services:
     depends_on:
       - mysql
     command: ["java","-jar","/app/target/NinjaServer.jar"]
+  
+  nja_admin:
+    restart: always
+    build: ./nso-admin
+    image: kakavip198kaka/nja_admin:0.1
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        monitor: 60s
+        max_failure_ratio: 0.3
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASS=12345678
+      - DB_PORT=3306
+      - DB_DATABASE=nja
+    ports:
+      - 8083:8000
+    depends_on:
+      - mysql
 
   mysql:
     restart: always

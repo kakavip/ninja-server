@@ -7,14 +7,18 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 
 # This program built for i386-apple-darwin11.3.0
 
-# Make data base, printed on Thu Dec 16 14:54:08 2021
+# Make data base, printed on Thu Dec 16 16:05:58 2021
 
 # Variables
 
+# environment
+VSCODE_GIT_ASKPASS_MAIN = /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 RUBY_VERSION = ruby-2.4.6
+# environment
+DB_HOST = 127.0.0.1
 # automatic
 ?F = $(notdir $?)
 # environment
@@ -22,7 +26,7 @@ ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 PROVIDE_FULLSTACK_ACTION = true
 # environment
-LC_CTYPE = en_US.UTF-8
+DB_PORT = 13307
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -45,20 +49,20 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 _ = /usr/bin/make
 # environment
 DVM_DIR = /Users/kakavip/.dvm
+# environment
+CONDA_PREFIX_1 = /Users/kakavip/miniconda3
 # makefile
 MAKEFILE_LIST := 
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-LOGIN_SHELL = 1
-# environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-ipc-efbd9f60-12c8-420d-a0a2-b29763071526.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-ipc-6453479f-e9c8-4922-a6b8-2fc09b95fb24.sock
 # environment
-VSCODE_CWD = /Users/kakavip/Developers/games/sourcecode/ninja-server/nso-core
+VSCODE_CWD = /Users/kakavip/Developers/games/sourcecode/ninja-server/nso-admin
 # environment
-PATH = /usr/local/opt/maven@3.5/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6@global/bin:/Users/kakavip/.rvm/rubies/ruby-2.4.6/bin:/Users/kakavip/flutter/bin:/Users/kakavip/.dvm/bin:/usr/local/opt/ncurses/bin:/Users/kakavip/.local/bin:/Users/kakavip/.nvm/versions/node/v12.20.0/bin:/Users/kakavip/.cargo/bin:/Users/kakavip/.deno/bin:/Users/kakavip/miniconda3/bin:/Users/kakavip/miniconda3/condabin:/Users/kakavip/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/kakavip/Library/Android/sdk/emulator:/Users/kakavip/Library/Android/sdk/tools:/Users/kakavip/Library/Android/sdk/tools/bin:/Users/kakavip/Library/Android/sdk/platform-tools:/Users/kakavip/.rvm/bin
+PATH = /usr/local/opt/maven@3.5/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6@global/bin:/Users/kakavip/.rvm/rubies/ruby-2.4.6/bin:/Users/kakavip/flutter/bin:/Users/kakavip/.dvm/bin:/usr/local/opt/ncurses/bin:/Users/kakavip/.local/bin:/Users/kakavip/.nvm/versions/node/v12.20.0/bin:/Users/kakavip/.cargo/bin:/Users/kakavip/.deno/bin:/Users/kakavip/miniconda3/envs/nso-admin-env/bin:/Users/kakavip/miniconda3/condabin:/Users/kakavip/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/kakavip/Library/Android/sdk/emulator:/Users/kakavip/Library/Android/sdk/tools:/Users/kakavip/Library/Android/sdk/tools/bin:/Users/kakavip/Library/Android/sdk/platform-tools:/Users/kakavip/.rvm/bin
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
@@ -97,8 +101,6 @@ ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
 # environment
 HOME = /Users/kakavip
-# environment
-TERMINAL_EMULATOR = JetBrains-JediTerm
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
@@ -110,7 +112,7 @@ LOGNAME = kakavip
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
-CONDA_PROMPT_MODIFIER = (base) 
+CONDA_PROMPT_MODIFIER = (nso-admin-env) 
 # environment
 NVM_CD_FLAGS = -q
 # environment
@@ -122,11 +124,15 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
+MAKELEVEL := 0
+# environment
 GEM_PATH = /Users/kakavip/.rvm/gems/ruby-2.4.6:/Users/kakavip/.rvm/gems/ruby-2.4.6@global
 # environment
-CONDA_DEFAULT_ENV = base
+CONDA_DEFAULT_ENV = nso-admin-env
 # environment
 XPC_FLAGS = 0x0
+# environment
+COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -141,10 +147,10 @@ JAVA_HOME = /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 MAKE_VERSION := 3.81
 # environment
 USER = kakavip
+# environment
+DB_DATABASE = nja
 # makefile
 .DEFAULT_GOAL := 
-# environment
-TERM_SESSION_ID = 7ea69e8a-8658-459f-93bb-2a5dce8b8245
 # environment
 rvm_version = 1.29.12-next (master)
 # environment
@@ -152,11 +158,15 @@ LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-CONDA_SHLVL = 1
+CONDA_SHLVL = 2
 # default
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
 # environment
 UTM_SOURCE = vscode
+# environment
+VSCODE_GIT_ASKPASS_EXTRA_ARGS = --ms-enable-electron-run-as-node
+# environment
+TERM_PROGRAM = vscode
 # default
 .VARIABLES := 
 # environment
@@ -165,6 +175,8 @@ TMPDIR = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/
 *F = $(notdir $*)
 # environment
 VSCODE_IPC_HOOK = /Users/kakavip/Library/Application Support/Code/1.63.1-main.sock
+# environment
+VSCODE_GIT_ASKPASS_NODE = /Applications/Visual Studio Code.app/Contents/MacOS/Electron
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -172,27 +184,33 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
+TERM_PROGRAM_VERSION = 1.63.1
+# environment
 NVM_DIR = /Users/kakavip/.nvm
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.12960238113.12960238119.2341F0CF-0BD9-420D-94CA-218D5E3B9C95
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.12960238113.12960238119.325AFC72-5F00-419C-815F-13E8B1FDEEEE
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
 RECOMMENDER_API_URL = https://gw.api.openshift.io//api/v2
+# environment
+DB_PASS = 123789xxx
 # automatic
 +F = $(notdir $+)
 # environment
 DENO_INSTALL = /Users/kakavip/.deno
 # environment
-__INTELLIJ_COMMAND_HISTFILE__ = /Users/kakavip/Library/Caches/JetBrains/IntelliJIdea2021.3/terminal/history/nso-core-history
-# environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
 COMMAND_MODE = unix2003
+# environment
+GIT_ASKPASS = /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
 # default
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
+# environment
+DB_USER = nja_user
 # environment
 PAGER = less
 # environment
@@ -210,9 +228,9 @@ _CE_M =
 # default
 .INCLUDE_DIRS = /usr/local/include
 # environment
-MAKELEVEL := 0
+VSCODE_GIT_IPC_HANDLE = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-git-068cd685dd.sock
 # environment
-CONDA_PREFIX = /Users/kakavip/miniconda3
+CONDA_PREFIX = /Users/kakavip/miniconda3/envs/nso-admin-env
 # environment
 TERM = xterm-256color
 # environment
@@ -224,7 +242,7 @@ _CE_CONDA =
 # environment
 LANG = C
 # variable set hash-table stats:
-# Load=106/1024=10%, Rehash=0, Collisions=4/127=3%
+# Load=115/1024=11%, Rehash=0, Collisions=6/136=4%
 
 # Pattern-specific Variable Values
 
@@ -267,6 +285,9 @@ Makefile:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
+ 
+make: *** No rule to make target `all'.  Stop.
+ 
 # Not a target:
 makefile:
 #  A default, MAKEFILES, or -include/sinclude makefile.
@@ -290,9 +311,6 @@ GNUmakefile:
 #  File does not exist.
 #  File has been updated.
 #  Failed to be updated.
- 
-make: *** No rule to make target `all'.  Stop.
- 
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
@@ -309,6 +327,6 @@ make: *** No rule to make target `all'.  Stop.
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Thu Dec 16 14:54:08 2021
+# Finished Make data base on Thu Dec 16 16:05:58 2021
 
  
