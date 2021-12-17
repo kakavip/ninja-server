@@ -1,0 +1,10 @@
+.idea/
+*.jar
+*.rar
+*.zip
+out/
+target/
+
+*.class
+
+codefix/node_modules/

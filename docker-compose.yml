@@ -27,7 +27,6 @@ services:
       - 14444:14444
     depends_on:
       - mysql
-    command: ["java","-jar","/app/target/NinjaServer.jar"]
   
   nja_admin:
     restart: always

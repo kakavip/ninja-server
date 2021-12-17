@@ -1,7 +1,14 @@
 #
 # Package stage
 #
-FROM openjdk:11-jre-slim
+FROM maven:3.5-jdk-8-alpine
 WORKDIR /app
-ADD . .
+COPY . /app 
+RUN mvn install 
+
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=0 /app /app 
 EXPOSE 14444
+
+CMD ["java" ,"-jar","/app/target/NinjaServer.jar"] 
