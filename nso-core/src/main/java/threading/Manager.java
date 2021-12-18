@@ -134,6 +134,7 @@ public class Manager {
     public static long TIME_REFRESH_MOB;
     public static long TIME_REFRESH_BOSS;
     public static byte MIN_DA_LV;
+    public static byte MAX_DA_LV;
     public static byte N_DA;
 
     public static String[] MENU_EVENT_NPC;
@@ -152,11 +153,11 @@ public class Manager {
             YEN_TL = Long.parseLong(properties.getProperty("yen-tl"));
             TIME_REFRESH_MOB = 1000 * Long.parseLong(properties.getProperty("time-refresh-mob"));
             MIN_DA_LV = Byte.parseByte(properties.getProperty("min-da-lv"));
+            MAX_DA_LV = Byte.parseByte(properties.getProperty("max-da-lv"));
             N_YEN = Byte.parseByte(properties.getProperty("n-yen"));
             LANG_CO_ITEM_IDS = parseShortArray(properties.getProperty("lang-co-item-ids"));
             VDMQ_ITEM_IDS = parseShortArray(properties.getProperty("vdmq-item-ids"));
             N_DA = Byte.parseByte(properties.getProperty("n-da"));
-
 
             MIN_YEN_BOSS = Integer.parseInt(properties.getProperty("min-yen-boss"));
             MAX_YEN_BOSS = Integer.parseInt(properties.getProperty("max-yen-boss"));

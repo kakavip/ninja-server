@@ -5,6 +5,8 @@
 out/
 target/
 
+.vscode/
+
 *.class
 
 codefix/node_modules/

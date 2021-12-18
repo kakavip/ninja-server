@@ -145,10 +145,8 @@ public class MenuController {
         }
 
         m.cleanup();
-        Label_6355:
-        {
-            label:
-            switch (p.typemenu) {
+        Label_6355: {
+            label: switch (p.typemenu) {
                 case 0: {
                     if (menuId == 0) {
                         // Mua vu khi
@@ -160,18 +158,21 @@ public class MenuController {
                             if (optionId == 0) {
                                 // Thanh lap gia toc
                                 if (!p.nj.clan.clanName.isEmpty()) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã có gia tộc rồi, không thể thành lập thêm gia tộc nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Con đã có gia tộc rồi, không thể thành lập thêm gia tộc nữa.");
                                     break label;
                                 }
                                 if (p.luong < ClanManager.LUONG_CREATE_CLAN) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang phải có ít nhất 1.500 lượng thì mới có thể lập gia tộc.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Hành trang phải có ít nhất 1.500 lượng thì mới có thể lập gia tộc.");
                                     break label;
                                 }
                                 this.sendWrite(p, (short) 50, "Tên gia tộc");
                             } else if (optionId == 1) {
                                 // Lanh địa gia tộc
                                 if (p.nj.getLevel() < 40) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ từ cấp 40 trở lên mới được tham gia.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Trình độ từ cấp 40 trở lên mới được tham gia.");
                                     return;
                                 }
                                 if (p.getClanTerritoryData() == null) {
@@ -183,7 +184,8 @@ public class MenuController {
                                         }
                                         val clan = ClanManager.getClanByName(p.nj.clan.clanName);
                                         if (clan.openDun <= 0) {
-                                            p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần đi lãnh địa gia tộc đã hết vui lòng dùng thẻ bài hoặc đợi vào tuần sau");
+                                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                    "Số lần đi lãnh địa gia tộc đã hết vui lòng dùng thẻ bài hoặc đợi vào tuần sau");
                                             return;
                                         }
 
@@ -207,16 +209,19 @@ public class MenuController {
                                                     p.getClanTerritoryData().getClanTerritory().enterEntrance(p.nj);
                                                 }
 
-                                                clanTerritory.clanManager.informAll("Tộc trưởng đã mở lãnh địa gia tộc");
+                                                clanTerritory.clanManager
+                                                        .informAll("Tộc trưởng đã mở lãnh địa gia tộc");
                                             } else {
                                                 p.sendYellowMessage("Có lỗi xảy ra");
                                             }
                                         } else {
-                                            p.nj.getPlace().chatNPC(p, (short) npcId, "Hiện tại lãnh địa gia tộc không còn khu trống");
+                                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                    "Hiện tại lãnh địa gia tộc không còn khu trống");
                                         }
 
                                     } else {
-                                        p.sendYellowMessage("Chỉ những người ưu tú được tộc trưởng mời mới có thể vào lãnh địa gia tộc");
+                                        p.sendYellowMessage(
+                                                "Chỉ những người ưu tú được tộc trưởng mời mới có thể vào lãnh địa gia tộc");
                                     }
                                 } else {
                                     val data = p.getClanTerritoryData();
@@ -231,7 +236,8 @@ public class MenuController {
                             } else if (optionId == 2) {
 
                                 if (p.nj.quantityItemyTotal(262) < 500) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Con hãy đem 500 đồng tiền gia tộc đến đây để đổi túi quà.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Con hãy đem 500 đồng tiền gia tộc đến đây để đổi túi quà.");
                                     return;
                                 } else {
                                     Item itemup = ItemData.itemDefault(263);
@@ -273,19 +279,23 @@ public class MenuController {
                             }
                             if (cave == null) {
                                 if (p.nj.nCave <= 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần vào hang động cảu con hôm nay đã hết hãy quay lại vào ngày mai.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Số lần vào hang động cảu con hôm nay đã hết hãy quay lại vào ngày mai.");
                                     return;
                                 }
                                 if (optionId == 1) {
                                     if (p.nj.getLevel() < 30 || p.nj.getLevel() > 39) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không thích hợp để vào cửa này.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
                                     if (p.nj.party != null) {
                                         synchronized (p.nj.party.ninjas) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
-                                                if (p.nj.party.ninjas.get(i).getLevel() < 30 || p.nj.party.ninjas.get(i).getLevel() > 39) {
-                                                    p.session.sendMessageLog("Thành viên trong nhóm trình độ không phù hợp");
+                                                if (p.nj.party.ninjas.get(i).getLevel() < 30
+                                                        || p.nj.party.ninjas.get(i).getLevel() > 39) {
+                                                    p.session.sendMessageLog(
+                                                            "Thành viên trong nhóm trình độ không phù hợp");
                                                     return;
                                                 }
                                             }
@@ -305,14 +315,17 @@ public class MenuController {
                                 }
                                 if (optionId == 2) {
                                     if (p.nj.getLevel() < 40 || p.nj.getLevel() > 49) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không thích hợp để vào cửa này.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
                                     if (p.nj.party != null) {
                                         synchronized (p.nj.party) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
-                                                if (p.nj.party.ninjas.get(i).getLevel() < 40 || p.nj.party.ninjas.get(i).getLevel() > 49) {
-                                                    p.session.sendMessageLog("Thành viên trong nhóm trình độ không phù hợp");
+                                                if (p.nj.party.ninjas.get(i).getLevel() < 40
+                                                        || p.nj.party.ninjas.get(i).getLevel() > 49) {
+                                                    p.session.sendMessageLog(
+                                                            "Thành viên trong nhóm trình độ không phù hợp");
                                                     return;
                                                 }
                                             }
@@ -332,14 +345,17 @@ public class MenuController {
                                 }
                                 if (optionId == 3) {
                                     if (p.nj.getLevel() < 50 || p.nj.getLevel() > 59) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không thích hợp để vào cửa này.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
                                     if (p.nj.party != null) {
                                         synchronized (p.nj.party.ninjas) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
-                                                if (p.nj.party.ninjas.get(i).getLevel() < 50 || p.nj.party.ninjas.get(i).getLevel() > 59) {
-                                                    p.session.sendMessageLog("Thành viên trong nhóm trình độ không phù hợp");
+                                                if (p.nj.party.ninjas.get(i).getLevel() < 50
+                                                        || p.nj.party.ninjas.get(i).getLevel() > 59) {
+                                                    p.session.sendMessageLog(
+                                                            "Thành viên trong nhóm trình độ không phù hợp");
                                                     return;
                                                 }
                                             }
@@ -359,7 +375,8 @@ public class MenuController {
                                 }
                                 if (optionId == 4) {
                                     if (p.nj.getLevel() < 60 || p.nj.getLevel() > 69) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không thích hợp để vào cửa này.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
                                     if (p.nj.party != null && p.nj.party.ninjas.size() > 1) {
@@ -371,14 +388,16 @@ public class MenuController {
                                 }
                                 if (optionId == 5) {
                                     if (p.nj.getLevel() < 70 || p.nj.getLevel() > 89) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không thích hợp để vào cửa này.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
                                     if (p.nj.party != null) {
                                         synchronized (p.nj.party.ninjas) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
                                                 if (p.nj.party.ninjas.get(i).getLevel() < 70) {
-                                                    p.session.sendMessageLog("Thành viên trong nhóm trình độ không phù hợp");
+                                                    p.session.sendMessageLog(
+                                                            "Thành viên trong nhóm trình độ không phù hợp");
                                                     return;
                                                 }
                                             }
@@ -398,7 +417,8 @@ public class MenuController {
                                 }
                                 if (optionId == 6) {
                                     if (p.nj.getLevel() < 90 || p.nj.getLevel() > 130) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không thích hợp để vào cửa này.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
 
@@ -406,8 +426,10 @@ public class MenuController {
                                             && p.nj.party.getKey().get().getLevel() >= 90) {
                                         synchronized (p.nj.party.ninjas) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
-                                                if (p.nj.party.ninjas.get(i).getLevel() < 90 || p.nj.party.ninjas.get(i).getLevel() > 131) {
-                                                    p.session.sendMessageLog("Thành viên trong nhóm trình độ không phù hợp");
+                                                if (p.nj.party.ninjas.get(i).getLevel() < 90
+                                                        || p.nj.party.ninjas.get(i).getLevel() > 131) {
+                                                    p.session.sendMessageLog(
+                                                            "Thành viên trong nhóm trình độ không phù hợp");
                                                     return;
                                                 }
                                             }
@@ -490,7 +512,8 @@ public class MenuController {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Giáp, giày giá rẻ đây!");
                         }
                         if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Không mặc giáp mua từ ta, ra khỏi trường ngươi sẽ gặp nguy hiểm.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Không mặc giáp mua từ ta, ra khỏi trường ngươi sẽ gặp nguy hiểm.");
                         }
                         if (value == 2) {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Ngươi cần giày, giáp sắt, quần áo?");
@@ -539,7 +562,9 @@ public class MenuController {
                             String s = "Sử dụng vật phẩm sự kiện để có thể nhận mắt 1\n";
                             for (int i = 0, dataSize = data.size(); i < dataSize; i++) {
                                 int[] datum = data.get(i);
-                                s += "-Nâng cấp mắt " + (i + 2) + " dùng " + datum[0] + " viên đá danh vọng cấp " + (i + 2) + " nâng thường " + datum[1] + " xu xác suất " + datum[2] + "%, VIP " + datum[1] + " xu " + datum[3] + " lượng xác suất " + datum[4] + "% \n\n";
+                                s += "-Nâng cấp mắt " + (i + 2) + " dùng " + datum[0] + " viên đá danh vọng cấp "
+                                        + (i + 2) + " nâng thường " + datum[1] + " xu xác suất " + datum[2] + "%, VIP "
+                                        + datum[1] + " xu " + datum[3] + " lượng xác suất " + datum[4] + "% \n\n";
                             }
                             Service.sendThongBao(p.nj, s);
                         }
@@ -559,13 +584,15 @@ public class MenuController {
                         Random generator = new Random();
                         int value = generator.nextInt(3);
                         if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Không mang theo HP, MP bên mình, con sẽ gặp nguy hiểm.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Không mang theo HP, MP bên mình, con sẽ gặp nguy hiểm.");
                         }
                         if (value == 1) {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Đi đường cần mang theo ít dược phẩm");
                         }
                         if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Mua ngay HP, MP từ ta, được chế tạo từ loại thảo dược quý hiếm nhất.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Mua ngay HP, MP từ ta, được chế tạo từ loại thảo dược quý hiếm nhất.");
                         }
                         break label;
                     }
@@ -621,9 +648,10 @@ public class MenuController {
                                     break;
                                 }
                                 case 1: {
-                                    //Chinh phuc thien dia bang
+                                    // Chinh phuc thien dia bang
                                     try {
-                                        final List<TournamentData> tournaments = getTypeTournament(p.nj.getLevel()).getChallenges(p);
+                                        final List<TournamentData> tournaments = getTypeTournament(p.nj.getLevel())
+                                                .getChallenges(p);
                                         Service.sendChallenges(tournaments, p);
                                     } catch (Exception e) {
 
@@ -632,7 +660,7 @@ public class MenuController {
                                     break;
                                 }
                                 case 2: {
-                                    //Thien bang
+                                    // Thien bang
                                     sendThongBaoTDB(p, KageTournament.gi(), "Thiên bảng\n");
                                     break;
                                 }
@@ -655,7 +683,8 @@ public class MenuController {
                         }
                         case 1: {
                             p.nj.mapLTD = p.nj.getPlace().map.id;
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Tốt lắm, ngươi đã chọn nơi này làm nơi trở về khi bị trọng thương");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Tốt lắm, ngươi đã chọn nơi này làm nơi trở về khi bị trọng thương");
                             break;
                         }
                         case 2: {
@@ -665,10 +694,11 @@ public class MenuController {
                                     return;
                                 }
 
-//                                if (p.nj.getEffId(34) == null) {
-//                                    p.nj.getPlace().chatNPC(p, (short) 5, "Phải dùng thí luyện thiếp mới có thể vào được");
-//                                    return;
-//                                }
+                                // if (p.nj.getEffId(34) == null) {
+                                // p.nj.getPlace().chatNPC(p, (short) 5, "Phải dùng thí luyện thiếp mới có thể
+                                // vào được");
+                                // return;
+                                // }
                                 if (p.nj.getLevel() < 60) {
                                     p.session.sendMessageLog("Trình độ 60 mới có thể sử dụng chức năng này");
                                     return;
@@ -684,7 +714,8 @@ public class MenuController {
                                 }
                                 break;
                             } else if (optionId == 1) {
-                                p.nj.getPlace().chatNPC(p, (short) 5, "Sử dụng vật phẩm Thí luyện thiếp để có thể tham gia phiêu lưu tại Vùng Đất Ma Quỷ. Thí luyện thiếp được bán tại NPC Goosho. Nhẫn Thuật 80 sẽ xuất hiện tai Vùng Đất Ma Quỷ.");
+                                p.nj.getPlace().chatNPC(p, (short) 5,
+                                        "Sử dụng vật phẩm Thí luyện thiếp để có thể tham gia phiêu lưu tại Vùng Đất Ma Quỷ. Thí luyện thiếp được bán tại NPC Goosho. Nhẫn Thuật 80 sẽ xuất hiện tai Vùng Đất Ma Quỷ.");
                                 break;
                             }
                         }
@@ -698,7 +729,8 @@ public class MenuController {
                                 p.nj.getPlace().chatNPC(p, (short) npcId, "Ta giữ đồ chưa hề để thất lạc bao giờ.");
                             }
                             if (value == 2) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Trên người của ngươi toàn đồ là những đồ có giá trị, sao không cất bớt ở đây?");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Trên người của ngươi toàn đồ là những đồ có giá trị, sao không cất bớt ở đây?");
                             }
                             break;
                         }
@@ -761,10 +793,12 @@ public class MenuController {
                             Random generator = new Random();
                             int value = generator.nextInt(3);
                             if (value == 0) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Đảm bảo sau khi nâng cấp đồ của ngươi sẽ tốt hơn hẳn");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Đảm bảo sau khi nâng cấp đồ của ngươi sẽ tốt hơn hẳn");
                             }
                             if (value == 1) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Nâng cấp trang bị: Uy tín, giá cả phải chăng.");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Nâng cấp trang bị: Uy tín, giá cả phải chăng.");
                             }
                             if (value == 2) {
                                 p.nj.getPlace().chatNPC(p, (short) npcId, "Ngươi muốn cải tiến trang bị?");
@@ -836,7 +870,7 @@ public class MenuController {
                     }
                     break;
                 }
-                //Toyotomi
+                // Toyotomi
                 case 9: {
                     if (menuId == 0) {
                         if (optionId == 0) {
@@ -876,7 +910,8 @@ public class MenuController {
                     }
                     if (menuId == 2) {
                         if (p.nj.get().nclass != 1 && p.nj.get().nclass != 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
                             break;
                         }
                         if (optionId == 0) {
@@ -887,9 +922,12 @@ public class MenuController {
                                 p.nj.timesResetPpoint -= 1;
                                 p.restPpoint(p.nj.get());
                                 if (p.nj.timesResetPpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
                                 } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được " + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được "
+                                                    + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
                                 }
                             }
                         }
@@ -901,9 +939,12 @@ public class MenuController {
                                 p.nj.timesResetSpoint -= 1;
                                 p.restSpoint();
                                 if (p.nj.timesResetSpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
                                 } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được " + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được "
+                                                    + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
                                 }
                             }
                         }
@@ -913,18 +954,21 @@ public class MenuController {
                         Random generator = new Random();
                         int value = generator.nextInt(3);
                         if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Ngươi muốn trở thành hỏa Ninja thì học, không thì cút!");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Ngươi muốn trở thành hỏa Ninja thì học, không thì cút!");
                         }
                         if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Trường ta dạy kiếm, và phi tiêu, chẳng dạy các vũ khí vô danh khác.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Trường ta dạy kiếm, và phi tiêu, chẳng dạy các vũ khí vô danh khác.");
                         }
                         if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Theo học ở là đây là vinh hạnh của ngươi, biết chứ?");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Theo học ở là đây là vinh hạnh của ngươi, biết chứ?");
                         }
                         break;
                     }
                 }
-                //Ookamesama
+                // Ookamesama
                 case 10: {
                     if (menuId == 0) {
                         if (optionId == 0) {
@@ -964,7 +1008,8 @@ public class MenuController {
                     }
                     if (menuId == 2) {
                         if (p.nj.get().nclass != 3 && p.nj.get().nclass != 4) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
                             break;
                         }
                         if (optionId == 0) {
@@ -975,9 +1020,12 @@ public class MenuController {
                                 p.nj.timesResetPpoint -= 1;
                                 p.restPpoint(p.nj.get());
                                 if (p.nj.timesResetPpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
                                 } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được " + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được "
+                                                    + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
                                 }
                             }
                         }
@@ -989,9 +1037,12 @@ public class MenuController {
                                 p.nj.timesResetSpoint -= 1;
                                 p.restSpoint();
                                 if (p.nj.timesResetSpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
                                 } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được " + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được "
+                                                    + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
                                 }
                             }
                         }
@@ -1004,7 +1055,8 @@ public class MenuController {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Tập trung học tốt nhé con.");
                         }
                         if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Học, để thành tài, để thành người tốt, chứ  không phải để ganh đua với đời.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Học, để thành tài, để thành người tốt, chứ  không phải để ganh đua với đời.");
                         }
                         if (value == 2) {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Con có cảm thấy lạnh không?");
@@ -1051,7 +1103,8 @@ public class MenuController {
                     }
                     if (menuId == 2) {
                         if (p.nj.get().nclass != 5 && p.nj.get().nclass != 6) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
                             break;
                         }
                         if (optionId == 0) {
@@ -1062,9 +1115,12 @@ public class MenuController {
                                 p.nj.timesResetPpoint -= 1;
                                 p.restPpoint(p.nj.get());
                                 if (p.nj.timesResetPpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
                                 } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được " + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được "
+                                                    + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
                                 }
                             }
                         }
@@ -1076,9 +1132,12 @@ public class MenuController {
                                 p.nj.timesResetSpoint -= 1;
                                 p.restSpoint();
                                 if (p.nj.timesResetSpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
                                 } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được " + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được "
+                                                    + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
                                 }
                             }
                         }
@@ -1088,13 +1147,16 @@ public class MenuController {
                         Random generator = new Random();
                         int value = generator.nextInt(3);
                         if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Một học sinh trường gió chúng ta có thể chấp hai học sinh các trường kia.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Một học sinh trường gió chúng ta có thể chấp hai học sinh các trường kia.");
                         }
                         if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "So với các trường khác, trường Gió của chúng ta là tốt nhất");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "So với các trường khác, trường Gió của chúng ta là tốt nhất");
                         }
                         if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Ngươi may mắn mới gặp được ta đó, ta vốn là Thần Gió mà!");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Ngươi may mắn mới gặp được ta đó, ta vốn là Thần Gió mà!");
                         }
                         break;
                     }
@@ -1102,31 +1164,38 @@ public class MenuController {
                 case 12: {
                     if (menuId == 0) {
                         if (optionId == 0) {
-                            server.manager.sendTB(p, "Trưởng làng", "Dùng các phím Q,W,E,A,D: Di chuyển nhân vật\nHoặc các phím Lên,Trái,Phải: Di chuyển nhân vật\nPhím Spacebar hoặc phím Enter: Tấn công hoặc hành động\nPhím F1: Menu,Phím F2: Đổi mục tiêu, phím 6,7: Dùng bình HP,MP\nPhím 0: Chat,Phím P: Đổi kỹ năng,Phím 1,2,3,4,5: Sử dụng kỹ năng được gán trước trong mục Kỹ Năng");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Dùng các phím Q,W,E,A,D: Di chuyển nhân vật\nHoặc các phím Lên,Trái,Phải: Di chuyển nhân vật\nPhím Spacebar hoặc phím Enter: Tấn công hoặc hành động\nPhím F1: Menu,Phím F2: Đổi mục tiêu, phím 6,7: Dùng bình HP,MP\nPhím 0: Chat,Phím P: Đổi kỹ năng,Phím 1,2,3,4,5: Sử dụng kỹ năng được gán trước trong mục Kỹ Năng");
                             break;
                         }
                         if (optionId == 1) {
-                            server.manager.sendTB(p, "Trưởng làng", "Kiếm, Kunai, Đao: Ưu tiên tăng sức mạnh(sức đánh) --> thể lực(HP) --> Thân pháp(Né đòn, chính xác) --> Charka(MP).\n\nTiêu, Cung, Quạt: Ưu tiên tăng Charka(Sức đánh, MP) -->thể lực(HP)--> Thân pháp(Né đòn, chính xác). Không tăng SM.");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Kiếm, Kunai, Đao: Ưu tiên tăng sức mạnh(sức đánh) --> thể lực(HP) --> Thân pháp(Né đòn, chính xác) --> Charka(MP).\n\nTiêu, Cung, Quạt: Ưu tiên tăng Charka(Sức đánh, MP) -->thể lực(HP)--> Thân pháp(Né đòn, chính xác). Không tăng SM.");
                             break;
                         }
                         if (optionId == 2) {
-                            server.manager.sendTB(p, "Trưởng làng", "Pk thường: trạng thái hòa bình.\n\nPk phe: không đánh được người cùng nhóm hay cùng bang hội. Giết người không lên điểm hiếu chiến.\n\nPk đồ sát: có thể đánh tất cả người chơi. Giết 1 người sẽ lên 1 điểm hiếu chiến.\n\nĐiểm hiếu chiến cao sẽ không sử dụng bình HP, MP, Thức ăn.\n\nTỷ thí: chọn người chơi, chọn tỷ thí, chờ người đó đồng ý.\n\nCừu Sát: Chọn người chơi khác, chọn cừu sát, điểm hiếu chiến tăng 2.");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Pk thường: trạng thái hòa bình.\n\nPk phe: không đánh được người cùng nhóm hay cùng bang hội. Giết người không lên điểm hiếu chiến.\n\nPk đồ sát: có thể đánh tất cả người chơi. Giết 1 người sẽ lên 1 điểm hiếu chiến.\n\nĐiểm hiếu chiến cao sẽ không sử dụng bình HP, MP, Thức ăn.\n\nTỷ thí: chọn người chơi, chọn tỷ thí, chờ người đó đồng ý.\n\nCừu Sát: Chọn người chơi khác, chọn cừu sát, điểm hiếu chiến tăng 2.");
                             break;
                         }
                         if (optionId == 3) {
-                            server.manager.sendTB(p, "Trưởng làng", "Bạn có thể tạo một nhóm tối đa 6 người chơi.\n\nNhững người trong cùng nhóm sẽ được nhận thêm x% điểm kinh nghiệm từ người khác.\n\nNhững người cùng nhóm sẽ cùng được vật phẩm, thành tích nếu cùng chung nhiệm vụ.\n\nĐể mời người vào nhóm, chọn người đó, và chọn mời vào nhóm. Để quản lý nhóm, chọn Menu/Tính năng/Nhóm.");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Bạn có thể tạo một nhóm tối đa 6 người chơi.\n\nNhững người trong cùng nhóm sẽ được nhận thêm x% điểm kinh nghiệm từ người khác.\n\nNhững người cùng nhóm sẽ cùng được vật phẩm, thành tích nếu cùng chung nhiệm vụ.\n\nĐể mời người vào nhóm, chọn người đó, và chọn mời vào nhóm. Để quản lý nhóm, chọn Menu/Tính năng/Nhóm.");
                             break;
                         }
                         if (optionId == 4) {
-                            server.manager.sendTB(p, "Trưởng làng", "Đá dùng để nâng cấp trang bị. Bạn có thể mua từ cửa hàng hoặc nhặt khi đánh quái.Nâng cấp đá nhằm mục đích nâng cao tỉ lệ thành công khi nâng cấp trang bị cấp cao.Để luyện đá, bạn cần tìm Kenshinto.\n\nĐể đảm bảo thành công 100%, 4 viên đá cấp thấp sẽ luyện thành 1 viên đá cấp cao hơn.");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Đá dùng để nâng cấp trang bị. Bạn có thể mua từ cửa hàng hoặc nhặt khi đánh quái.Nâng cấp đá nhằm mục đích nâng cao tỉ lệ thành công khi nâng cấp trang bị cấp cao.Để luyện đá, bạn cần tìm Kenshinto.\n\nĐể đảm bảo thành công 100%, 4 viên đá cấp thấp sẽ luyện thành 1 viên đá cấp cao hơn.");
                             break;
                         }
                         if (optionId == 5) {
-                            server.manager.sendTB(p, "Trưởng làng", "Nâng cấp trang bị nhằm mục đích gia tăng các chỉ số cơ bản của trang bị. Có các cấp trang bị sau +1, +2, +3... tối đa +16.Để thực hiện, bạn cần gặp NPC Kenshinto. Sau đó, tiến hành chọn vật phẩm và số lượng đá đủ để nâng cấp. Lưu ý, trang bị cấp độ 5 trở lên nâng cấp thất bại sẽ bị giảm cấp độ.\n\nBạn có thể tách một vật phẩm đã nâng cấp và thu lại 50% số đá đã dùng để nâng cấp trang bị đó.");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Nâng cấp trang bị nhằm mục đích gia tăng các chỉ số cơ bản của trang bị. Có các cấp trang bị sau +1, +2, +3... tối đa +16.Để thực hiện, bạn cần gặp NPC Kenshinto. Sau đó, tiến hành chọn vật phẩm và số lượng đá đủ để nâng cấp. Lưu ý, trang bị cấp độ 5 trở lên nâng cấp thất bại sẽ bị giảm cấp độ.\n\nBạn có thể tách một vật phẩm đã nâng cấp và thu lại 50% số đá đã dùng để nâng cấp trang bị đó.");
                             break;
                         }
                         if (optionId == 6) {
-                            server.manager.sendTB(p, "Trưởng làng", "Khi tham gia các hoạt động trong game bạn sẽ nhận được điểm hoạt động. Qua một ngày điểm hoạt động sẽ bị trừ dần (nếu từ 1-49 trừ 1, 50-99 trừ 2, 100-149 trừ 3...). Mỗi tuần bạn sẽ có cơ hội đổi Yên sang Xu nếu có đủ điểm hoạt động theo vêu cầu của NPC Okanechan.\n\nMột tuần một lần duy nhất được đối tối đa 70.000 Yên = 70.000 xu.");
+                            server.manager.sendTB(p, "Trưởng làng",
+                                    "Khi tham gia các hoạt động trong game bạn sẽ nhận được điểm hoạt động. Qua một ngày điểm hoạt động sẽ bị trừ dần (nếu từ 1-49 trừ 1, 50-99 trừ 2, 100-149 trừ 3...). Mỗi tuần bạn sẽ có cơ hội đổi Yên sang Xu nếu có đủ điểm hoạt động theo vêu cầu của NPC Okanechan.\n\nMột tuần một lần duy nhất được đối tối đa 70.000 Yên = 70.000 xu.");
                             break;
                         }
                     }
@@ -1134,13 +1203,15 @@ public class MenuController {
                         Random generator = new Random();
                         int value = generator.nextInt(3);
                         if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Làng Tone là ngôi làng cổ xưa, đã có từ rất lâu.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Làng Tone là ngôi làng cổ xưa, đã có từ rất lâu.");
                         }
                         if (value == 1) {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Đi thưa, về trình, nhé các con");
                         }
                         if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Ta là Tajima, mọi việc ở đây đều do ta quản lý.");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Ta là Tajima, mọi việc ở đây đều do ta quản lý.");
                         }
                         break;
                     }
@@ -1157,11 +1228,13 @@ public class MenuController {
                         if (menuId != 4) {
                             if (menuId == 2) {
                                 p.nj.clearTask();
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Ta đã huỷ hết nhiệm vụ và vật phẩm nhiệm vụ của con lần sau làm nhiệm vụ tốt hơn nhé");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Ta đã huỷ hết nhiệm vụ và vật phẩm nhiệm vụ của con lần sau làm nhiệm vụ tốt hơn nhé");
                                 Service.getTask(p.nj);
                                 break;
                             }
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con đang thực hiện nhiệm vụ trừ gian diệt ác, hãy chọn Menu/Nhiệm vụ để biết mình đang làm đến đâu");
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Con đang thực hiện nhiệm vụ trừ gian diệt ác, hãy chọn Menu/Nhiệm vụ để biết mình đang làm đến đâu");
                             break;
                         }
                         if (!p.nj.clone.isDie && p.nj.timeRemoveClone > System.currentTimeMillis()) {
@@ -1172,7 +1245,7 @@ public class MenuController {
                         break;
                     }
                 }
-                break;
+                    break;
 
                 case 14:
                 case 15:
@@ -1244,11 +1317,13 @@ public class MenuController {
                         break;
                     }
                     if (p.nj.clan.clanName.isEmpty()) {
-                        p.nj.getPlace().chatNPC(p, (short) npcId, "Con cần phải có gia tộc thì mới có thể điểm danh được nhé");
+                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                "Con cần phải có gia tộc thì mới có thể điểm danh được nhé");
                         break;
                     }
                     if (p.nj.ddClan) {
-                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hôm nay con đã điểm danh rồi nhé, hãy quay lại đây vào ngày mai");
+                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                "Hôm nay con đã điểm danh rồi nhé, hãy quay lại đây vào ngày mai");
                         break;
                     }
                     p.nj.ddClan = true;
@@ -1274,12 +1349,15 @@ public class MenuController {
                                         if (task != null) {
                                             p.nj.addTaskOrder(task);
                                         } else {
-                                            p.nj.getPlace().chatNPC(p, (short) 25, "Nhiệm vụ lần này có chút trục trặc chắc con không làm được rồi ahihi");
+                                            p.nj.getPlace().chatNPC(p, (short) 25,
+                                                    "Nhiệm vụ lần này có chút trục trặc chắc con không làm được rồi ahihi");
                                         }
                                     } else if (p.nj.nvhnCount >= 20) {
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Nhiệm vụ hôm nay con đã làm hết quay lại vào ngày hôm sau");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Nhiệm vụ hôm nay con đã làm hết quay lại vào ngày hôm sau");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Nhiệm vụ lần trước ta giao cho con vẫn chưa hoàn thành");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Nhiệm vụ lần trước ta giao cho con vẫn chưa hoàn thành");
                                     }
                                     break;
                                 }
@@ -1291,11 +1369,14 @@ public class MenuController {
                                 case 2: {
                                     // Hoan thanh
                                     if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_HANG_NGAY)) {
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
-                                        // TODO nhan qua NVHN
-                                        p.upluongMessage(util.nextInt(MIN_YEN_NVHN, MAX_YEN_NVHN));
-                                        p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 50, MAX_YEN_NVHN * 100));
+                                        if (util.nextInt(0, 100) <= 30) {
+                                            p.upluongMessage(util.nextInt(100, 300));
+                                        } else {
+                                            p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 5, MAX_YEN_NVHN * 5));
+                                        }
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 1)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 3)) {
                                             p.nj.upMainTask();
@@ -1320,9 +1401,11 @@ public class MenuController {
                                                 break;
                                             }
                                         }
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Nhiệm vụ lần này gặp lỗi con hãy đi up level lên đi rồi nhận lại nhiệm vụ từ ta");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Nhiệm vụ lần này gặp lỗi con hãy đi up level lên đi rồi nhận lại nhiệm vụ từ ta");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Hãy nhận nhiệm vụ từ ta để có thể chuyển map");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Hãy nhận nhiệm vụ từ ta để có thể chuyển map");
                                     }
                                 }
                             }
@@ -1332,7 +1415,7 @@ public class MenuController {
                             // Ta thu
                             switch (optionId) {
                                 case 0: {
-                                    //Nhan nhiem vu
+                                    // Nhan nhiem vu
                                     if (p.nj.getTasks()[NHIEM_VU_TA_THU] == null) {
                                         if (p.nj.taThuCount > 0) {
                                             val task = createBeastTask(p.nj.getLevel());
@@ -1345,7 +1428,8 @@ public class MenuController {
                                             p.nj.getPlace().chatNPC(p, (short) 25, "Nhiệm vụ ngày hôm nay đã hêt");
                                         }
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Nhiệm vụ lần trước ta giao cho con vẫn chưa hoàn thành");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Nhiệm vụ lần trước ta giao cho con vẫn chưa hoàn thành");
                                     }
                                     break;
                                 }
@@ -1355,14 +1439,20 @@ public class MenuController {
                                 }
                                 case 2: {
                                     if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_TA_THU)) {
-                                        p.nj.getPlace().chatNPC(p, (short) 25, "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
                                         val i = ItemData.itemDefault(251);
                                         i.quantity = p.nj.get().getLevel() >= 60 ? 5 : 2;
                                         p.nj.addItemBag(true, i);
-                                        if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 2) || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 1)) {
-                                            p.upluongMessage(util.nextInt(MIN_YEN_NVHN * 10, MAX_YEN_NVHN * 10));
-                                            p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 80, MAX_YEN_NVHN * 150));
+                                        if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 2)
+                                                || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 1)) {
+                                            if (util.nextInt(0, 100) <= 30) {
+                                                p.upluongMessage(util.nextInt(100, 300));
+                                            } else {
+                                                p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 5, MAX_YEN_NVHN * 5));
+                                            }
+
                                             p.nj.upMainTask();
                                         }
                                     }
@@ -1476,12 +1566,13 @@ public class MenuController {
                             if (clanManager != null) {
                                 // Có gia tọc và khong battle
                                 if (clanManager.getClanBattle() == null) {
-                                    //  Chua duoc moi battle
+                                    // Chua duoc moi battle
                                     if (p.nj.getClanBattle() == null) {
                                         // La toc truong thach dau
                                         if (p.nj.clan.typeclan == TOC_TRUONG) {
                                             if (clanManager.getClanBattleData() == null
-                                                    || (clanManager.getClanBattleData() != null && clanManager.getClanBattleData().isExpired())) {
+                                                    || (clanManager.getClanBattleData() != null
+                                                            && clanManager.getClanBattleData().isExpired())) {
                                                 sendWrite(p, (byte) 4, "Nhập vào gia tộc muốn chiến đấu");
                                             } else {
                                                 if (clanManager.restore()) {
@@ -1524,8 +1615,10 @@ public class MenuController {
                         case 1: {
                             switch (menuId) {
                                 case 0: {
-                                    if (p.nj.quantityItemyTotal(432) < 1 || p.nj.quantityItemyTotal(428) < 3 || p.nj.quantityItemyTotal(429) < 2 || p.nj.quantityItemyTotal(430) < 3) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu");
+                                    if (p.nj.quantityItemyTotal(432) < 1 || p.nj.quantityItemyTotal(428) < 3
+                                            || p.nj.quantityItemyTotal(429) < 2 || p.nj.quantityItemyTotal(430) < 3) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1541,8 +1634,10 @@ public class MenuController {
                                     break;
                                 }
                                 case 1: {
-                                    if (p.nj.quantityItemyTotal(433) < 1 || p.nj.quantityItemyTotal(428) < 2 || p.nj.quantityItemyTotal(429) < 3 || p.nj.quantityItemyTotal(431) < 2) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu");
+                                    if (p.nj.quantityItemyTotal(433) < 1 || p.nj.quantityItemyTotal(428) < 2
+                                            || p.nj.quantityItemyTotal(429) < 3 || p.nj.quantityItemyTotal(431) < 2) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1563,8 +1658,11 @@ public class MenuController {
                         case 2: {
                             switch (menuId) {
                                 case 0: {
-                                    if (p.nj.quantityItemyTotal(304) < 1 || p.nj.quantityItemyTotal(298) < 1 || p.nj.quantityItemyTotal(299) < 1 || p.nj.quantityItemyTotal(300) < 1 || p.nj.quantityItemyTotal(301) < 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu");
+                                    if (p.nj.quantityItemyTotal(304) < 1 || p.nj.quantityItemyTotal(298) < 1
+                                            || p.nj.quantityItemyTotal(299) < 1 || p.nj.quantityItemyTotal(300) < 1
+                                            || p.nj.quantityItemyTotal(301) < 1) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1581,8 +1679,11 @@ public class MenuController {
                                     break;
                                 }
                                 case 1: {
-                                    if (p.nj.quantityItemyTotal(305) < 1 || p.nj.quantityItemyTotal(298) < 1 || p.nj.quantityItemyTotal(299) < 1 || p.nj.quantityItemyTotal(300) < 1 || p.nj.quantityItemyTotal(301) < 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu");
+                                    if (p.nj.quantityItemyTotal(305) < 1 || p.nj.quantityItemyTotal(298) < 1
+                                            || p.nj.quantityItemyTotal(299) < 1 || p.nj.quantityItemyTotal(300) < 1
+                                            || p.nj.quantityItemyTotal(301) < 1) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1599,8 +1700,10 @@ public class MenuController {
                                     break;
                                 }
                                 case 2: {
-                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 3 || p.nj.quantityItemyTotal(293) < 2 || p.nj.quantityItemyTotal(294) < 3) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu hoặc yên");
+                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 3
+                                            || p.nj.quantityItemyTotal(293) < 2 || p.nj.quantityItemyTotal(294) < 3) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu hoặc yên");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1616,8 +1719,10 @@ public class MenuController {
                                     break;
                                 }
                                 case 3: {
-                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 2 || p.nj.quantityItemyTotal(295) < 3 || p.nj.quantityItemyTotal(294) < 2) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu hoặc yên");
+                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 2
+                                            || p.nj.quantityItemyTotal(295) < 3 || p.nj.quantityItemyTotal(294) < 2) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu hoặc yên");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1633,8 +1738,10 @@ public class MenuController {
                                     break;
                                 }
                                 case 4: {
-                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 2 || p.nj.quantityItemyTotal(295) < 3 || p.nj.quantityItemyTotal(297) < 3) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu hoặc yên");
+                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 2
+                                            || p.nj.quantityItemyTotal(295) < 3 || p.nj.quantityItemyTotal(297) < 3) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu hoặc yên");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1650,8 +1757,10 @@ public class MenuController {
                                     break;
                                 }
                                 case 5: {
-                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 2 || p.nj.quantityItemyTotal(296) < 2 || p.nj.quantityItemyTotal(297) < 3) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang của con không có đủ nguyên liệu hoặc yên");
+                                    if (p.nj.yen < 10000 || p.nj.quantityItemyTotal(292) < 2
+                                            || p.nj.quantityItemyTotal(296) < 2 || p.nj.quantityItemyTotal(297) < 3) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hành trang của con không có đủ nguyên liệu hoặc yên");
                                         break;
                                     }
                                     if (p.nj.getAvailableBag() == 0) {
@@ -1677,7 +1786,7 @@ public class MenuController {
                 }
                 case 92: {
                     p.typemenu = ((menuId == 0) ? 93 : 94);
-                    this.doMenuArray(p, new String[]{"Thông tin", "Luật chơi"});
+                    this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                     break;
                 }
                 case 93: {
@@ -1727,7 +1836,8 @@ public class MenuController {
                             val i = ItemData.itemDefault(230);
                             i.setLock(true);
                             p.nj.addItemBag(false, i);
-                            p.nj.getPlace().chatNPC(p, 23, "Ta hi vọng đây là lần cuối ta giao chìa khoá cho con ta nghĩ lần này con sẽ làm được. ");
+                            p.nj.getPlace().chatNPC(p, 23,
+                                    "Ta hi vọng đây là lần cuối ta giao chìa khoá cho con ta nghĩ lần này con sẽ làm được. ");
                         } else {
                             p.nj.getPlace().chatNPC(p, 23, "Con đã có chìa khoá rồi không thể nhận thêm được");
                         }
@@ -1809,7 +1919,8 @@ public class MenuController {
                 }
                 case 27: {
                     // Cam chia khoa co quan
-                    if (Arrays.stream(p.nj.ItemBag).anyMatch(item -> item != null && (item.id == 231 || item.id == 260))) {
+                    if (Arrays.stream(p.nj.ItemBag)
+                            .anyMatch(item -> item != null && (item.id == 231 || item.id == 260))) {
                         p.nj.removeItemBags(231, 1);
                         p.nj.removeItemBags(260, 1);
                         p.getClanTerritoryData().getClanTerritory().plugKey(p.nj.getMapid(), p.nj);
@@ -1827,13 +1938,16 @@ public class MenuController {
                                 Random generator = new Random();
                                 int value = generator.nextInt(3);
                                 if (value == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Online mỗi ngày tham gia các hoạt động để tích lũy điểm hoạt động con nhé.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Online mỗi ngày tham gia các hoạt động để tích lũy điểm hoạt động con nhé.");
                                 }
                                 if (value == 1) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ta là hiện thân của thần tài sẽ mang tài lộc đến cho mọi người.");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ta là hiện thân của thần tài sẽ mang tài lộc đến cho mọi người.");
                                 }
                                 if (value == 2) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Con hãy chăm đánh quái, làm nhiệm vụ để có thêm nhiều yên hơn");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Con hãy chăm đánh quái, làm nhiệm vụ để có thêm nhiều yên hơn");
                                 }
                                 break;
                             }
@@ -1845,10 +1959,12 @@ public class MenuController {
                             switch (optionId) {
                                 case 0:
                                     if (p.luong < 50) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trong người con không có đủ 50 lượng. Khi nào đem đủ lượng thì đến đây gặp ta.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trong người con không có đủ 50 lượng. Khi nào đem đủ lượng thì đến đây gặp ta.");
                                         break;
                                     } else if (p.nj.xu + 500000 > 2000000000) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Số xu trong hành trang của con đã đạt mức tối đa.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Số xu trong hành trang của con đã đạt mức tối đa.");
                                         break;
                                     } else {
                                         p.upluong(-50L);
@@ -1857,10 +1973,12 @@ public class MenuController {
                                     }
                                 case 1:
                                     if (p.luong < 50) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trong người con không có đủ 50 lượng. Khi nào đem đủ lượng thì đến đây gặp ta.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trong người con không có đủ 50 lượng. Khi nào đem đủ lượng thì đến đây gặp ta.");
                                         break;
                                     } else if (p.nj.yen + 500000 > 2000000000) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Số yên trong hành trang của con đã đạt mức tối đa.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Số yên trong hành trang của con đã đạt mức tối đa.");
                                         break;
                                     } else {
                                         p.upluong(-50L);
@@ -1880,7 +1998,8 @@ public class MenuController {
                                     p.session.sendMessageLog("Chức năng nạp thẻ đang bảo trì");
                                     break;
                                 case 1:
-                                    server.manager.sendTB(p, "Bảng giá", "10,000đ - 10 lượng\n20,000đ - 25 lượng\n30,000đ - 38 lượng\n50,000đ - 70 lượng\n100.000đ - 150 lượng\n200.000đ - 350 lượng\n300.000đ - 650 lượng\n500.000đ - 1100 lượng\n1,000,000đ - 2500 lượng\nNếu gặp vấn đề về nạp thẻ, vui lòng liên hệ với Admin để được giải đáp thắc mắc.");
+                                    server.manager.sendTB(p, "Bảng giá",
+                                            "10,000đ - 10 lượng\n20,000đ - 25 lượng\n30,000đ - 38 lượng\n50,000đ - 70 lượng\n100.000đ - 150 lượng\n200.000đ - 350 lượng\n300.000đ - 650 lượng\n500.000đ - 1100 lượng\n1,000,000đ - 2500 lượng\nNếu gặp vấn đề về nạp thẻ, vui lòng liên hệ với Admin để được giải đáp thắc mắc.");
                                     break;
                             }
                             break;
@@ -1889,13 +2008,16 @@ public class MenuController {
                             switch (optionId) {
                                 case 0:
                                     if (p.nj.getLevel() < 10) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không đủ để nhận thưởng.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không đủ để nhận thưởng.");
                                     } else if (p.nj.reward10 == 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
                                     } else if (p.nj.getAvailableBag() < 3) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang không đủ chỗ trống");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                         p.nj.reward10 = 1;
                                         p.nj.upyenMessage(100000);
                                         p.nj.upxuMessage(100000);
@@ -1903,13 +2025,16 @@ public class MenuController {
                                     break;
                                 case 1:
                                     if (p.nj.getLevel() < 20) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không đủ để nhận thưởng.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không đủ để nhận thưởng.");
                                     } else if (p.nj.reward20 == 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
                                     } else if (p.nj.getAvailableBag() < 3) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang không đủ chỗ trống");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                         p.nj.reward20 = 1;
                                         p.nj.upyenMessage(100000);
                                         p.nj.upxuMessage(100000);
@@ -1917,13 +2042,16 @@ public class MenuController {
                                     break;
                                 case 2:
                                     if (p.nj.getLevel() < 30) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không đủ để nhận thưởng.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không đủ để nhận thưởng.");
                                     } else if (p.nj.reward30 == 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
                                     } else if (p.nj.getAvailableBag() < 3) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang không đủ chỗ trống");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                         p.nj.reward30 = 1;
                                         p.nj.upyenMessage(100000);
                                         p.nj.upxuMessage(100000);
@@ -1931,13 +2059,16 @@ public class MenuController {
                                     break;
                                 case 3:
                                     if (p.nj.getLevel() < 40) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không đủ để nhận thưởng.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không đủ để nhận thưởng.");
                                     } else if (p.nj.reward40 == 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
                                     } else if (p.nj.getAvailableBag() < 3) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang không đủ chỗ trống");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                         p.nj.reward40 = 1;
                                         p.nj.upyenMessage(100000);
                                         p.nj.upxuMessage(100000);
@@ -1945,13 +2076,16 @@ public class MenuController {
                                     break;
                                 case 4:
                                     if (p.nj.getLevel() < 50) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con không đủ để nhận thưởng.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Trình độ của con không đủ để nhận thưởng.");
                                     } else if (p.nj.reward50 == 1) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
                                     } else if (p.nj.getAvailableBag() < 3) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang không đủ chỗ trống");
                                     } else {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                         p.nj.reward50 = 1;
                                         p.nj.upyenMessage(100000);
                                         p.nj.upxuMessage(100000);
@@ -1968,13 +2102,16 @@ public class MenuController {
                             Random generator = new Random();
                             int value = generator.nextInt(3);
                             if (value == 0) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Online mỗi ngày tham gia các hoạt động để tích lũy điểm hoạt động con nhé.");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Online mỗi ngày tham gia các hoạt động để tích lũy điểm hoạt động con nhé.");
                             }
                             if (value == 1) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Ta là hiện thân của thần tài sẽ mang tài lộc đến cho mọi người.");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Ta là hiện thân của thần tài sẽ mang tài lộc đến cho mọi người.");
                             }
                             if (value == 2) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Con hãy chăm đánh quái, làm nhiệm vụ để có thêm nhiều yên hơn");
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Con hãy chăm đánh quái, làm nhiệm vụ để có thêm nhiều yên hơn");
                             }
                             break;
                         }
@@ -1982,7 +2119,10 @@ public class MenuController {
                             switch (optionId) {
                                 case 0:
                                     p.typemenu = 24_6_0;
-                                    doMenuArray(p, new String[]{"10 kc -> 13 Lượng", "20 kc -> 32 Lượng", "50 kc -> 91 Lượng", "100 kc -> 195 Lượng", "500 kc -> 1430 Lượng", "1000 kc -> 3250 Lượng"});
+                                    doMenuArray(p,
+                                            new String[] { "10 kc -> 13 Lượng", "20 kc -> 32 Lượng",
+                                                    "50 kc -> 91 Lượng", "100 kc -> 195 Lượng", "500 kc -> 1430 Lượng",
+                                                    "1000 kc -> 3250 Lượng" });
                                     break;
                                 case 1:
                                     this.sendWrite(p, (short) 24_6_1_0, "Tên người tặng");
@@ -2007,7 +2147,8 @@ public class MenuController {
                                     this.sendWrite(p, (short) 24_8, "Nhập tên người nhận");
                                     break;
                                 case 1:
-                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Ngươi đang có " + p.ticketGold + " vé tặng lượng");
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Ngươi đang có " + p.ticketGold + " vé tặng lượng");
                                     break;
                             }
                             break;
@@ -2024,62 +2165,86 @@ public class MenuController {
                     switch (menuId) {
                         case 0:
                             if (p.diamond < 10) {
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session.sendMessageLog(
+                                        "z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 return;
                             } else {
                                 p.upluongMessage(13);
                                 p.diamond -= 10;
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session
+                                        .sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 break;
                             }
                         case 1:
                             if (p.diamond < 20) {
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session.sendMessageLog(
+                                        "z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 return;
                             } else {
                                 p.upluongMessage(32);
                                 p.diamond -= 20;
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session
+                                        .sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 break;
                             }
                         case 2:
                             if (p.diamond < 50) {
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session.sendMessageLog(
+                                        "z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 return;
                             } else {
                                 p.upluongMessage(91);
                                 p.diamond -= 50;
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session
+                                        .sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 break;
                             }
                         case 3:
                             if (p.diamond < 100) {
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session.sendMessageLog(
+                                        "z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 return;
                             } else {
                                 p.upluongMessage(195);
                                 p.diamond -= 100;
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session
+                                        .sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 break;
                             }
                         case 4:
                             if (p.diamond < 500) {
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session.sendMessageLog(
+                                        "z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 return;
                             } else {
                                 p.upluongMessage(1430);
                                 p.diamond -= 500;
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session
+                                        .sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 break;
                             }
                         case 5:
                             if (p.diamond < 1000) {
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session.sendMessageLog(
+                                        "z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 return;
                             } else {
                                 p.upluongMessage(3250);
                                 p.diamond -= 1000;
-                                p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON " + p.diamond + " KIM CUONG.");
+                                p.session
+                                        .sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN CHI CON "
+                                                + p.diamond + " KIM CUONG.");
                                 break;
                             }
                     }
@@ -2138,21 +2303,22 @@ public class MenuController {
     public static java.util.Map<Byte, int[]> nangCapMat = new TreeMap<>();
 
     static {
-        nangCapMat.put((byte) 1, new int[]{500, 2_000_000, 80, 200, 100});
-        nangCapMat.put((byte) 2, new int[]{400, 3_000_000, 75, 300, 85});
-        nangCapMat.put((byte) 3, new int[]{300, 5_000_000, 65, 500, 75});
-        nangCapMat.put((byte) 4, new int[]{250, 7_500_000, 55, 700, 65});
-        nangCapMat.put((byte) 5, new int[]{200, 8_500_000, 45, 900, 55});
-        nangCapMat.put((byte) 6, new int[]{175, 10_000_000, 30, 1000, 45});
-        nangCapMat.put((byte) 7, new int[]{150, 12_000_000, 25, 1200, 30});
-        nangCapMat.put((byte) 8, new int[]{100, 15_000_000, 20, 1200, 25});
-        nangCapMat.put((byte) 9, new int[]{50, 20_000_000, 15, 1500, 20});
+        nangCapMat.put((byte) 1, new int[] { 500, 2_000_000, 80, 200, 100 });
+        nangCapMat.put((byte) 2, new int[] { 400, 3_000_000, 75, 300, 85 });
+        nangCapMat.put((byte) 3, new int[] { 300, 5_000_000, 65, 500, 75 });
+        nangCapMat.put((byte) 4, new int[] { 250, 7_500_000, 55, 700, 65 });
+        nangCapMat.put((byte) 5, new int[] { 200, 8_500_000, 45, 900, 55 });
+        nangCapMat.put((byte) 6, new int[] { 175, 10_000_000, 30, 1000, 45 });
+        nangCapMat.put((byte) 7, new int[] { 150, 12_000_000, 25, 1200, 30 });
+        nangCapMat.put((byte) 8, new int[] { 100, 15_000_000, 20, 1200, 25 });
+        nangCapMat.put((byte) 9, new int[] { 50, 20_000_000, 15, 1500, 20 });
     }
 
     private void nangMat(User p, Item item, boolean vip) throws IOException {
 
         if (item.id < 694) {
-            int toneCount = (int) Arrays.stream(p.nj.ItemBag).filter(i -> i != null && i.id == item.id + 11).map(i -> i.quantity).reduce(0, Integer::sum);
+            int toneCount = (int) Arrays.stream(p.nj.ItemBag).filter(i -> i != null && i.id == item.id + 11)
+                    .map(i -> i.quantity).reduce(0, Integer::sum);
             if (toneCount >= nangCapMat.get(item.getUpgrade())[0]) {
 
                 if (vip && nangCapMat.get(item.getUpgrade())[3] > p.luong) {
@@ -2169,7 +2335,9 @@ public class MenuController {
 
                     p.nj.removeItemBags(item.id + 11, nangCapMat.get(item.getUpgrade())[0]);
                     p.sendInfo(false);
-                    p.sendYellowMessage("Nâng cấp mắt thành công bạn nhận được mắt " + p.nj.get().ItemBody[14].getData().name + p.nj.get().ItemBody[14].getUpgrade() + " đã mặc trên người");
+                    p.sendYellowMessage(
+                            "Nâng cấp mắt thành công bạn nhận được mắt " + p.nj.get().ItemBody[14].getData().name
+                                    + p.nj.get().ItemBody[14].getUpgrade() + " đã mặc trên người");
                 } else {
                     p.sendYellowMessage("Nâng cấp mắt thất bại");
                 }
@@ -2181,7 +2349,8 @@ public class MenuController {
                 p.nj.upxuMessage(-nangCapMat.get(item.getUpgrade())[1]);
 
             } else {
-                p.sendYellowMessage("Không đủ " + nangCapMat.get(item.getUpgrade())[0] + " đá danh vọng cấp " + (item.getUpgrade() + 1) + " để nâng cấp");
+                p.sendYellowMessage("Không đủ " + nangCapMat.get(item.getUpgrade())[0] + " đá danh vọng cấp "
+                        + (item.getUpgrade() + 1) + " để nâng cấp");
             }
         } else {
             p.sendYellowMessage("Mắt được nâng cấp tối đa");
@@ -2215,20 +2384,23 @@ public class MenuController {
             createMenu(33, itemNames, "", p);
         }
         if (idnpc == 24 && (p.nj.getPlace().map.id == 22) && p.nj.getLevel() > 1) {
-            this.doMenuArray(p, new String[]{"Nói chuyện"});
+            this.doMenuArray(p, new String[] { "Nói chuyện" });
         }
 
         if (idnpc == 0 && (p.nj.getPlace().map.isGtcMap() || p.nj.getPlace().map.loiDaiMap())) {
             if (p.nj.hasBattle() || p.nj.getClanBattle() != null) {
-                createMenu(idnpc, new String[]{"Đặt cược", "Rời khỏi đây"}, "Con có 5 phút để xem thông tin đối phương", p);
+                createMenu(idnpc, new String[] { "Đặt cược", "Rời khỏi đây" },
+                        "Con có 5 phút để xem thông tin đối phương", p);
             }
 
         } else if (idnpc == Manager.ID_EVENT_NPC) {
-            createMenu(Manager.ID_EVENT_NPC, Manager.MENU_EVENT_NPC, Manager.EVENT_NPC_CHAT[util.nextInt(0, Manager.EVENT_NPC_CHAT.length - 1)], p);
+            createMenu(Manager.ID_EVENT_NPC, Manager.MENU_EVENT_NPC,
+                    Manager.EVENT_NPC_CHAT[util.nextInt(0, Manager.EVENT_NPC_CHAT.length - 1)], p);
         } else if ("buffteam".equals(p.nj.name) && idnpc == 28) {
-            createMenu(28, new String[]{"Bảo trì", "Lưu dữ liệu"}, "Oke", p);
-        } else if (idnpc == 32 && p.nj.getPlace().map.id == IBattle.BAO_DANH_GT_BACH || p.nj.getPlace().map.id == IBattle.BAO_DANH_GT_HAC) {
-            createMenu(idnpc, new String[]{"Tổng kết", "Rời khỏi đây"}, "", p);
+            createMenu(28, new String[] { "Bảo trì", "Lưu dữ liệu" }, "Oke", p);
+        } else if (idnpc == 32 && p.nj.getPlace().map.id == IBattle.BAO_DANH_GT_BACH
+                || p.nj.getPlace().map.id == IBattle.BAO_DANH_GT_HAC) {
+            createMenu(idnpc, new String[] { "Tổng kết", "Rời khỏi đây" }, "", p);
         } else {
             val ninja = p.nj;
             val npcTemplateId = idnpc;
@@ -2277,7 +2449,8 @@ public class MenuController {
                 }
             }
         } else if (idNpc == Manager.ID_EVENT_NPC) {
-            //  0: nhận lượng, 1: tắt exp, 2: bật up exp, 3: nhận thưởng level 70, 4: nhận thưởng level 90, 5: nhận thưởng lv 130
+            // 0: nhận lượng, 1: tắt exp, 2: bật up exp, 3: nhận thưởng level 70, 4: nhận
+            // thưởng level 90, 5: nhận thưởng lv 130
             short featureCode = Manager.ID_FEATURES[index];
             switch (featureCode) {
                 case 1: {

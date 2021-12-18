@@ -21,6 +21,7 @@ import threading.Server;
 
 import static clan.ClanThanThu.*;
 import static threading.Manager.MIN_DA_LV;
+import static threading.Manager.MAX_DA_LV;;
 
 public class ItemData {
 
@@ -76,7 +77,9 @@ public class ItemData {
     }
 
     public static boolean isTypeUIShop(final int typeUI) {
-        return typeUI == 20 || typeUI == 21 || typeUI == 22 || typeUI == 23 || typeUI == 24 || typeUI == 25 || typeUI == 26 || typeUI == 27 || typeUI == 28 || typeUI == 29 || typeUI == 16 || typeUI == 17 || typeUI == 18 || typeUI == 19 || typeUI == 2 || typeUI == 6 || typeUI == 8 || typeUI == 34;
+        return typeUI == 20 || typeUI == 21 || typeUI == 22 || typeUI == 23 || typeUI == 24 || typeUI == 25
+                || typeUI == 26 || typeUI == 27 || typeUI == 28 || typeUI == 29 || typeUI == 16 || typeUI == 17
+                || typeUI == 18 || typeUI == 19 || typeUI == 2 || typeUI == 6 || typeUI == 8 || typeUI == 34;
     }
 
     public static boolean isTypeUIShopLock(final int typeUI) {
@@ -112,24 +115,102 @@ public class ItemData {
     public static int ThinhLuyenParam(final int id, final int tl) {
         switch (id) {
             case 76: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 50) : 60) : 70) : 90) : 130) : 180) : 250) : 350) : 550;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 50) : 60)
+                                                                        : 70)
+                                                                : 90)
+                                                        : 130)
+                                                : 180)
+                                        : 250)
+                                : 350)
+                        : 550;
             }
             case 77: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 40) : 60) : 80) : 100) : 120) : 140) : 200) : 220) : 590;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 40) : 60)
+                                                                        : 80)
+                                                                : 100)
+                                                        : 120)
+                                                : 140)
+                                        : 200)
+                                : 220)
+                        : 590;
             }
             case 75:
             case 78: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 25) : 30) : 35) : 40) : 50) : 60) : 80) : 115) : 165;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 25) : 30)
+                                                                        : 35)
+                                                                : 40)
+                                                        : 50)
+                                                : 60)
+                                        : 80)
+                                : 115)
+                        : 165;
             }
             case 79: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 1) : 1) : 1) : 1) : 5) : 5) : 5) : 5) : 5;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 1) : 1)
+                                                                        : 1)
+                                                                : 1)
+                                                        : 5)
+                                                : 5)
+                                        : 5)
+                                : 5)
+                        : 5;
             }
             case 80: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 5) : 10) : 15) : 20) : 25) : 30) : 35) : 40) : 45;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 5) : 10)
+                                                                        : 15)
+                                                                : 20)
+                                                        : 25)
+                                                : 30)
+                                        : 35)
+                                : 40)
+                        : 45;
             }
             case 84:
             case 86: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 10) : 20) : 30) : 40) : 50) : 100) : 120) : 150) : 200;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 10) : 20)
+                                                                        : 30)
+                                                                : 40)
+                                                        : 50)
+                                                : 100)
+                                        : 120)
+                                : 150)
+                        : 200;
             }
             case 85: {
                 return 1;
@@ -140,19 +221,71 @@ public class ItemData {
             case 88:
             case 89:
             case 90: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 50) : 60) : 80) : 100) : 125) : 300) : 350) : 400) : 500;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 50) : 60)
+                                                                        : 80)
+                                                                : 100)
+                                                        : 125)
+                                                : 300)
+                                        : 350)
+                                : 400)
+                        : 500;
             }
             case 94: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 5) : 10) : 15) : 20) : 25) : 30) : 35) : 40) : 60;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 5) : 10)
+                                                                        : 15)
+                                                                : 20)
+                                                        : 25)
+                                                : 30)
+                                        : 35)
+                                : 40)
+                        : 60;
             }
             case 81:
             case 91:
             case 92:
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 1) : 5) : 5) : 5) : 10) : 10) : 10) : 10) : 10;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 1) : 5)
+                                                                        : 5)
+                                                                : 5)
+                                                        : 10)
+                                                : 10)
+                                        : 10)
+                                : 10)
+                        : 10;
             case 95:
             case 96:
             case 97: {
-                return (tl != 8) ? ((tl != 7) ? ((tl != 6) ? ((tl != 5) ? ((tl != 4) ? ((tl != 3) ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 1) : 5) : 10) : 15) : 20) : 25) : 30) : 40) : 60;
+                return (tl != 8)
+                        ? ((tl != 7)
+                                ? ((tl != 6)
+                                        ? ((tl != 5)
+                                                ? ((tl != 4)
+                                                        ? ((tl != 3)
+                                                                ? ((tl != 2) ? ((tl != 1) ? ((tl != 0) ? 0 : 1) : 5)
+                                                                        : 10)
+                                                                : 15)
+                                                        : 20)
+                                                : 25)
+                                        : 30)
+                                : 40)
+                        : 60;
             }
             default: {
                 return 0;
@@ -161,7 +294,8 @@ public class ItemData {
     }
 
     public static void divedeItem(final @Nullable User p, final @Nullable Message m) throws IOException {
-        if (p == null || m == null) return;
+        if (p == null || m == null)
+            return;
 
         final byte index = m.reader().readByte();
         final int quantity = m.reader().readInt();
@@ -185,7 +319,11 @@ public class ItemData {
     }
 
     public static boolean isUpgradeHide(final int id, final byte upgrade) {
-        return ((id == 27 || id == 30 || id == 60) && upgrade < 4) || ((id == 28 || id == 31 || id == 37 || id == 61) && upgrade < 8) || ((id == 29 || id == 32 || id == 38 || id == 62) && upgrade < 12) || ((id == 33 || id == 34 || id == 35 || id == 36 || id == 39) && upgrade < 14) || (((id >= 40 && id <= 46) || (id >= 48 && id <= 56)) && upgrade < 16);
+        return ((id == 27 || id == 30 || id == 60) && upgrade < 4)
+                || ((id == 28 || id == 31 || id == 37 || id == 61) && upgrade < 8)
+                || ((id == 29 || id == 32 || id == 38 || id == 62) && upgrade < 12)
+                || ((id == 33 || id == 34 || id == 35 || id == 36 || id == 39) && upgrade < 14)
+                || (((id >= 40 && id <= 46) || (id >= 48 && id <= 56)) && upgrade < 16);
     }
 
     @NotNull
@@ -241,14 +379,16 @@ public class ItemData {
     @NotNull
     public static Item itemDefault(final int id, final boolean isLock) {
         final Item item = itemDefault(id, (byte) 0);
-        if (item == null) return defaultItem;
+        if (item == null)
+            return defaultItem;
         item.setLock(isLock);
         return item;
     }
 
     @NotNull
     public static Item itemDefault(final int id, final byte sys) {
-        if (id == -1) return defaultItem;
+        if (id == -1)
+            return defaultItem;
         final Item item = new Item();
         item.id = (short) id;
         item.sys = sys;
@@ -374,7 +514,6 @@ public class ItemData {
         return type == 12;
     }
 
-
     public static short[] getListItemByMaxLevel(int maxLv, int percent, byte nYen, byte nDa) {
 
         val setVuKhi = getItemIdByLevel(maxLv, (byte) 1, (byte) 2);
@@ -391,7 +530,7 @@ public class ItemData {
         int a = 0;
 
         for (int i = 0; i < nDa; i++) {
-            items[a] = (short) util.nextInt(MIN_DA_LV - 1, MIN_DA_LV);
+            items[a] = (short) util.nextInt(MIN_DA_LV - 1, Math.min((short) maxLv / 10, MAX_DA_LV));
             a++;
         }
 
@@ -448,7 +587,6 @@ public class ItemData {
     public static int NE_DON = 10;
     public static int KHANG_TAT_CA = 10;
 
-
     @NotNull
     public static Item itemNgocDefault(int id, int upgrade, boolean random) {
 
@@ -472,55 +610,67 @@ public class ItemData {
 
         if (id == HUYET_NGOC) {
             item.option.add(VU_KHI_OPTION);
-            item.option.add(new Option(73, random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
+            item.option.add(
+                    new Option(73, random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
             item.option.add(new Option(114, -(random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG)));
 
             item.option.add(TRANG_BI_OPTION);
-            item.option.add(new Option(124, random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST));
-            item.option.add(new Option(73, -(random ? util.nextInt((int) (0.6 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG)));
+            item.option
+                    .add(new Option(124, random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST));
+            item.option.add(
+                    new Option(73, -(random ? util.nextInt((int) (0.6 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG)));
 
             item.option.add(TRANG_SUC_OPTION);
             item.option.add(new Option(115, random ? util.nextInt((int) (0.8 * NE_DON), NE_DON) : NE_DON));
-            item.option.add(new Option(119, -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_MP), MOI_GIAY_HOI_PHUC_MP) : MOI_GIAY_HOI_PHUC_MP)));
+            item.option.add(
+                    new Option(119, -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_MP), MOI_GIAY_HOI_PHUC_MP)
+                            : MOI_GIAY_HOI_PHUC_MP)));
         }
 
         if (id == HUYEN_TINH_NGOC) {
             item.option.add(VU_KHI_OPTION);
-            item.option.add(new Option(102, random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
+            item.option.add(
+                    new Option(102, random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
             item.option.add(new Option(115, -(random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG)));
 
             item.option.add(TRANG_BI_OPTION);
             item.option.add(new Option(126, random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON));
-            item.option.add(new Option(105, -(random ? util.nextInt((int) (0.6 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG)));
+            item.option.add(
+                    new Option(105, -(random ? util.nextInt((int) (0.6 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG)));
 
             item.option.add(TRANG_SUC_OPTION);
-            item.option.add(new Option(121, random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
-            item.option.add(new Option(118, -(random ? util.nextInt((int) (0.8 * KHANG_TAT_CA), KHANG_TAT_CA) : KHANG_TAT_CA)));
-
+            item.option.add(new Option(121,
+                    random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
+            item.option.add(
+                    new Option(118, -(random ? util.nextInt((int) (0.8 * KHANG_TAT_CA), KHANG_TAT_CA) : KHANG_TAT_CA)));
 
         }
 
         if (id == LAM_TINH_NGOC) {
             item.option.add(VU_KHI_OPTION);
 
-            item.option.add(new Option(103, random ? util.nextInt((int) (0.8 * MAX_ST_NGUOI), MAX_ST_NGUOI) : MAX_ST_NGUOI));
+            item.option.add(
+                    new Option(103, random ? util.nextInt((int) (0.8 * MAX_ST_NGUOI), MAX_ST_NGUOI) : MAX_ST_NGUOI));
             item.option.add(new Option(125, -(random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA)));
 
             item.option.add(TRANG_BI_OPTION);
-            item.option.add(new Option(121, random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
-            item.option.add(new Option(120, -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_HP), MOI_GIAY_HOI_PHUC_HP) : MOI_GIAY_HOI_PHUC_HP)));
+            item.option.add(new Option(121,
+                    random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
+            item.option.add(
+                    new Option(120, -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_HP), MOI_GIAY_HOI_PHUC_HP)
+                            : MOI_GIAY_HOI_PHUC_HP)));
 
             item.option.add(TRANG_SUC_OPTION);
             item.option.add(new Option(116, random ? util.nextInt((int) (0.8 * CHINH_XAC), CHINH_XAC) : CHINH_XAC));
             item.option.add(new Option(126, -(random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON)));
-
 
         }
 
         if (id == LUC_NGOC) {
             item.option.add(VU_KHI_OPTION);
 
-            item.option.add(new Option(105, random ? util.nextInt((int) (0.8 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG));
+            item.option
+                    .add(new Option(105, random ? util.nextInt((int) (0.8 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG));
             item.option.add(new Option(116, -(random ? util.nextInt((int) (0.8 * CHINH_XAC), CHINH_XAC) : CHINH_XAC)));
 
             item.option.add(TRANG_BI_OPTION);
@@ -529,8 +679,8 @@ public class ItemData {
 
             item.option.add(TRANG_SUC_OPTION);
             item.option.add(new Option(117, random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA));
-            item.option.add(new Option(124, -(random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST)));
-
+            item.option.add(
+                    new Option(124, -(random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST)));
 
         }
 
@@ -559,7 +709,8 @@ public class ItemData {
     @NotNull
     public static Item itemDefaultMat(int id) {
 
-        if (id < 685 || id > 694) throw new RuntimeException("Id not suitable");
+        if (id < 685 || id > 694)
+            throw new RuntimeException("Id not suitable");
 
         final Item item = new Item();
         item.id = (short) id;
@@ -659,7 +810,6 @@ public class ItemData {
     public static final int HP_TOI_DA_ID = 125;
 
     public static final int PHAN_DON_ID = 126;
-
 
     static {
         server = Server.getInstance();
