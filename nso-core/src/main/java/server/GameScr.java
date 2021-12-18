@@ -50,7 +50,9 @@ public class GameScr {
     private static final byte[] ArrdayLuck;
 
     public static boolean mapNotPK(final int mapId) {
-        return mapId == 1 || mapId == 10 || mapId == 17 || mapId == 22 || mapId == 27 || mapId == 32 || mapId == 38 || mapId == 43 || mapId == 48 || mapId == 72 || mapId == 100 || mapId == 101 || mapId == 102 || mapId == 109 || mapId == 121 || mapId == 122 || mapId == 123 || mapId == 138;
+        return mapId == 1 || mapId == 10 || mapId == 17 || mapId == 22 || mapId == 27 || mapId == 32 || mapId == 38
+                || mapId == 43 || mapId == 48 || mapId == 72 || mapId == 100 || mapId == 101 || mapId == 102
+                || mapId == 109 || mapId == 121 || mapId == 122 || mapId == 123 || mapId == 138;
     }
 
     public static byte KeepUpgrade(final int upgrade) {
@@ -429,7 +431,9 @@ public class GameScr {
                 p.session.sendMessageLog("Bạn cần có gia tộc");
             } else if (p.nj.clan.typeclan < 3) {
                 p.session.sendMessageLog("Chỉ có tộc trưởng hoặc tôc phó mới được phép mua");
-            } else if ((sell.id == 423 && clan.itemLevel < 1) || (sell.id == 424 && clan.itemLevel < 2) || (sell.id == 425 && clan.itemLevel < 3) || (sell.id == 426 && clan.itemLevel < 4) || (sell.id == 427 && clan.itemLevel < 5)) {
+            } else if ((sell.id == 423 && clan.itemLevel < 1) || (sell.id == 424 && clan.itemLevel < 2)
+                    || (sell.id == 425 && clan.itemLevel < 3) || (sell.id == 426 && clan.itemLevel < 4)
+                    || (sell.id == 427 && clan.itemLevel < 5)) {
                 p.session.sendMessageLog("Cần khai mở gia tộc để mua vật phẩm này");
             } else {
                 if (buycoin > clan.coin) {
@@ -445,18 +449,24 @@ public class GameScr {
 
                     if (sell.id == TRUNG_HAI_MA_ID) {
                         for (ClanThanThu clanThanThus : clan.clanThanThus) {
-                            if (clanThanThus.getPetItem().id >= HAI_MA_1_ID && clanThanThus.getPetItem().id >= HAI_MA_3_ID) {
+                            if (clanThanThus.getPetItem().id >= HAI_MA_1_ID
+                                    && clanThanThus.getPetItem().id >= HAI_MA_3_ID) {
                                 p.endLoad(false);
                                 p.sendYellowMessage("Gia tộc bạn đã có thần thú hải mã");
                                 return;
                             }
                         }
                     }
-                    int countDiLong = (int) ((int) clan.clanThanThus.stream().filter(t -> t.getPetItem().id >= DI_LONG_1_ID && t.getPetItem().id <= DI_LONG_3_ID).count() +
+                    int countDiLong = (int) ((int) clan.clanThanThus.stream()
+                            .filter(t -> t.getPetItem().id >= DI_LONG_1_ID && t.getPetItem().id <= DI_LONG_3_ID).count()
+                            +
                             clan.items.stream().filter(i -> i.id == TRUNG_DI_LONG_ID).count());
 
-                    int countHoaLong = (int) clan.clanThanThus.stream().filter(t -> t.getPetItem().id == HOA_LONG_ID).count();
-                    int countHaiMa = (int) ((int) clan.clanThanThus.stream().filter(t -> t.getPetItem().id >= HAI_MA_1_ID && t.getPetItem().id <= HAI_MA_1_ID).count() + clan.items.stream().filter(i -> i.id == TRUNG_HAI_MA_ID).count());
+                    int countHoaLong = (int) clan.clanThanThus.stream().filter(t -> t.getPetItem().id == HOA_LONG_ID)
+                            .count();
+                    int countHaiMa = (int) ((int) clan.clanThanThus.stream()
+                            .filter(t -> t.getPetItem().id >= HAI_MA_1_ID && t.getPetItem().id <= HAI_MA_1_ID).count()
+                            + clan.items.stream().filter(i -> i.id == TRUNG_HAI_MA_ID).count());
                     if (sell.id == TRUNG_DI_LONG_ID) {
                         if (countDiLong + countHoaLong == 2) {
                             p.endLoad(false);
@@ -475,7 +485,9 @@ public class GameScr {
                 final Item item = sell.clone();
                 item.quantity = num;
                 for (short i = 0; i < item.option.size(); ++i) {
-                    item.option.get(i).param = util.nextInt(item.getOptionShopMin(item.option.get(i).id, item.option.get(i).param), item.option.get(i).param);
+                    item.option.get(i).param = util.nextInt(
+                            item.getOptionShopMin(item.option.get(i).id, item.option.get(i).param),
+                            item.option.get(i).param);
                 }
                 if (sell.id == TRUNG_HAI_MA_ID || sell.id == Constants.TRUNG_DI_LONG_ID) {
                     item.isExpires = true;
@@ -505,7 +517,9 @@ public class GameScr {
                 m.cleanup();
 
             }
-        } else if ((!data.isUpToUp && p.nj.getAvailableBag() >= num) || (data.isUpToUp && p.nj.getIndexBagid(sell.id, sell.isLock()) != -1) || (data.isUpToUp && p.nj.getAvailableBag() > 0)) {
+        } else if ((!data.isUpToUp && p.nj.getAvailableBag() >= num)
+                || (data.isUpToUp && p.nj.getIndexBagid(sell.id, sell.isLock()) != -1)
+                || (data.isUpToUp && p.nj.getAvailableBag() > 0)) {
             if (p.nj.xu < buycoin) {
                 p.session.sendMessageLog("Không đủ xu");
                 return;
@@ -572,13 +586,15 @@ public class GameScr {
         final Item item2 = p.nj.getIndexBag(index2);
         final Item item3 = p.nj.getIndexBag(index3);
         if (item1 != null && item2 != null && item3 != null) {
-            if (!ItemData.isTypeBody(item1.id) || !ItemData.isTypeBody(item2.id) || (item3.id != 269 && item3.id != 270 && item3.id != 271)) {
+            if (!ItemData.isTypeBody(item1.id) || !ItemData.isTypeBody(item2.id)
+                    || (item3.id != 269 && item3.id != 270 && item3.id != 271)) {
                 p.session.sendMessageLog("Chỉ chọn trang bị và Chuyển hóa");
                 return;
             }
             final ItemData data1 = ItemData.ItemDataId(item1.id);
             final ItemData data2 = ItemData.ItemDataId(item2.id);
-            if (item1.getUpgrade() == 0 || item2.getUpgrade() > 0 || (item3.id == 269 && item1.getUpgrade() > 10) || (item3.id == 270 && item1.getUpgrade() > 13)) {
+            if (item1.getUpgrade() == 0 || item2.getUpgrade() > 0 || (item3.id == 269 && item1.getUpgrade() > 10)
+                    || (item3.id == 270 && item1.getUpgrade() > 13)) {
                 p.session.sendMessageLog("Vật phẩm chuyển hóa không hợp lệ");
                 return;
             }
@@ -640,7 +656,6 @@ public class GameScr {
                 id = (short) (j + 1);
             }
         }
-
 
         try {
             if (id >= 12) {
@@ -787,7 +802,6 @@ public class GameScr {
             }
         }
 
-
         if (type == 1) {
             percent *= (int) 1.5;
             gold = GameScr.goldUps[item.getUpgrade()];
@@ -926,7 +940,6 @@ public class GameScr {
             }
         }
 
-
         m = new Message(22);
         m.writer().writeByte(num2);
         for (byte j = 0; j < num2; ++j) {
@@ -955,7 +968,6 @@ public class GameScr {
             p.session.sendMessageLog("Cần có phiếu may mắn.");
             return;
         }
-
 
         short[] itemIds;
         int MAX_LEVEL = p.nj.getLevel() - p.nj.getLevel() % 10 + 10;
@@ -986,7 +998,6 @@ public class GameScr {
         } else {
             itemIds = LAT_HINH_ID;
         }
-
 
         final short id = itemIds[util.nextInt(itemIds.length)];
         /**
@@ -1036,7 +1047,6 @@ public class GameScr {
         m.cleanup();
     }
 
-
     public static void LuyenThach(User p, Message m) throws IOException {
         byte[] arrItem = new byte[m.reader().available()];
 
@@ -1084,7 +1094,6 @@ public class GameScr {
         }
 
     }
-
 
     public static void TinhLuyen(final User p, final Message m) throws IOException {
         final byte index = m.reader().readByte();
@@ -1346,7 +1355,6 @@ public class GameScr {
         util.Debug(index + " " + item.id);
     }
 
-
     @SneakyThrows
     public static void requestMapTemplate(User user, Message m) {
 
@@ -1440,7 +1448,6 @@ public class GameScr {
                 }
             }
 
-
             if (coins <= p.nj.yen) {
                 p.nj.upyen(-coins);
             } else {
@@ -1452,7 +1459,6 @@ public class GameScr {
             m.cleanup();
             item.setLock(true);
             ngocItem.setLock(true);
-
 
             if (suc) {
                 item.ngocs.add(ngocItem);
@@ -1514,7 +1520,6 @@ public class GameScr {
             } catch (Exception e) {
             }
 
-
             int oldUpGrad = getNextUpgrade(mainItem.option.get(i).param);
 
             mainItem.option.get(i).param += exp;
@@ -1529,14 +1534,14 @@ public class GameScr {
             p.sendMessage(m2);
             m2.cleanup();
 
-
         } else if (type == 2) {
             // Got ngoc
 
             try {
 
                 Item item = p.nj.ItemBag[indexUI];
-                if (item == null) return;
+                if (item == null)
+                    return;
                 if (p.nj.xu < GameScr.xuGotNgoc.get((int) item.getUpgrade())) {
                     p.sendYellowMessage("Không đủ xu để gọt");
                     p.endLoad(true);
@@ -1589,8 +1594,9 @@ public class GameScr {
 
             for (Option option : mainItem.option) {
                 if (ItemData.PARAMS.containsKey(option.id)) {
-                    option.param += (option.param / Math.abs(option.param)) * util.nextInt((int) (0.4 * ItemData.PARAMS.get(option.id)),
-                            (int) (0.7 * ItemData.PARAMS.get(option.id)));
+                    option.param += (option.param / Math.abs(option.param))
+                            * util.nextInt((int) (0.4 * ItemData.PARAMS.get(option.id)),
+                                    (int) (0.7 * ItemData.PARAMS.get(option.id)));
                 }
             }
 
@@ -1653,7 +1659,6 @@ public class GameScr {
         return 1;
     }
 
-
     public static void requestRankedInfo(User p, String ninjaName) {
         try {
             final User user = KageTournament.gi().getUserByNinjaName(ninjaName);
@@ -1667,19 +1672,24 @@ public class GameScr {
 
     static {
         GameScr.server = Server.getInstance();
-        upClothe = new int[]{4, 9, 33, 132, 177, 256, 656, 2880, 3968, 6016, 13440, 54144, 71680, 108544, 225280, 1032192};
-        upAdorn = new int[]{6, 14, 50, 256, 320, 512, 1024, 5120, 6016, 9088, 19904, 86016, 108544, 166912, 360448, 1589248};
-        upWeapon = new int[]{18, 42, 132, 627, 864, 1360, 2816, 13824, 17792, 26880, 54016, 267264, 315392, 489472, 1032192, 4587520};
-        coinUpCrystals = new int[]{10, 40, 160, 640, 2560, 10240, 40960, 163840, 655360, 1310720, 3932160, 11796480};
-        crystals = new int[]{1, 4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 1048576, 3096576};
-        coinUpClothes = new int[]{120, 270, 990, 3960, 5310, 7680, 19680, 86400, 119040, 180480, 403200, 1624320, 2150400, 3256320, 6758400, 10137600};
-        coinUpAdorns = new int[]{180, 420, 1500, 7680, 9600, 15360, 30720, 153600, 180480, 272640, 597120, 2580480, 3256320, 5007360, 10813440, 16220160};
-        coinUpWeapons = new int[]{540, 1260, 3960, 18810, 25920, 40800, 84480, 414720, 533760, 806400, 1620480, 8017920, 9461760, 14684160, 22026240, 33039360};
-        goldUps = new int[]{1, 2, 3, 4, 5, 10, 15, 20, 50, 100, 150, 200, 300, 400, 500, 600};
-        maxPercents = new int[]{100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
-//        maxPercents = new int[]{80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5};
-        ArryenLuck = new int[]{1_000_000, 2_000_000};
-        ArrdayLuck = new byte[]{3, 7, 15, 30};
+        upClothe = new int[] { 4, 9, 33, 132, 177, 256, 656, 2880, 3968, 6016, 13440, 54144, 71680, 108544, 225280,
+                1032192 };
+        upAdorn = new int[] { 6, 14, 50, 256, 320, 512, 1024, 5120, 6016, 9088, 19904, 86016, 108544, 166912, 360448,
+                1589248 };
+        upWeapon = new int[] { 18, 42, 132, 627, 864, 1360, 2816, 13824, 17792, 26880, 54016, 267264, 315392, 489472,
+                1032192, 4587520 };
+        coinUpCrystals = new int[] { 10, 40, 160, 640, 2560, 10240, 40960, 163840, 655360, 1310720, 3932160, 11796480 };
+        crystals = new int[] { 1, 4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 1048576, 3096576 };
+        coinUpClothes = new int[] { 120, 270, 990, 3960, 5310, 7680, 19680, 86400, 119040, 180480, 403200, 1624320,
+                2150400, 3256320, 6758400, 10137600 };
+        coinUpAdorns = new int[] { 180, 420, 1500, 7680, 9600, 15360, 30720, 153600, 180480, 272640, 597120, 2580480,
+                3256320, 5007360, 10813440, 16220160 };
+        coinUpWeapons = new int[] { 540, 1260, 3960, 18810, 25920, 40800, 84480, 414720, 533760, 806400, 1620480,
+                8017920, 9461760, 14684160, 22026240, 33039360 };
+        goldUps = new int[] { 1, 2, 3, 4, 5, 10, 15, 20, 50, 100, 150, 200, 300, 400, 500, 600 };
+        maxPercents = new int[] { 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
+        ArryenLuck = new int[] { 1_000_000, 2_000_000 };
+        ArrdayLuck = new byte[] { 3, 7, 15, 30 };
         // TODO
         // Task ID,
     }
