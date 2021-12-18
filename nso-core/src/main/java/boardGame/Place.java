@@ -2441,7 +2441,7 @@ public class Place {
                 if (im != null) {
                     int quantity = 1;
                     if (im.item.id == 12) {
-                        quantity = util.nextInt(1000, 5000);
+                        quantity = util.nextInt(1000, 3000);
                     }
                     if (im.item.id == 455 || im.item.id == 456) {
                         im.item.isExpires = true;
