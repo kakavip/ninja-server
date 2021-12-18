@@ -1688,7 +1688,7 @@ public class GameScr {
                 8017920, 9461760, 14684160, 22026240, 33039360 };
         goldUps = new int[] { 1, 2, 3, 4, 5, 10, 15, 20, 50, 100, 150, 200, 300, 400, 500, 600 };
         maxPercents = new int[] { 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
-        ArryenLuck = new int[] { 1_000_000, 2_000_000 };
+        ArryenLuck = new int[] { 10_000, 20_000 };
         ArrdayLuck = new byte[] { 3, 7, 15, 30 };
         // TODO
         // Task ID,
