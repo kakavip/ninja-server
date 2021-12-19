@@ -666,6 +666,7 @@ public class TaskList {
                                                 .counts(new int[] {
                                                                 -1, 100, -1
                                                 })
+                                                .bypass(true)
                                                 .build(),
 
                                 builder()
