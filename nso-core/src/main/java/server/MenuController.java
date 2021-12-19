@@ -1373,7 +1373,7 @@ public class MenuController {
                                                 "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
                                         if (util.nextInt(0, 100) <= 30) {
-                                            p.upluongMessage(util.nextInt(100, 300));
+                                            p.upluongMessage(util.nextInt(30, 100));
                                         } else {
                                             p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 5, MAX_YEN_NVHN * 5));
                                         }
@@ -1448,7 +1448,7 @@ public class MenuController {
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 2)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 1)) {
                                             if (util.nextInt(0, 100) <= 30) {
-                                                p.upluongMessage(util.nextInt(100, 300));
+                                                p.upluongMessage(util.nextInt(30, 100));
                                             } else {
                                                 p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 5, MAX_YEN_NVHN * 5));
                                             }
