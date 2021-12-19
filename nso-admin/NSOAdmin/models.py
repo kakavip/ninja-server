@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models.fields import IntegerField
 from jsonfield import JSONField
+from django.db.models import Sum
+import json
 
 
 class Player(models.Model):
@@ -32,3 +35,86 @@ class Player(models.Model):
 
     def __str__(self) -> str:
         return f"{self.pk} - {self.username}"
+
+
+class Ninja(models.Model):
+    NINJA_CLASSES = (
+        (1, "KIEM"),
+        (2, "PHI TIEU"),
+        (3, "KUNAI"),
+        (4, "CUNG"),
+        (5, "DAO"),
+        (6, "QUAT"),
+    )
+
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(blank=False, null=False, max_length=30)
+    _class = models.IntegerField(
+        blank=False, null=False, default=0, db_column="class", choices=NINJA_CLASSES
+    )
+    skill = JSONField(blank=True, null=True, default=[])
+    spoint = models.IntegerField(default=0, blank=False, null=False)
+    ppoint = models.IntegerField(default=0, blank=False, null=False)
+    potential0 = models.IntegerField(default=5, blank=False, null=False)
+    potential1 = models.IntegerField(default=5, blank=False, null=False)
+    potential2 = models.IntegerField(default=5, blank=False, null=False)
+    potential3 = models.IntegerField(default=10, blank=False, null=False)
+    k_skill = JSONField(blank=True, null=True, default="[-1,-1,-1]", db_column="KSkill")
+    o_skill = JSONField(
+        blank=True, null=True, default="[-1,-1,-1,-1,-1]", db_column="OSkill"
+    )
+    level = models.IntegerField(blank=True, null=True, default=0)
+    yen = models.IntegerField(blank=True, null=True, default=0)
+    xu = models.IntegerField(blank=True, null=True, default=0)
+
+    class Meta:
+        db_table = "ninja"
+
+    def save(
+        self,
+        *args,
+        **kwargs,
+    ) -> None:
+        try:
+            obj: Ninja = Ninja.objects.get(id=self.id)
+            if obj._class != self._class:
+                self.transfer_class(self._class)
+        except:
+            pass
+        return super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f"{self.id} - {self.name}"
+
+    def transfer_class(self, _class: int):
+        from NSOAdmin.models import Level
+
+        self._class = _class
+        self.skill = []
+        self.o_skill = [-1, -1, -1, -1, -1]
+        self.k_skill = [-1, -1, -1]
+
+        self.potential0 = 5
+        self.potential1 = 5
+        self.potential2 = 5
+        self.potential3 = 10
+
+        point_data: dict = Level.objects.filter(level__lte=self.level).aggregate(
+            Sum("spoint"), Sum("ppoint")
+        )
+        self.ppoint = point_data["ppoint__sum"]
+        self.spoint = point_data["spoint__sum"]
+
+
+class Level(models.Model):
+    level = models.IntegerField(primary_key=True)
+    exps = models.BigIntegerField(blank=True, default=0, null=True)
+    ppoint = models.IntegerField(blank=True, null=True, default=0)
+    spoint = models.IntegerField(blank=True, null=True, default=0)
+
+    class Meta:
+        db_table = "level"
+        ordering = ["level"]
+
+    def __str__(self) -> str:
+        return f"Level {self.level}"
