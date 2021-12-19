@@ -343,18 +343,16 @@ public class Place {
             m.writer().writeByte(-54);
             m.writer().writeInt(b.id);
             for (byte i = 0; i < 5; ++i) {
-                if (b.ItemMounts != null) {
-                    final Item item = b.ItemMounts[i];
-                    if (item != null) {
-                        m.writer().writeShort(item.id);
-                        m.writer().writeByte(item.getUpgrade());
-                        m.writer().writeLong(item.expires);
-                        m.writer().writeByte(item.sys);
-                        m.writer().writeByte(item.option.size());
-                        for (final Option Option : item.option) {
-                            m.writer().writeByte(Option.id);
-                            m.writer().writeInt(Option.param);
-                        }
+                final Item item = b.ItemMounts[i];
+                if (item != null) {
+                    m.writer().writeShort(item.id);
+                    m.writer().writeByte(item.getUpgrade());
+                    m.writer().writeLong(item.expires);
+                    m.writer().writeByte(item.sys);
+                    m.writer().writeByte(item.option.size());
+                    for (final Option Option : item.option) {
+                        m.writer().writeByte(Option.id);
+                        m.writer().writeInt(Option.param);
                     }
                 } else {
                     m.writer().writeShort(-1);
