@@ -37,8 +37,8 @@ public class MenuController {
 
     public static final String MSG_HANH_TRANG = "Hành trang không đủ chỗ trống";
 
-    public static final int MIN_YEN_NVHN = 1000;
-    public static final int MAX_YEN_NVHN = 1500;
+    public static final int MIN_YEN_NVHN = 300;
+    public static final int MAX_YEN_NVHN = 400;
 
     Server server;
 
@@ -1373,9 +1373,11 @@ public class MenuController {
                                                 "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
                                         if (util.nextInt(0, 100) <= 30) {
-                                            p.upluongMessage(util.nextInt(30, 100));
+                                            p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
                                         } else {
-                                            p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 5, MAX_YEN_NVHN * 5));
+                                            p.nj.upyenMessage(
+                                                    util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
+                                                            MAX_YEN_NVHN * p.nj.getLevel()));
                                         }
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 1)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 3)) {
@@ -1448,9 +1450,11 @@ public class MenuController {
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 2)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 1)) {
                                             if (util.nextInt(0, 100) <= 30) {
-                                                p.upluongMessage(util.nextInt(30, 100));
+                                                p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
                                             } else {
-                                                p.nj.upyenMessage(util.nextInt(MIN_YEN_NVHN * 5, MAX_YEN_NVHN * 5));
+                                                p.nj.upyenMessage(
+                                                        util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
+                                                                MAX_YEN_NVHN * p.nj.getLevel()));
                                             }
 
                                             p.nj.upMainTask();
@@ -2574,7 +2578,7 @@ public class MenuController {
         }
         for (short i : idThuong) {
             if (i == 12) {
-                val quantity = util.nextInt(100_000_000, 150_000_000);
+                val quantity = util.nextInt(10_000_000, 15_000_000);
                 p.nj.upyen(quantity);
             } else {
                 Item item = ItemData.itemDefault(i);
