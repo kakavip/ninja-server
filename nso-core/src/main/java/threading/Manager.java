@@ -227,7 +227,7 @@ public class Manager {
 
             ITEM_LV_10 = getListItemByMaxLevel(10, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
             ITEM_LV_20 = getListItemByMaxLevel(20, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_30 = getListItemByMaxLevel(30, MAX_PERCENT, N_YEN, N_DA, N_HP_MP;
+            ITEM_LV_30 = getListItemByMaxLevel(30, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
             ITEM_LV_40 = getListItemByMaxLevel(40, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
             ITEM_LV_50 = getListItemByMaxLevel(50, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
             ITEM_LV_60 = getListItemByMaxLevel(60, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
