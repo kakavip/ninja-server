@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from NSOAdmin.views import server_list
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-]
+
+urlpatterns = [path("admin/", admin.site.urls), path("nja.txt", server_list)]
 
 urlpatterns += staticfiles_urlpatterns()
