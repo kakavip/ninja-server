@@ -2269,14 +2269,19 @@ public class Place {
                 if (curMob.lvboss == 1) {
                     --this.numTA;
 
-                    val yen = util.nextInt((int) (curMob.level * YEN_TA * 90 / 100), (int) (curMob.level * YEN_TA));
-                    body.c.upyenMessage(yen);
-                    p.sendYellowMessage("Bạn nhận được " + yen + " yên");
+                    if (Math.abs(p.nj.getLevel() - curMob.level) <= 10) {
+                        val yen = util.nextInt((int) (curMob.level * YEN_TA * 90 / 100), (int) (curMob.level * YEN_TA));
+                        body.c.upyenMessage(yen);
+                        p.sendYellowMessage("Bạn nhận được " + yen + " yên");
+                    }
                 } else if (curMob.lvboss == 2) {
                     --this.numTL;
-                    val yen = util.nextInt((int) (curMob.level * YEN_TL * 90 / 100), (int) (curMob.level * YEN_TL));
-                    body.c.upyenMessage(yen);
-                    p.sendYellowMessage("Bạn nhận được " + yen + " yên");
+
+                    if (Math.abs(p.nj.getLevel() - curMob.level) <= 10) {
+                        val yen = util.nextInt((int) (curMob.level * YEN_TL * 90 / 100), (int) (curMob.level * YEN_TL));
+                        body.c.upyenMessage(yen);
+                        p.sendYellowMessage("Bạn nhận được " + yen + " yên");
+                    }
                 }
             } else {
                 if (curMob.lvboss == 1) {

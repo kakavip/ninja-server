@@ -27,6 +27,7 @@ public class TaskOrder implements Serializable, Cloneable {
     private String name;
     @Nullable
     private String description;
+
     public TaskOrder() {
 
     }
@@ -68,13 +69,17 @@ public class TaskOrder implements Serializable, Cloneable {
             o.setMaxCount(util.nextInt(20, 25));
             return o;
         }
+        val randLevel = util.nextInt(level + 3, level - 3);
+
         Map[] maps = Server.getInstance().getMaps();
         for (int i = 0, mapsLength = maps.length; i < mapsLength; i++) {
             Server.getInstance();
             Map map = Server.getMapById(i);
-            if (map.isLangCo() || map.VDMQ()) continue;
-            if (map.haveMobLevel(level)) {
-                nvhnTask.put(level, new TaskOrder(0, util.nextInt(20, 25), TaskOrder.NHIEM_VU_HANG_NGAY, map.getMobRandomMobId(), map.id));
+            if (map.isLangCo() || map.VDMQ())
+                continue;
+            if (map.haveMobLevel(randLevel)) {
+                nvhnTask.put(level, new TaskOrder(0, util.nextInt(20, 25), TaskOrder.NHIEM_VU_HANG_NGAY,
+                        map.getMobRandomMobId(), map.id));
                 return nvhnTask.get(level).cloneObj();
             }
         }
@@ -92,9 +97,11 @@ public class TaskOrder implements Serializable, Cloneable {
             for (int i = 0, mapsLength = maps.length; i < mapsLength; i++) {
                 Server.getInstance();
                 Map map = Server.getMapById(i);
-                if (map.isLangCo() || map.VDMQ()) continue;
+                if (map.isLangCo() || map.VDMQ())
+                    continue;
                 val mobLv3 = map.getMobLevel3(level);
-                if (mobLv3 == -1) continue;
+                if (mobLv3 == -1)
+                    continue;
 
                 beastTasks.put(level, new TaskOrder(0, 1, TaskOrder.NHIEM_VU_TA_THU, mobLv3, map.id));
                 val t = beastTasks.get(level).cloneObj();

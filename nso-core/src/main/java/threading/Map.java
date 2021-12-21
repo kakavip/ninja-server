@@ -18,7 +18,6 @@ import static interfaces.IBattle.*;
 
 public class Map extends Thread {
 
-
     public int id;
     public long timeMap;
     protected boolean runing;
@@ -38,7 +37,7 @@ public class Map extends Thread {
     protected java.util.Map<Integer, Integer> levelToMobId;
     @NotNull
     // 0: la id, 1: level
-    private int[] taThu = new int[]{-1, -1};
+    private int[] taThu = new int[] { -1, -1 };
 
     protected Map() {
     }
@@ -68,8 +67,7 @@ public class Map extends Thread {
                     id == HAC_DAI_ID ||
                     id == HANH_LANG_TREN ||
                     id == HANH_LANG_DUOI ||
-                    id == HANH_LANG_GIUA
-            ) {
+                    id == HANH_LANG_GIUA) {
                 this.area[i].battle = Server.getInstance().globalBattle;
             }
         }
@@ -78,7 +76,6 @@ public class Map extends Thread {
         this.initMob();
         this.runing = true;
         lastTimeActive = System.currentTimeMillis();
-
 
         this.start();
     }
@@ -96,7 +93,8 @@ public class Map extends Thread {
 
         for (byte i = 0; i < tileMap.template.npc.length; i = (byte) (i + 1)) {
             Npc npc = tileMap.template.npc[i];
-            if (npc != null && npc.id == npcTemplateId && Math.abs(ninja.x - npc.x) <= 60 && Math.abs(ninja.y - npc.y) <= 60) {
+            if (npc != null && npc.id == npcTemplateId && Math.abs(ninja.x - npc.x) <= 60
+                    && Math.abs(ninja.y - npc.y) <= 60) {
                 return true;
             }
         }
@@ -108,7 +106,7 @@ public class Map extends Thread {
     }
 
     public boolean isChienTruongKeo() {
-        return id>=130 && id <= 133;
+        return id >= 130 && id <= 133;
     }
 
     public boolean isGtcMap() {
@@ -174,16 +172,7 @@ public class Map extends Thread {
         if (level >= 100) {
             level = 100;
         }
-        val minLv = level - level % 10;
-        val maxLevel = level + 10;
-
-        for (int i = minLv; i <= maxLevel; i++) {
-            if (this.levelToMobId.containsKey(i)) {
-                return true;
-            }
-        }
-
-        return false;
+        return this.levelToMobId.containsKey(level)
     }
 
     public void refreshBoss(final int area) {
@@ -332,7 +321,7 @@ public class Map extends Thread {
                         return this.area[i];
                     }
                 }
-                if(this.area[i].getCandyBattle() == null){
+                if (this.area[i].getCandyBattle() == null) {
                     return this.area[i];
                 }
             }
@@ -341,13 +330,16 @@ public class Map extends Thread {
     }
 
     public static boolean notCombat(int mapId) {
-        return (mapId == 1 || mapId == 10 || mapId == 17 || mapId == 22 || mapId == 27 || mapId == 32 || mapId == 38 || mapId == 43 || mapId == 48 || mapId == 72);
+        return (mapId == 1 || mapId == 10 || mapId == 17 || mapId == 22 || mapId == 27 || mapId == 32 || mapId == 38
+                || mapId == 43 || mapId == 48 || mapId == 72);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Map map = (Map) o;
         return id == map.id;
     }
@@ -366,12 +358,13 @@ public class Map extends Thread {
     }
 
     static {
-        arrLang = new int[]{10, 17, 22, 32, 38, 43, 48};
-        arrTruong = new int[]{1, 27, 72};
+        arrLang = new int[] { 10, 17, 22, 32, 38, 43, 48 };
+        arrTruong = new int[] { 1, 27, 72 };
     }
 
     public int getMobLevel3(int level) {
-        if (taThu[0] == -1 || taThu[1] == -1) return -1;
+        if (taThu[0] == -1 || taThu[1] == -1)
+            return -1;
         if (level > 100) {
             level = 100;
         }

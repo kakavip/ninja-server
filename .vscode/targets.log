@@ -7,20 +7,16 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 
 # This program built for i386-apple-darwin11.3.0
 
-# Make data base, printed on Sun Dec 19 13:57:53 2021
+# Make data base, printed on Tue Dec 21 11:13:31 2021
 
 # Variables
 
-# environment
-VSCODE_GIT_ASKPASS_MAIN = /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 RUBY_VERSION = ruby-2.4.6
 # automatic
 ?F = $(notdir $?)
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 PROVIDE_FULLSTACK_ACTION = true
 # environment
@@ -45,26 +41,16 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 _ = /usr/bin/make
 # environment
 DVM_DIR = /Users/kakavip/.dvm
-# environment
-VSCODE_PID = 1183
 # makefile
 MAKEFILE_LIST := 
-# environment
-rvm_ruby_mode = 
-# environment
-rvm_ruby_make = 
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-rvm_proxy = 
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-ipc-33ff7d8f-72a1-4027-9282-fcd21196b00e.sock
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-ipc-21759424-4339-431c-b2ec-fcba7123f9e4.sock
-# environment
-VSCODE_CWD = /Users/kakavip/Developers/games/sourcecode/ninja-server
-# environment
-rvm_pretty_print_flag = 
+VSCODE_CWD = /
 # environment
 PATH = /usr/local/opt/maven@3.5/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6/bin:/Users/kakavip/.rvm/gems/ruby-2.4.6@global/bin:/Users/kakavip/.rvm/rubies/ruby-2.4.6/bin:/Users/kakavip/flutter/bin:/Users/kakavip/.dvm/bin:/usr/local/opt/ncurses/bin:/Users/kakavip/.local/bin:/Users/kakavip/.nvm/versions/node/v12.20.0/bin:/Users/kakavip/.cargo/bin:/Users/kakavip/.deno/bin:/Users/kakavip/miniconda3/bin:/Users/kakavip/miniconda3/condabin:/Users/kakavip/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/kakavip/Library/Android/sdk/emulator:/Users/kakavip/Library/Android/sdk/tools:/Users/kakavip/Library/Android/sdk/tools/bin:/Users/kakavip/Library/Android/sdk/platform-tools:/Users/kakavip/.rvm/bin
 # environment
@@ -72,23 +58,13 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
 GOLANG_EXECUTABLE = go
 # environment
-rvm_niceness = 
-# environment
 THREE_SCALE_USER_TOKEN = 207c527cfc2a6b8dcf4fa43ad7a976da
 # environment
 NVM_BIN = /Users/kakavip/.nvm/versions/node/v12.20.0/bin
 # environment
-rvm_only_path_flag = 
-# environment
-LaunchInstanceID = 772BE2D7-2B0E-4D3D-B7C8-B7DB4481C9CB
-# environment
-rvm_gemstone_package_file = 
-# environment
 VSCODE_LOG_STACK = false
 # environment
 ELECTRON_RUN_AS_NODE = 1
-# environment
-rvm_alias_expanded = 
 # environment
 ANDROID_HOME = /Users/kakavip/Library/Android/sdk
 # default
@@ -96,7 +72,7 @@ ANDROID_HOME = /Users/kakavip/Library/Android/sdk
 # environment
 UUID = 3e1eb936-af4e-43ee-bfbb-c8e6d868865b
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.KqKHR0fPV6/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.qoM0AiQis1/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -110,10 +86,6 @@ PWD = /Users/kakavip/Developers/games/sourcecode/ninja-server
 # environment
 GEM_HOME = /Users/kakavip/.rvm/gems/ruby-2.4.6
 # environment
-rvm_docs_type = 
-# environment
-rvm_script_name = 
-# environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
@@ -121,8 +93,6 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProce
 HOME = /Users/kakavip
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
-# environment
-VSCODE_CLI = 1
 # environment
 VSCODE_CODE_CACHE_PATH = /Users/kakavip/Library/Application Support/Code/CachedData/899d46d82c4c95423fb7e10e68eba52050e30ba3
 # environment
@@ -142,19 +112,11 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
-rvm_ruby_bits = 
-# environment
-MAKELEVEL := 0
-# environment
 GEM_PATH = /Users/kakavip/.rvm/gems/ruby-2.4.6:/Users/kakavip/.rvm/gems/ruby-2.4.6@global
 # environment
 CONDA_DEFAULT_ENV = base
 # environment
 XPC_FLAGS = 0x0
-# environment
-COLORTERM = truecolor
-# environment
-rvm_ruby_make_install = 
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -162,9 +124,7 @@ MAKECMDGOALS := all
 # environment
 IRBRC = /Users/kakavip/.rvm/rubies/ruby-2.4.6/.irbrc
 # environment
-SHLVL = 3
-# environment
-rvm_quiet_flag = 
+SHLVL = 1
 # environment
 JAVA_HOME = /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 # default
@@ -185,10 +145,6 @@ CONDA_SHLVL = 1
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
 # environment
 UTM_SOURCE = vscode
-# environment
-VSCODE_GIT_ASKPASS_EXTRA_ARGS = --ms-enable-electron-run-as-node
-# environment
-TERM_PROGRAM = vscode
 # default
 .VARIABLES := 
 # environment
@@ -197,8 +153,6 @@ TMPDIR = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/
 *F = $(notdir $*)
 # environment
 VSCODE_IPC_HOOK = /Users/kakavip/Library/Application Support/Code/1.63.2-main.sock
-# environment
-VSCODE_GIT_ASKPASS_NODE = /Applications/Visual Studio Code.app/Contents/MacOS/Electron
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -206,11 +160,9 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-TERM_PROGRAM_VERSION = 1.63.2
-# environment
 NVM_DIR = /Users/kakavip/.nvm
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.12960672825.12960672831.9CB8A1B2-739E-43D4-9408-68BA205B87E1
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.12960672825.12960672831
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
@@ -218,33 +170,21 @@ RECOMMENDER_API_URL = https://gw.api.openshift.io//api/v2
 # automatic
 +F = $(notdir $+)
 # environment
-rvm_sdk = 
-# environment
 DENO_INSTALL = /Users/kakavip/.deno
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
 COMMAND_MODE = unix2003
-# environment
-GIT_ASKPASS = /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
 # default
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
 # environment
-rvm_silent_flag = 
-# environment
-rvm_gemstone_url = 
-# environment
 PAGER = less
 # environment
 LC_ALL = C
 # environment
-rvm_bin_flag = 
-# environment
 CONDA_PYTHON_EXE = /Users/kakavip/miniconda3/bin/python
-# environment
-SECURITYSESSIONID = 186a6
 # automatic
 ^F = $(notdir $^)
 # environment
@@ -253,30 +193,22 @@ rvm_prefix = /Users/kakavip
 SUFFIXES := 
 # environment
 _CE_M = 
-# environment
-rvm_ruby_file = 
 # default
 .INCLUDE_DIRS = /usr/local/include
 # environment
-VSCODE_GIT_IPC_HANDLE = /var/folders/1z/4z66z5mn291_nh35frx9j_6w0000gn/T/vscode-git-0298a1799c.sock
+MAKELEVEL := 0
 # environment
 CONDA_PREFIX = /Users/kakavip/miniconda3
 # environment
-TERM = xterm-256color
-# environment
-rvm_use_flag = 
-# environment
-rvm_hook = 
+VSCODE_PID = 65645
 # environment
 MY_RUBY_HOME = /Users/kakavip/.rvm/rubies/ruby-2.4.6
 # environment
 _CE_CONDA = 
 # environment
 LANG = C
-# environment
-rvm_nightly_flag = 
 # variable set hash-table stats:
-# Load=132/1024=13%, Rehash=0, Collisions=11/153=7%
+# Load=98/1024=10%, Rehash=0, Collisions=4/119=3%
 
 # Pattern-specific Variable Values
 
@@ -284,9 +216,9 @@ rvm_nightly_flag =
 
 # Directories
 
-# . (device 16777221, inode 12959986179): 7 files, no impossibilities.
+# . (device 16777221, inode 12959986179): 8 files, no impossibilities.
 
-# 7 files, no impossibilities in 1 directories.
+# 8 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -299,9 +231,6 @@ all:
 #  Command-line target.
 #  Implicit rule search has been done.
 #  File does not exist.
- 
-make: *** No rule to make target `all'.  Stop.
- 
 #  File has not been updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
@@ -361,6 +290,8 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Sun Dec 19 13:57:53 2021
+# Finished Make data base on Tue Dec 21 11:13:31 2021
 
+ 
+make: *** No rule to make target `all'.  Stop.
  
