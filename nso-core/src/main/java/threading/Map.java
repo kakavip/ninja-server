@@ -180,7 +180,7 @@ public class Map extends Thread {
             if (modId == 0) {
                 return -1
             }
-            return this.levelToMobId.get(level);
+            return modId;
         }
 
         return -1;
