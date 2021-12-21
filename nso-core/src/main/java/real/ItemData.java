@@ -55,6 +55,8 @@ public class ItemData {
     public static final int TYPE_VU_KHI = 1;
     public static final int ID_SET_PHAI = -1;
     public static final int ID_SET_TRAI = 0;
+    public static final int TYPE_MP = 17;
+    public static final int TYPE_HP = 16;
 
     public static short[] ITEM_LV_10;
     public static short[] ITEM_LV_20;
@@ -353,14 +355,14 @@ public class ItemData {
             return item;
         } else if (id == 597) {
             // Can cau ca
-            val item = itemDefault(id, (byte) 0);
+            Item item = itemDefault(id, (byte) 0);
             item.isExpires = true;
             item.setLock(true);
             item.expires = util.TimeDay(3);
             return item;
         } else if (id == 572) {
             // Thien bien lenh
-            val item = itemDefault(id, (byte) 0);
+            Item item = itemDefault(id, (byte) 0);
             item.isExpires = true;
             item.setLock(true);
             item.expires = util.TimeHours(5);
@@ -471,10 +473,50 @@ public class ItemData {
         if (maxLevel >= 100) {
             maxLevel = 100;
         }
-        val minLevel = maxLevel - 10;
-        List<Short> itemIds = new ArrayList<>();
+        int minLevel = maxLevel - 10;
 
+        // get hpmp level
+        int hpMpLevel = 0;
+        switch (maxLevel) {
+            case 10:
+                hpMpLevel = 1;
+                break;
+            case 20:
+            case 30:
+                hpMpLevel = 10;
+                break;
+            case 40:
+            case 50:
+                hpMpLevel = 30;
+                break;
+            case 60:
+            case 70:
+                hpMpLevel = 50;
+                break;
+            case 80:
+            case 90:
+                hpMpLevel = 70;
+                break;
+            case 100:
+            case 110:
+            case 120:
+            case 130:
+            case 140:
+                hpMpLevel = 90;
+                break;
+            default:
+                break;
+        }
+
+        List<Short> itemIds = new ArrayList<>();
         for (ItemData item : entrys.values()) {
+            // get hpmp item id
+            if ((type == (byte) TYPE_HP || type == (byte) TYPE_MP)) {
+                if (item.level == hpMpLevel && item.type == type) {
+                    itemIds.add(item.id);
+                }
+            }
+
             if (!(item.level <= maxLevel && item.level >= minLevel)) {
                 continue;
             }
@@ -488,13 +530,15 @@ public class ItemData {
                         itemIds.add(item.id);
                     }
                 }
+            } else if (type == (byte) TYPE_HP || type == (byte) TYPE_MP) {
+                // NOTe handle nothing
             } else if (type == item.type) {
                 if (item.level == minLevel) {
                     itemIds.add(item.id);
                 }
             }
         }
-        val result = new short[itemIds.size()];
+        short[] result = new short[itemIds.size()];
         for (int i = 0; i < itemIds.size(); i++) {
             result[i] = itemIds.get(i);
         }
@@ -514,15 +558,17 @@ public class ItemData {
         return type == 12;
     }
 
-    public static short[] getListItemByMaxLevel(int maxLv, int percent, byte nYen, byte nDa) {
+    public static short[] getListItemByMaxLevel(int maxLv, int percent, byte nYen, byte nDa, byte nHpMp) {
 
-        val setVuKhi = getItemIdByLevel(maxLv, (byte) 1, (byte) 2);
-        val set1 = getItemIdByLevel(maxLv, (byte) ID_SET_PHAI, (byte) 0);
-        val set2 = getItemIdByLevel(maxLv, (byte) ID_SET_PHAI, (byte) 1);
-        val set3 = getItemIdByLevel(maxLv, (byte) ID_SET_TRAI, (byte) 0);
-        val set4 = getItemIdByLevel(maxLv, (byte) ID_SET_TRAI, (byte) 1);
+        short[] setVuKhi = getItemIdByLevel(maxLv, (byte) 1, (byte) 2);
+        short[] set1 = getItemIdByLevel(maxLv, (byte) ID_SET_PHAI, (byte) 0);
+        short[] set2 = getItemIdByLevel(maxLv, (byte) ID_SET_PHAI, (byte) 1);
+        short[] set3 = getItemIdByLevel(maxLv, (byte) ID_SET_TRAI, (byte) 0);
+        short[] set4 = getItemIdByLevel(maxLv, (byte) ID_SET_TRAI, (byte) 1);
+        short[] setHp = getItemIdByLevel(maxLv, (byte) TYPE_HP, (byte) 2);
+        short[] setMp = getItemIdByLevel(maxLv, (byte) TYPE_MP, (byte) 2);
 
-        int total = setVuKhi.length + set1.length + set2.length + set3.length + set4.length + nYen + nDa;
+        int total = setVuKhi.length + set1.length + set2.length + set3.length + set4.length + nYen + nDa + nHpMp * 2;
         int nNull = total * 100 / percent - total;
 
         short[] items = new short[total + nNull];
@@ -542,6 +588,19 @@ public class ItemData {
         for (int j = 0; j < nYen; j++) {
             items[a] = (short) 12;
             a++;
+        }
+        for (int j = 0; j < nHpMp; j++) {
+            for (int n = 0; n < setHp.length; n++) {
+                items[a] = (short) setHp[n];
+                a++;
+
+                break;
+            }
+            for (int n = 0; n < setMp.length; n++) {
+                items[a] = (short) setMp[n];
+                a++;
+                break;
+            }
         }
 
         for (int j = 0; j < setVuKhi.length; j++) {
