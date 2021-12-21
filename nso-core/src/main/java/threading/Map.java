@@ -178,7 +178,7 @@ public class Map extends Thread {
 
             // NOTE bu nhin
             if (modId == 0) {
-                return -1
+                return -1;
             }
             return modId;
         }
