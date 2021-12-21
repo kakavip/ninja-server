@@ -77,9 +77,9 @@ public class TaskOrder implements Serializable, Cloneable {
             Map map = Server.getMapById(i);
             if (map.isLangCo() || map.VDMQ())
                 continue;
-            if (map.haveMobLevel(randLevel)) {
+            if (map.getMobIdByLevel(randLevel) != -1) {
                 nvhnTask.put(level, new TaskOrder(0, util.nextInt(20, 25), TaskOrder.NHIEM_VU_HANG_NGAY,
-                        map.getMobRandomMobId(), map.id));
+                        map.getMobIdByLevel(randLevel), map.id));
                 return nvhnTask.get(level).cloneObj();
             }
         }

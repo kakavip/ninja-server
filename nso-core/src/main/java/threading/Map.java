@@ -168,11 +168,16 @@ public class Map extends Thread {
         return mobIds.get(util.nextInt(mobIds.size()));
     }
 
-    public boolean haveMobLevel(int level) {
+    public Integer getMobIdByLevel(int level) {
         if (level >= 100) {
             level = 100;
         }
-        return this.levelToMobId.containsKey(level)
+
+        if (this.levelToMobId.containsKey(level)) {
+            return this.levelToMobId.get(level);
+        }
+
+        return -1;
     }
 
     public void refreshBoss(final int area) {
