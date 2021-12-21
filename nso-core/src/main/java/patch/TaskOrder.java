@@ -69,7 +69,7 @@ public class TaskOrder implements Serializable, Cloneable {
             o.setMaxCount(util.nextInt(20, 25));
             return o;
         }
-        val randLevel = util.nextInt(level + 3, level - 3);
+        val randLevel = util.nextInt(level + 5, level - 5);
 
         Map[] maps = Server.getInstance().getMaps();
         for (int i = 0, mapsLength = maps.length; i < mapsLength; i++) {
