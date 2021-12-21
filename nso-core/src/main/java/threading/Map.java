@@ -174,6 +174,12 @@ public class Map extends Thread {
         }
 
         if (this.levelToMobId.containsKey(level)) {
+            int modId = this.levelToMobId.get(level);
+
+            // NOTE bu nhin
+            if (modId == 0) {
+                return -1
+            }
             return this.levelToMobId.get(level);
         }
 
