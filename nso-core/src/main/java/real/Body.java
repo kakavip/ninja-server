@@ -1286,4 +1286,39 @@ public class Body implements ISoloer {
     public void setTypepk(short typepk) {
         this.typepk = typepk;
     }
+
+    public synchronized void updateExp(long xpup) {
+        final long xpold = this.getExp();
+
+        if (xpold >= 10711676205700L) {
+            xpup = 0;
+        }
+
+        this.setExp(this.getExp() + xpup);
+        final int oldLv = this.getLevel();
+        this.setLevel_Exp(this.getExp());
+
+        if (this.getLevel() > 130) {
+            this.setLevel(130);
+            this.setExp(xpold);
+            // xpup = 0;
+        }
+
+        if (oldLv < this.getLevel()) {
+            if (this.nclass != 0) {
+                for (int i = oldLv + 1; i <= this.getLevel(); ++i) {
+                    this.updatePpoint(this.getPpoint() + Level.getLevel(i).ppoint);
+                    this.setSpoint(this.getSpoint() + Level.getLevel(i).spoint);
+                }
+            } else {
+                for (int i = oldLv + 1; i <= this.getLevel(); ++i) {
+                    this.setPotential0(this.getPotential0() + 5);
+                    this.setPotential1(this.getPotential1() + 2);
+                    this.setPotential2(this.getPotential2() + 2);
+                    this.setPotential3(this.getPotential3() + 2);
+                }
+            }
+        }
+
+    }
 }

@@ -70,6 +70,7 @@ public class User extends Actor implements SendMessage {
         ALL_MAP(888888),
         USEFUL(2),
         PICK_ALL(3);
+
         private int value;
 
         TypeTBLOption(int i) {
@@ -124,7 +125,7 @@ public class User extends Actor implements SendMessage {
 
     public static User login(final Session conn, final String user, final String pass) {
 
-        final User[] u = new User[]{null};
+        final User[] u = new User[] { null };
         val query = "SELECT * FROM `player` WHERE (`username`LIKE'" + user + "' AND `password`LIKE'" + pass + "');";
         SQLManager.executeQuery(query, (red) -> {
             if (red != null && red.first()) {
@@ -137,7 +138,8 @@ public class User extends Actor implements SendMessage {
                 final String status = red.getString("status");
 
                 if (status.equals("wait") || status.equals("block")) {
-                    conn.sendMessageLog("Tài khoản của bạn chưa được kích hoạt! Vui lòng truy cập website để kích hoạt tài khoản.");
+                    conn.sendMessageLog(
+                            "Tài khoản của bạn chưa được kích hoạt! Vui lòng truy cập website để kích hoạt tài khoản.");
                     u[0] = null;
                     return;
                 }
@@ -346,7 +348,8 @@ public class User extends Actor implements SendMessage {
             if (item != null) {
                 m.writer().writeShort(item.id);
                 m.writer().writeBoolean(item.isLock());
-                if (ItemData.isTypeBody(item.id) || ItemData.isTypeMounts(item.id) || ItemData.isTypeNgocKham(item.id)) {
+                if (ItemData.isTypeBody(item.id) || ItemData.isTypeMounts(item.id)
+                        || ItemData.isTypeNgocKham(item.id)) {
                     m.writer().writeByte(item.getUpgrade());
                 }
                 m.writer().writeBoolean(item.isExpires);
@@ -390,7 +393,8 @@ public class User extends Actor implements SendMessage {
                     + clone.getPotential2()
                     + clone.getPotential3()
                     + clone.getPpoint();
-            if (totalClone > Level.totalpPoint(clone.getLevel()) + clone.getTiemNangSo() * 10 + clone.getBanghoa() * 10 + 25) {
+            if (totalClone > Level.totalpPoint(clone.getLevel()) + clone.getTiemNangSo() * 10 + clone.getBanghoa() * 10
+                    + 25) {
                 this.restPpoint(clone);
             }
         }
@@ -442,9 +446,11 @@ public class User extends Actor implements SendMessage {
     @SneakyThrows
     void restPoint() {
 
-        int totalPoint = this.nj.getPotential0() + this.nj.getPotential1() + this.nj.getPotential2() + this.nj.getPotential3() + this.nj.getPpoint();
+        int totalPoint = this.nj.getPotential0() + this.nj.getPotential1() + this.nj.getPotential2()
+                + this.nj.getPotential3() + this.nj.getPpoint();
 
-        if (totalPoint > Level.totalpPoint(nj.get().getLevel()) + nj.get().getTiemNangSo() * 10 + nj.get().getBanghoa() * 10 + 25) {
+        if (totalPoint > Level.totalpPoint(nj.get().getLevel()) + nj.get().getTiemNangSo() * 10
+                + nj.get().getBanghoa() * 10 + 25) {
             this.restPpoint(nj);
             this.restSpoint();
             this.nj.setExp(Level.getMaxExp(this.nj.getLevel()));
@@ -466,22 +472,22 @@ public class User extends Actor implements SendMessage {
                 break;
             }
             case -122: {
-                //GameScr.SendFile(session, -28, "res/msg/-28_-122");
+                // GameScr.SendFile(session, -28, "res/msg/-28_-122");
                 this.server.manager.sendData(this);
                 break;
             }
             case -121: {
-                //GameScr.SendFile(session, -28, "res/msg/-28_-121");
+                // GameScr.SendFile(session, -28, "res/msg/-28_-121");
                 this.server.manager.sendMap(this);
                 break;
             }
             case -120: {
-                //GameScr.SendFile(session, -28, "res/msg/-28_-120");
+                // GameScr.SendFile(session, -28, "res/msg/-28_-120");
                 this.server.manager.sendSkill(this);
                 break;
             }
             case -119: {
-                //GameScr.SendFile(session, -28, "res/msg/-28_-119");
+                // GameScr.SendFile(session, -28, "res/msg/-28_-119");
                 this.server.manager.sendItem(this);
                 break;
             }
@@ -657,37 +663,37 @@ public class User extends Actor implements SendMessage {
             case 1: {
                 this.nj.addItemBag(true, ItemData.itemDefault(94, true));
                 this.nj.addItemBag(true, ItemData.itemDefault(40, true));
-//                this.nj.addItemBag(true, ItemData.itemDefault(420, true));
+                // this.nj.addItemBag(true, ItemData.itemDefault(420, true));
                 break;
             }
             case 2: {
                 this.nj.addItemBag(true, ItemData.itemDefault(114, true));
                 this.nj.addItemBag(true, ItemData.itemDefault(49, true));
-//                this.nj.addItemBag(true, ItemData.itemDefault(420, true));
+                // this.nj.addItemBag(true, ItemData.itemDefault(420, true));
                 break;
             }
             case 3: {
                 this.nj.addItemBag(true, ItemData.itemDefault(99, true));
                 this.nj.addItemBag(true, ItemData.itemDefault(58, true));
-//                this.nj.addItemBag(true, ItemData.itemDefault(421, true));
+                // this.nj.addItemBag(true, ItemData.itemDefault(421, true));
                 break;
             }
             case 4: {
                 this.nj.addItemBag(true, ItemData.itemDefault(109, true));
                 this.nj.addItemBag(true, ItemData.itemDefault(67, true));
-//                this.nj.addItemBag(true, ItemData.itemDefault(421, true));
+                // this.nj.addItemBag(true, ItemData.itemDefault(421, true));
                 break;
             }
             case 5: {
                 this.nj.addItemBag(true, ItemData.itemDefault(104, true));
                 this.nj.addItemBag(true, ItemData.itemDefault(76, true));
-//                this.nj.addItemBag(true, ItemData.itemDefault(422, true));
+                // this.nj.addItemBag(true, ItemData.itemDefault(422, true));
                 break;
             }
             case 6: {
                 this.nj.addItemBag(true, ItemData.itemDefault(119, true));
                 this.nj.addItemBag(true, ItemData.itemDefault(85, true));
-//                this.nj.addItemBag(true, ItemData.itemDefault(422, true));
+                // this.nj.addItemBag(true, ItemData.itemDefault(422, true));
                 break;
             }
         }
@@ -698,7 +704,8 @@ public class User extends Actor implements SendMessage {
         this.nj.get().upHP(this.nj.get().getMaxHP());
         this.nj.get().upMP(this.nj.get().getMaxMP());
         this.nj.get().setSpoint(Level.totalsPoint(this.nj.get().getLevel()));
-        this.nj.get().updatePpoint(Level.totalpPoint(this.nj.get().getLevel()) + nj.get().getTiemNangSo() * 10 + nj.get().getBanghoa() * 10);
+        this.nj.get().updatePpoint(Level.totalpPoint(this.nj.get().getLevel()) + nj.get().getTiemNangSo() * 10
+                + nj.get().getBanghoa() * 10);
         this.nj.get().setPotential0(5);
         this.nj.get().setPotential1(5);
         this.nj.get().setPotential2(5);
@@ -781,7 +788,8 @@ public class User extends Actor implements SendMessage {
             }
             sumSkill += skill1.point - 1;
         }
-        if (this.nj.get().getSpoint() + sumSkill > 1.75 * (Level.totalsPoint(this.nj.get().getLevel()) + this.nj.get().getKyNangSo() + this.nj.get().getPhongLoi())) {
+        if (this.nj.get().getSpoint() + sumSkill > 1.75 * (Level.totalsPoint(this.nj.get().getLevel())
+                + this.nj.get().getKyNangSo() + this.nj.get().getPhongLoi())) {
             session.sendMessageLog("Tài khoản của bạn đã bị khóa! Hệ thống phát hiện bạn có hành vi BUG GAME.");
             lockAcc();
             return;
@@ -833,8 +841,9 @@ public class User extends Actor implements SendMessage {
 
     @SneakyThrows
     private void lockAcc() {
-//        SQLManager.executeUpdate("UPDATE `player` set `lock`=1 where `id`=" + this.id + " limit 1;");
-//        session.disconnect();
+        // SQLManager.executeUpdate("UPDATE `player` set `lock`=1 where `id`=" + this.id
+        // + " limit 1;");
+        // session.disconnect();
     }
 
     private void pluspPoint(final Message m) throws IOException {
@@ -861,8 +870,8 @@ public class User extends Actor implements SendMessage {
                 + this.nj.get().getPotential0()
                 + this.nj.get().getPotential1()
                 + nj.get().getPotential2()
-                + nj.get().getPotential3()
-                > (Level.totalpPoint(nj.get().getLevel()) + 25 + nj.get().getTiemNangSo() * 10 + nj.get().getBanghoa() * 10)) {
+                + nj.get().getPotential3() > (Level.totalpPoint(nj.get().getLevel()) + 25
+                        + nj.get().getTiemNangSo() * 10 + nj.get().getBanghoa() * 10)) {
             session.sendMessageLog("Lỗi cộng điểm tiềm năng, tiềm năng được reset");
             restPpoint(this.nj.get());
             return;
@@ -932,7 +941,8 @@ public class User extends Actor implements SendMessage {
                 skill.point = 1;
             }
         }
-        this.nj.get().setSpoint(Level.totalsPoint(this.nj.get().getLevel()) + this.nj.get().getPhongLoi() + this.nj.get().getKyNangSo());
+        this.nj.get().setSpoint(Level.totalsPoint(this.nj.get().getLevel()) + this.nj.get().getPhongLoi()
+                + this.nj.get().getKyNangSo());
         lastTimeResetPoint = System.currentTimeMillis();
         this.loadSkill();
     }
@@ -959,7 +969,8 @@ public class User extends Actor implements SendMessage {
             return;
         }
         if (xu + (long) this.nj.xuBox > 2000000000L) {
-            this.session.sendMessageLog("Bạn chỉ có thể cất thêm " + getFormatNumber(xu + (long) this.nj.xu - 2000000000L));
+            this.session
+                    .sendMessageLog("Bạn chỉ có thể cất thêm " + getFormatNumber(xu + (long) this.nj.xu - 2000000000L));
             return;
         }
         final Ninja c = this.nj;
@@ -980,7 +991,8 @@ public class User extends Actor implements SendMessage {
             return;
         }
         if (xu + (long) this.nj.xu > 2000000000L) {
-            this.session.sendMessageLog("Bạn chỉ có thể rút thêm " + getFormatNumber(xu + (long) this.nj.xu - 2000000000L));
+            this.session
+                    .sendMessageLog("Bạn chỉ có thể rút thêm " + getFormatNumber(xu + (long) this.nj.xu - 2000000000L));
             return;
         }
         final Ninja c = this.nj;
@@ -1238,7 +1250,8 @@ public class User extends Actor implements SendMessage {
                         this.nj.sendTaskOrders();
                         m = new Message(-23);
                         m.writer().writeInt(this.nj.get().id);
-                        m.writer().writeUTF("Trò chơi dành cho người chơi trên 12 tuổi. Chơi quá 180 phút mỗi ngày sẽ hại sức khỏe.");
+                        m.writer().writeUTF(
+                                "Trò chơi dành cho người chơi trên 12 tuổi. Chơi quá 180 phút mỗi ngày sẽ hại sức khỏe.");
                         m.writer().flush();
                         m.cleanup();
 
@@ -1254,11 +1267,12 @@ public class User extends Actor implements SendMessage {
                         } catch (Exception e) {
 
                         }
-                        server.manager.sendTB(this, "Thông báo", "Số người đang online: " + PlayerManager.getInstance().conns_size() + "\n "
-                                + "Chuyển đổi vòng xoay may mắn thường thành vòng xoay may mắn lượng\n"
-                                + "Mở lại thiên địa bảng\n"
-                                + "Fix vào ldgt bị nhốt lại trong đó\n"
-                                + "Chúc các bạn online vui vẻ");
+                        server.manager.sendTB(this, "Thông báo",
+                                "Số người đang online: " + PlayerManager.getInstance().conns_size() + "\n "
+                                        + "Chuyển đổi vòng xoay may mắn thường thành vòng xoay may mắn lượng\n"
+                                        + "Mở lại thiên địa bảng\n"
+                                        + "Fix vào ldgt bị nhốt lại trong đó\n"
+                                        + "Chúc các bạn online vui vẻ");
 
                         if (this.nj != null && this.nj.clan != null) {
                             Server.clanTerritoryManager.getClanTerritoryDataById(this.getClanTerritoryId());
@@ -1282,51 +1296,54 @@ public class User extends Actor implements SendMessage {
         for (byte j = 0; j < this.sortNinja.length; ++j) {
             if (this.sortNinja[j] != null) {
                 Message finalM = m;
-                SQLManager.executeQuery("SELECT `gender`,`name`,`class`,`level`,`head`,`ItemBody` FROM `ninja` WHERE `name`LIKE'" + this.sortNinja[j] + "';", (red) -> {
-                    if (red != null && red.first()) {
-                        finalM.writer().writeByte(red.getByte("gender"));
-                        finalM.writer().writeUTF(red.getString("name"));
-                        finalM.writer().writeUTF(this.server.manager.NinjaS[red.getByte("class")]);
-                        finalM.writer().writeByte(red.getInt("level"));
-                        short head = red.getByte("head");
-                        short weapon = -1;
-                        short body = -1;
-                        short leg = -1;
-                        final JSONArray jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
-                        final Item[] itembody = new Item[16];
-                        if (jar != null) {
-                            for (byte k = 0; k < jar.size(); ++k) {
-                                final JSONObject job = (JSONObject) jar.get(k);
-                                final byte index = Byte.parseByte(job.get("index").toString());
-                                itembody[index] = ItemData.parseItem(jar.get(k).toString());
+                SQLManager.executeQuery(
+                        "SELECT `gender`,`name`,`class`,`level`,`head`,`ItemBody` FROM `ninja` WHERE `name`LIKE'"
+                                + this.sortNinja[j] + "';",
+                        (red) -> {
+                            if (red != null && red.first()) {
+                                finalM.writer().writeByte(red.getByte("gender"));
+                                finalM.writer().writeUTF(red.getString("name"));
+                                finalM.writer().writeUTF(this.server.manager.NinjaS[red.getByte("class")]);
+                                finalM.writer().writeByte(red.getInt("level"));
+                                short head = red.getByte("head");
+                                short weapon = -1;
+                                short body = -1;
+                                short leg = -1;
+                                final JSONArray jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
+                                final Item[] itembody = new Item[16];
+                                if (jar != null) {
+                                    for (byte k = 0; k < jar.size(); ++k) {
+                                        final JSONObject job = (JSONObject) jar.get(k);
+                                        final byte index = Byte.parseByte(job.get("index").toString());
+                                        itembody[index] = ItemData.parseItem(jar.get(k).toString());
+                                    }
+                                }
+                                if (itembody[11] != null) {
+                                    head = ItemData.ItemDataId(itembody[11].id).part;
+                                    if (itembody[11].id == 745) {
+                                        head = 264;
+                                    }
+                                }
+                                if (itembody[1] != null) {
+                                    weapon = ItemData.ItemDataId(itembody[1].id).part;
+                                }
+                                if (itembody[2] != null) {
+                                    body = ItemData.ItemDataId(itembody[2].id).part;
+                                }
+                                if (itembody[6] != null) {
+                                    leg = ItemData.ItemDataId(itembody[6].id).part;
+                                }
+                                if (head == 258 || head == 264) {
+                                    body = (short) (head + 1);
+                                    leg = (short) (head + 2);
+                                }
+                                finalM.writer().writeShort(head);
+                                finalM.writer().writeShort(weapon);
+                                finalM.writer().writeShort(body);
+                                finalM.writer().writeShort(leg);
                             }
-                        }
-                        if (itembody[11] != null) {
-                            head = ItemData.ItemDataId(itembody[11].id).part;
-                            if (itembody[11].id == 745) {
-                                head = 264;
-                            }
-                        }
-                        if (itembody[1] != null) {
-                            weapon = ItemData.ItemDataId(itembody[1].id).part;
-                        }
-                        if (itembody[2] != null) {
-                            body = ItemData.ItemDataId(itembody[2].id).part;
-                        }
-                        if (itembody[6] != null) {
-                            leg = ItemData.ItemDataId(itembody[6].id).part;
-                        }
-                        if (head == 258 || head == 264) {
-                            body = (short) (head + 1);
-                            leg = (short) (head + 2);
-                        }
-                        finalM.writer().writeShort(head);
-                        finalM.writer().writeShort(weapon);
-                        finalM.writer().writeShort(body);
-                        finalM.writer().writeShort(leg);
-                    }
 
-                });
+                        });
 
             }
         }
@@ -1347,7 +1364,7 @@ public class User extends Actor implements SendMessage {
             this.session.sendMessageLog("Tên nhân vật chỉ đồng ý các ký tự a-z,0-9 và chiều dài từ 5 đến 15 ký tự");
             return;
         }
-        final boolean[] canNext = {true};
+        final boolean[] canNext = { true };
         SQLManager.executeQuery("SELECT `id` FROM `ninja` WHERE `name`LIKE'" + name + "';", (red) -> {
             try {
                 if (red != null && red.first()) {
@@ -1364,8 +1381,10 @@ public class User extends Actor implements SendMessage {
         if (!canNext[0]) {
             return;
         }
-        SQLManager.executeUpdate("INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `exptype`, `skill`) VALUES "
-                + "(\"" + name + "\"," + gender + "," + head + ",'[]','[]','[]','[]', '[]', '[]','[]', 1, '[{\"id\": 0, \"point\": 0}]');");
+        SQLManager.executeUpdate(
+                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `exptype`, `skill`) VALUES "
+                        + "(\"" + name + "\"," + gender + "," + head
+                        + ",'[]','[]','[]','[]', '[]', '[]','[]', 1, '[{\"id\": 0, \"point\": 0}]');");
         for (byte i = 0; i < this.sortNinja.length; ++i) {
             if (this.sortNinja[i] == null) {
                 this.sortNinja[i] = name;
@@ -1640,7 +1659,9 @@ public class User extends Actor implements SendMessage {
         if (ItemData.isTypeUIME(typeUI)) {
             m.writer().writeInt(item.sale);
         }
-        if (ItemData.isTypeUIShop(typeUI) || ItemData.isTypeUIShopLock(typeUI) || ItemData.isTypeMounts(typeUI) || ItemData.isTypeUIStore(typeUI) || ItemData.isTypeUIBook(typeUI) || ItemData.isTypeUIFashion(typeUI) || ItemData.isTypeUIClanShop(typeUI)) {
+        if (ItemData.isTypeUIShop(typeUI) || ItemData.isTypeUIShopLock(typeUI) || ItemData.isTypeMounts(typeUI)
+                || ItemData.isTypeUIStore(typeUI) || ItemData.isTypeUIBook(typeUI) || ItemData.isTypeUIFashion(typeUI)
+                || ItemData.isTypeUIClanShop(typeUI)) {
             m.writer().writeInt(item.buyCoin);
             m.writer().writeInt(item.buyCoinLock);
             m.writer().writeInt(item.buyGold);
@@ -1881,7 +1902,8 @@ public class User extends Actor implements SendMessage {
         } else if (Math.abs(this.nj.get().x - p.nj.get().x) > 100 || Math.abs(this.nj.get().y - p.nj.get().y) > 100) {
             this.sendYellowMessage("Khoảng cách quá xa.");
         } else if (this.nj.tradeDelay > System.currentTimeMillis()) {
-            this.session.sendMessageLog("Bạn còn " + (this.nj.tradeDelay - System.currentTimeMillis()) / 1000L + "s để tiếp tục giao dịch.");
+            this.session.sendMessageLog("Bạn còn " + (this.nj.tradeDelay - System.currentTimeMillis()) / 1000L
+                    + "s để tiếp tục giao dịch.");
         } else if (this.nj.rqTradeId > 0) {
             this.session.sendMessageLog(p.nj.name + " đang có yêu cầu giao dịch.");
         } else if (p.nj.isTrade) {
@@ -2263,7 +2285,7 @@ public class User extends Actor implements SendMessage {
         AtomicBoolean agree = new AtomicBoolean(false);
         other.friend.stream()
                 .filter(f -> f != null && this.nj != null
-                && this.nj.name.equals(f.getName()))
+                        && this.nj.name.equals(f.getName()))
                 .findFirst()
                 .ifPresent(f -> {
                     agree.set(true);
@@ -2317,7 +2339,8 @@ public class User extends Actor implements SendMessage {
         if (index > 4 || index < 0 || this.nj.get().ItemMounts[index] == null) {
             return;
         }
-        if (index == 4 && (this.nj.get().ItemMounts[0] != null || this.nj.get().ItemMounts[1] != null || this.nj.get().ItemMounts[2] != null || this.nj.get().ItemMounts[3] != null)) {
+        if (index == 4 && (this.nj.get().ItemMounts[0] != null || this.nj.get().ItemMounts[1] != null
+                || this.nj.get().ItemMounts[2] != null || this.nj.get().ItemMounts[3] != null)) {
             this.session.sendMessageLog("Cần phải tháo hết trang bị thú cưới ra trước");
             return;
         }
@@ -2340,29 +2363,32 @@ public class User extends Actor implements SendMessage {
     }
 
     public void changePassword() {
-        if (!CheckString(this.passnew + this.passold, "^[a-zA-Z0-9]+$") || this.passnew.length() < 1 || this.passnew.length() > 30) {
+        if (!CheckString(this.passnew + this.passold, "^[a-zA-Z0-9]+$") || this.passnew.length() < 1
+                || this.passnew.length() > 30) {
             this.session.sendMessageLog("Mật khẩu chỉ đồng ý các ký tự a-z,0-9 và chiều dài từ 1 đến 30 ký tự");
             return;
         }
         try {
 
-            final boolean[] canNext = {true};
-            SQLManager.executeQuery("SELECT `id` FROM `player` WHERE (`password`LIKE'" + this.passold + "' AND `id` = " + this.id + ");", (red) -> {
-                try {
-                    if (red == null || !red.first()) {
-                        this.session.sendMessageLog("Mật khẩu cũ không chính xác!");
-                        canNext[0] = false;
-                    }
-                } catch (Exception e) {
+            final boolean[] canNext = { true };
+            SQLManager.executeQuery("SELECT `id` FROM `player` WHERE (`password`LIKE'" + this.passold + "' AND `id` = "
+                    + this.id + ");", (red) -> {
+                        try {
+                            if (red == null || !red.first()) {
+                                this.session.sendMessageLog("Mật khẩu cũ không chính xác!");
+                                canNext[0] = false;
+                            }
+                        } catch (Exception e) {
 
-                }
-            });
+                        }
+                    });
 
             if (!canNext[0]) {
                 return;
             }
 
-            SQLManager.executeUpdate("UPDATE `player` SET `password`='" + this.passnew + "' WHERE `id`=" + this.id + " LIMIT 1;");
+            SQLManager.executeUpdate(
+                    "UPDATE `player` SET `password`='" + this.passnew + "' WHERE `id`=" + this.id + " LIMIT 1;");
             this.session.sendMessageLog("Đã đổi mật khẩu thành công");
         } catch (Exception e) {
             e.printStackTrace();
@@ -2374,12 +2400,15 @@ public class User extends Actor implements SendMessage {
         int diamond_send_last = Integer.parseInt(diamond_send);
 
         if (diamond < diamond_send_last) {
-            session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON " + diamond + " KIM CUONG.");
+            session.sendMessageLog("z{9xk_KIMCUONG: Co loi xay ra: KHONG DU KIM CUONG TRONG TAI KHOAN. BAN CHI CON "
+                    + diamond + " KIM CUONG.");
         } else {
             diamond -= diamond_send_last;
             userGF.p.diamond += diamond_send_last;
-            session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG " + diamond_send_last + " KIM CUONG TOI TAI KHOAN " + nameUS + "." + " BAN CHI CON " + diamond + " KIM CUONG.");
-            userGF.p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN NHAN DUOC " + diamond_send_last + " KIM CUONG TU TAI KHOAN " + nj.name + ".");
+            session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG " + diamond_send_last
+                    + " KIM CUONG TOI TAI KHOAN " + nameUS + "." + " BAN CHI CON " + diamond + " KIM CUONG.");
+            userGF.p.session.sendMessageLog("z{9xk_KIMCUONG: Thanh cong: GIAO DICH THANH CONG. BAN NHAN DUOC "
+                    + diamond_send_last + " KIM CUONG TU TAI KHOAN " + nj.name + ".");
 
         }
     }
@@ -2400,69 +2429,84 @@ public class User extends Actor implements SendMessage {
 
     public void cardDCoin() throws IOException {
         try {
-            SQLManager.executeQuery("SELECT `*` FROM `carddcoin` WHERE (`cardCode`LIKE'" + cardCode + "');", (checkCard) -> {
+            SQLManager.executeQuery("SELECT `*` FROM `carddcoin` WHERE (`cardCode`LIKE'" + cardCode + "');",
+                    (checkCard) -> {
 
-                if (checkCard == null || !checkCard.first()) {
-                    Thread.sleep(500);
-                    this.session.sendMessageLog("He thong khong ho tro the nay. Xin hay nhap CHINH XAC so seri va ma so the");
-                    return;
-                } else {
-                    int idCard = checkCard.getInt("id");
-                    int cardValue = checkCard.getInt("cardValue");
-                    int status = checkCard.getInt("status");
+                        if (checkCard == null || !checkCard.first()) {
+                            Thread.sleep(500);
+                            this.session.sendMessageLog(
+                                    "He thong khong ho tro the nay. Xin hay nhap CHINH XAC so seri va ma so the");
+                            return;
+                        } else {
+                            int idCard = checkCard.getInt("id");
+                            int cardValue = checkCard.getInt("cardValue");
+                            int status = checkCard.getInt("status");
 
-                    if (status == 1) {
-                        Thread.sleep(500);
-                        this.session.sendMessageLog("He thong khong ho tro the nay. Xin hay nhap CHINH XAC so seri va ma so the");
-                        return;
-                    }
+                            if (status == 1) {
+                                Thread.sleep(500);
+                                this.session.sendMessageLog(
+                                        "He thong khong ho tro the nay. Xin hay nhap CHINH XAC so seri va ma so the");
+                                return;
+                            }
 
-                    switch (cardValue) {
-                        case 50000:
-                            Thread.sleep(500);
-                            upluongMessage(161);
-                            ticketGold += 5;
-                            status = 1;
-                            this.session.sendMessageLog("~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue + " VND. Bạn nap duoc 161 luong vao tai khoan " + username);
-                            break;
-                        case 100000:
-                            Thread.sleep(500);
-                            upluongMessage(345);
-                            ticketGold += 10;
-                            status = 1;
-                            this.session.sendMessageLog("~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue + " VND. Bạn nap duoc 345 luong vao tai khoan " + username);
-                            break;
-                        case 200000:
-                            Thread.sleep(500);
-                            upluongMessage(805);
-                            ticketGold += 20;
-                            status = 1;
-                            this.session.sendMessageLog("~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue + " VND. Bạn nap duoc 805 luong vao tai khoan " + username);
-                            break;
-                        case 500000:
-                            Thread.sleep(500);
-                            upluongMessage(2530);
-                            ticketGold += 50;
-                            status = 1;
-                            this.session.sendMessageLog("~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue + " VND. Bạn nap duoc 2530 luong vao tai khoan " + username);
-                            break;
-                        case 1000000:
-                            Thread.sleep(500);
-                            upluongMessage(5750);
-                            ticketGold += 100;
-                            status = 1;
-                            this.session.sendMessageLog("~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue + " VND. Bạn nap duoc 5750 luong vao tai khoan " + username);
-                            break;
-                        default:
-                            Thread.sleep(500);
-                            this.session.sendMessageLog("~0Error_LOI: Menh gia the sai. Xin vui long LIEN HE dai ly ban the de duoc HO TRO");
-                            break;
-                    }
+                            switch (cardValue) {
+                                case 50000:
+                                    Thread.sleep(500);
+                                    upluongMessage(161);
+                                    ticketGold += 5;
+                                    status = 1;
+                                    this.session.sendMessageLog(
+                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
+                                                    + " VND. Bạn nap duoc 161 luong vao tai khoan " + username);
+                                    break;
+                                case 100000:
+                                    Thread.sleep(500);
+                                    upluongMessage(345);
+                                    ticketGold += 10;
+                                    status = 1;
+                                    this.session.sendMessageLog(
+                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
+                                                    + " VND. Bạn nap duoc 345 luong vao tai khoan " + username);
+                                    break;
+                                case 200000:
+                                    Thread.sleep(500);
+                                    upluongMessage(805);
+                                    ticketGold += 20;
+                                    status = 1;
+                                    this.session.sendMessageLog(
+                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
+                                                    + " VND. Bạn nap duoc 805 luong vao tai khoan " + username);
+                                    break;
+                                case 500000:
+                                    Thread.sleep(500);
+                                    upluongMessage(2530);
+                                    ticketGold += 50;
+                                    status = 1;
+                                    this.session.sendMessageLog(
+                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
+                                                    + " VND. Bạn nap duoc 2530 luong vao tai khoan " + username);
+                                    break;
+                                case 1000000:
+                                    Thread.sleep(500);
+                                    upluongMessage(5750);
+                                    ticketGold += 100;
+                                    status = 1;
+                                    this.session.sendMessageLog(
+                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
+                                                    + " VND. Bạn nap duoc 5750 luong vao tai khoan " + username);
+                                    break;
+                                default:
+                                    Thread.sleep(500);
+                                    this.session.sendMessageLog(
+                                            "~0Error_LOI: Menh gia the sai. Xin vui long LIEN HE dai ly ban the de duoc HO TRO");
+                                    break;
+                            }
 
-                    SQLManager.executeUpdate("UPDATE `carddcoin` SET `status`='" + status + "' WHERE `id`=" + idCard + " LIMIT 1;");
-                }
+                            SQLManager.executeUpdate("UPDATE `carddcoin` SET `status`='" + status + "' WHERE `id`="
+                                    + idCard + " LIMIT 1;");
+                        }
 
-            });
+                    });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2470,120 +2514,123 @@ public class User extends Actor implements SendMessage {
 
     public void giftcode() throws IOException {
         try {
-            SQLManager.executeQuery("SELECT `*` FROM `giftcode` WHERE (`giftcode`LIKE'" + giftcode + "');", (checkGift) -> {
+            SQLManager.executeQuery("SELECT `*` FROM `giftcode` WHERE (`giftcode`LIKE'" + giftcode + "');",
+                    (checkGift) -> {
 
-                if (checkGift == null || !checkGift.first()) {
-                    session.sendMessageLog("Mã quà tặng không hợp lệ");
-                    return;
-                } else {
-                    int idgift = checkGift.getInt("id");
-                    int times = checkGift.getInt("times");
-                    int limited = checkGift.getInt("limited");
-                    int xu = checkGift.getInt("xu");
-                    int yen = checkGift.getInt("yen");
-                    int luong = checkGift.getInt("luong");
-                    String messTB = checkGift.getString("messTB");
-                    String userEntered = checkGift.getString("username");
-
-                    short itemId = checkGift.getShort("itemId");
-                    short itemId1 = checkGift.getShort("itemId1");
-                    short itemId2 = checkGift.getShort("itemId2");
-                    short itemId3 = checkGift.getShort("itemId3");
-                    short itemId4 = checkGift.getShort("itemId4");
-                    short itemId5 = checkGift.getShort("itemId5");
-
-                    int itemQuantity = checkGift.getInt("itemQuantity");
-                    int itemQuantity1 = checkGift.getInt("itemQuantity1");
-                    int itemQuantity2 = checkGift.getInt("itemQuantity2");
-                    int itemQuantity3 = checkGift.getInt("itemQuantity3");
-                    int itemQuantity4 = checkGift.getInt("itemQuantity4");
-                    int itemQuantity5 = checkGift.getInt("itemQuantity5");
-
-                    Object obj = JSONValue.parse(userEntered);
-                    JSONArray jsonObject = (JSONArray) obj;
-
-                    for (int i = 0; i < jsonObject.size(); i++) {
-                        System.out.println(jsonObject.get(i));
-                        if (jsonObject.get(i).equals(username)) {
-                            session.sendMessageLog("Mỗi tài khoản chỉ được nhập mã quà tặng này 1 lần");
+                        if (checkGift == null || !checkGift.first()) {
+                            session.sendMessageLog("Mã quà tặng không hợp lệ");
                             return;
-                        }
-                    }
+                        } else {
+                            int idgift = checkGift.getInt("id");
+                            int times = checkGift.getInt("times");
+                            int limited = checkGift.getInt("limited");
+                            int xu = checkGift.getInt("xu");
+                            int yen = checkGift.getInt("yen");
+                            int luong = checkGift.getInt("luong");
+                            String messTB = checkGift.getString("messTB");
+                            String userEntered = checkGift.getString("username");
 
-                    if (times >= limited) {
-                        session.sendMessageLog("Mã quà tặng đã đạt giới hạn lượt nhập");
-                        return;
-                    }
+                            short itemId = checkGift.getShort("itemId");
+                            short itemId1 = checkGift.getShort("itemId1");
+                            short itemId2 = checkGift.getShort("itemId2");
+                            short itemId3 = checkGift.getShort("itemId3");
+                            short itemId4 = checkGift.getShort("itemId4");
+                            short itemId5 = checkGift.getShort("itemId5");
 
-                    if (nj.getAvailableBag() == 0) {
-                        session.sendMessageLog("Hành trang không đủ chỗ trống");
-                        return;
-                    }
+                            int itemQuantity = checkGift.getInt("itemQuantity");
+                            int itemQuantity1 = checkGift.getInt("itemQuantity1");
+                            int itemQuantity2 = checkGift.getInt("itemQuantity2");
+                            int itemQuantity3 = checkGift.getInt("itemQuantity3");
+                            int itemQuantity4 = checkGift.getInt("itemQuantity4");
+                            int itemQuantity5 = checkGift.getInt("itemQuantity5");
 
-                    jsonObject.add(username);
-                    userEntered = JSONValue.toJSONString(jsonObject);
-                    times += 1;
+                            Object obj = JSONValue.parse(userEntered);
+                            JSONArray jsonObject = (JSONArray) obj;
 
-                    if (xu != 0 && xu > 0) {
-                        nj.upxuMessage(xu);
-                    }
-                    if (yen != 0 && yen > 0) {
-                        nj.upyenMessage(yen);
-                    }
-                    if (luong != 0 && luong > 0) {
-                        upluongMessage(luong);
-                    }
-                    if (itemId != -1) {
-                        Item it = new Item();
-                        for (byte i = 0; i < itemQuantity; i++) {
-                            it = ItemData.itemDefault(itemId);
-                            nj.addItemBag(true, it);
-                        }
-                    }
-                    if (itemId1 != -1) {
-                        Item it1 = new Item();
-                        for (byte i = 0; i < itemQuantity1; i++) {
-                            it1 = ItemData.itemDefault(itemId1);
-                            nj.addItemBag(true, it1);
-                        }
-                    }
-                    if (itemId2 != -1) {
-                        Item it2 = new Item();
-                        for (byte i = 0; i < itemQuantity2; i++) {
-                            it2 = ItemData.itemDefault(itemId2);
-                            nj.addItemBag(true, it2);
-                        }
-                    }
-                    if (itemId3 != -1) {
-                        Item it3 = new Item();
-                        for (byte i = 0; i < itemQuantity3; i++) {
-                            it3 = ItemData.itemDefault(itemId3);
-                            nj.addItemBag(true, it3);
-                        }
-                    }
-                    if (itemId4 != -1) {
-                        Item it4 = new Item();
-                        for (byte i = 0; i < itemQuantity4; i++) {
-                            it4 = ItemData.itemDefault(itemId4);
-                            nj.addItemBag(true, it4);
-                        }
-                    }
-                    if (itemId5 != -1) {
-                        Item it5 = new Item();
-                        for (byte i = 0; i < itemQuantity5; i++) {
-                            it5 = ItemData.itemDefault(itemId5);
-                            nj.addItemBag(true, it5);
-                        }
-                    }
-                    if (messTB.length() > 0) {
-                        server.manager.sendTB(this, "Quà tặng", "Phần quà của bạn là:\n" + messTB);
+                            for (int i = 0; i < jsonObject.size(); i++) {
+                                System.out.println(jsonObject.get(i));
+                                if (jsonObject.get(i).equals(username)) {
+                                    session.sendMessageLog("Mỗi tài khoản chỉ được nhập mã quà tặng này 1 lần");
+                                    return;
+                                }
+                            }
 
-                    }
-                    SQLManager.executeUpdate("UPDATE `giftcode` SET `times`='" + times + "' WHERE `id`=" + idgift + " LIMIT 1;");
-                    SQLManager.executeUpdate("UPDATE `giftcode` SET `username`='" + userEntered + "' WHERE `id`=" + idgift + " LIMIT 1;");
-                }
+                            if (times >= limited) {
+                                session.sendMessageLog("Mã quà tặng đã đạt giới hạn lượt nhập");
+                                return;
+                            }
 
-            });
+                            if (nj.getAvailableBag() == 0) {
+                                session.sendMessageLog("Hành trang không đủ chỗ trống");
+                                return;
+                            }
+
+                            jsonObject.add(username);
+                            userEntered = JSONValue.toJSONString(jsonObject);
+                            times += 1;
+
+                            if (xu != 0 && xu > 0) {
+                                nj.upxuMessage(xu);
+                            }
+                            if (yen != 0 && yen > 0) {
+                                nj.upyenMessage(yen);
+                            }
+                            if (luong != 0 && luong > 0) {
+                                upluongMessage(luong);
+                            }
+                            if (itemId != -1) {
+                                Item it = new Item();
+                                for (byte i = 0; i < itemQuantity; i++) {
+                                    it = ItemData.itemDefault(itemId);
+                                    nj.addItemBag(true, it);
+                                }
+                            }
+                            if (itemId1 != -1) {
+                                Item it1 = new Item();
+                                for (byte i = 0; i < itemQuantity1; i++) {
+                                    it1 = ItemData.itemDefault(itemId1);
+                                    nj.addItemBag(true, it1);
+                                }
+                            }
+                            if (itemId2 != -1) {
+                                Item it2 = new Item();
+                                for (byte i = 0; i < itemQuantity2; i++) {
+                                    it2 = ItemData.itemDefault(itemId2);
+                                    nj.addItemBag(true, it2);
+                                }
+                            }
+                            if (itemId3 != -1) {
+                                Item it3 = new Item();
+                                for (byte i = 0; i < itemQuantity3; i++) {
+                                    it3 = ItemData.itemDefault(itemId3);
+                                    nj.addItemBag(true, it3);
+                                }
+                            }
+                            if (itemId4 != -1) {
+                                Item it4 = new Item();
+                                for (byte i = 0; i < itemQuantity4; i++) {
+                                    it4 = ItemData.itemDefault(itemId4);
+                                    nj.addItemBag(true, it4);
+                                }
+                            }
+                            if (itemId5 != -1) {
+                                Item it5 = new Item();
+                                for (byte i = 0; i < itemQuantity5; i++) {
+                                    it5 = ItemData.itemDefault(itemId5);
+                                    nj.addItemBag(true, it5);
+                                }
+                            }
+                            if (messTB.length() > 0) {
+                                server.manager.sendTB(this, "Quà tặng", "Phần quà của bạn là:\n" + messTB);
+
+                            }
+                            SQLManager.executeUpdate(
+                                    "UPDATE `giftcode` SET `times`='" + times + "' WHERE `id`=" + idgift + " LIMIT 1;");
+                            SQLManager.executeUpdate("UPDATE `giftcode` SET `username`='" + userEntered
+                                    + "' WHERE `id`=" + idgift + " LIMIT 1;");
+                        }
+
+                    });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2609,10 +2656,14 @@ public class User extends Actor implements SendMessage {
                 }
             }
 
-            SQLManager.executeUpdate("UPDATE `player` SET `luong`=" + this.luong + ",`ninja`='" + jarr.toJSONString() + "' WHERE `id`=" + this.id + " LIMIT 1;");
-            SQLManager.executeUpdate("UPDATE `player` SET `coin`=" + this.diamond + ",`ninja`='" + jarr.toJSONString() + "' WHERE `id`=" + this.id + " LIMIT 1;");
-            SQLManager.executeUpdate("UPDATE `player` SET `ticketGold`=" + this.ticketGold + ",`ninja`='" + jarr.toJSONString() + "' WHERE `id`=" + this.id + " LIMIT 1;");
-            SQLManager.executeUpdate("UPDATE `player` SET `clanTerritoryId`=" + this.getClanTerritoryId() + " WHERE `id`=" + this.id + " LIMIT 1;");
+            SQLManager.executeUpdate("UPDATE `player` SET `luong`=" + this.luong + ",`ninja`='" + jarr.toJSONString()
+                    + "' WHERE `id`=" + this.id + " LIMIT 1;");
+            SQLManager.executeUpdate("UPDATE `player` SET `coin`=" + this.diamond + ",`ninja`='" + jarr.toJSONString()
+                    + "' WHERE `id`=" + this.id + " LIMIT 1;");
+            SQLManager.executeUpdate("UPDATE `player` SET `ticketGold`=" + this.ticketGold + ",`ninja`='"
+                    + jarr.toJSONString() + "' WHERE `id`=" + this.id + " LIMIT 1;");
+            SQLManager.executeUpdate("UPDATE `player` SET `clanTerritoryId`=" + this.getClanTerritoryId()
+                    + " WHERE `id`=" + this.id + " LIMIT 1;");
 
         } catch (SQLException e) {
             Debug("Flush data User + Ninja Error");
@@ -2679,36 +2730,15 @@ public class User extends Actor implements SendMessage {
                 xpup = 0;
             }
 
-            final Body body = this.nj.get();
-            body.setExp(body.getExp() + xpup);
             final int oldLv = this.nj.get().getLevel();
-            this.nj.get().setLevel_Exp(this.nj.get().getExp());
-
-            if (this.nj.get().getLevel() > 130) {
-                this.nj.get().setLevel(130);
-                this.nj.get().setExp(xpold);
-                xpup = 0;
+            this.nj.get().updateExp(xpup);
+            if (!this.nj.isNhanban && this.nj.clone.isIslive()) {
+                final long cXpup = xpup * this.nj.clone.dameMax() / this.nj.get().dameMax();
+                this.nj.clone.updateExp(cXpup);
             }
 
-            if (oldLv < this.nj.get().getLevel()) {
-                if (this.nj.get().nclass != 0) {
-
-                    for (int i = oldLv + 1; i <= this.nj.get().getLevel(); ++i) {
-                        body.updatePpoint(body.getPpoint() + Level.getLevel(i).ppoint);
-                        body.setSpoint(body.getSpoint() + Level.getLevel(i).spoint);
-                    }
-                } else {
-                    for (int i = oldLv + 1; i <= this.nj.get().getLevel(); ++i) {
-                        final Body value5 = this.nj.get();
-                        value5.setPotential0(value5.getPotential0() + 5);
-                        final Body value6 = this.nj.get();
-                        value6.setPotential1(value6.getPotential1() + 2);
-                        final Body value7 = this.nj.get();
-                        value7.setPotential2(value7.getPotential2() + 2);
-                        final Body value8 = this.nj.get();
-                        value8.setPotential3(value8.getPotential3() + 2);
-                    }
-                }
+            if (this.nj.get().getLevel() > 130) {
+                xpup = 0;
             }
 
             final Message j = new Message(5);
@@ -2961,7 +2991,8 @@ public class User extends Actor implements SendMessage {
                 final Item item2 = item;
                 item2.setUpgrade(item2.getUpgrade() + 1);
                 final int lv = item.getUpgrade() + 1;
-                if (lv == 10 || lv == 20 || lv == 30 || lv == 40 || lv == 50 || lv == 60 || lv == 70 || lv == 80 || lv == 90) {
+                if (lv == 10 || lv == 20 || lv == 30 || lv == 40 || lv == 50 || lv == 60 || lv == 70 || lv == 80
+                        || lv == 90) {
                     for (byte j = 0; j < item.option.size(); ++j) {
                         final Option op2 = item.option.get(j);
                         if (op2.id != 65 && op2.id != 66) {
@@ -3231,7 +3262,8 @@ public class User extends Actor implements SendMessage {
     public void moveMemberParty(final Message m) throws IOException {
         final byte index = m.reader().readByte();
         m.cleanup();
-        if (this.nj.get().party != null && this.nj.get().id == this.nj.get().party.master && index >= 0 && index < this.nj.get().party.ninjas.size()) {
+        if (this.nj.get().party != null && this.nj.get().id == this.nj.get().party.master && index >= 0
+                && index < this.nj.get().party.ninjas.size()) {
             final Ninja n = this.nj.get().party.ninjas.get(index);
             if (n.id != this.nj.id) {
                 this.nj.get().party.moveMember(index);
@@ -3242,7 +3274,8 @@ public class User extends Actor implements SendMessage {
     public void changeTeamLeaderParty(final Message m) throws IOException {
         final byte index = m.reader().readByte();
         m.cleanup();
-        if (this.nj.get().party != null && this.nj.id == this.nj.get().party.master && index >= 0 && index < this.nj.get().party.ninjas.size()) {
+        if (this.nj.get().party != null && this.nj.id == this.nj.get().party.master && index >= 0
+                && index < this.nj.get().party.ninjas.size()) {
             this.nj.get().party.changeTeamLeader(index);
         }
     }
