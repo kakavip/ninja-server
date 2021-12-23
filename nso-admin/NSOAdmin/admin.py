@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Level, Ninja, Player
+from .models import CloneNinja, Level, Ninja, Player
 
 
 @admin.register(Player)
@@ -18,8 +18,7 @@ class LevelAdmin(admin.ModelAdmin):
     fields = ["level", "exps", "ppoint", "spoint"]
 
 
-@admin.register(Ninja)
-class NinjaAdmin(admin.ModelAdmin):
+class CharacterAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
@@ -50,3 +49,13 @@ class NinjaAdmin(admin.ModelAdmin):
         "yen",
         "xu",
     ]
+
+
+@admin.register(Ninja)
+class NinjaAdmin(CharacterAdmin):
+    pass
+
+
+@admin.register(CloneNinja)
+class CloneNinjaAdmin(CharacterAdmin):
+    pass

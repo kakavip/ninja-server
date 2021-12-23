@@ -37,8 +37,8 @@ class Player(models.Model):
         return f"{self.pk} - {self.username}"
 
 
-class Ninja(models.Model):
-    NINJA_CLASSES = (
+class Character(models.Model):
+    CHARACTER_CLASSES = (
         (1, "KIEM"),
         (2, "PHI TIEU"),
         (3, "KUNAI"),
@@ -50,7 +50,7 @@ class Ninja(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(blank=False, null=False, max_length=30)
     _class = models.IntegerField(
-        blank=False, null=False, default=0, db_column="class", choices=NINJA_CLASSES
+        blank=False, null=False, default=0, db_column="class", choices=CHARACTER_CLASSES
     )
     skill = JSONField(blank=True, null=True, default=[])
     spoint = models.IntegerField(default=0, blank=False, null=False)
@@ -68,7 +68,7 @@ class Ninja(models.Model):
     xu = models.IntegerField(blank=True, null=True, default=0)
 
     class Meta:
-        db_table = "ninja"
+        abstract = True
 
     def save(
         self,
@@ -76,10 +76,10 @@ class Ninja(models.Model):
         **kwargs,
     ) -> None:
         try:
-            obj: Ninja = Ninja.objects.get(id=self.id)
+            obj: Character = self.__class__.objects.get(id=self.id)
             if obj._class != self._class:
                 self.transfer_class(self._class)
-        except:
+        except Exception as ex:
             pass
         return super().save(*args, **kwargs)
 
@@ -104,6 +104,16 @@ class Ninja(models.Model):
         )
         self.ppoint = point_data["ppoint__sum"]
         self.spoint = point_data["spoint__sum"]
+
+
+class Ninja(Character):
+    class Meta:
+        db_table = "ninja"
+
+
+class CloneNinja(Character):
+    class Meta:
+        db_table = "clone_ninja"
 
 
 class Level(models.Model):
