@@ -1,14 +1,41 @@
 #
 # Package stage
 #
-FROM maven:3.5-jdk-8-alpine
+FROM maven:3.5-jdk-8-alpine as target
 WORKDIR /app
-COPY . /app 
-RUN mvn install 
+
+# copy the Project Object Model file
+COPY ./repo ./repo
+COPY ./pom.xml ./pom.xml
+
+# fetch all dependencies
+RUN mvn dependency:go-offline -B
+
+# copy your other files
+COPY ./src ./src
+COPY ./res ./res
+
+# build for release
+# NOTE: my-project-* should be replaced with the proper prefix
+RUN mvn package && cp target/NinjaServer.jar NinjaServer.jar
+
+# copy config files
+COPY ./ninja.conf ./ninja.conf
+COPY ./application.properties ./application.properties
+
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
-COPY --from=0 /app /app 
+
+# copy config files
+COPY --from=target /app/ninja.conf /app/ninja.conf
+COPY --from=target /app/application.properties /app/application.properties
+
+# copy res
+COPY --from=target /app/res /app/res 
+# copy build file
+COPY --from=target /app/NinjaServer.jar /app/NinjaServer.jar
+
 EXPOSE 14444
 
-CMD ["java" ,"-jar","/app/target/NinjaServer.jar"] 
+CMD ["java" ,"-jar","/app/NinjaServer.jar"] 
