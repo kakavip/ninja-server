@@ -8,6 +8,9 @@ import threading.Map;
 import threading.Server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
@@ -64,25 +67,43 @@ public class TaskOrder implements Serializable, Cloneable {
 
     @NotNull
     public synchronized static TaskOrder createTask(int level) {
-        if (nvhnTask.containsKey(level)) {
-            val o = nvhnTask.get(level).cloneObj();
-            o.setMaxCount(util.nextInt(20, 25));
-            return o;
-        }
-        val randLevel = util.nextInt(level + 5, level - 5);
+        // if (nvhnTask.containsKey(level)) {
+        // TaskOrder o = nvhnTask.get(level).cloneObj();
+        // o.setMaxCount(util.nextInt(20, 25));
+        // return o;
+        // }
 
         Map[] maps = Server.getInstance().getMaps();
-        for (int i = 0, mapsLength = maps.length; i < mapsLength; i++) {
-            Server.getInstance();
-            Map map = Server.getMapById(i);
-            if (map.isLangCo() || map.VDMQ())
-                continue;
-            if (map.getMobIdByLevel(randLevel) != -1) {
-                nvhnTask.put(level, new TaskOrder(0, util.nextInt(20, 25), TaskOrder.NHIEM_VU_HANG_NGAY,
-                        map.getMobIdByLevel(randLevel), map.id));
-                return nvhnTask.get(level).cloneObj();
+        List<List<Integer>> mapByLvList = new ArrayList<List<Integer>>();
+        ;
+        for (int idxLv = level - 10; idxLv < level + 10; idxLv++) {
+            for (int i = 0, mapsLength = maps.length; i < mapsLength; i++) {
+                Server.getInstance();
+                Map map = Server.getMapById(i);
+                if (map.isLangCo() || map.VDMQ())
+                    continue;
+                if (map.getMobIdByLevel(idxLv) != -1) {
+                    mapByLvList.add(
+                            Arrays.asList(
+                                    map.getMobIdByLevel(idxLv),
+                                    map.id)
+
+                    );
+                    break;
+                }
             }
         }
+
+        if (!mapByLvList.isEmpty()) {
+            int randIdx = util.nextInt(0, mapByLvList.size() - 1);
+            // nvhnTask.put(level, new TaskOrder(0, util.nextInt(20, 25),
+            // TaskOrder.NHIEM_VU_HANG_NGAY,
+            // mapByLvList.get(randIdx).get(0), mapByLvList.get(randIdx).get(1)));
+            return new TaskOrder(0, util.nextInt(20, 25), TaskOrder.NHIEM_VU_HANG_NGAY,
+                    mapByLvList.get(randIdx).get(0), mapByLvList.get(randIdx).get(1));
+
+        }
+
         return new TaskOrderDefault(NHIEM_VU_HANG_NGAY);
     }
 
