@@ -67,12 +67,10 @@ public class Server {
     @NotNull
     public static CandyBattleManager candyBattleManager;
 
-
     public Server() {
         this.listenSocket = null;
         resource = new ConcurrentHashMap<>();
     }
-
 
     private void init() {
         this.manager = new Manager();
@@ -103,7 +101,7 @@ public class Server {
                         for (byte k = 0; k < util.nextInt(1, 1); ++k) {
                             final Map map = Manager.getMapid(Server.mapBoss75[util.nextInt(Server.mapBoss75.length)]);
                             if (map != null) {
-                                map.refreshBoss(util.nextInt(15, 29));
+                                map.refreshBoss(17);
                                 textchat = textchat + " " + map.template.name;
                                 Server.isRefreshBoss[j] = true;
                             }
@@ -111,7 +109,7 @@ public class Server {
                         for (byte k = 0; k < util.nextInt(1, 2); ++k) {
                             final Map map = Manager.getMapid(Server.mapBoss65[util.nextInt(Server.mapBoss65.length)]);
                             if (map != null) {
-                                map.refreshBoss(util.nextInt(15, 30));
+                                map.refreshBoss(17);
                                 textchat = textchat + ", " + map.template.name;
                                 Server.isRefreshBoss[j] = true;
                             }
@@ -119,7 +117,7 @@ public class Server {
                         for (byte k = 0; k < util.nextInt(1, 2); ++k) {
                             final Map map = Manager.getMapid(Server.mapBoss55[util.nextInt(Server.mapBoss55.length)]);
                             if (map != null) {
-                                map.refreshBoss(util.nextInt(15, 30));
+                                map.refreshBoss(17);
                                 textchat = textchat + ", " + map.template.name;
                                 Server.isRefreshBoss[j] = true;
                             }
@@ -127,7 +125,7 @@ public class Server {
                         for (byte k = 0; k < util.nextInt(1, 2); ++k) {
                             final Map map = Manager.getMapid(Server.mapBoss45[util.nextInt(Server.mapBoss45.length)]);
                             if (map != null) {
-                                map.refreshBoss(util.nextInt(15, 30));
+                                map.refreshBoss(17);
                                 textchat = textchat + ", " + map.template.name;
                                 Server.isRefreshBoss[j] = true;
                             }
@@ -135,7 +133,7 @@ public class Server {
                         for (byte k = 0; k < Server.mapBossVDMQ.length; ++k) {
                             final Map map = Manager.getMapid(Server.mapBossVDMQ[k]);
                             if (map != null) {
-                                map.refreshBoss(util.nextInt(15, 30));
+                                map.refreshBoss(17);
                                 textchat = textchat + ", " + map.template.name;
                                 Server.isRefreshBoss[j] = true;
                             }
@@ -172,7 +170,8 @@ public class Server {
                     long second = Server.this.globalBattle.getTimeInSeconds();
                     if (second > 0 && this.globalBattle.getState() == WAITING_STATE) {
                         int phut = (int) (second / 60);
-                        Manager.serverChat("Server", "Chiến trường sẽ bắt đầu trong " + (phut > 0 ? phut : second) + (phut > 0 ? " phút" : " giây"));
+                        Manager.serverChat("Server", "Chiến trường sẽ bắt đầu trong " + (phut > 0 ? phut : second)
+                                + (phut > 0 ? " phút" : " giây"));
                     }
                 }
 
@@ -181,11 +180,9 @@ public class Server {
 
         clanTerritoryManager.start();
 
-
     }
 
     private static final Object MUTEX = new Object();
-
 
     public static Server getInstance() {
         if (Server.instance == null) {
@@ -207,32 +204,32 @@ public class Server {
         Server.start = true;
         getInstance().run();
 
-//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-//            threadRunning = false;
-//            if (t != null) {
-//                t.interrupt();
-//            }
-//        }));
-//        t = new Thread(() -> {
-//            while (threadRunning) {
-//
-//                OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-//                int pt = (int) (osBean.getProcessCpuLoad() * 100);
-//                if (pt > 80) {
-//                    getInstance().stop();
-//                    getInstance().run();
-//                }
-//
-//            }
-//        });
-//        t.start();
+        // Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        // threadRunning = false;
+        // if (t != null) {
+        // t.interrupt();
+        // }
+        // }));
+        // t = new Thread(() -> {
+        // while (threadRunning) {
+        //
+        // OperatingSystemMXBean osBean =
+        // ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        // int pt = (int) (osBean.getProcessCpuLoad() * 100);
+        // if (pt > 80) {
+        // getInstance().stop();
+        // getInstance().run();
+        // }
+        //
+        // }
+        // });
+        // t.start();
         try {
             t.join();
             Thread.currentThread().join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -248,9 +245,9 @@ public class Server {
             System.out.println("Listenning port " + this.manager.PORT);
 
             try {
-//                if (!util.debug) {
+                // if (!util.debug) {
                 Naming.rebind("rmi://127.0.0.1:16666/tinhtoan", new RmiRemoteImpl());
-//                }
+                // }
                 System.out.println("Start rmi success");
             } catch (Exception e) {
                 System.out.println("Start rmi fail");
@@ -274,12 +271,12 @@ public class Server {
                 final Socket clientSocket = this.listenSocket.accept();
                 InetSocketAddress socketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
                 String clientIpAddress = socketAddress.getAddress().getHostAddress();
-                if(!Session.check(clientIpAddress)){
+                if (!Session.check(clientIpAddress)) {
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
                     conn.start();
                     System.out.println("Accept socket size :" + PlayerManager.getInstance().conns_size());
-                }else{
+                } else {
                     clientSocket.close();
                 }
             }
@@ -393,13 +390,13 @@ public class Server {
     static {
         Server.instance = null;
         Server.start = false;
-        isRefreshBoss = new boolean[]{false, false, false, false, false, false};
-        mapBossVDMQ = new short[]{141, 142, 143};
-        mapBoss45 = new short[]{14, 15, 16, 34, 35, 52, 68};
-        mapBoss55 = new short[]{44, 67};
-        mapBoss65 = new short[]{24, 41, 45, 59};
-        mapBoss75 = new short[]{18, 36, 54};
-        mapBossLC = new short[]{134, 135, 136, 137};
+        isRefreshBoss = new boolean[] { false, false, false, false, false, false };
+        mapBossVDMQ = new short[] { 141, 142, 143 };
+        mapBoss45 = new short[] { 14, 15, 16, 34, 35, 52, 68 };
+        mapBoss55 = new short[] { 44, 67 };
+        mapBoss65 = new short[] { 24, 41, 45, 59 };
+        mapBoss75 = new short[] { 18, 36, 54 };
+        mapBossLC = new short[] { 134, 135, 136, 137 };
     }
 
     public Map[] getMaps() {
