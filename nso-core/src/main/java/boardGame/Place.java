@@ -2440,21 +2440,25 @@ public class Place {
                     && (this.map.isLangCo() || Math.abs(curMob.level - body.getLevel()) <= 10 || (body.getLevel() > 110
                             && (curMob.level == 100 || curMob.level == 96)))) {
 
-                final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
-                if (im != null) {
-                    int quantity = 1;
-                    if (im.item.id == 12) {
-                        quantity = util.nextInt(curMob.level * 140, curMob.level * 150);
+                if (arid[randomIndex] == 12) {
+                    p.nj.upyenMessage(util.nextInt(curMob.level * 140, curMob.level * 150));
+                } else {
+                    final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
+                    if (im != null) {
+                        int quantity = 1;
+                        // if (im.item.id == 12) {
+                        // quantity = util.nextInt(curMob.level * 140, curMob.level * 150);
+                        // }
+                        if (im.item.id == 455 || im.item.id == 456) {
+                            im.item.isExpires = true;
+                            im.item.expires = util.TimeDay(7);
+                        } else if (im.item.id == 545) {
+                            im.item.isExpires = true;
+                            im.item.expires = util.TimeDay(1);
+                        }
+                        im.item.quantity = quantity;
+                        im.master = master;
                     }
-                    if (im.item.id == 455 || im.item.id == 456) {
-                        im.item.isExpires = true;
-                        im.item.expires = util.TimeDay(7);
-                    } else if (im.item.id == 545) {
-                        im.item.isExpires = true;
-                        im.item.expires = util.TimeDay(1);
-                    }
-                    im.item.quantity = quantity;
-                    im.master = master;
                 }
             }
 
