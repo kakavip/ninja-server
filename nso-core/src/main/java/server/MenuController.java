@@ -1279,10 +1279,10 @@ public class MenuController {
                     break;
                 }
                 case 17: {
-                    val jaien = Ninja.getNinja("Jaian");
+                    Ninja jaien = Ninja.getNinja("Jaian");
                     jaien.p = new User();
                     jaien.p.nj = jaien;
-                    val place = p.nj.getPlace();
+                    Place place = p.nj.getPlace();
                     jaien.upHP(jaien.getMaxHP());
                     jaien.isDie = false;
 
@@ -1372,8 +1372,13 @@ public class MenuController {
                                         p.nj.getPlace().chatNPC(p, (short) 25,
                                                 "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
-                                        if (util.nextInt(0, 100) <= 30) {
+                                        int luck = util.nextInt(0, 100);
+                                        if (luck <= 30) {
                                             p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
+                                        } else if (luck < 60) {
+                                            long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
+
+                                            p.nj.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100);
                                         } else {
                                             p.nj.upyenMessage(
                                                     util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
@@ -1449,8 +1454,14 @@ public class MenuController {
                                         p.nj.addItemBag(true, i);
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 2)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 1)) {
-                                            if (util.nextInt(0, 100) <= 30) {
+
+                                            int luck = util.nextInt(0, 100);
+                                            if (luck <= 30) {
                                                 p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
+                                            } else if (luck < 60) {
+                                                long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
+
+                                                p.nj.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100);
                                             } else {
                                                 p.nj.upyenMessage(
                                                         util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,

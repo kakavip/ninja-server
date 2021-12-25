@@ -61,44 +61,40 @@ public class TaskOrder implements Serializable, Cloneable {
     }
 
     @NotNull
-    private static java.util.Map<@NotNull Integer, @NotNull TaskOrder> nvhnTask = new ConcurrentHashMap<>();
+    private static java.util.Map<@NotNull Integer, @NotNull List<List<Integer>>> nvhnTask = new ConcurrentHashMap<>();
     @NotNull
     private static final java.util.Map<@NotNull Integer, @NotNull TaskOrder> beastTasks = new ConcurrentHashMap<>();
 
     @NotNull
     public synchronized static TaskOrder createTask(int level) {
-        // if (nvhnTask.containsKey(level)) {
-        // TaskOrder o = nvhnTask.get(level).cloneObj();
-        // o.setMaxCount(util.nextInt(20, 25));
-        // return o;
-        // }
+        if (!nvhnTask.containsKey(level)) {
+            Map[] maps = Server.getInstance().getMaps();
+            List<List<Integer>> mapByLvList = new ArrayList<List<Integer>>();
 
-        Map[] maps = Server.getInstance().getMaps();
-        List<List<Integer>> mapByLvList = new ArrayList<List<Integer>>();
-        ;
-        for (int idxLv = level - 10; idxLv < level + 10; idxLv++) {
-            for (int i = 0, mapsLength = maps.length; i < mapsLength; i++) {
-                Server.getInstance();
-                Map map = Server.getMapById(i);
-                if (map.isLangCo() || map.VDMQ())
-                    continue;
-                if (map.getMobIdByLevel(idxLv) != -1) {
-                    mapByLvList.add(
-                            Arrays.asList(
-                                    map.getMobIdByLevel(idxLv),
-                                    map.id)
+            for (int i = level - 10; i < level + 10; i++) {
+                for (Map map : maps) {
+                    if (map.isLangCo() || map.VDMQ())
+                        continue;
+                    if (map.getMobIdByLevel(i) != -1) {
+                        mapByLvList.add(
+                                Arrays.asList(
+                                        map.getMobIdByLevel(i),
+                                        map.id)
 
-                    );
-                    break;
+                        );
+                        break;
+                    }
+
                 }
             }
+
+            nvhnTask.put(level, mapByLvList);
         }
 
+        List<List<Integer>> mapByLvList = nvhnTask.get(level);
         if (!mapByLvList.isEmpty()) {
             int randIdx = util.nextInt(0, mapByLvList.size() - 1);
-            // nvhnTask.put(level, new TaskOrder(0, util.nextInt(20, 25),
-            // TaskOrder.NHIEM_VU_HANG_NGAY,
-            // mapByLvList.get(randIdx).get(0), mapByLvList.get(randIdx).get(1)));
+
             return new TaskOrder(0, util.nextInt(20, 25), TaskOrder.NHIEM_VU_HANG_NGAY,
                     mapByLvList.get(randIdx).get(0), mapByLvList.get(randIdx).get(1));
 
