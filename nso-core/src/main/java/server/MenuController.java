@@ -1378,7 +1378,8 @@ public class MenuController {
                                         } else if (luck < 60) {
                                             long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                            p.nj.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100);
+                                            p.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100, true);
+                                            ;
                                         } else {
                                             p.nj.upyenMessage(
                                                     util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
@@ -1461,7 +1462,7 @@ public class MenuController {
                                             } else if (luck < 60) {
                                                 long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                                p.nj.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100);
+                                                p.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100, true);
                                             } else {
                                                 p.nj.upyenMessage(
                                                         util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
