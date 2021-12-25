@@ -873,6 +873,8 @@ public class Manager {
         m.writer().flush();
         PlayerManager.getInstance().NinjaMessage(m);
         m.cleanup();
+
+        util.Debug("KTG: " + chat);
     }
 
     public void Infochat(final String chat) throws IOException {
