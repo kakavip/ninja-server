@@ -373,7 +373,7 @@ public class Map extends Thread {
         if (level > 100) {
             level = 100;
         }
-        if (taThu[1] >= level - 2 && taThu[1] <= level + 2) {
+        if (taThu[1] >= level - 5 && taThu[1] <= level + 5) {
             return taThu[0];
         }
         return -1;

@@ -67,7 +67,7 @@ public class TaskOrder implements Serializable, Cloneable {
 
     @NotNull
     public synchronized static TaskOrder createTask(int level) {
-        if (!nvhnTask.containsKey(level)) {
+        if (!nvhnTask.containsKey(level) || nvhnTask.get(level).isEmpty()) {
             Map[] maps = Server.getInstance().getMaps();
             List<List<Integer>> mapByLvList = new ArrayList<List<Integer>>();
 
@@ -75,13 +75,15 @@ public class TaskOrder implements Serializable, Cloneable {
                 for (Map map : maps) {
                     if (map.isLangCo() || map.VDMQ())
                         continue;
-                    if (map.getMobIdByLevel(i) != -1) {
-                        mapByLvList.add(
-                                Arrays.asList(
-                                        map.getMobIdByLevel(i),
-                                        map.id)
 
-                        );
+                    if (map.getMobIdByLevel(i) != -1) {
+                        List<Integer> _d = Arrays.asList(
+                                map.getMobIdByLevel(i),
+                                map.id);
+
+                        if (!mapByLvList.contains(_d)) {
+                            mapByLvList.add(_d);
+                        }
                         break;
                     }
 

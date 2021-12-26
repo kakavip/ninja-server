@@ -21,8 +21,8 @@ public class TaskOrderDefault extends TaskOrder {
             this.setMaxCount(util.nextInt(20, 25));
             this.setCount(0);
         } else if (type == NHIEM_VU_TA_THU) {
-            this.setKillId(50);
-            this.setMapId(27);
+            this.setKillId(30);
+            this.setMapId(12);
             this.setMaxCount(1);
             this.setCount(0);
         }
