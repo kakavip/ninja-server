@@ -1375,7 +1375,7 @@ public class MenuController {
                                         int luck = util.nextInt(0, 100);
                                         if (luck <= 30) {
                                             p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
-                                        } else if (luck < 60) {
+                                        } else if (luck <= 45) {
                                             long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
                                             p.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100, true);

@@ -1433,8 +1433,14 @@ public class Place {
                     if (!this.map.isLdgtMap()) {
                         if (mob.level >= 10
                                 && PERCENT_TA_TL > util.nextInt(100)
-                                && this.numTA < 2 && this.numTL < 1 && candyBattle == null) {
-                            mob.lvboss = util.nextInt(1, 2);
+                                && (this.numTA < 4 && this.numTL < 2) && candyBattle == null) {
+
+                            int luck = util.nextInt(100);
+                            if (luck <= 25) {
+                                mob.lvboss = 2;
+                            } else {
+                                mob.lvboss = 1;
+                            }
                         }
                     } else {
                         if (mob.templates.id != 81
