@@ -6,7 +6,7 @@ import json
 
 
 class Player(models.Model):
-    username = models.CharField(max_length=20, blank=False, null=False)
+    username = models.CharField(max_length=20, blank=False, null=False, unique=True)
     password = models.CharField(max_length=20, blank=False, null=False)
     luong = models.IntegerField(blank=False, null=False, default=0)
     ninja = JSONField(blank=True, null=True, default=[])

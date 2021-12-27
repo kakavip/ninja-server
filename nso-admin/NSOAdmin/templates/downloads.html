@@ -1,0 +1,225 @@
+<html>
+    <head>
+		<meta name="viewport" content="width=device-width,maximum-scale=1,user-scalable=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Ninja School Sever MoonSmile</title>
+        <link rel="stylesheet" href="http://ninjaschool.vn/css/template.css" type="text/css" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.29.2/dist/sweetalert2.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.29.2/dist/sweetalert2.min.css">	
+		<link rel="shortcut icon" href='http://27.0.14.78/dl/image/iconninja32.png' type="image/x-icon" />
+		<link rel="apple-touch-icon" href="http://ninjaschool.vn/images/logo256.png" />
+		<meta name="description" content="Ninja School Sever MoonSmile Miễn phí full map full tiền tải vể và trải nghiệm ngay."/>
+<script language="javascript" src="https://code.jquery.com/jquery-2.0.0.min.js">
+</script>
+<script type='text/javascript'>
+</script>
+        <script language="javascript">
+            function reg(){
+                $.ajax({
+                    url : "register",
+                    type : "post",
+                    dataType:"text",
+                    data : {
+                         user : $('#user').val(),
+                         pass : $('#pass').val()
+                         
+
+                    },
+                    success : function (result){
+                        alert(result)
+                        // $('#result').html(result);
+                    }
+                });
+            }
+function log(){
+                $.ajax({
+                    url : "login",
+                    type : "post",
+                    dataType:"text",
+                    data : {
+                         user : $('#user').val(),
+                         pass : $('#pass').val()
+
+                    },
+                    success : function (result){
+                        $('#result').html(result);
+                    }
+                });
+            }
+function free(){
+                $.ajax({
+                    url : "free",
+                    type : "post",
+                    dataType:"text",
+                    data : {
+                         ok : $('#ok').val()
+
+                    },
+                    success : function (result){
+                        $('#okfree').html(result);
+                    }
+                });
+            }
+        </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100&display=swap');
+
+@font-face {
+    font-family: 'Barlow', sans-serif;
+}
+
+body{font-family: small;font-size: 12px;}
+
+
+button {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 3px;
+  font-family: AVO, Arial !important;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: 0;
+  color: #fff;
+  background-color: #00736b;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px #1c3f39
+}
+
+button:hover {
+  background-color: #3e8e41
+}
+
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px)
+}
+.button {
+  padding: 2px 6px
+}
+input,
+select {
+  outline: 0;
+  border: none;
+  border-radius: 15px;
+  text-indent: 5px;
+  padding: 3px
+}
+input, select {
+  width: 200px;
+}
+
+
+h3{
+-webkit-margin-before: 0px;
+-webkit-margin-after: 0px;
+}
+h4{
+-webkit-margin-before: 0.2em;
+-webkit-margin-after: 0.2em;
+}
+
+</style>
+    </head>   
+    <body>
+        <div class="body_body">
+	<div style="line-height: 3px;
+    font-size: 10px;
+    padding-right: 5px;
+       padding-bottom: 6px;">
+			<img height=12 src="http://ninjaschool.vn/12.png" style="vertical-align: middle;"/> 
+			<span style="vertical-align: middle;">Trò chơi dành cho người chơi 12 tuổi trở lên. Chơi quá 180 phút mỗi ngày sẽ có hại cho sức khỏe
+			</span>
+			</div>			
+            <div class="left_top"></div><div class="bg_top"><div class="right_top"></div></div>
+            <div class="body-content">
+            	<div class="bg-content2">
+                <div class="a" align="center"><a href="/"><img src="http://ninjaschool.vn/images/logo.png" /></a></div>
+                <div id="top">
+                    <div class="link-more">	
+                        <div class="h" align="center">
+                            <!--<div style="color: #032E58;margin-top:-8px;margin-bottom:4px;">
+							<center> <b>Mạng xã hội cho điện thoại di động</b></center> 
+							</div>-->
+							<div class="bg_noel"></div>
+							<div class="menu2" style="background: #561d00;">
+                            <table width="100%" border="0" cellspacing="4	">
+                                <tr class="menu">		
+									<td style="width:25%"><a href="/">Trang Chủ</a></td>
+                                    <td style="width:25%" id="selected" ><a href="/downloads">Tải Games</a></td> 
+                                    {% comment %} <td style="width:25%" ><a href="#">Group Facebook</a></td>  {% endcomment %}
+									<td style="width:25%"><a href="#">Group Zalo</a></td>
+								</tr>
+                            </table>
+							</div>
+																<div class="bg-content">
+            <p style="text-align:center"><strong>TẢI GAME </strong></p>
+            
+            <div id="columns" style="text-align:center">
+                
+                    <a rel="nofollow" href="nso_moonsmile.jar" title="Java">
+                        <img src="http://ninjaschool.vn/images/jar.png" alt="Java">
+                       
+                    </a>
+
+   
+                
+                    
+                    <a rel="nofollow" href="nso_moonsmile.apk" title="Android">
+                        <img src="http://ninjaschool.vn/images/android.png" alt="Android">
+                    </a>
+                    <br>
+                
+            </div>
+            </div>
+        		
+														
+  <div class="bg-content">
+		                            <div>
+		                            	<div class="title"><h4>Bạn nên tải phiên bản nào?</h4></div>
+		                            	<div class="content"><p>Nếu bạn dùng điện thoại Nokia cũ, có bàn phím như Nokia 6300, Nokia E72, Nokia X2, Nokia C2... Hãy tải bản JAVA</p>
+
+<p>Nếu bạn dùng máy cảm ứng sử dụng hệ điều hành Android như: Samsung, Xiaomi, Oppo, HTC, LG, Realme... Hãy tải bản Android APK.</p>
+
+
+</div>
+		                            	<div class="date">Admin</div> </div></div>
+                      
+   
+</div>
+                        <br>
+                    </div><br>
+
+                </div>
+            	</div>
+            </div>
+            <div class="bg_tree"></div>
+            <div class="foot_bg">
+            
+            </div>
+           
+            <div class="left_b_bottom"><div class="right_b_bottom"><div class="footer" ><div class="left_bottom"></div><div class="right_bottom"></div></div></div></div>
+            <div class="copyright"><br><b>Bản quyền ©2020 MoonSmile</b> 
+			<a style="color: #AD4105" href="">Nhóm Zalo</a></div>
+        </div>
+    </div>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-38084035-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+
+</html>
