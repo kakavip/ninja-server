@@ -126,6 +126,12 @@ public class User extends Actor implements SendMessage {
     public static User login(final Session conn, final String user, final String pass) {
 
         final User[] u = new User[] { null };
+        String regex = "[\\w|\\d]+";
+        if (!(user.matches(regex) && pass.matches(regex))) {
+            conn.sendMessageLog("Thông tin tài khoản hoặc mật khẩu phải là chữ hoặc số.");
+            return u[0];
+        }
+
         val query = "SELECT * FROM `player` WHERE (`username`LIKE'" + user + "' AND `password`LIKE'" + pass + "');";
         SQLManager.executeQuery(query, (red) -> {
             if (red != null && red.first()) {
