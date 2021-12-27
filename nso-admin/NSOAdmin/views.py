@@ -97,4 +97,4 @@ def apk_file(request):
 
 
 def jar_file(request):
-    return FileResponse(open("packages/sesen-ms.v2.jar", "rb"))
+    return FileResponse(open("packages/nso_ozk.ms.v1.jar", "rb"))
