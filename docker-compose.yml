@@ -27,7 +27,7 @@ services:
       - 14444:14444
     depends_on:
       - mysql
-  
+
   nja_admin:
     restart: always
     build: ./nso-admin
@@ -51,14 +51,15 @@ services:
       - DB_PORT=3306
       - DB_DATABASE=nja
     ports:
-      - 8083:8000
+      - 80:8000
     depends_on:
       - mysql
 
   mysql:
     restart: always
     image: mysql:5.7.20
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
+    command: mysqld --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
     volumes:
       - local_mysql_data:/var/lib/mysql
     environment:
@@ -77,10 +78,9 @@ services:
     depends_on:
       - mysql
 
-
 networks:
   default:
     driver: overlay
     attachable: true
 volumes:
-  local_mysql_data:
+  local_mysql_data: null
