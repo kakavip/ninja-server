@@ -1983,7 +1983,7 @@ public class MenuController {
                                                 "Số xu trong hành trang của con đã đạt mức tối đa.");
                                         break;
                                     } else {
-                                        p.upluong(-50L);
+                                        p.upluongMessage(-50L);
                                         p.nj.upxuMessage(500000);
                                         break;
                                     }
@@ -1997,7 +1997,7 @@ public class MenuController {
                                                 "Số yên trong hành trang của con đã đạt mức tối đa.");
                                         break;
                                     } else {
-                                        p.upluong(-50L);
+                                        p.upluongMessage(-50L);
                                         p.nj.upyenMessage(550000);
                                         break;
                                     }
