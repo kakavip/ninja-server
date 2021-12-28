@@ -2005,8 +2005,21 @@ public class MenuController {
                             break;
                         }
                         case 1: {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Chức năng đang bảo trì");
-                            break;
+                            if (p.nj.yen < 500000) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Số yên trong hành trang của con phải lớn hơn 500.000 yên. Khi nào đem đủ yên thì đến đây gặp ta.");
+                                break;
+                            } else if (p.nj.xu + 500000 > 2000000000) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Số xu trong hành trang của con đã đạt mức tối đa.");
+                                break;
+                            } else {
+                                p.nj.upyenMessage(-500000);
+                                p.nj.upxuMessage(500000);
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Ta đã đổi 500.000 yên thành 500.000 xu cho con rồi nhé. Hẹn gặp lại con.");
+                                break;
+                            }
                         }
                         case 2: {
                             switch (optionId) {
