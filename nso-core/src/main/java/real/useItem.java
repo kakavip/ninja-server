@@ -34,9 +34,9 @@ public class useItem {
 
     static {
         useItem.server = Server.getInstance();
-        arrOp = new int[]{6, 7, 10, 67, 68, 69, 70, 71, 72, 73, 74};
-        arrParam = new int[]{50, 50, 10, 5, 10, 10, 5, 5, 5, 100, 50};
-        arrOpenBag = new byte[]{0, 6, 6, 12};
+        arrOp = new int[] { 6, 7, 10, 67, 68, 69, 70, 71, 72, 73, 74 };
+        arrParam = new int[] { 50, 50, 10, 5, 10, 10, 5, 5, 5, 100, 50 };
+        arrOpenBag = new byte[] { 0, 6, 6, 12 };
     }
 
     public static void uesItem(final User p, final Item item, final byte index) throws IOException {
@@ -53,7 +53,8 @@ public class useItem {
         }
 
         if (item.id != 194) {
-            if ((p.nj.get().nclass == 0 && item.id == 547) || item.id != 400 && (data.nclass > 0 && data.nclass != p.nj.get().nclass)) {
+            if ((p.nj.get().nclass == 0 && item.id == 547)
+                    || item.id != 400 && (data.nclass > 0 && data.nclass != p.nj.get().nclass)) {
                 p.sendYellowMessage("Môn phái không phù hợp");
                 return;
             }
@@ -157,7 +158,8 @@ public class useItem {
             final byte idM = (byte) (data.type - 29);
             final Item itemM = p.nj.get().ItemMounts[idM];
             if (idM == 4) {
-                if (p.nj.get().ItemMounts[0] != null || p.nj.get().ItemMounts[1] != null || p.nj.get().ItemMounts[2] != null || p.nj.get().ItemMounts[3] != null) {
+                if (p.nj.get().ItemMounts[0] != null || p.nj.get().ItemMounts[1] != null
+                        || p.nj.get().ItemMounts[2] != null || p.nj.get().ItemMounts[3] != null) {
                     p.session.sendMessageLog("Bạn cần phải tháo trang bị thú cưới đang sử dụng");
                     return;
                 }
@@ -354,6 +356,24 @@ public class useItem {
                 }
                 break;
             }
+            case 38:
+                int luck = util.nextInt(100);
+                if (luck <= 50) {
+                    // up yen
+                    p.nj.upyenMessage(util.nextInt(p.nj.getMaxLevel() * 140, p.nj.getMaxLevel() * 150));
+                } else if (luck <= 70) {
+                    // up luong
+                    int nluong = util.nextInt(p.nj.getMaxLevel() / 3, p.nj.getMaxLevel() / 2);
+                    p.upluongMessage(nluong);
+                } else {
+                    // up kinh nghiem
+                    long maxLvExp = Level.getMaxExp(p.nj.getLevel());
+                    long nExp = util.nextInt((int) maxLvExp * 3 / 100, (int) maxLvExp * 5 / 100);
+                    p.nj.updateExp(nExp);
+                    p.sendYellowMessage("Bạn nhận được " + nExp + " kịnh nghiệm.");
+                }
+                p.nj.removeItemBag(index, 1);
+                break;
             case 240:
                 p.nj.timesResetPpoint += 1;
                 p.sendYellowMessage("Số lần tẩy tiềm năng của bạn là " + p.nj.timesResetPpoint);
@@ -445,7 +465,8 @@ public class useItem {
             case 283: {
                 final byte level = (byte) ((item.id != 215) ? ((item.id != 229) ? 3 : 2) : 1);
                 if (level > p.nj.levelBag + 1) {
-                    p.sendYellowMessage("Cần mở Túi vải cấp " + (p.nj.levelBag + 1) + " mới có thể mở được túi vải này");
+                    p.sendYellowMessage(
+                            "Cần mở Túi vải cấp " + (p.nj.levelBag + 1) + " mới có thể mở được túi vải này");
                     return;
                 }
                 if (p.nj.levelBag >= level) {
@@ -474,7 +495,9 @@ public class useItem {
                     p.nj.upyenMessage(num);
                     p.sendYellowMessage("Bạn nhận được " + num + " yên");
                 } else {
-                    final short[] arId = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 242, 275, 276, 277, 278, 280, 284, 285};
+                    final short[] arId = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,
+                            4, 4, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 242, 275, 276, 277, 278, 280, 284,
+                            285 };
                     final short idI = arId[util.nextInt(arId.length)];
                     final ItemData data2 = ItemData.ItemDataId(idI);
                     Item itemup;
@@ -548,7 +571,8 @@ public class useItem {
                 ++c2.nCave;
                 final Ninja c3 = p.nj;
                 --c3.useCave;
-                p.sendYellowMessage("Số lần đi hang động của bạn trong ngày hôm nay tăng lên là " + p.nj.useCave + " lần");
+                p.sendYellowMessage(
+                        "Số lần đi hang động của bạn trong ngày hôm nay tăng lên là " + p.nj.useCave + " lần");
                 p.nj.removeItemBag(index, 1);
                 break;
             }
@@ -562,7 +586,9 @@ public class useItem {
                     p.nj.upyenMessage(num);
                     p.sendYellowMessage("Bạn nhận được " + num + " yên");
                 } else {
-                    final short[] arId = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 242, 275, 276, 277, 278, 280, 280, 280, 283, 284, 285, 436, 437};
+                    final short[] arId = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,
+                            4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 242, 275, 276, 277, 278,
+                            280, 280, 280, 283, 284, 285, 436, 437 };
                     final short idI = arId[util.nextInt(arId.length)];
                     final ItemData data2 = ItemData.ItemDataId(idI);
                     Item itemup;
@@ -650,22 +676,22 @@ public class useItem {
                 if (util.nextInt(2) == 0) {
                     if (p.nj.gender == 0) {
                         if (p.nj.get().getLevel() < 50 && item.id != 384 && item.id != 385) {
-                            idI2 = (new short[]{171, 161, 151, 141, 131})[util.nextInt(5)];
+                            idI2 = (new short[] { 171, 161, 151, 141, 131 })[util.nextInt(5)];
                         } else if (p.nj.get().getLevel() < 60 && item.id != 385) {
-                            idI2 = (new short[]{137, 163, 153, 143, 133})[util.nextInt(5)];
+                            idI2 = (new short[] { 137, 163, 153, 143, 133 })[util.nextInt(5)];
                         } else if (p.nj.get().getLevel() < 70) {
-                            idI2 = (new short[]{330, 329, 328, 327, 326})[util.nextInt(5)];
+                            idI2 = (new short[] { 330, 329, 328, 327, 326 })[util.nextInt(5)];
                         } else {
-                            idI2 = (new short[]{368, 367, 366, 365, 364})[util.nextInt(5)];
+                            idI2 = (new short[] { 368, 367, 366, 365, 364 })[util.nextInt(5)];
                         }
                     } else if (p.nj.get().getLevel() < 50 && item.id != 384 && item.id != 385) {
-                        idI2 = (new short[]{170, 160, 102, 140, 130})[util.nextInt(5)];
+                        idI2 = (new short[] { 170, 160, 102, 140, 130 })[util.nextInt(5)];
                     } else if (p.nj.get().getLevel() < 60 && item.id != 385) {
-                        idI2 = (new short[]{172, 162, 103, 142, 132})[util.nextInt(5)];
+                        idI2 = (new short[] { 172, 162, 103, 142, 132 })[util.nextInt(5)];
                     } else if (p.nj.get().getLevel() < 70) {
-                        idI2 = (new short[]{325, 323, 333, 319, 317})[util.nextInt(5)];
+                        idI2 = (new short[] { 325, 323, 333, 319, 317 })[util.nextInt(5)];
                     } else {
-                        idI2 = (new short[]{363, 361, 359, 357, 355})[util.nextInt(5)];
+                        idI2 = (new short[] { 363, 361, 359, 357, 355 })[util.nextInt(5)];
                     }
                 } else if (util.nextInt(2) == 1) {
                     if (p.nj.get().nclass == 1 || p.nj.get().nclass == 2) {
@@ -676,22 +702,22 @@ public class useItem {
                         sys2 = 3;
                     }
                     if (p.nj.get().getLevel() < 50 && item.id != 384 && item.id != 385) {
-                        idI2 = (new short[]{97, 117, 102, 112, 107, 122})[p.nj.get().nclass - 1];
+                        idI2 = (new short[] { 97, 117, 102, 112, 107, 122 })[p.nj.get().nclass - 1];
                     } else if (p.nj.get().getLevel() < 60 && item.id != 385) {
-                        idI2 = (new short[]{98, 118, 103, 113, 108, 123})[p.nj.get().nclass - 1];
+                        idI2 = (new short[] { 98, 118, 103, 113, 108, 123 })[p.nj.get().nclass - 1];
                     } else if (p.nj.get().getLevel() < 70) {
-                        idI2 = (new short[]{331, 332, 333, 334, 335, 336})[p.nj.get().nclass - 1];
+                        idI2 = (new short[] { 331, 332, 333, 334, 335, 336 })[p.nj.get().nclass - 1];
                     } else {
-                        idI2 = (new short[]{369, 370, 371, 372, 373, 374})[p.nj.get().nclass - 1];
+                        idI2 = (new short[] { 369, 370, 371, 372, 373, 374 })[p.nj.get().nclass - 1];
                     }
                 } else if (p.nj.get().getLevel() < 50 && item.id != 384 && item.id != 385) {
-                    idI2 = (new short[]{192, 187, 182, 177})[util.nextInt(4)];
+                    idI2 = (new short[] { 192, 187, 182, 177 })[util.nextInt(4)];
                 } else if (p.nj.get().getLevel() < 60 && item.id != 385) {
-                    idI2 = (new short[]{193, 188, 183, 178})[util.nextInt(4)];
+                    idI2 = (new short[] { 193, 188, 183, 178 })[util.nextInt(4)];
                 } else if (p.nj.get().getLevel() < 70) {
-                    idI2 = (new short[]{324, 322, 320, 318})[util.nextInt(4)];
+                    idI2 = (new short[] { 324, 322, 320, 318 })[util.nextInt(4)];
                 } else {
-                    idI2 = (new short[]{362, 360, 358, 356})[util.nextInt(4)];
+                    idI2 = (new short[] { 362, 360, 358, 356 })[util.nextInt(4)];
                 }
                 Item itemup;
                 if (sys2 < 0) {
@@ -877,7 +903,10 @@ public class useItem {
                     p.nj.upyenMessage(num);
                     p.sendYellowMessage("Bạn nhận được " + num + " yên");
                 } else {
-                    final short[] arId = {3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 280, 280, 280, 436, 437, 539, 540, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637};
+                    final short[] arId = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6,
+                            6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 280, 280, 280, 436,
+                            437, 539, 540, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632,
+                            633, 634, 635, 636, 637 };
                     final short idI = arId[util.nextInt(arId.length)];
                     final ItemData data2 = ItemData.ItemDataId(idI);
                     Item itemup;
@@ -1006,9 +1035,11 @@ public class useItem {
                 // TBL
                 p.typemenu = 572;
                 if (!p.activeTBL) {
-                    MenuController.doMenuArray(p, new String[]{"Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map", "Nhặt tất cả", "Nhặt v.phẩm hữu dụng", "Bật tàn sát"});
+                    MenuController.doMenuArray(p, new String[] { "Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map",
+                            "Nhặt tất cả", "Nhặt v.phẩm hữu dụng", "Bật tàn sát" });
                 } else {
-                    MenuController.doMenuArray(p, new String[]{"Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map", "Nhặt tất cả", "Nhặt v.phẩm hữu dụng", "Tắt tàn sát"});
+                    MenuController.doMenuArray(p, new String[] { "Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map",
+                            "Nhặt tất cả", "Nhặt v.phẩm hữu dụng", "Tắt tàn sát" });
                 }
 
                 break;
@@ -1061,7 +1092,8 @@ public class useItem {
                 Message m = null;
                 switch (result) {
                     case SUCCESS:
-                        m = clanMng.createMessage("Gia tộc bạn nhận được " + clanMng.getCurrentThanThu().getPetItem().getData().name);
+                        m = clanMng.createMessage(
+                                "Gia tộc bạn nhận được " + clanMng.getCurrentThanThu().getPetItem().getData().name);
                         p.nj.removeItemBag(index, 1);
                         break;
                     case FAIL:
@@ -1099,7 +1131,7 @@ public class useItem {
 
                     if (coMoi) {
                         if (util.percent(70, 30)) {
-                            val random = new int[]{599, 600}[util.nextInt(2)];
+                            val random = new int[] { 599, 600 }[util.nextInt(2)];
                             int quantity = util.nextInt(0, 5);
                             final Item item1 = ItemData.itemDefault(random);
                             item1.quantity = quantity;
@@ -1264,7 +1296,8 @@ public class useItem {
                         }
                     }
                 }
-                if (indexMenu == 3 || indexMenu == 4 || indexMenu == 5 || indexMenu == 6 || indexMenu == 7 || indexMenu == 8 || indexMenu == 9) {
+                if (indexMenu == 3 || indexMenu == 4 || indexMenu == 5 || indexMenu == 6 || indexMenu == 7
+                        || indexMenu == 8 || indexMenu == 9) {
                     final Map ma = getMapid(Map.arrLang[indexMenu - 3]);
                     assert ma != null;
                     if (TaskHandle.isLockChangeMap2((short) ma.id, p.nj.getTaskId())) {

@@ -558,7 +558,7 @@ public class ItemData {
         return type == 12;
     }
 
-    public static short[] getListItemByMaxLevel(int maxLv, int percent, byte nYen, byte nDa, byte nHpMp) {
+    public static short[] getListItemByMaxLevel(int maxLv, int percent, byte nYen, byte nDa, byte nHpMp, byte nPmng) {
 
         short[] setVuKhi = getItemIdByLevel(maxLv, (byte) 1, (byte) 2);
         short[] set1 = getItemIdByLevel(maxLv, (byte) ID_SET_PHAI, (byte) 0);
@@ -568,7 +568,8 @@ public class ItemData {
         short[] setHp = getItemIdByLevel(maxLv, (byte) TYPE_HP, (byte) 2);
         short[] setMp = getItemIdByLevel(maxLv, (byte) TYPE_MP, (byte) 2);
 
-        int total = setVuKhi.length + set1.length + set2.length + set3.length + set4.length + nYen + nDa + nHpMp * 2;
+        int total = setVuKhi.length + set1.length + set2.length + set3.length + set4.length + nYen + nDa + nHpMp * 2
+                + nPmng;
         int nNull = total * 100 / percent - total;
 
         short[] items = new short[total + nNull];
@@ -589,6 +590,12 @@ public class ItemData {
             items[a] = (short) 12;
             a++;
         }
+
+        for (int j = 0; j < nPmng; j++) {
+            items[a] = (short) 38;
+            a++;
+        }
+
         for (int j = 0; j < nHpMp; j++) {
             for (int n = 0; n < setHp.length; n++) {
                 items[a] = (short) setHp[n];

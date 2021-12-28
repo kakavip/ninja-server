@@ -908,6 +908,10 @@ public class Body implements ISoloer {
         return level.get();
     }
 
+    public int getMaxLevel() {
+        return this.getLevel() - this.getLevel() % 10 + 10;
+    }
+
     public void setLevel(int level) {
         if (this.level == null) {
             this.level = new AtomicInteger(level);

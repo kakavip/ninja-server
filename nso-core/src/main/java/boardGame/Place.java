@@ -1433,7 +1433,7 @@ public class Place {
                     if (!this.map.isLdgtMap()) {
                         if (mob.level >= 10
                                 && PERCENT_TA_TL > util.nextInt(100)
-                                && (this.numTA < 4 && this.numTL < 2) && candyBattle == null) {
+                                && (this.numTA < 3 && this.numTL < 1) && candyBattle == null) {
 
                             int luck = util.nextInt(100);
                             if (luck <= 25) {
@@ -2272,6 +2272,10 @@ public class Place {
             final int master = curMob.sortNinjaFight();
 
             if (!this.map.isLdgtMap()) {
+                boolean isReceivedLuong = util.nextInt(100) <= 30;
+                boolean canReceived = false;
+                int luong = p.nj.getMaxLevel() / 10;
+
                 if (curMob.lvboss == 1) {
                     --this.numTA;
 
@@ -2279,6 +2283,11 @@ public class Place {
                         val yen = util.nextInt((int) (curMob.level * YEN_TA * 90 / 100), (int) (curMob.level * YEN_TA));
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
+
+                        if (isReceivedLuong) {
+                            // pass
+                            canReceived = true;
+                        }
                     }
                 } else if (curMob.lvboss == 2) {
                     --this.numTL;
@@ -2287,8 +2296,19 @@ public class Place {
                         val yen = util.nextInt((int) (curMob.level * YEN_TL * 90 / 100), (int) (curMob.level * YEN_TL));
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
+
+                        if (isReceivedLuong) {
+                            luong *= 3;
+                            canReceived = true;
+                        }
                     }
                 }
+
+                if (isReceivedLuong && canReceived && (curMob.lvboss == 1 || curMob.lvboss == 2)) {
+                    p.upluongMessage(luong);
+                    p.sendYellowMessage("Bạn nhận được " + luong + " lượng");
+                }
+
             } else {
                 if (curMob.lvboss == 1) {
                     ItemMap itemMap = LeaveItem((short) 231, p.nj.x, p.nj.y);

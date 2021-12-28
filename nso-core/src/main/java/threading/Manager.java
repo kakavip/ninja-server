@@ -137,6 +137,7 @@ public class Manager {
     public static byte MAX_DA_LV;
     public static byte N_DA;
     public static byte N_HP_MP;
+    public static byte N_PMNG;
 
     public static String[] MENU_EVENT_NPC;
     public static short ID_EVENT_NPC;
@@ -160,6 +161,7 @@ public class Manager {
             VDMQ_ITEM_IDS = parseShortArray(properties.getProperty("vdmq-item-ids"));
             N_DA = Byte.parseByte(properties.getProperty("n-da"));
             N_HP_MP = Byte.parseByte(properties.getProperty("n-hp-mp"));
+            N_PMNG = Byte.parseByte(properties.getProperty("n-pmng"));
 
             MIN_YEN_BOSS = Integer.parseInt(properties.getProperty("min-yen-boss"));
             MAX_YEN_BOSS = Integer.parseInt(properties.getProperty("max-yen-boss"));
@@ -225,16 +227,16 @@ public class Manager {
             GameScr.ArryenLuck = parseIntArray(properties.getProperty("yen-lat-hinh"));
             util.setDebug(Boolean.parseBoolean(properties.getProperty("debug")));
 
-            ITEM_LV_10 = getListItemByMaxLevel(10, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_20 = getListItemByMaxLevel(20, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_30 = getListItemByMaxLevel(30, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_40 = getListItemByMaxLevel(40, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_50 = getListItemByMaxLevel(50, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_60 = getListItemByMaxLevel(60, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_70 = getListItemByMaxLevel(70, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_80 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_90 = getListItemByMaxLevel(90, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
-            ITEM_LV_100 = getListItemByMaxLevel(100, MAX_PERCENT, N_YEN, N_DA, N_HP_MP);
+            ITEM_LV_10 = getListItemByMaxLevel(10, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_20 = getListItemByMaxLevel(20, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_30 = getListItemByMaxLevel(30, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_40 = getListItemByMaxLevel(40, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_50 = getListItemByMaxLevel(50, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_60 = getListItemByMaxLevel(60, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_70 = getListItemByMaxLevel(70, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_80 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_90 = getListItemByMaxLevel(90, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_100 = getListItemByMaxLevel(100, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             GameScr.LAT_HINH_LV100_ID = util.concatArray(ItemData.ITEM_LV_100, LAT_HINH_ID);
             GameScr.LAT_HINH_LV90_ID = util.concatArray(ItemData.ITEM_LV_90, LAT_HINH_ID);
             GameScr.LAT_HINH_LV80_ID = util.concatArray(ItemData.ITEM_LV_80, LAT_HINH_ID);
