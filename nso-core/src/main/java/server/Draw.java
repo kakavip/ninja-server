@@ -39,6 +39,27 @@ public class Draw {
                 p.sendYellowMessage("Vị trí người này không thể đi tới");
                 break;
             }
+            case 24_1: {
+
+                try {
+                    long yen = Integer.parseInt(str);
+                    if (p.nj.yen < yen) {
+                        p.session.sendMessageLog("Số yên trong hành trang của bạn phải lớn hơn " + yen + " yên.");
+                        break;
+                    } else if (p.nj.xu + yen > 2000000000) {
+                        p.session.sendMessageLog("Số xu trong hành trang của bạn đã đạt mức tối đa.");
+                        break;
+                    } else {
+                        p.nj.upyenMessage(-yen);
+                        p.nj.upxuMessage(yen);
+                        break;
+                    }
+                } catch (NumberFormatException ex) {
+                    p.session.sendMessageLog("Sai định dạng.");
+                    break;
+                }
+            }
+
             case 24_4: {
                 p.cardCode = str;
                 p.cardDCoin();
@@ -95,7 +116,8 @@ public class Draw {
             }
             case 100: {
                 final String num = str.replaceAll(" ", "").trim();
-                if (num.length() > 10 || !util.checkNumInt(num) || b < 0 || b >= Draw.server.manager.rotationluck.length) {
+                if (num.length() > 10 || !util.checkNumInt(num) || b < 0
+                        || b >= Draw.server.manager.rotationluck.length) {
                     return;
                 }
                 final int xujoin = Integer.parseInt(num);
@@ -111,7 +133,7 @@ public class Draw {
             }
             case 102: {
                 p.typemenu = 92;
-                MenuController.doMenuArray(p, new String[]{"Vòng xoay vip", "Vòng xoay thường"});
+                MenuController.doMenuArray(p, new String[] { "Vòng xoay vip", "Vòng xoay thường" });
                 break;
             }
         }
