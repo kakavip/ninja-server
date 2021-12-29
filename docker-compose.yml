@@ -27,6 +27,14 @@ services:
       - 14444:14444
     depends_on:
       - mysql
+  nginx:
+    build: ./nginx
+    # volumes:
+    #   - static_volume:/home/app/web/staticfiles
+    ports:
+      - 80:80
+    depends_on:
+      - nja_admin
 
   nja_admin:
     restart: always
@@ -50,10 +58,10 @@ services:
       - DB_PASS=12345678
       - DB_PORT=3306
       - DB_DATABASE=nja
-    ports:
-      - 80:8000
     depends_on:
       - mysql
+    volumes:
+      - static_volume:/code/static
 
   mysql:
     restart: always
@@ -67,16 +75,16 @@ services:
       MYSQL_USER: root
       MYSQL_DATABASE: nja
 
-  php_myadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: 123789
-    ports:
-      - 18085:80
-    depends_on:
-      - mysql
+  # php_myadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   restart: always
+  #   environment:
+  #     PMA_HOST: mysql
+  #     MYSQL_ROOT_PASSWORD: 123789
+  #   ports:
+  #     - 18085:80
+  #   depends_on:
+  #     - mysql
 
 networks:
   default:
@@ -84,3 +92,4 @@ networks:
     attachable: true
 volumes:
   local_mysql_data: null
+  static_volume: null
