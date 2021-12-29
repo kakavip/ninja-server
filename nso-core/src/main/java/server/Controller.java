@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import static patch.ItemShinwaManager.returnXuToSeller;
 
-
 @SuppressWarnings("ALL")
 public class Controller implements ISessionHandler {
     Server server;
@@ -489,23 +488,25 @@ public class Controller implements ISessionHandler {
                     val price = message.reader().readInt();
                     val item = p.nj.ItemBag[indexUI];
 
-                    int FEE = 500_000;
-                    int FEE_GOLD = 150;
-                    if (item != null && p.nj.xu >= 500_000 && p.luong >= 150) {
-                        if (item.isExpires) return;
+                    int FEE = 5_000;
+                    // int FEE_GOLD = 150;
+                    if (item != null && p.nj.xu >= 5_000) {
+                        if (item.isExpires)
+                            return;
                         ItemShinwa itemShinwa = new ItemShinwa(item, p.nj.name, price);
                         ItemShinwaManager.add(itemShinwa);
                         p.nj.removeItemBag(indexUI);
                         p.nj.upxuMessage(-FEE);
-                        p.upluongMessage(-FEE_GOLD);
+                        // p.upluongMessage(-FEE_GOLD);
                         p.endLoad(true);
                         Service.CharViewInfo(p, false);
                         p.endLoad(true);
                         break;
                     } else {
                         p.endLoad(true);
-                        p.sendYellowMessage("Không đủ " + String.format("%,d", FEE) + " xu hoặc " + FEE_GOLD + " lượng để treo ");
-                    
+                        p.sendYellowMessage(
+                                "Không đủ " + String.format("%,d", FEE) + " xu.");
+
                     }
                     break;
                 }
@@ -515,7 +516,7 @@ public class Controller implements ISessionHandler {
                     val itemShinwa = ItemShinwaManager.findItemById(itemId);
 
                     if (!itemShinwa.isExpired() && itemShinwa.getPrice() <= p.nj.getXu()) {
-               //         final byte bagNull = p.nj.getAvailableBag();
+                        // final byte bagNull = p.nj.getAvailableBag();
                         if (p.nj.getAvailableBag() == 0) {
                             p.session.sendMessageLog("Hành trang không đủ chổ trống");
                             return;
@@ -525,15 +526,16 @@ public class Controller implements ISessionHandler {
                         p.nj.addItemBag(false, itemShinwa.getItem());
                         returnXuToSeller(itemShinwa);
                         break;
-                    } if (p.nj.xu < itemShinwa.getPrice()) {
-                            // Khong du xu
-                            p.endLoad(true);
-                            p.sendYellowMessage("Không đủ xu để mua item");
-                            return;
+                    }
+                    if (p.nj.xu < itemShinwa.getPrice()) {
+                        // Khong du xu
+                        p.endLoad(true);
+                        p.sendYellowMessage("Không đủ xu để mua item");
+                        return;
                     } else {
-                       p.endLoad(true);
-                       p.sendYellowMessage("Lỗi không xác định !");
-                     }                  
+                        p.endLoad(true);
+                        p.sendYellowMessage("Lỗi không xác định !");
+                    }
                     break;
                 }
                 case 106: {
@@ -553,7 +555,7 @@ public class Controller implements ISessionHandler {
                     if (index == 0) {
                         GameScr.requestRankedInfo(p, ninjaName);
                     } else {
-//                         Thach dau
+                        // Thach dau
                         if (p.nj.getTournamentData().isCanGoNext()) {
                             if (p.nj.name.equals(ninjaName)) {
                                 if (p.nj.getTournamentData().getRanked() == 1) {
@@ -568,11 +570,13 @@ public class Controller implements ISessionHandler {
                             if (!tournament.checkBusy(ninjaName)) {
                                 tournament.enter(p.nj, ninjaName);
                             } else {
-                                p.sendYellowMessage("Đối thủ đang thi đấu với một người khác vui lòng đợi trong giây lát");
+                                p.sendYellowMessage(
+                                        "Đối thủ đang thi đấu với một người khác vui lòng đợi trong giây lát");
                             }
 
                         } else {
-                            p.nj.getPlace().chatNPC(p, 4, "Thất bại là mẹ thành công ta biết con hơi buồn nhưng một sự thật đáng buồn là con hãy quay lại vào ngày hôm sau");
+                            p.nj.getPlace().chatNPC(p, 4,
+                                    "Thất bại là mẹ thành công ta biết con hơi buồn nhưng một sự thật đáng buồn là con hãy quay lại vào ngày hôm sau");
                         }
                     }
 
@@ -598,7 +602,6 @@ public class Controller implements ISessionHandler {
             ex.printStackTrace();
         }
     }
-
 
     private void attackPlayerVsMob(Message message, User p) throws IOException {
         if (p != null && !p.nj.isDie) {
@@ -629,7 +632,8 @@ public class Controller implements ISessionHandler {
                                     i < template.maxFight; i = (byte) (i + 1)) {
 
                                 arrMob[i] = _ninja.getPlace().getMob(message.reader().readUnsignedByte());
-                                if (arrMob[i] == null) continue;
+                                if (arrMob[i] == null)
+                                    continue;
                             }
                             for (i = 0; i < arrNinja.length &&
                                     i < template.maxFight; i = (byte) (i + 1)) {
@@ -697,7 +701,8 @@ public class Controller implements ISessionHandler {
             if (clan != null) {
                 val tocTruong = clan.members.stream().filter(m -> {
                     val ninja = m.getNinja();
-                    if (ninja == null) return false;
+                    if (ninja == null)
+                        return false;
                     if (ninja.clan.typeclan == Constants.TOC_TRUONG)
                         return true;
                     return false;
@@ -705,7 +710,8 @@ public class Controller implements ISessionHandler {
                 if (tocTruong != null) {
                     final Ninja n = p.nj.getPlace().getNinja(tocTruong.name);
                     if (n != null) {
-                        p.nj.getPlace().chatNPC(p, (short) 32, "Ta đã gửi lời mời thách đấu của ngươi đến tộc trưởng gia tộc " + str);
+                        p.nj.getPlace().chatNPC(p, (short) 32,
+                                "Ta đã gửi lời mời thách đấu của ngươi đến tộc trưởng gia tộc " + str);
                         sendRequestBattleToAnother(tocTruong, p.nj, -150);
                     } else {
                         p.nj.getPlace().chatNPC(p, (short) 32, "Tộc trưởng không cùng khu với bạn");

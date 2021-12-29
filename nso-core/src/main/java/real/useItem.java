@@ -367,9 +367,9 @@ public class useItem {
                     p.upluongMessage(nluong);
                 } else {
                     // up kinh nghiem
-                    long maxLvExp = Level.getMaxExp(p.nj.getLevel());
-                    long nExp = util.nextInt((int) maxLvExp * 3 / 100, (int) maxLvExp * 5 / 100);
-                    p.nj.updateExp(nExp);
+                    long maxLvExp = Level.getLevel(p.nj.getLevel()).exps;
+                    long nExp = maxLvExp * util.nextInt(3, 5) / 100;
+                    p.updateExp(nExp, true);
                     p.sendYellowMessage("Bạn nhận được " + nExp + " kịnh nghiệm.");
                 }
                 p.nj.removeItemBag(index, 1);

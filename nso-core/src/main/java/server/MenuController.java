@@ -1333,8 +1333,8 @@ public class MenuController {
                         return;
                     }
                     p.upExpClan(util.nextInt(1, 10 + clan.getLevel()));
-                    p.upluongMessage(50 * clan.getLevel());
-                    p.nj.upyenMessage(500000 * clan.getLevel());
+                    p.upluongMessage(5 * clan.getLevel());
+                    p.nj.upyenMessage(5000 * clan.getLevel());
                     p.nj.getPlace().chatNPC(p, (short) npcId, "Điểm danh mỗi ngày sẽ nhận được các phần quà giá trị");
                     break;
                 }

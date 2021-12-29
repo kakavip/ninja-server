@@ -2824,8 +2824,8 @@ public class Place {
         if (!p.nj.isDie || this.map.isLangCo() || map.id == 111 || map.id == 110) {
             return;
         }
-        if (p.luong < 100) {
-            p.session.sendMessageLog("Bạn không có đủ 100 lượng!");
+        if (p.luong < 1) {
+            p.session.sendMessageLog("Bạn không có đủ 1 lượng!");
             return;
         }
         p.nj.get().isDie = false;
