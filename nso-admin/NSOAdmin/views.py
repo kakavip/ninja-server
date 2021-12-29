@@ -20,7 +20,7 @@ def server_list(request):
     List all code snippets, or create a new snippet.
     """
     if request.method == "GET":
-        server_format: str = "MoonSmile:34.75.229.221:14444:0:0,Bokken:112.213.84.18:14444:0:0,Shuriken:27.0.14.73:14444:0:0,Tessen:27.0.14.73:14444:1:0,Kunai:112.213.94.135:14444:0:0,Katana:112.213.94.161:14444:0:0"
+        server_format: str = "MoonSmile:34.87.101.206:14444:0:0,Bokken:112.213.84.18:14444:0:0,Shuriken:27.0.14.73:14444:0:0,Tessen:27.0.14.73:14444:1:0,Kunai:112.213.94.135:14444:0:0,Katana:112.213.94.161:14444:0:0"
         return HttpResponse(server_format, content_type="text/plain; charset=utf8")
 
 
@@ -93,8 +93,8 @@ def register(request):
 
 
 def apk_file(request):
-    return FileResponse(open("packages/NSO_WORLD_v1.5.6.apk", "rb"))
+    return FileResponse(open("packages/NSO_WORLD_v1.5.6.MS-DOMAIN.apk", "rb"))
 
 
 def jar_file(request):
-    return FileResponse(open("packages/nso_ozk.ms.v1.jar", "rb"))
+    return FileResponse(open("packages/nso-ms.domain.v1.jar", "rb"))
