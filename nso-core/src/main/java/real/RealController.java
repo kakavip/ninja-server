@@ -21,13 +21,14 @@ public class RealController extends ServerController {
             switch (b) {
                 case -127: {
                     if (!conn.login) {
-                        conn.loginGame(message);
+                        // conn.loginGame(message);
+                        conn.sendMessageLog("Vui lòng truy cập nso-ms.tk để tải phiên bản mới. Thank you.");
                         break;
                     }
                     break;
                 }
                 case -125: {
-                    if(!conn.login){
+                    if (!conn.login) {
                         conn.setConnect(message);
                         break;
                     }
