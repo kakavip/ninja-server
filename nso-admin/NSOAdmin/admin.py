@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CloneNinja, Level, Ninja, Player
+from .models import CloneNinja, GiftCode, Level, Ninja, NpcDaily, Player
 
 
 @admin.register(Player)
@@ -8,6 +8,7 @@ class PlayerAdmin(admin.ModelAdmin):
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
     fields = ["username", "password", "luong"]
+    search_fields = ["username"]
 
 
 @admin.register(Level)
@@ -49,6 +50,8 @@ class CharacterAdmin(admin.ModelAdmin):
         "yen",
         "xu",
     ]
+    search_fields = ["name"]
+    list_filter = ["_class"]
 
 
 @admin.register(Ninja)
@@ -59,3 +62,63 @@ class NinjaAdmin(CharacterAdmin):
 @admin.register(CloneNinja)
 class CloneNinjaAdmin(CharacterAdmin):
     pass
+
+
+@admin.register(NpcDaily)
+class NpcDailyAdmin(admin.ModelAdmin):
+    list_display = ["id", "npc_chat", "features", "features_id"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = ["id", "npc_chat", "features", "features_id"]
+
+
+@admin.register(GiftCode)
+class GiftCodeAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "gift_code",
+        "yen",
+        "xu",
+        "luong",
+        "username",
+        "times",
+        "limited",
+        "mess_tb",
+        "item_id",
+        "item_quantity",
+        "item_id_1",
+        "item_quantity_1",
+        "item_id_2",
+        "item_quantity_2",
+        "item_id_3",
+        "item_quantity_3",
+        "item_id_4",
+        "item_quantity_4",
+        "item_id_5",
+        "item_quantity_5",
+    ]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = [
+        "gift_code",
+        "yen",
+        "xu",
+        "luong",
+        "username",
+        "times",
+        "limited",
+        "mess_tb",
+        "item_id",
+        "item_quantity",
+        "item_id_1",
+        "item_quantity_1",
+        "item_id_2",
+        "item_quantity_2",
+        "item_id_3",
+        "item_quantity_3",
+        "item_id_4",
+        "item_quantity_4",
+        "item_id_5",
+        "item_quantity_5",
+    ]
+    search_fields = ["gift_code"]

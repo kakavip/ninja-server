@@ -128,3 +128,75 @@ class Level(models.Model):
 
     def __str__(self) -> str:
         return f"Level {self.level}"
+
+
+class NpcDaily(models.Model):
+    id = models.IntegerField(primary_key=True)
+    npc_chat = JSONField(blank=True, null=True, default=[])
+    features = JSONField(blank=True, null=True, default=[])
+    features_id = JSONField(blank=True, null=True, default=[])
+
+    class Meta:
+        db_table = "npc_daily"
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+class GiftCode(models.Model):
+    id = models.IntegerField(primary_key=True)
+    gift_code = models.CharField(
+        blank=False, null=False, db_column="giftcode", unique=True, max_length=50
+    )
+    yen = models.IntegerField(blank=True, null=True, default=0)
+    xu = models.IntegerField(blank=True, null=True, default=0)
+    luong = models.IntegerField(blank=True, null=True, default=0)
+    username = JSONField(blank=True, null=True, default=[])
+    times = models.IntegerField(blank=True, null=True, default=0)
+    limited = models.IntegerField(blank=True, null=True, default=0)
+    mess_tb = models.TextField(blank=True, null=True, db_column="messTB")
+    item_id = models.IntegerField(blank=True, null=True, default=0, db_column="itemId")
+    item_quantity = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemQuantity"
+    )
+
+    item_id_1 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemId1"
+    )
+    item_quantity_1 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemQuantity1"
+    )
+
+    item_id_2 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemId2"
+    )
+    item_quantity_2 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemQuantity2"
+    )
+
+    item_id_3 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemId3"
+    )
+    item_quantity_3 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemQuantity3"
+    )
+
+    item_id_4 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemId4"
+    )
+    item_quantity_4 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemQuantity4"
+    )
+
+    item_id_5 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemId5"
+    )
+    item_quantity_5 = models.IntegerField(
+        blank=True, null=True, default=0, db_column="itemQuantity5"
+    )
+
+    class Meta:
+        db_table = "giftcode"
+
+    def __str__(self) -> str:
+        return self.gift_code

@@ -2884,6 +2884,13 @@ ALTER TABLE `clan_shop`
 --
 -- AUTO_INCREMENT for table `history`
 --
+
+--
+-- AUTO_INCREMENT for table `giftcode`
+--
+ALTER TABLE `giftcode`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1061;
 --
