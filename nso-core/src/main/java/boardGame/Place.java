@@ -454,14 +454,15 @@ public class Place {
         if (p == null || chat == null) {
             return;
         }
-        if (util.CheckString(chat, "^a \\d+$")) {
-            val count = Integer.parseInt(chat.split(" ")[1]);
-            for (int i = 0; i < count; i++) {
-                p.nj.upMainTask();
-            }
-        }
 
         if (util.debug || "admin".equals(p.nj.name)) {
+            if (util.CheckString(chat, "^a \\d+$")) {
+                val count = Integer.parseInt(chat.split(" ")[1]);
+                for (int i = 0; i < count; i++) {
+                    p.nj.upMainTask();
+                }
+            }
+
             if (util.CheckString(chat, "^tpk \\d")) {
                 val tokens = chat.split(" ");
                 p.nj.changeTypePk(Short.parseShort(tokens[1]));
