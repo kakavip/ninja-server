@@ -953,6 +953,20 @@ public class User extends Actor implements SendMessage {
         this.loadSkill();
     }
 
+    @SneakyThrows
+    public synchronized void convertNClass(byte newNclass) {
+        this.restPpoint(this.nj.get());
+        this.restSpoint();
+
+        this.nj.get().setSkills(new ArrayList<>());
+        this.nj.get().setNClass(newNclass);
+
+        this.nj.get().resetKSkill();
+        this.nj.get().resetOSkill();
+
+        this.loadSkill();
+    }
+
     public void updatePotential() throws IOException {
         final Message m = new Message(-30);
         m.writer().writeByte(-109);

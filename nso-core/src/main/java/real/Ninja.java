@@ -324,7 +324,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             for (i = 0; i < ItemBag.length; i = (i + 1)) {
                 if (ItemBag[i] != null && !(ItemBag[i]).isExpires && (ItemData.ItemDataId(ItemBag[i].id)).isUpToUp) {
                     for (int j = (i + 1); j < ItemBag.length; j = (j + 1)) {
-                        if (ItemBag[j] != null && !(ItemBag[i]).isExpires && (ItemBag[j]).id == (ItemBag[i]).id && (ItemBag[j]).isLock() == (ItemBag[i]).isLock()) {
+                        if (ItemBag[j] != null && !(ItemBag[i]).isExpires && (ItemBag[j]).id == (ItemBag[i]).id
+                                && (ItemBag[j]).isLock() == (ItemBag[i]).isLock()) {
                             (ItemBag[i]).quantity += (ItemBag[j]).quantity;
                             ItemBag[j] = null;
                         }
@@ -354,9 +355,12 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
     protected void sortBox() throws IOException {
         for (byte i = 0; i < this.ItemBox.length; ++i) {
-            if (this.ItemBox[i] != null && !this.ItemBox[i].isExpires && ItemData.ItemDataId(this.ItemBox[i].id).isUpToUp) {
+            if (this.ItemBox[i] != null && !this.ItemBox[i].isExpires
+                    && ItemData.ItemDataId(this.ItemBox[i].id).isUpToUp) {
                 for (byte j = (byte) (i + 1); j < this.ItemBox.length; ++j) {
-                    if (this.ItemBox[j] != null && !this.ItemBox[i].isExpires && this.ItemBox[j].id == this.ItemBox[i].id && this.ItemBox[j].isLock() == this.ItemBox[i].isLock()) {
+                    if (this.ItemBox[j] != null && !this.ItemBox[i].isExpires
+                            && this.ItemBox[j].id == this.ItemBox[i].id
+                            && this.ItemBox[j].isLock() == this.ItemBox[i].isLock()) {
                         final Item item = this.ItemBox[i];
                         item.quantity += this.ItemBox[j].quantity;
                         this.ItemBox[j] = null;
@@ -642,8 +646,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                         }
                     }
                     try {
-                        nj.friend = Mapper.converter.readValue(red.getString("friend"), new TypeReference<List<Friend>>() {
-                        });
+                        nj.friend = Mapper.converter.readValue(red.getString("friend"),
+                                new TypeReference<List<Friend>>() {
+                                });
                     } catch (Exception e) {
                         System.out.println("PARSE FRIEND ERROR");
                     }
@@ -743,7 +748,13 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.add(this.mapType);
             val friends = Mapper.converter.writeValueAsString(this.friend);
 
-            String sqlSET = "`taskId`=" + this.getTaskId() + ",`class`=" + this.nclass + ",`ppoint`=" + this.getPpoint() + ",`potential0`=" + this.getPotential0() + ",`potential1`=" + this.getPotential1() + ",`potential2`=" + this.getPotential2() + ",`potential3`=" + this.getPotential3() + ",`spoint`=" + this.getSpoint() + ",`level`=" + this.getLevel() + ",`exp`=" + this.getExp() + ",`expdown`=" + this.expdown + ",`pk`=" + this.pk + ",`xu`=" + this.xu + ",`yen`=" + this.yen + ",`maxluggage`=" + this.maxluggage + ",`levelBag`=" + this.levelBag + ",`site`='" + jarr.toJSONString() + "',`friend`='" + friends + "'";
+            String sqlSET = "`taskId`=" + this.getTaskId() + ",`class`=" + this.nclass + ",`ppoint`=" + this.getPpoint()
+                    + ",`potential0`=" + this.getPotential0() + ",`potential1`=" + this.getPotential1()
+                    + ",`potential2`=" + this.getPotential2() + ",`potential3`=" + this.getPotential3() + ",`spoint`="
+                    + this.getSpoint() + ",`level`=" + this.getLevel() + ",`exp`=" + this.getExp() + ",`expdown`="
+                    + this.expdown + ",`pk`=" + this.pk + ",`xu`=" + this.xu + ",`yen`=" + this.yen + ",`maxluggage`="
+                    + this.maxluggage + ",`levelBag`=" + this.levelBag + ",`site`='" + jarr.toJSONString()
+                    + "',`friend`='" + friends + "'";
             jarr.clear();
             for (final Skill skill : this.getSkills()) {
                 jarr.add(SkillData.ObjectSkill(skill));
@@ -802,8 +813,14 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.clear();
             jarr.add(this.clan.clanName);
             jarr.add(this.clan.pointClan);
-            sqlSET = sqlSET + ",`clan`='" + jarr.toJSONString() + "',`denbu`=" + this.denbu + ",`newlogin`='" + util.toDateString(this.newlogin) + "',`ddClan`=" + this.ddClan + ",`caveID`=" + this.caveID + ",`nCave`=" + this.nCave + ",`pointCave`=" + this.pointCave + ",`useCave`=" + this.useCave + ",`bagCaveMax`=" + this.bagCaveMax + ",`itemIDCaveMax`=" + this.itemIDCaveMax + ",`exptype`=" + this.exptype + "";
-            sqlSET = sqlSET + ",`reward10`=" + reward10 + ",`reward20`=" + reward20 + ",`reward30`=" + reward30 + ",`reward40`=" + reward40 + ",`reward50`=" + reward50 + ",`pointEvent`=" + pointEvent + ",`timesResetPpoint`=" + timesResetPpoint + ",`timesResetSpoint`=" + timesResetSpoint + "";
+            sqlSET = sqlSET + ",`clan`='" + jarr.toJSONString() + "',`denbu`=" + this.denbu + ",`newlogin`='"
+                    + util.toDateString(this.newlogin) + "',`ddClan`=" + this.ddClan + ",`caveID`=" + this.caveID
+                    + ",`nCave`=" + this.nCave + ",`pointCave`=" + this.pointCave + ",`useCave`=" + this.useCave
+                    + ",`bagCaveMax`=" + this.bagCaveMax + ",`itemIDCaveMax`=" + this.itemIDCaveMax + ",`exptype`="
+                    + this.exptype + "";
+            sqlSET = sqlSET + ",`reward10`=" + reward10 + ",`reward20`=" + reward20 + ",`reward30`=" + reward30
+                    + ",`reward40`=" + reward40 + ",`reward50`=" + reward50 + ",`pointEvent`=" + pointEvent
+                    + ",`timesResetPpoint`=" + timesResetPpoint + ",`timesResetSpoint`=" + timesResetSpoint + "";
             sqlSET = sqlSET + ", `tasks`='" + converter.writeValueAsString(getTasks()) + "'";
 
             sqlSET = sqlSET + ",`phongloi`=" + this.getPhongLoi() + "";
@@ -936,8 +953,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     @Override
-    public @NotNull
-    List<@NotNull Ninja> getNinjas() {
+    public @NotNull List<@NotNull Ninja> getNinjas() {
         return Collections.singletonList(this);
     }
 
@@ -962,8 +978,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     @Override
-    public @NotNull
-    String getTeamName() {
+    public @NotNull String getTeamName() {
         return this.name;
     }
 
@@ -1218,8 +1233,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 this.setTaskId((byte) (this.getTaskId() + 1));
                 this.setTaskIndex(-1);
                 Service.finishTask(this);
-            }
-            else {
+            } else {
                 this.taskCount = (short) (this.taskCount + 1);
                 if (this.taskCount >= taskTemplate.counts[this.getTaskIndex()]) {
                     this.setTaskIndex((byte) (this.getTaskIndex() + 1));

@@ -2266,6 +2266,25 @@ public class MenuController {
                     }
                     break;
                 }
+
+                case 36_4_0: {
+                    if (p.luong < 1_000) {
+                        p.sendYellowMessage("Con cần có đủ 1.000 lượng để chuyển phái.");
+                        break;
+                    }
+
+                    byte nClass = (byte) (menuId + 1);
+
+                    if (p.nj.get().getNClass() == nClass) {
+                        p.session.sendMessageLog("Con đang ở lớp này rồi, hãy chuyến tới lớp khác nếu muốn.");
+                        break;
+                    }
+
+                    p.convertNClass(nClass);
+                    p.upluongMessage(-1_000);
+                    p.session.sendMessageLog("Hãy thoát game, ta sẽ cập nhật lớp mới cho con. Nhớ cộng lại tiềm năng và kĩ năng nhé.");
+                    break;
+                }
                 case 572: {
                     switch (menuId) {
                         case 0: {
@@ -2488,6 +2507,18 @@ public class MenuController {
                     } else {
                         p.sendYellowMessage("Ta cũng cần ăn cơm đem 10.000 lượng đến đây ta thông hành trang cho");
                     }
+                    break;
+                }
+                case 4: {
+
+                    if (p.nj.get().getNClass() <= 0 || p.nj.get().getNClass() > 6) {
+                        p.session.sendMessageLog("Con cần vào lớp để sử dụng tính năng này.");
+                        break;
+                    }
+
+                    p.typemenu = 36_4_0;
+                    doMenuArray(p, new String[] {
+                            "Kiếm", "Phi tiêu", "Kunai", "Cung", "Đao", "Quạt" });
                     break;
                 }
                 default:

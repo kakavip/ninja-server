@@ -1258,6 +1258,22 @@ public class Body implements ISoloer {
         this.veff.remove(eff);
     }
 
+    public void setNClass(byte nClass) {
+        this.nclass = nClass;
+    }
+
+    public byte getNClass() {
+        return this.nclass;
+    }
+
+    public void resetOSkill() {
+        this.OSkill = new byte[] { -1, -1, -1 };
+    }
+
+    public void resetKSkill() {
+        this.KSkill = new byte[] { -1, -1, -1, -1, -1 };
+    }
+
     public short getCSkill() {
         if (nclass == 0) {
             return 0;
