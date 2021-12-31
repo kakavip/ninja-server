@@ -6,6 +6,8 @@ import json
 
 
 class Player(models.Model):
+    STATUSES = (("active", "ACTIVE"), ("wait", "WAIT"))
+
     username = models.CharField(max_length=20, blank=False, null=False, unique=True)
     password = models.CharField(max_length=20, blank=False, null=False)
     luong = models.IntegerField(blank=False, null=False, default=0)
@@ -14,7 +16,9 @@ class Player(models.Model):
     ticket_gold = models.IntegerField(
         blank=False, null=False, default=0, db_column="ticketGold"
     )
-    status = models.CharField(blank=False, null=False, default="active", max_length=20)
+    status = models.CharField(
+        blank=False, null=False, default="active", max_length=20, choices=STATUSES
+    )
     phone = models.CharField(blank=True, null=True, max_length=20)
     joined_time = models.DateTimeField(
         blank=True, null=True, db_column="ngaythamgia", auto_now_add=True

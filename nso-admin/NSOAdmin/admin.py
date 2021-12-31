@@ -4,11 +4,19 @@ from .models import CloneNinja, GiftCode, Level, Ninja, NpcDaily, Player
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ["pk", "username", "password", "ninja", "luong", "joined_time"]
+    list_display = [
+        "pk",
+        "username",
+        "password",
+        "ninja",
+        "luong",
+        "joined_time",
+        "status",
+    ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
-    fields = ["username", "password", "luong"]
-    search_fields = ["username"]
+    fields = ["username", "password", "luong", "status"]
+    search_fields = ["username", "ninja"]
 
 
 @admin.register(Level)

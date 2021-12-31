@@ -49,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "ratelimit.middleware.RatelimitMiddleware",
 ]
 
 ROOT_URLCONF = "NSOAdmin.urls"
@@ -71,6 +72,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "NSOAdmin.wsgi.application"
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv("REDIS_CACHE_DEFAULT", "redis://redis:6379/1"),
+        "TIMEOUT": 2000,
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "PARSER_CLASS": "redis.connection.HiredisParser",
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -126,3 +136,16 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
+
+# Rest
+REST_FRAMEWORK = {
+    "EXCEPTION_HANDLER": "common.exception_handler.custom_exception_handler",
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
+
+
+RATELIMIT_VIEW = "common.response.handler403"
+RATELIMIT_IP_META_KEY = "common.secure.get_ip_from_request"

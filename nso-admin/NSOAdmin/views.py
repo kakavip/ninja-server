@@ -7,11 +7,16 @@ from django.shortcuts import render
 from rest_framework import status
 from django.http import FileResponse
 from django.db import transaction
-
-
+from ratelimit.decorators import ratelimit
+from common import response, secure
 from django.http import HttpResponse
+from django.core.cache import caches
 
 from NSOAdmin.models import Player
+from common.base_exception import BaseApiException
+
+
+cache = caches["default"]
 
 
 @api_view(["GET"])
@@ -32,64 +37,45 @@ def downloads(request):
     return render(request, "downloads.html")
 
 
+# @ratelimit(key="ip", rate="3/365d", block=True)
 @api_view(["POST"])
+@transaction.atomic
 def register(request):
+    client_ip: str = secure.get_ip_from_request(request)
+
     if request.method == "POST":
         username = request.data.get("user")
         password = request.data.get("pass")
 
         if not (username and password):
-            return JsonResponse(
-                {
-                    "status": "Failure",
-                    "message": f"Tài khoản và mật khẩu không được trống.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-                safe=False,
-            )
+            return response.fail("Tài khoản và mật khẩu không được trống.")
 
         if not (
             username == re.findall(r"([\w|\d]+)", username)[0]
             and password == re.findall(r"([\w|\d]+)", password)[0]
         ):
-            return JsonResponse(
-                {
-                    "status": "Failure",
-                    "message": f"Tài khoản và mật khẩu phải là số hoặc chữ.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-                safe=False,
+            return response.fail("Tài khoản và mật khẩu phải là số hoặc chữ.")
+
+        player: Optional[Player] = Player.objects.filter(username=username).first()
+        if not player:
+            num_regis: int = cache.get_or_set(client_ip, 0, timeout=86400 * 365)
+
+            status: str = "active"
+            if num_regis >= 3:
+                status = "wait"
+
+            Player.objects.create(
+                username=username, password=password, luong=1000, status=status
+            )
+            cache.incr(client_ip)
+        else:
+            raise BaseApiException(
+                f"Bạn đã đăng kí tài khoàn thất bại. Username: {username} đã tồn tại."
             )
 
-        try:
-            with transaction.atomic():
-                player: Optional[Player] = Player.objects.filter(
-                    username=username
-                ).first()
-                if not player:
-                    Player.objects.create(
-                        username=username, password=password, luong=1000
-                    )
-                else:
-                    raise Exception()
-
-            return JsonResponse(
-                {
-                    "status": "Success",
-                    "message": "Bạn đã đăng kí tài khoàn thành công.",
-                },
-                status=status.HTTP_200_OK,
-                safe=False,
-            )
-        except:
-            return JsonResponse(
-                {
-                    "status": "Failure",
-                    "message": f"Bạn đã đăng kí tài khoàn thất bại. Username: {username} đã tồn tại.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-                safe=False,
-            )
+        return response.success(
+            {"status": "Success", "message": "Bạn đã đăng kí tài khoàn thành công."}
+        )
 
 
 def apk_file(request):

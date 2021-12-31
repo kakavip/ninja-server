@@ -23,6 +23,7 @@ services:
       - DB_PASS=12345678
       - DB_PORT=3306
       - DB_DATABASE=nja
+      - REDIS_CACHE_DEFAULT=redis://redis:6379/1
     ports:
       - 14444:14444
     depends_on:
@@ -35,6 +36,13 @@ services:
       - 80:80
     depends_on:
       - nja_admin
+  
+  redis:
+    image: redis:4.0.11
+    environment:
+      - "affinity:image==redis"
+    volumes:
+      - local_redis_data:/data
 
   nja_admin:
     restart: always
@@ -60,6 +68,7 @@ services:
       - DB_DATABASE=nja
     depends_on:
       - mysql
+      - redis
     volumes:
       - static_volume:/code/static
 
@@ -93,3 +102,4 @@ networks:
 volumes:
   local_mysql_data: null
   static_volume: null
+  local_redis_data: null
