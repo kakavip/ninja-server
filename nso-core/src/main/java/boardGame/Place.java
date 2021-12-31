@@ -2076,7 +2076,7 @@ public class Place {
         if (p.nj.isNhanban) {
             dame = dame * p.nj.clone.percendame / 100;
         }
-        int xpnew = dame / 25 * body.getLevel() * 2;
+        int xpnew = dame / 25 * body.getLevel();
         if (body.getEffType((byte) 18) != null) {
             xpnew *= body.getEffType((byte) 18).param;
         }
@@ -2088,13 +2088,13 @@ public class Place {
             xpnew /= 2;
         }
         if (this.map.isLangCo()) {
-            xpnew = xpnew * 105 / 100;
+            xpnew = xpnew * 120 / 100;
         } else if (this.map.VDMQ()) {
-            xpnew = xpnew * 105 / 100;
+            xpnew = xpnew * 110 / 100;
         }
 
         if (this.map.cave != null || (curMob.level > 1 && Math.abs(curMob.level - body.getLevel()) <= 10)) {
-            xpup += xpnew;
+            xpup += xpnew * (90 + (curMob.level - body.getLevel())) / 100;
         }
 
         if (map.isLdgtMap()) {
@@ -2273,7 +2273,7 @@ public class Place {
             final int master = curMob.sortNinjaFight();
 
             if (!this.map.isLdgtMap()) {
-                boolean isReceivedLuong = util.nextInt(100) <= 30;
+                boolean isReceivedLuong = util.nextInt(100) <= 10;
                 boolean canReceived = false;
                 int luong = p.nj.getMaxLevel() / 10;
 

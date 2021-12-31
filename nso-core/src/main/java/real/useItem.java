@@ -358,12 +358,12 @@ public class useItem {
             }
             case 38:
                 int luck = util.nextInt(100);
-                if (luck <= 50) {
+                if (luck <= 30) {
                     // up yen
                     p.nj.upyenMessage(util.nextInt(p.nj.getMaxLevel() * 140, p.nj.getMaxLevel() * 150));
-                } else if (luck <= 70) {
+                } else if (luck <= 50) {
                     // up luong
-                    int nluong = util.nextInt(p.nj.getMaxLevel() / 3, p.nj.getMaxLevel() / 2);
+                    int nluong = util.nextInt(p.nj.getMaxLevel() / 10, p.nj.getMaxLevel() / 5);
                     p.upluongMessage(nluong);
                 } else {
                     // up kinh nghiem

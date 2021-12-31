@@ -2736,7 +2736,7 @@ public class User extends Actor implements SendMessage {
                 final Skill skill = this.nj.getSkill(66 + this.nj.nclass);
                 if (skill != null && xpup >= 500000L && !this.nj.isNhanban && this.nj.clone.isIslive()) {
                     final SkillData data = SkillData.Templates(skill.id);
-                    if (data.maxPoint > skill.point && nextInt(50 * skill.point) == 0) {
+                    if (data.maxPoint > skill.point && nextInt(200 * skill.point) == 0) {
                         ++skill.point;
                         this.sendYellowMessage(data.name + " đã đạt cấp " + skill.point);
                         this.loadSkill();
@@ -2753,7 +2753,7 @@ public class User extends Actor implements SendMessage {
             final int oldLv = this.nj.get().getLevel();
             this.nj.get().updateExp(xpup);
             if (!this.nj.isNhanban && this.nj.clone.isIslive()) {
-                final long cXpup = xpup * this.nj.clone.dameMax() / this.nj.get().dameMax();
+                final long cXpup = xpup * this.nj.clone.dameMax() / (this.nj.get().dameMax() * 5);
                 this.nj.clone.updateExp(cXpup);
             }
 

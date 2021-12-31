@@ -1378,7 +1378,7 @@ public class MenuController {
                                         } else if (luck <= 45) {
                                             long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                            p.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100, true);
+                                            p.updateExp((long) currentLvExps * util.nextInt(3, 7) / 100, true);
                                             ;
                                         } else {
                                             p.nj.upyenMessage(
@@ -1462,7 +1462,7 @@ public class MenuController {
                                             } else if (luck < 60) {
                                                 long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                                p.updateExp((long) currentLvExps * util.nextInt(5, 10) / 100, true);
+                                                p.updateExp((long) currentLvExps * util.nextInt(3, 7) / 100, true);
                                             } else {
                                                 p.nj.upyenMessage(
                                                         util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
@@ -2282,7 +2282,8 @@ public class MenuController {
 
                     p.convertNClass(nClass);
                     p.upluongMessage(-1_000);
-                    p.session.sendMessageLog("Hãy thoát game, ta sẽ cập nhật lớp mới cho con. Nhớ cộng lại tiềm năng và kĩ năng nhé.");
+                    p.session.sendMessageLog(
+                            "Hãy thoát game, ta sẽ cập nhật lớp mới cho con. Nhớ cộng lại tiềm năng và kĩ năng nhé.");
                     break;
                 }
                 case 572: {
