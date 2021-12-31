@@ -250,3 +250,51 @@ class Item(models.Model):
 
     class Meta:
         db_table = "item"
+
+
+class ItemSell(models.Model):
+    id = models.IntegerField(primary_key=True)
+    type = models.IntegerField(
+        blank=False, null=False, choices=ItemTypeEnum.to_choices()
+    )
+    list_item = JSONField(blank=True, null=True, default=[], db_column="ListItem")
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+    class Meta:
+        db_table = "itemsell"
+
+
+class ItemShinwa(models.Model):
+    id = models.IntegerField(primary_key=True)
+    item = JSONField(blank=True, null=True, default=[])
+
+    class Meta:
+        db_table = "itemshinwa"
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+class OptionItem(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    type = models.IntegerField(null=True, blank=True, default=0)
+
+    class Meta:
+        db_table = "optionitem"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class OptionSkill(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        db_table = "optionskill"
+
+    def __str__(self) -> str:
+        return self.name

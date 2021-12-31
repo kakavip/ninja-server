@@ -1,5 +1,18 @@
 from django.contrib import admin
-from .models import CloneNinja, GiftCode, Item, Level, Ninja, NpcDaily, Player
+from django.db import models
+from .models import (
+    CloneNinja,
+    GiftCode,
+    Item,
+    ItemSell,
+    ItemShinwa,
+    Level,
+    Ninja,
+    NpcDaily,
+    OptionItem,
+    OptionSkill,
+    Player,
+)
 
 
 @admin.register(Player)
@@ -177,3 +190,39 @@ class ItemAdmin(admin.ModelAdmin):
         "option_2",
         "option_3",
     ]
+
+
+@admin.register(ItemSell)
+class ItemSellAdmin(admin.ModelAdmin):
+    list_display = ["id", "type", "list_item"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    list_filter = ["type"]
+    fields = ["type", "list_item"]
+
+
+@admin.register(ItemShinwa)
+class ItemShinwaAdmin(admin.ModelAdmin):
+    list_display = ["id", "item"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = ["item"]
+
+
+@admin.register(OptionItem)
+class OptionItemAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "type"]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["name"]
+    list_filter = ["type"]
+    fields = ["name", "type"]
+
+
+@admin.register(OptionSkill)
+class OptionSkillAdmin(admin.ModelAdmin):
+    list_display = ["id", "name"]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["name"]
+    fields = ["name"]
