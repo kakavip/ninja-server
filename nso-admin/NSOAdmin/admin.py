@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CloneNinja, GiftCode, Level, Ninja, NpcDaily, Player
+from .models import CloneNinja, GiftCode, Item, Level, Ninja, NpcDaily, Player
 
 
 @admin.register(Player)
@@ -7,16 +7,17 @@ class PlayerAdmin(admin.ModelAdmin):
     list_display = [
         "pk",
         "username",
-        "password",
+        "status",
         "ninja",
         "luong",
+        "password",
         "joined_time",
-        "status",
     ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
     fields = ["username", "password", "luong", "status"]
     search_fields = ["username", "ninja"]
+    list_filter = ["status"]
 
 
 @admin.register(Level)
@@ -130,3 +131,49 @@ class GiftCodeAdmin(admin.ModelAdmin):
         "item_quantity_5",
     ]
     search_fields = ["gift_code"]
+
+
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "description",
+        "type",
+        "nclass",
+        "gender",
+        "level",
+        "icon_id",
+        "part",
+        "uptoup",
+        "is_expires",
+        "seconds_expires",
+        "sale_coin_lock",
+        "item_option",
+        "option_1",
+        "option_2",
+        "option_3",
+    ]
+
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    list_filter = ["type", "nclass", "gender"]
+    search_fields = ["name", "description"]
+    fields = [
+        "name",
+        "description",
+        "type",
+        "nclass",
+        "gender",
+        "level",
+        "icon_id",
+        "part",
+        "uptoup",
+        "is_expires",
+        "seconds_expires",
+        "sale_coin_lock",
+        "item_option",
+        "option_1",
+        "option_2",
+        "option_3",
+    ]

@@ -4,6 +4,10 @@ from jsonfield import JSONField
 from django.db.models import Sum
 import json
 
+from NSOAdmin.enums.item_type_enum import ItemTypeEnum
+from NSOAdmin.enums.ninja_class_enum import NinjaClassEnum
+from NSOAdmin.enums.ninja_gender_enum import NinjaGenderEnum
+
 
 class Player(models.Model):
     STATUSES = (("active", "ACTIVE"), ("wait", "WAIT"))
@@ -204,3 +208,45 @@ class GiftCode(models.Model):
 
     def __str__(self) -> str:
         return self.gift_code
+
+
+class Item(models.Model):
+    id = models.IntegerField(primary_key=True)
+    type = models.IntegerField(
+        blank=False, null=False, choices=ItemTypeEnum.to_choices()
+    )
+    nclass = models.IntegerField(
+        blank=False,
+        null=False,
+        default=0,
+        db_column="class",
+        choices=NinjaClassEnum.to_choices(),
+    )
+    gender = models.IntegerField(
+        blank=True, null=True, default=2, choices=NinjaGenderEnum.to_choices()
+    )
+    name = models.CharField(blank=True, null=True, max_length=100)
+    description = models.TextField(null=True, blank=True)
+    level = models.IntegerField(null=False, blank=False, default=0)
+    icon_id = models.IntegerField(null=True, blank=True, db_column="iconID")
+    part = models.IntegerField(null=True, blank=False, default=-1)
+    uptoup = models.IntegerField(blank=True, null=True, default=0)
+    is_expires = models.BooleanField(
+        blank=True, null=True, default=False, db_column="isExpires"
+    )
+    seconds_expires = models.IntegerField(
+        blank=True, null=True, default=0, db_column="secondsExpires"
+    )
+    sale_coin_lock = models.IntegerField(
+        blank=True, null=True, default=0, db_column="saleCoinLock"
+    )
+    item_option = JSONField(blank=True, null=True, default=[], db_column="ItemOption")
+    option_1 = JSONField(blank=True, null=True, default=[], db_column="Option1")
+    option_2 = JSONField(blank=True, null=True, default=[], db_column="Option2")
+    option_3 = JSONField(blank=True, null=True, default=[], db_column="Option3")
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        db_table = "item"
