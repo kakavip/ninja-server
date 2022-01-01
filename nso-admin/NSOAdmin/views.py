@@ -29,6 +29,14 @@ def server_list(request):
         return HttpResponse(server_format, content_type="text/plain; charset=utf8")
 
 
+@api_view(["GET"])
+def srvip(request):
+    if request.method == "GET":
+        server_format: str = "34.87.101.206:14444"
+
+        return HttpResponse(server_format, content_type="text/plain; charset=utf8")
+
+
 def index(request):
     return render(request, "index.html")
 

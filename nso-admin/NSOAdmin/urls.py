@@ -17,12 +17,21 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from NSOAdmin.views import apk_file, downloads, index, jar_file, register, server_list
+from NSOAdmin.views import (
+    apk_file,
+    downloads,
+    index,
+    jar_file,
+    register,
+    server_list,
+    srvip,
+)
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("nja.txt", server_list),
+    path("srvip/nj.txt", srvip),
     path("", index, name="home"),
     path("register", register, name="register"),
     path("downloads", downloads, name="downloads"),
