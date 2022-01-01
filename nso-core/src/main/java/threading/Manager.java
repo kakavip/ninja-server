@@ -235,8 +235,8 @@ public class Manager {
             ITEM_LV_60 = getListItemByMaxLevel(60, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             ITEM_LV_70 = getListItemByMaxLevel(70, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             ITEM_LV_80 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
-            ITEM_LV_90 = getListItemByMaxLevel(90, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
-            ITEM_LV_100 = getListItemByMaxLevel(100, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_90 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
+            ITEM_LV_100 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             GameScr.LAT_HINH_LV100_ID = util.concatArray(ItemData.ITEM_LV_100, LAT_HINH_ID);
             GameScr.LAT_HINH_LV90_ID = util.concatArray(ItemData.ITEM_LV_90, LAT_HINH_ID);
             GameScr.LAT_HINH_LV80_ID = util.concatArray(ItemData.ITEM_LV_80, LAT_HINH_ID);
