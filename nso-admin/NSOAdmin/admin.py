@@ -2,16 +2,20 @@ from django.contrib import admin
 from django.db import models
 from .models import (
     CloneNinja,
+    Effect,
     GiftCode,
     Item,
     ItemSell,
     ItemShinwa,
     Level,
     Ninja,
+    Npc,
     NpcDaily,
     OptionItem,
     OptionSkill,
     Player,
+    Shop,
+    Skill,
 )
 
 
@@ -84,6 +88,15 @@ class NinjaAdmin(CharacterAdmin):
 @admin.register(CloneNinja)
 class CloneNinjaAdmin(CharacterAdmin):
     pass
+
+
+@admin.register(Npc)
+class NpcAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "head", "body", "leg", "type", "talk_id", "talk"]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["name"]
+    fields = ["name", "head", "body", "leg", "type", "talk_id", "talk"]
 
 
 @admin.register(NpcDaily)
@@ -226,3 +239,48 @@ class OptionSkillAdmin(admin.ModelAdmin):
     empty_display_value = "--empty--"
     search_fields = ["name"]
     fields = ["name"]
+
+
+@admin.register(Shop)
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ["id", "add", "vnd", "icon", "mota", "ruong"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    search_fields = ["mota"]
+    fields = ["add", "vnd", "icon", "mota", "ruong"]
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "nclass",
+        "max_point",
+        "type",
+        "icon_id",
+        "desc",
+        "skill_templates",
+    ]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["desc", "name"]
+    list_filter = ["nclass"]
+    fields = [
+        "name",
+        "nclass",
+        "max_point",
+        "type",
+        "icon_id",
+        "desc",
+        "skill_templates",
+    ]
+
+
+@admin.register(Effect)
+class EffectAdmin(admin.ModelAdmin):
+    list_display = ["id", "type", "name", "icon_id"]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["name"]
+    fields = ["type", "name", "icon_id"]

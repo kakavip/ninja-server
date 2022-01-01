@@ -138,6 +138,23 @@ class Level(models.Model):
         return f"Level {self.level}"
 
 
+class Npc(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(blank=True, null=True, max_length=100)
+    head = models.IntegerField()
+    body = models.IntegerField()
+    leg = models.IntegerField()
+    type = models.IntegerField()
+    talk_id = models.IntegerField(db_column="talkid")
+    talk = JSONField(blank=True, null=True, default=[])
+
+    class Meta:
+        db_table = "npc"
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class NpcDaily(models.Model):
     id = models.IntegerField(primary_key=True)
     npc_chat = JSONField(blank=True, null=True, default=[])
@@ -295,6 +312,57 @@ class OptionSkill(models.Model):
 
     class Meta:
         db_table = "optionskill"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Shop(models.Model):
+    id = models.IntegerField(primary_key=True)
+    add = JSONField(blank=True, null=True, default={})
+    vnd = models.IntegerField(default=0, null=False, blank=False)
+    icon = models.IntegerField(default=0, null=False, blank=False)
+    mota = models.TextField(blank=True, null=True)
+    ruong = models.IntegerField(blank=True, null=True, default=0)
+
+    class Meta:
+        db_table = "shop"
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+class Skill(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100, blank=False, null=False)
+    nclass = models.IntegerField(
+        choices=NinjaClassEnum.to_choices(), blank=True, null=True, db_column="class"
+    )
+    max_point = models.IntegerField(
+        blank=False, null=False, default=0, db_column="maxPoint"
+    )
+    type = models.IntegerField(blank=True, null=True, default=0)
+    icon_id = models.IntegerField(blank=True, null=True, default=0, db_column="iconId")
+    desc = models.CharField(max_length=256, blank=True, null=True)
+    skill_templates = JSONField(
+        blank=True, null=True, default=[], db_column="skillTemplates"
+    )
+
+    class Meta:
+        db_table = "skill"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Effect(models.Model):
+    id = models.IntegerField(primary_key=True)
+    type = models.IntegerField(default=0)
+    name = models.CharField(max_length=256)
+    icon_id = models.IntegerField(db_column="iconId")
+
+    class Meta:
+        db_table = "effect"
 
     def __str__(self) -> str:
         return self.name
