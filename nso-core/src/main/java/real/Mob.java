@@ -174,9 +174,9 @@ public class Mob {
                 this.isThieuDot = false;
             } else {
                 Service.sendThieuDot(place.getUsers(), this.id);
-                val dame = effId.param * this.masterThieuDot.dameMax() / 200;
+                val dame = effId.param * this.masterThieuDot.dameMax() / 2000;
                 this.updateHP(dame);
-                val expUp = (long) this.level * dame;
+                val expUp = (long) this.level * dame / 1000;
                 if (masterThieuDot instanceof Ninja) {
                     ((Ninja) masterThieuDot).p.updateExp(expUp, true);
                 } else {
