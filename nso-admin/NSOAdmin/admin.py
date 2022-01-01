@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.db import models
 from .models import (
+    Clan,
+    ClanItem,
+    ClanShop,
     CloneNinja,
     Effect,
     GiftCode,
@@ -8,6 +11,8 @@ from .models import (
     ItemSell,
     ItemShinwa,
     Level,
+    Map,
+    Mob,
     Ninja,
     Npc,
     NpcDaily,
@@ -16,6 +21,8 @@ from .models import (
     Player,
     Shop,
     Skill,
+    Task,
+    Tournament,
 )
 
 
@@ -284,3 +291,157 @@ class EffectAdmin(admin.ModelAdmin):
     empty_display_value = "--empty--"
     search_fields = ["name"]
     fields = ["type", "name", "icon_id"]
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ["id", "tasks", "maptasks"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = ["tasks", "maptasks"]
+
+
+@admin.register(Tournament)
+class TournamentAdmin(admin.ModelAdmin):
+    list_display = ["id", "tournaments"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = ["tournaments"]
+
+
+@admin.register(Map)
+class MapAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "title_id",
+        "bg_id",
+        "type_map",
+        "vgo",
+        "mob",
+        "npc",
+        "maxplayer",
+        "numzone",
+        "x0",
+        "y0",
+    ]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["name"]
+    fields = [
+        "name",
+        "title_id",
+        "bg_id",
+        "type_map",
+        "vgo",
+        "mob",
+        "npc",
+        "maxplayer",
+        "numzone",
+        "x0",
+        "y0",
+    ]
+
+
+@admin.register(Mob)
+class MobAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "type",
+        "hp",
+        "range_move",
+        "speed",
+        "type_fly",
+        "n_image",
+        "flag",
+        "frame_boss",
+        "frame_boss_move",
+        "frame_boss_attack",
+        "info",
+        "img_1",
+        "img_2",
+        "img_3",
+        "img_4",
+    ]
+    search_fields = ["name"]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    fields = [
+        "name",
+        "type",
+        "hp",
+        "range_move",
+        "speed",
+        "type_fly",
+        "n_image",
+        "flag",
+        "frame_boss",
+        "frame_boss_move",
+        "frame_boss_attack",
+        "info",
+        "img_1",
+        "img_2",
+        "img_3",
+        "img_4",
+    ]
+
+
+@admin.register(Clan)
+class ClanAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name",
+        "exp",
+        "level",
+        "item_level",
+        "coin",
+        # "reg_date",
+        "log",
+        "use_card",
+        "alert",
+        "open_dun",
+        "debt",
+        "members",
+        "items",
+        # "week",
+        "clan_battle_data",
+        "clan_than_thu",
+    ]
+    list_display_links = ["id", "name"]
+    empty_display_value = "--empty--"
+    search_fields = ["name"]
+    fields = [
+        "name",
+        "exp",
+        "level",
+        "item_level",
+        "coin",
+        # "reg_date",
+        "log",
+        "use_card",
+        "alert",
+        "open_dun",
+        "debt",
+        "members",
+        "items",
+        # "week",
+        "clan_battle_data",
+        "clan_than_thu",
+    ]
+
+
+@admin.register(ClanItem)
+class ClanItemAdmin(admin.ModelAdmin):
+    list_display = ["id", "id_shop", "conghien", "time", "id_clan"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = ["id_shop", "conghien", "time", "id_clan"]
+
+
+@admin.register(ClanShop)
+class ClanShopAdmin(admin.ModelAdmin):
+    list_display = ["id", "add", "luong", "conghien", "mota", "icon", "an"]
+    list_display_links = ["id"]
+    empty_display_value = "--empty--"
+    fields = ["add", "luong", "conghien", "mota", "icon", "an"]

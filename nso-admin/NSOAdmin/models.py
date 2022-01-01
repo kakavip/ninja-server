@@ -366,3 +366,131 @@ class Effect(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Task(models.Model):
+    id = models.IntegerField(primary_key=True)
+    tasks = JSONField(blank=True, null=True, default=[])
+    maptasks = JSONField(blank=True, null=True, default=[])
+
+    class Meta:
+        db_table = "tasks"
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+class Tournament(models.Model):
+    id = models.IntegerField(primary_key=True)
+    tournaments = JSONField(blank=True, null=True, default=[])
+
+    class Meta:
+        db_table = "tournament"
+
+
+class Map(models.Model):
+    id = models.IntegerField(primary_key=True)
+    title_id = models.IntegerField(db_column="tileID", default=0)
+    bg_id = models.IntegerField(db_column="bgID", default=0)
+    type_map = models.IntegerField(db_column="typeMap", default=0)
+    name = models.CharField(max_length=100)
+    vgo = JSONField(default=[], db_column="Vgo")
+    mob = JSONField(default=[], db_column="Mob")
+    npc = JSONField(default=[], db_column="NPC", blank=True, null=True)
+    maxplayer = models.IntegerField(default=20)
+    numzone = models.IntegerField(default=30)
+    x0 = models.IntegerField(default=0)
+    y0 = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "map"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Mob(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    type = models.IntegerField(default=0)
+    hp = models.IntegerField(default=0, null=True, blank=True)
+    range_move = models.IntegerField(default=0, db_column="rangeMove")
+    speed = models.IntegerField(default=0)
+    type_fly = models.IntegerField(default=0, db_column="typeFly")
+    n_image = models.IntegerField(default=0, db_column="nImage")
+    flag = models.IntegerField(default=0)
+    frame_boss_move = JSONField(
+        blank=True, null=True, default=[], db_column="frameBossMove"
+    )
+    frame_boss_attack = JSONField(
+        blank=True, null=True, default=[], db_column="frameBossAttack"
+    )
+    frame_boss = JSONField(blank=True, null=True, default=[], db_column="frameBoss")
+    info = models.IntegerField(default=0)
+    img_1 = JSONField(blank=True, null=True, default=[], db_column="Img1")
+    img_2 = JSONField(blank=True, null=True, default=[], db_column="Img2")
+    img_3 = JSONField(blank=True, null=True, default=[], db_column="Img3")
+    img_4 = JSONField(blank=True, null=True, default=[], db_column="Img4")
+
+    class Meta:
+        db_table = "mob"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Clan(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    exp = models.IntegerField(default=0)
+    level = models.IntegerField(default=0)
+    item_level = models.IntegerField(
+        db_column="itemLevel", default=0, blank=True, null=True
+    )
+    coin = models.IntegerField(default=0)
+    # reg_date = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+    log = models.TextField(null=True, blank=True)
+    use_card = models.IntegerField(default=0)
+    alert = models.CharField(max_length=200, blank=True, null=True, default="abc")
+    open_dun = models.IntegerField(default=0, db_column="openDun")
+    debt = models.IntegerField(default=0)
+    members = JSONField(blank=True, null=True, default=[])
+    items = JSONField(blank=True, null=True, default=[])
+    # week = models.DateTimeField(null=True, blank=True)
+    clan_battle_data = models.TextField(null=True, blank=True)
+    clan_than_thu = JSONField(blank=True, null=True, default=[])
+
+    class Meta:
+        db_table = "clan"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class ClanItem(models.Model):
+    id = models.IntegerField(primary_key=True)
+    id_shop = models.IntegerField()
+    conghien = models.IntegerField()
+    time = models.IntegerField()
+    id_clan = models.IntegerField()
+
+    class Meta:
+        db_table = "clan_item"
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+class ClanShop(models.Model):
+    id = models.IntegerField(primary_key=True)
+    add = JSONField(blank=True, null=True, default=[])
+    luong = models.IntegerField(default=0)
+    conghien = models.IntegerField(default=0)
+    mota = models.TextField(null=True, blank=True)
+    icon = models.IntegerField(default=0)
+    an = models.IntegerField(default=0)
+    
+    class Meta:
+        db_table = "clan_shop"
+    
+    def __str__(self) -> str:
+        return str(self.id)
