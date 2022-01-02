@@ -2716,7 +2716,6 @@ public class User extends Actor implements SendMessage {
     }
 
     public synchronized void updateExp(long xpup, boolean useMulti) throws IOException {
-
         if (useMulti) {
             xpup *= Manager.MULTI_EXP;
         }
@@ -2725,6 +2724,7 @@ public class User extends Actor implements SendMessage {
             xpup = 0;
         }
 
+        xpup -= xpup * this.nj.get().getMaxLevel() / 1000;
         if ((this.nj.get().getTypepk() == Constants.PK_NORMAL && this.nj.get().exptype == 0)) {
             return;
         }
