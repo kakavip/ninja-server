@@ -51,6 +51,10 @@ public class MenuController {
         byte menuId = m.reader().readByte();
         final byte optionId = m.reader().readByte();
 
+        if (p.typemenu == -1) {
+            p.typemenu = (short) npcId;
+        }
+
         val ninja = p.nj;
 
         if (TaskHandle.isTaskNPC(ninja, npcId) && Map.isNPCNear(ninja, npcId)) {
