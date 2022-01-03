@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
@@ -958,7 +959,23 @@ public class User extends Actor implements SendMessage {
         this.restPpoint(this.nj.get());
         this.restSpoint();
 
-        this.nj.get().setSkills(new ArrayList<>());
+        byte bushinPoint = 0;
+        for (final Skill skill : this.nj.get().getSkills()) {
+            if (skill.id >= 67 && skill.id <= 72) {
+                bushinPoint = skill.point;
+                break;
+            }
+        }
+
+        List<Skill> renewSkills = new ArrayList<Skill>();
+
+        if (bushinPoint > 0) {
+            Skill bushinSkill = new Skill(newNclass + 66);
+            bushinSkill.point = bushinPoint;
+            renewSkills.add(bushinSkill);
+        }
+
+        this.nj.get().setSkills(renewSkills);
         this.nj.get().setNClass(newNclass);
 
         this.nj.get().resetKSkill();
