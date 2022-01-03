@@ -10,7 +10,7 @@ from NSOAdmin.enums.ninja_gender_enum import NinjaGenderEnum
 
 
 class Player(models.Model):
-    STATUSES = (("active", "ACTIVE"), ("wait", "WAIT"))
+    STATUSES = (("active", "ACTIVE"), ("wait", "WAIT"), ("block", "BLOCK"))
 
     username = models.CharField(max_length=20, blank=False, null=False, unique=True)
     password = models.CharField(max_length=20, blank=False, null=False)
@@ -37,6 +37,8 @@ class Player(models.Model):
     clan_territory_id = models.IntegerField(
         blank=True, null=True, default=-1, db_column="clanTerritoryId"
     )
+    
+    lock = models.BooleanField(default=False)
 
     class Meta:
         db_table = "player"
