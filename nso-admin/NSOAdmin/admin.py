@@ -44,7 +44,7 @@ class PlayerAdmin(admin.ModelAdmin):
     empty_display_value = "--empty--"
     fields = ["username", "password", "luong", "status"]
     search_fields = ["username", "ninja"]
-    list_filter = ["status"]
+    list_filter = ["status", "lock"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
 
 
