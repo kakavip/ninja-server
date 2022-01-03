@@ -144,14 +144,15 @@ public class User extends Actor implements SendMessage {
                 final byte lock = red.getByte("lock");
                 final String status = red.getString("status");
 
-                if (status.equals("wait") || status.equals("block")) {
+                if (status.equals("wait")) {
                     conn.sendMessageLog(
-                            "Tài khoản của bạn chưa được kích hoạt! Vui lòng truy cập website để kích hoạt tài khoản.");
+                            "Tài khoản của bạn chưa được kích hoạt! Liên hệ Admin để biết thêm thông tin.");
                     u[0] = null;
                     return;
                 }
-                if (lock != 0 && lock == 1) {
-                    conn.sendMessageLog("Tài khoản của bạn đã bị khóa vĩnh viễn. Liên hệ Admin để biết thêm thông tin");
+                if (lock == 1 || status.equals("block")) {
+                    conn.sendMessageLog(
+                            "Tài khoản của bạn đã bị khóa vĩnh viễn. Liên hệ Admin để biết thêm thông tin.");
                     u[0] = null;
                     return;
                 }
