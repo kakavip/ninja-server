@@ -2272,8 +2272,8 @@ public class MenuController {
                 }
 
                 case 36_4_0: {
-                    if (p.luong < 1_000) {
-                        p.sendYellowMessage("Con cần có đủ 1.000 lượng để chuyển phái.");
+                    if (p.luong < 10_000) {
+                        p.sendYellowMessage("Con cần có đủ 10.000 lượng để chuyển phái.");
                         break;
                     }
 
@@ -2285,7 +2285,7 @@ public class MenuController {
                     }
 
                     p.convertNClass(nClass);
-                    p.upluongMessage(-1_000);
+                    p.upluongMessage(-10_000);
                     p.session.sendMessageLog(
                             "Hãy thoát game, ta sẽ cập nhật lớp mới cho con. Nhớ cộng lại tiềm năng và kĩ năng nhé.");
                     break;

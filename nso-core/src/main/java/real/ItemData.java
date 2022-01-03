@@ -577,7 +577,14 @@ public class ItemData {
         int a = 0;
 
         for (int i = 0; i < nDa; i++) {
-            items[a] = (short) util.nextInt(MIN_DA_LV - 1, Math.min((short) maxLv / 10, MAX_DA_LV));
+            int minDa = MIN_DA_LV - 1;
+            int maxDa = minDa;
+
+            if (Math.min((short) maxLv / 10, MAX_DA_LV) >= maxDa) {
+                maxDa = Math.min((short) maxLv / 10, MAX_DA_LV) - 1;
+            }
+
+            items[a] = (short) util.nextInt(minDa, maxDa);
             a++;
         }
 

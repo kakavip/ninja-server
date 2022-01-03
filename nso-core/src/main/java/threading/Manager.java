@@ -188,7 +188,7 @@ public class Manager {
             BOSS_DEFAULT_ITEM = parseShortArray(properties.getProperty("boss-default-item"));
 
             BOSS_LC_ITEM = parseShortArray(properties.getProperty("boss-item-lc"));
-            N_ITEM_BOSS = Short.parseShort(properties.getProperty("n-items-boss"));
+            N_ITEM_BOSS = Short.parseShort(properties.getProperty("n-item-boss"));
             IDS_THUONG_LV70 = parseShortArray(properties.getProperty("thuong-lv70"));
             IDS_THUONG_LV90 = parseShortArray(properties.getProperty("thuong-lv90"));
             IDS_THUONG_LV130 = parseShortArray(properties.getProperty("thuong-lv130"));

@@ -2508,7 +2508,8 @@ public class Place {
                     if (im.item.id == 12) {
                         im.item.quantity = util.nextInt(Manager.MIN_YEN_BOSS, Manager.MAX_YEN_BOSS);
                     }
-                    im.master = master;
+                    // NOTE anyone can pick up
+                    // im.master = master;
                 }
             }
 
@@ -3260,12 +3261,12 @@ public class Place {
                                 if (mob.lvboss == 1) {
                                     dame *= 2;
                                 } else if (mob.lvboss == 2) {
-                                    dame *= 3;
-                                } else if (mob.lvboss == 3) {
                                     dame *= 4;
+                                } else if (mob.lvboss == 3) {
+                                    dame *= 3;
                                 }
                                 if (mob.isIsboss()) {
-                                    dame *= 4;
+                                    dame *= 7;
                                 }
                                 if (mob.sys == 1) {
                                     dame -= user.nj.get().ResFire();
