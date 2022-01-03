@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 
-from NSOAdmin.actions import lock_some_accounts_action
+from NSOAdmin.actions import lock_some_accounts_action, unlock_som_accounts_action
 from .models import (
     Clan,
     ClanItem,
@@ -45,7 +45,7 @@ class PlayerAdmin(admin.ModelAdmin):
     fields = ["username", "password", "luong", "status"]
     search_fields = ["username", "ninja"]
     list_filter = ["status"]
-    actions = [lock_some_accounts_action]
+    actions = [lock_some_accounts_action, unlock_som_accounts_action]
 
 
 @admin.register(Level)
