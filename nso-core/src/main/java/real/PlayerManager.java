@@ -1,9 +1,12 @@
 package real;
 
 import org.jetbrains.annotations.NotNull;
+
+import threading.Manager;
 import threading.Message;
 import io.Session;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,6 +22,7 @@ public class PlayerManager {
     private final HashMap<String, User> players_uname;
     private final HashMap<Integer, Ninja> ninjas_id;
     private final HashMap<String, Ninja> ninjas_name;
+    private final HashMap<String, List<Session>> conns_ip;
 
     public PlayerManager() {
         this.runing = true;
@@ -28,6 +32,7 @@ public class PlayerManager {
         this.players_uname = new HashMap<>();
         this.ninjas_id = new HashMap<>();
         this.ninjas_name = new HashMap<>();
+        this.conns_ip = new HashMap<>();
     }
 
     private final static ReadWriteLock lock = new ReentrantReadWriteLock(true);
@@ -40,7 +45,6 @@ public class PlayerManager {
         return PlayerManager.instance;
     }
 
-
     public void NinjaMessage(final Message m) {
         for (int i = this.conns.size() - 1; i >= 0; --i) {
             if (this.conns.get(i).user != null && this.conns.get(i).user.nj != null) {
@@ -49,9 +53,24 @@ public class PlayerManager {
         }
     }
 
+    public boolean check(String clientIpAddress) {
+        if (this.conns_size(clientIpAddress) < Manager.MAX_SOCKET_PER_CLIENT) {
+            return true;
+        }
+
+        return false;
+    }
+
     public void put(final Session conn) {
         this.conns_id.put(conn.id, conn);
         this.conns.add(conn);
+        List<Session> sessions = this.conns_ip.get(conn.getClientIpAddress());
+        if (sessions == null) {
+            sessions = new ArrayList<>();
+        }
+
+        sessions.add(conn);
+        this.conns_ip.put(conn.getClientIpAddress(), sessions);
     }
 
     public void put(final User p) {
@@ -70,6 +89,8 @@ public class PlayerManager {
         if (conn.user != null) {
             this.remove(conn.user);
         }
+        // remove connection from hash ip
+        this.conns_ip.get(conn.getClientIpAddress()).remove(conn);
     }
 
     private void remove(final User p) {
@@ -114,6 +135,15 @@ public class PlayerManager {
 
     public int conns_size() {
         return this.conns_id.size();
+    }
+
+    public int conns_size(String clientIpAddress) {
+        List<Session> conns = this.conns_ip.get(clientIpAddress);
+        if (conns == null) {
+            return 0;
+        }
+
+        return conns.size();
     }
 
     public int players_size() {

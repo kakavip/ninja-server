@@ -91,6 +91,7 @@ public class Manager {
     public static short MULTI_EXP;
     public static short N_THREAD_STOP;
     public static short MAX_CLIENT_PER_SOCKET;
+    public static short MAX_SOCKET_PER_CLIENT;
 
     public static short[] MOMENT_REFRESH_BATTLE;
 
@@ -389,6 +390,7 @@ public class Manager {
         }
 
         MAX_CLIENT_PER_SOCKET = Short.parseShort(configMap.get("max-Client-Per-Socket"));
+        MAX_SOCKET_PER_CLIENT = Short.parseShort(configMap.get("max-Socket-Per-Client"));
         SQLManager.create(mysql_host, mysql_port, mysql_database, mysql_user, mysql_pass);
 
     }

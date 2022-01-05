@@ -271,8 +271,8 @@ public class Server {
                 final Socket clientSocket = this.listenSocket.accept();
                 InetSocketAddress socketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
                 String clientIpAddress = socketAddress.getAddress().getHostAddress();
-                System.out.println("Client ip address: " + clientIpAddress);
-                if (!Session.check(clientIpAddress)) {
+
+                if (!Session.check(clientIpAddress) && PlayerManager.getInstance().check(clientIpAddress)) {
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
                     conn.start();
@@ -280,6 +280,9 @@ public class Server {
                 } else {
                     clientSocket.close();
                 }
+
+                System.out.println("Client IP address:  " + clientIpAddress + " with "
+                        + PlayerManager.getInstance().conns_size(clientIpAddress) + " connections.");
             }
         } catch (BindException bindEx) {
             System.exit(0);

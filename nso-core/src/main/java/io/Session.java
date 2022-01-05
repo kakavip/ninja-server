@@ -56,7 +56,6 @@ public class Session extends Thread {
 
     public volatile long lastTimeReceiveData;
 
-
     public Session(final @NotNull Socket socket, final @NotNull ISessionHandler handler) {
         this.connected = false;
         this.getKeyComplete = false;
@@ -76,14 +75,14 @@ public class Session extends Thread {
         lastTimeReceiveData = System.currentTimeMillis();
     }
 
-    public static boolean check(String ip){
+    public static boolean check(String ip) {
         boolean b = false;
         List<Ip> list = util.ReadIp();
         for (Ip o : list) {
-            if(o.getName().equals(ip)){
+            if (o.getName().equals(ip)) {
                 b = true;
                 break;
-            }else{
+            } else {
                 b = false;
             }
         }
@@ -103,7 +102,7 @@ public class Session extends Thread {
         this.setName("User thread" + baseId);
         this.setPriority(Thread.MIN_PRIORITY);
         sendThread = new Thread(() -> {
-            setName("SESSION THREAD "  +  baseId);
+            setName("SESSION THREAD " + baseId);
             try {
                 while (Session.this.connected) {
                     final Message m = Session.this.sendDatas.take();
@@ -121,12 +120,12 @@ public class Session extends Thread {
             while (this.connected) {
                 final Message message = this.readMessage();
                 this.lastTimeReceiveData = System.currentTimeMillis();
-                if(!login && !(message.getCommand() == -27 || message.getCommand() == -29)){
-                    if(!check(this.clientIpAddress)){
+                if (!login && !(message.getCommand() == -27 || message.getCommand() == -29)) {
+                    if (!check(this.clientIpAddress)) {
                         util.WriteIp(this.clientIpAddress);
                         this.socket.close();
                     }
-                }else{
+                } else {
                     this.messageHandler.onMessage(this, message);
                 }
                 util.Debug(this + " do message " + message.getCommand() + " size " + message.reader().available());
@@ -167,7 +166,6 @@ public class Session extends Thread {
         final Message msg = new Message(cmd, data);
         return msg;
     }
-
 
     public void sendMessage(final @NotNull Message m) {
         if (this.connected) {
@@ -303,7 +301,8 @@ public class Session extends Thread {
         this.provider = m.reader().readInt();
         this.agent = m.reader().readUTF();
         m.cleanup();
-        util.Debug("Connection type " + this.type + " zoomlevel " + this.zoomLevel + " width " + this.width + " height " + this.height);
+        util.Debug("Connection type " + this.type + " zoomlevel " + this.zoomLevel + " width " + this.width + " height "
+                + this.height);
     }
 
     public void loginGame(final @NotNull Message m) throws Exception {
@@ -351,5 +350,9 @@ public class Session extends Thread {
 
     static {
         Session.baseId = 0;
+    }
+
+    public String getClientIpAddress() {
+        return this.clientIpAddress;
     }
 }
