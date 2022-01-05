@@ -87,8 +87,20 @@ def register(request):
 
 
 def apk_file(request):
-    return FileResponse(open("packages/NSO_WORLD_v1.5.6.MS-DOMAIN.apk", "rb"))
+    return FileResponse(open("packages/NSO_WORLD_v1.5.6.NODOMAIN.apk", "rb"))
+
+
+def apk_hack_file(request):
+    return FileResponse(open("packages/Ninja-148.MS_NODOMAIN.apk", "rb"))
 
 
 def jar_file(request):
-    return FileResponse(open("packages/nso-ms.domain.v1.jar", "rb"))
+    return FileResponse(open("packages/nso-ms.nodomain.v1.jar", "rb"))
+
+
+def jar_x3_file(request):
+    return FileResponse(open("packages/nso-ms.domain.x3.jar", "rb"))
+
+
+def jar_hsl_file(request):
+    return FileResponse(open("packages/nso-ms.auto_hsl.nodomain.jar", "rb"))

@@ -19,9 +19,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from NSOAdmin.views import (
     apk_file,
+    apk_hack_file,
     downloads,
     index,
     jar_file,
+    jar_hsl_file,
+    jar_x3_file,
     register,
     server_list,
     srvip,
@@ -36,7 +39,10 @@ urlpatterns = [
     path("register", register, name="register"),
     path("downloads", downloads, name="downloads"),
     path("nso_moonsmile.apk", apk_file, name="apk_file"),
+    path("nso_moonsmile_hack.apk", apk_hack_file, name="apk_hack_file"),
     path("nso_moonsmile.jar", jar_file, name="jar_file"),
+    path("nso_moonsmile_hsl.jar", jar_hsl_file, name="jar_hsl_file"),
+    path("nso_moonsmile_x3.jar", jar_x3_file, name="jar_x3_file"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
