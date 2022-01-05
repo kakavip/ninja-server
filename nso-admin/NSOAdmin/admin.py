@@ -42,7 +42,7 @@ class PlayerAdmin(admin.ModelAdmin):
     ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
-    fields = ["username", "password", "luong", "status"]
+    fields = ["username", "password", "luong", "ninja", "status"]
     search_fields = ["username", "ninja"]
     list_filter = ["status", "lock"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
