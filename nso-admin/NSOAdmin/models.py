@@ -37,7 +37,7 @@ class Player(models.Model):
     clan_territory_id = models.IntegerField(
         blank=True, null=True, default=-1, db_column="clanTerritoryId"
     )
-    
+
     lock = models.BooleanField(default=False)
 
     class Meta:
@@ -74,6 +74,7 @@ class Character(models.Model):
         blank=True, null=True, default="[-1,-1,-1,-1,-1]", db_column="OSkill"
     )
     level = models.IntegerField(blank=True, null=True, default=0)
+    exp = models.BigIntegerField(blank=True, null=True, default=0)
     yen = models.IntegerField(blank=True, null=True, default=0)
     xu = models.IntegerField(blank=True, null=True, default=0)
 
@@ -118,6 +119,7 @@ class Character(models.Model):
 
 class Ninja(Character):
     site = JSONField(blank=True, null=True, default=[])
+
     class Meta:
         db_table = "ninja"
 
@@ -483,6 +485,7 @@ class ClanItem(models.Model):
     def __str__(self) -> str:
         return str(self.id)
 
+
 class ClanShop(models.Model):
     id = models.IntegerField(primary_key=True)
     add = JSONField(blank=True, null=True, default=[])
@@ -491,9 +494,9 @@ class ClanShop(models.Model):
     mota = models.TextField(null=True, blank=True)
     icon = models.IntegerField(default=0)
     an = models.IntegerField(default=0)
-    
+
     class Meta:
         db_table = "clan_shop"
-    
+
     def __str__(self) -> str:
         return str(self.id)
