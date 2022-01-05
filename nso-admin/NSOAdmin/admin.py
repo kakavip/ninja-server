@@ -93,7 +93,36 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(Ninja)
 class NinjaAdmin(CharacterAdmin):
-    pass
+    list_display = [
+        "id",
+        "name",
+        "_class",
+        "site",
+        "skill",
+        "spoint",
+        "k_skill",
+        "o_skill",
+        "ppoint",
+        "potential0",
+        "potential1",
+        "potential2",
+        "potential3",
+        "level",
+        "yen",
+        "xu",
+    ]
+    fields = [
+        "name",
+        "_class",
+        "site",
+        "skill",
+        "spoint",
+        "k_skill",
+        "o_skill",
+        "level",
+        "yen",
+        "xu",
+    ]
 
 
 @admin.register(CloneNinja)

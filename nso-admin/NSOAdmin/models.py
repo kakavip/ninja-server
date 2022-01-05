@@ -117,6 +117,7 @@ class Character(models.Model):
 
 
 class Ninja(Character):
+    site = JSONField(blank=True, null=True, default=[])
     class Meta:
         db_table = "ninja"
 
