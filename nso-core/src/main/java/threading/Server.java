@@ -271,6 +271,7 @@ public class Server {
                 final Socket clientSocket = this.listenSocket.accept();
                 InetSocketAddress socketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
                 String clientIpAddress = socketAddress.getAddress().getHostAddress();
+                System.out.println("Client ip address: " + clientIpAddress);
                 if (!Session.check(clientIpAddress)) {
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
