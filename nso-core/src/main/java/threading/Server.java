@@ -23,8 +23,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.rmi.Naming;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,6 +37,8 @@ import java.net.InetSocketAddress;
 import static threading.Manager.MOMENT_REFRESH_BATTLE;
 
 public class Server {
+    public static List<String> IP_BLACKLIST;
+
     public static long TIME_SLEEP_SHINWA_THREAD;
     private static Server instance;
     private static Runnable updateBattle;
@@ -272,7 +276,19 @@ public class Server {
                 InetSocketAddress socketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
                 String clientIpAddress = socketAddress.getAddress().getHostAddress();
 
-                if (!Session.check(clientIpAddress) && PlayerManager.getInstance().check(clientIpAddress)) {
+                // check ghost connections
+                if (!PlayerManager.getInstance().check(clientIpAddress)) {
+                    if (!Server.IP_BLACKLIST.contains(clientIpAddress)) {
+                        Server.IP_BLACKLIST.add(clientIpAddress);
+                    }
+
+                    System.out.println("Ghost IP Address List: " + Server.IP_BLACKLIST);
+                }
+
+                // Remove non user session
+                PlayerManager.getInstance().kickGhostSessionByIds(Server.IP_BLACKLIST);
+
+                if (!Session.check(clientIpAddress) && !Server.IP_BLACKLIST.contains(clientIpAddress)) {
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
                     conn.start();
@@ -401,6 +417,7 @@ public class Server {
         mapBoss65 = new short[] { 24, 41, 45, 59 };
         mapBoss75 = new short[] { 18, 36, 54 };
         mapBossLC = new short[] { 134, 135, 136, 137 };
+        Server.IP_BLACKLIST = new ArrayList<>();
     }
 
     public Map[] getMaps() {

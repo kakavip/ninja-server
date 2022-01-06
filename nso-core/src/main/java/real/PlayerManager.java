@@ -64,13 +64,13 @@ public class PlayerManager {
     public void put(final Session conn) {
         this.conns_id.put(conn.id, conn);
         this.conns.add(conn);
-        List<Session> sessions = this.conns_ip.get(conn.getClientIpAddress());
-        if (sessions == null) {
-            sessions = new ArrayList<>();
+        List<Session> conns = this.conns_ip.get(conn.getClientIpAddress());
+        if (conns == null) {
+            conns = new ArrayList<>();
         }
 
-        sessions.add(conn);
-        this.conns_ip.put(conn.getClientIpAddress(), sessions);
+        conns.add(conn);
+        this.conns_ip.put(conn.getClientIpAddress(), conns);
     }
 
     public void put(final User p) {
@@ -91,9 +91,12 @@ public class PlayerManager {
         }
         // remove connection from hash ip
         String clientIpAddress = conn.getClientIpAddress();
-        this.conns_ip.get(clientIpAddress).remove(conn);
-        if (this.conns_ip.get(clientIpAddress).size() == 0) {
-            this.conns_ip.remove(clientIpAddress);
+
+        if (this.conns_ip.get(clientIpAddress) != null) {
+            this.conns_ip.get(clientIpAddress).remove(conn);
+            if (this.conns_ip.get(clientIpAddress).size() == 0) {
+                this.conns_ip.remove(clientIpAddress);
+            }
         }
     }
 
@@ -169,6 +172,29 @@ public class PlayerManager {
                     conn.user.nj != null && conn.user.nj.getPlace() != null) {
                 conn.user.nj.getPlace().leave(conn.user);
             }
+        }
+    }
+
+    public void kickSessionNonUser(final Session conn) {
+        if (conn != null && conn.user == null) {
+            this.remove(conn);
+        }
+    }
+
+    public void kickGhostSessionByIds(final List<String> ips) {
+        for (String ip : ips) {
+            List<Session> conns = this.conns_ip.get(ip);
+            if (conns != null) {
+                for (Session conn : new ArrayList<>(conns)) {
+                    try {
+                        conn.disconnect();
+                        this.kickSessionNonUser(conn);
+                    } catch (Exception e) {
+                        
+                    }
+                }
+            }
+
         }
     }
 
