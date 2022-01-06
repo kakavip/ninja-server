@@ -16,7 +16,6 @@ sudo iptables -A INPUT -d 255.255.255.255 -j DROP
 # Stop smurf attacks
 sudo iptables -A INPUT -p icmp -m icmp --icmp-type address-mask-request -j DROP
 sudo iptables -A INPUT -p icmp -m icmp --icmp-type timestamp-request -j DROP
-sudo iptables -A INPUT -p icmp -m icmp -j DROP
 
 # Drop all invalid packets
 sudo iptables -A INPUT -m state --state INVALID -j DROP
