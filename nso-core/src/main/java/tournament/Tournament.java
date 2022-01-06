@@ -52,7 +52,6 @@ public abstract class Tournament {
         }
     }
 
-
     protected Tournament(int maxArea, int id) {
         this.participants = new CopyOnWriteArrayList<>();
         this.maxArea = maxArea;
@@ -72,7 +71,8 @@ public abstract class Tournament {
 
     @NotNull
     public User getUserByNinjaName(String playerName) {
-        return Objects.requireNonNull(this.participants.stream().filter(p -> p != null && p.nj != null && p.nj.name.equals(playerName)).findFirst().orElse(null));
+        return Objects.requireNonNull(this.participants.stream()
+                .filter(p -> p != null && p.nj != null && p.nj.name.equals(playerName)).findFirst().orElse(null));
     }
 
     public synchronized void updateRanked(final @NotNull Ninja norm, final @NotNull Ninja ai, boolean isWin) {
@@ -98,7 +98,8 @@ public abstract class Tournament {
                 if (isWin) {
 
                     if (aiData.getRanked() < normData.getRanked()) {
-                        norm.p.sendYellowMessage("Bạn đã chiến thắng " + ai.name + " và tranh được hạng " + aiData.getRanked());
+                        norm.p.sendYellowMessage(
+                                "Bạn đã chiến thắng " + ai.name + " và tranh được hạng " + aiData.getRanked());
                         // Cuop rank
                         final Integer temp = aiData.getRanked();
                         aiData.setRanked(normData.getRanked());
@@ -108,10 +109,9 @@ public abstract class Tournament {
                         norm.p.sendYellowMessage("Bạn đã chiến thắng " + ai.name);
                     }
 
-
                 } else {
                     normData.setCanGoNext(false);
-                    norm.p.sendYellowMessage("Thua rồi ahuhu" + ai.name);
+                    norm.p.sendYellowMessage("Bạn đã thua " + ai.name);
 
                 }
             }
@@ -133,7 +133,7 @@ public abstract class Tournament {
                     final Integer otherRanked = user.nj.getTournamentData().getRanked();
                     if (currentRank.equals(otherRanked)) {
                         user.nj.getTournamentData().setRanked(currentRank + 1);
-//                        i--;
+                        i--;
                     }
                 }
             }
@@ -145,12 +145,14 @@ public abstract class Tournament {
      * @return true if register success
      */
     public RegisterResult register(final @Nullable User u) {
-        if (u == null) return RegisterResult.DEFAULT;
+        if (u == null)
+            return RegisterResult.DEFAULT;
 
         synchronized (this.participants) {
             User user = participants.stream()
                     .filter(p -> p != null && p.nj != null &&
-                            p.nj.id == u.nj.id).findFirst().orElse(null);
+                            p.nj.id == u.nj.id)
+                    .findFirst().orElse(null);
             if (user == null) {
                 TournamentData data;
 
@@ -183,21 +185,18 @@ public abstract class Tournament {
                 .filter(p -> !p.nj.isBusy)
                 .map(u -> u.nj.getTournamentData())
                 .filter(r -> {
-                            if (myAccount.nj.getTournamentData().getRanked() > 4) {
-                                val minRank = myAccount.nj.getTournamentData().getRanked() - 10;
-                                val maxRank = myAccount.nj.getTournamentData().getRanked();
-                                return r.getRanked() >= minRank && r.getRanked() <= maxRank;
-                            } else {
-                                return r.getRanked() <= 5;
-                            }
-                        }
-                )
+                    if (myAccount.nj.getTournamentData().getRanked() > 4) {
+                        val minRank = myAccount.nj.getTournamentData().getRanked() - 10;
+                        val maxRank = myAccount.nj.getTournamentData().getRanked();
+                        return r.getRanked() >= minRank && r.getRanked() <= maxRank;
+                    } else {
+                        return r.getRanked() <= 5;
+                    }
+                })
                 .limit(10)
-                .sorted((u1, u2) ->
-                        -u2.getRanked() + u1.getRanked())
+                .sorted((u1, u2) -> -u2.getRanked() + u1.getRanked())
                 .collect(Collectors.toList());
     }
-
 
     public void restoreNinjaTournament(final @NotNull Ninja nj) {
         this.getTournaments().stream()
@@ -212,8 +211,9 @@ public abstract class Tournament {
             SQLManager.executeQuery("SELECT * from `tournament`where id = " + this.tournamentId, red -> {
 
                 while (red.next()) {
-                    val tournaments = Mapper.converter.readValue(red.getString("tournaments"), new TypeReference<List<TournamentData>>() {
-                    });
+                    val tournaments = Mapper.converter.readValue(red.getString("tournaments"),
+                            new TypeReference<List<TournamentData>>() {
+                            });
                     tournaments.stream().forEach(tournament -> {
                         final User user = createUser(tournament);
                         this.participants.add(user);
@@ -266,7 +266,8 @@ public abstract class Tournament {
 
     public void flush() {
         try {
-            SQLManager.executeUpdate("UPDATE `tournament` set tournaments = '" + Mapper.converter.writeValueAsString(getTournaments()) + "' where id=" + tournamentId);
+            SQLManager.executeUpdate("UPDATE `tournament` set tournaments = '"
+                    + Mapper.converter.writeValueAsString(getTournaments()) + "' where id=" + tournamentId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -283,8 +284,9 @@ public abstract class Tournament {
 
     public boolean checkBusy(String ninjaName) {
         synchronized (this.participants) {
+
             for (User participant : this.participants) {
-                if (participant.nj.name.equals(ninjaName)) {
+                if (participant.nj != null && participant.nj.name != null && participant.nj.name.equals(ninjaName)) {
                     return participant.nj.isBusy;
                 }
             }
@@ -297,19 +299,20 @@ public abstract class Tournament {
      * @param ninjaAIName not real entity
      */
 
-
     public void enter(final @Nullable Ninja ninja, final @NotNull String ninjaAIName) {
-        if (ninja == null) return;
+        if (ninja == null)
+            return;
         synchronized (this.participants) {
             if (ninja.party != null) {
                 ninja.p.sendYellowMessage("Bạn chỉ có thể tham gia một mình");
                 return;
             }
             val ninjaAI = this.participants.stream()
-                    .filter(p -> p.nj.name.equals(ninjaAIName))
+                    .filter(p -> p.nj.name != null && p.nj.name.equals(ninjaAIName))
                     .map(u -> u.nj).findFirst().orElse(null);
             final Place area = map.getFreeArea();
-            if (ninjaAI == null) return;
+            if (ninjaAI == null)
+                return;
 
             ninjaAI.upHP(ninjaAI.getMaxHP());
             ninjaAI.upMP(ninjaAI.getMaxMP());
@@ -324,7 +327,7 @@ public abstract class Tournament {
             ninjaAI.isBusy = true;
 
             for (User participant : this.participants) {
-                if (participant.nj.name.equals(ninja.name)) {
+                if (participant.nj.name != null && participant.nj.name.equals(ninja.name)) {
                     participant.nj.isBusy = true;
                     break;
                 }
@@ -334,10 +337,10 @@ public abstract class Tournament {
         }
     }
 
-
     @SneakyThrows
     public void leave(final @Nullable Ninja ninja, final @Nullable Ninja ninjaAI) {
-        if (ninja == null || ninjaAI == null) return;
+        if (ninja == null || ninjaAI == null)
+            return;
         synchronized (this.participants) {
             try {
                 ninja.changeTypePk(Constants.PK_NORMAL);

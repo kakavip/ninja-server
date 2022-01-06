@@ -22,13 +22,12 @@ public class TournamentPlace extends Place {
         super(map, id);
     }
 
-
     @Override
     public void leave(User p) {
-        if (p.session == null) return;
+        if (p.session == null)
+            return;
         super.leave(p);
     }
-
 
     @Override
     public void Enter(User p) throws IOException {
@@ -43,11 +42,11 @@ public class TournamentPlace extends Place {
             state = State.WAIT_10_SECS;
             p.nj.updateEffect(new Effect(14, 0, 10000, 0));
         }
-        if (this.getUsers().size() >= 2) return;
+        if (this.getUsers().size() >= 2)
+            return;
         Place.Enter(p, this);
         Service.batDauTinhGio(p.nj, 10);
     }
-
 
     @Override
     public void wakeUpDieReturn(User p) {
@@ -89,11 +88,14 @@ public class TournamentPlace extends Place {
                     }
                 }
             }
-            try {
-                super.update();
-                updateAI();
-            } catch (Exception e) {
 
+            if (state != State.INITIAL) {
+                try {
+                    super.update();
+                    updateAI();
+                } catch (Exception e) {
+
+                }
             }
         }
     }
@@ -114,7 +116,6 @@ public class TournamentPlace extends Place {
         }
         return ninjaAI;
     }
-
 
     private Ninja findNormal() {
         synchronized (this) {
@@ -138,20 +139,21 @@ public class TournamentPlace extends Place {
         return 0;
     }
 
-
     private void updateAI() {
 
         try {
             // AI
             final Ninja ninjaAI = findAI();
             final Ninja ninjaNorm = findNormal();
-            if (ninjaAI == null || ninjaNorm == null) return;
+            if (ninjaAI == null || ninjaNorm == null)
+                return;
 
-            if (handleDie(ninjaAI, ninjaNorm)) return;
-
+            if (handleDie(ninjaAI, ninjaNorm))
+                return;
 
             val currentTime = System.currentTimeMillis();
-            if (ninjaAI.lastTimeMove == -1 || currentTime - ninjaAI.lastTimeMove >= util.nextInt(20 * TIME_CONTROL_MOVE / 100, TIME_CONTROL_MOVE)) {
+            if (ninjaAI.lastTimeMove == -1 || currentTime - ninjaAI.lastTimeMove >= util
+                    .nextInt(20 * TIME_CONTROL_MOVE / 100, TIME_CONTROL_MOVE)) {
                 val normalX = ninjaNorm.x;
                 boolean negative = util.nextInt(0, 1) == 1;
                 val randomX = util.nextInt(ninjaAI.getMyCSkillObject().getTemplate().dx + 60);
@@ -195,21 +197,21 @@ public class TournamentPlace extends Place {
         if (ninjaAI.isDie) {
             final Tournament tour = Tournament.getTypeTournament(ninjaAI.getLevel());
             tour.updateRanked(ninjaNorm, ninjaAI, true);
-            kickToHome(ninjaAI, ninjaNorm, tour);
             this.getUsers().clear();
+            kickToHome(ninjaAI, ninjaNorm, tour);
             return true;
         } else if (ninjaNorm.isDie) {
             final Tournament tour = Tournament.getTypeTournament(ninjaNorm.getLevel());
             tour.updateRanked(ninjaNorm, ninjaAI, false);
-            kickToHome(ninjaAI, ninjaNorm, tour);
             this.getUsers().clear();
-
+            kickToHome(ninjaAI, ninjaNorm, tour);
             return true;
         }
         return false;
     }
 
-    protected void kickToHome(@Nullable final Ninja ninjaAI, @Nullable final Ninja ninjaNorm, @Nullable final Tournament tour) {
+    protected void kickToHome(@Nullable final Ninja ninjaAI, @Nullable final Ninja ninjaNorm,
+            @Nullable final Tournament tour) {
         if (tour == null || ninjaAI == null || ninjaNorm == null) {
             if (ninjaNorm != null) {
                 this.leave(ninjaNorm.p);
@@ -228,7 +230,8 @@ public class TournamentPlace extends Place {
 
     @Override
     public void attackNinja(@Nullable final Body body, @Nullable final Message m) throws IOException {
-        if (body == null || m == null) return;
+        if (body == null || m == null)
+            return;
         if (state != State.INITIAL && state != State.WAIT_10_SECS) {
             super.attackNinja(body, m);
         }
@@ -257,7 +260,8 @@ public class TournamentPlace extends Place {
     protected void FireNinjaMessage(final int ninjaId, final int type) {
         try {
             Ninja ninja = Tournament.findNinjaGById(ninjaId);
-            if (ninja == null) return;
+            if (ninja == null)
+                return;
             long reduceTime = 0;
             try {
                 reduceTime = ninja.get().getPramSkill(37) * 100L + ninja.get().getFireReduceTime();
@@ -300,7 +304,8 @@ public class TournamentPlace extends Place {
     protected void IceNinjaMessage(final int ninjaId, final int type) {
         try {
             Ninja ninja = Tournament.findNinjaGById(ninjaId);
-            if (ninja == null) return;
+            if (ninja == null)
+                return;
             long reduceIceTime = 0;
 
             try {
@@ -348,7 +353,8 @@ public class TournamentPlace extends Place {
     protected void WindNinjaMessage(final int ninjaId, final int type) {
         try {
             Ninja ninja = Tournament.findNinjaGById(ninjaId);
-            if (ninja == null) return;
+            if (ninja == null)
+                return;
             long reduceTime = 0;
             try {
                 reduceTime = ninja.get().getPramSkill(39) * 100L + ninja.get().getWindReduceTime();
