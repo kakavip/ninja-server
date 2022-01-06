@@ -194,7 +194,10 @@ public class Manager {
             IDS_THUONG_LV90 = parseShortArray(properties.getProperty("thuong-lv90"));
             IDS_THUONG_LV130 = parseShortArray(properties.getProperty("thuong-lv130"));
 
-            Server.MOMENT_BOSS_REFRESH = parseShortArray(properties.getProperty("moment-boss-refresh"));
+            // Server.MOMENT_BOSS_REFRESH =
+            // parseShortArray(properties.getProperty("moment-boss-refresh"));
+            Server.DURATION_TIME_BOSS_REFRESH = Short.parseShort(properties.getProperty("duration-time-boss-refresh"));
+            Server.MAX_BOSS = Short.parseShort(properties.getProperty("max-boss"));
 
             MULTI_EXP = Short.parseShort(properties.getProperty("multi-exp"));
             TIME_MAINTAIN = Integer.parseInt(properties.getProperty("time-bao-tri"));

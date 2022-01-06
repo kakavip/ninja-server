@@ -25,13 +25,13 @@ public class Level {
         levelToMaxExp = new HashMap<>();
     }
 
-
     public static long[] getLevelExp(final long exp) {
         long num;
         int i;
-        for (num = exp, i = 0; i < Level.entrys.size() && num >= Level.entrys.get(i).exps; num -= Level.entrys.get(i).exps, ++i) {
+        for (num = exp, i = 0; i < Level.entrys.size()
+                && num >= Level.entrys.get(i).exps; num -= Level.entrys.get(i).exps, ++i) {
         }
-        return new long[]{i, num};
+        return new long[] { i, num };
     }
 
     public synchronized static short totalpPoint(final int level) {
@@ -61,7 +61,6 @@ public class Level {
     public static Level getLevel(final int level) {
         return levelToLevelObj.get(level);
     }
-
 
     public static ArrayList<Level> getEntrys() {
         return entrys;

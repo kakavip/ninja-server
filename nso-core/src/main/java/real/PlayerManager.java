@@ -90,7 +90,11 @@ public class PlayerManager {
             this.remove(conn.user);
         }
         // remove connection from hash ip
-        this.conns_ip.get(conn.getClientIpAddress()).remove(conn);
+        String clientIpAddress = conn.getClientIpAddress();
+        this.conns_ip.get(clientIpAddress).remove(conn);
+        if (this.conns_ip.get(clientIpAddress).size() == 0) {
+            this.conns_ip.remove(clientIpAddress);
+        }
     }
 
     private void remove(final User p) {
@@ -144,6 +148,10 @@ public class PlayerManager {
         }
 
         return conns.size();
+    }
+
+    public int clients_size() {
+        return this.conns_ip.keySet().size();
     }
 
     public int players_size() {

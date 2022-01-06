@@ -2742,7 +2742,7 @@ public class User extends Actor implements SendMessage {
             xpup = 0;
         }
 
-        xpup -= xpup * this.nj.get().getMaxLevel() / 1000;
+        xpup -= xpup * (this.nj.get().getMaxLevel() / 1000 - 0.5);
         if ((this.nj.get().getTypepk() == Constants.PK_NORMAL && this.nj.get().exptype == 0)) {
             return;
         }

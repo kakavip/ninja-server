@@ -2083,7 +2083,7 @@ public class Place {
         if (curMob.lvboss == 1) {
             xpnew *= 2;
         } else if (curMob.lvboss == 2) {
-            xpnew *= 3;
+            xpnew *= 5;
         } else if (curMob.lvboss == 3) {
             xpnew /= 2;
         }
@@ -3261,12 +3261,12 @@ public class Place {
                                 if (mob.lvboss == 1) {
                                     dame *= 2;
                                 } else if (mob.lvboss == 2) {
-                                    dame *= 4;
+                                    dame *= 5;
                                 } else if (mob.lvboss == 3) {
                                     dame *= 3;
                                 }
                                 if (mob.isIsboss()) {
-                                    dame *= 7;
+                                    dame *= 10;
                                 }
                                 if (mob.sys == 1) {
                                     dame -= user.nj.get().ResFire();

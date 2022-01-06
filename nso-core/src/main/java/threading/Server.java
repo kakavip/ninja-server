@@ -48,8 +48,10 @@ public class Server {
     public ServerController controllerManager;
     public Controller serverMessageHandler;
     private static Map[] maps;
-    public static short[] MOMENT_BOSS_REFRESH;
-    private static final boolean[] isRefreshBoss;
+    // public static short[] MOMENT_BOSS_REFRESH;
+    public static short MAX_BOSS;
+    public static short DURATION_TIME_BOSS_REFRESH;
+    private static boolean isRefreshBoss;
     private static final short[] mapBossVDMQ;
     private static final short[] mapBoss45;
     private static final short[] mapBoss55;
@@ -94,67 +96,65 @@ public class Server {
 
             final Calendar rightNow = Calendar.getInstance();
             final short moment = (short) rightNow.get(Manager.BOSS_WAIT_TIME_UNIT);
-            for (int j = 0; j < Server.MOMENT_BOSS_REFRESH.length; ++j) {
-                if (Server.MOMENT_BOSS_REFRESH[j] == moment) {
-                    if (!Server.isRefreshBoss[j]) {
-                        String textchat = "Thần thú đã suất hiện tại";
-                        for (byte k = 0; k < util.nextInt(1, 2); ++k) {
-                            final Map map = Manager.getMapid(Server.mapBoss75[util.nextInt(Server.mapBoss75.length)]);
-                            if (map != null) {
-                                map.refreshBoss(util.nextInt(0, 17));
-                                textchat = textchat + " " + map.template.name;
-                                Server.isRefreshBoss[j] = true;
-                            }
-                        }
-                        for (byte k = 0; k < util.nextInt(1, 2); ++k) {
-                            final Map map = Manager.getMapid(Server.mapBoss65[util.nextInt(Server.mapBoss65.length)]);
-                            if (map != null) {
-                                map.refreshBoss(util.nextInt(0, 17));
-                                textchat = textchat + ", " + map.template.name;
-                                Server.isRefreshBoss[j] = true;
-                            }
-                        }
-                        for (byte k = 0; k < util.nextInt(1, 2); ++k) {
-                            final Map map = Manager.getMapid(Server.mapBoss55[util.nextInt(Server.mapBoss55.length)]);
-                            if (map != null) {
-                                map.refreshBoss(util.nextInt(0, 17));
-                                textchat = textchat + ", " + map.template.name;
-                                Server.isRefreshBoss[j] = true;
-                            }
-                        }
-                        for (byte k = 0; k < util.nextInt(1, 2); ++k) {
-                            final Map map = Manager.getMapid(Server.mapBoss45[util.nextInt(Server.mapBoss45.length)]);
-                            if (map != null) {
-                                map.refreshBoss(util.nextInt(0, 17));
-                                textchat = textchat + ", " + map.template.name;
-                                Server.isRefreshBoss[j] = true;
-                            }
-                        }
-                        for (byte k = 0; k < Server.mapBossVDMQ.length; ++k) {
-                            final Map map = Manager.getMapid(Server.mapBossVDMQ[k]);
-                            if (map != null) {
-                                map.refreshBoss(util.nextInt(0, 17));
-                                textchat = textchat + ", " + map.template.name;
-                                Server.isRefreshBoss[j] = true;
-                            }
-                        }
-
-                        for (short i : mapBossLC) {
-                            val map = Manager.getMapid(i);
-                            if (map != null) {
-                                map.refreshBoss(util.nextInt(0, 3));
-                                textchat = textchat + ", " + map.template.name;
-                                Server.isRefreshBoss[j] = true;
-                            }
-                        }
-                        try {
-                            Manager.chatKTG(textchat);
-                        } catch (IOException e) {
+            if (moment % Server.DURATION_TIME_BOSS_REFRESH == 0) {
+                if (!Server.isRefreshBoss) {
+                    String textchat = "Thần thú đã suất hiện tại";
+                    for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
+                        final Map map = Manager.getMapid(Server.mapBoss75[util.nextInt(Server.mapBoss75.length)]);
+                        if (map != null) {
+                            map.refreshBoss(util.nextInt(17));
+                            textchat = textchat + " " + map.template.name;
+                            Server.isRefreshBoss = true;
                         }
                     }
-                } else {
-                    Server.isRefreshBoss[j] = false;
+                    for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
+                        final Map map = Manager.getMapid(Server.mapBoss65[util.nextInt(Server.mapBoss65.length)]);
+                        if (map != null) {
+                            map.refreshBoss(util.nextInt(17));
+                            textchat = textchat + ", " + map.template.name;
+                            Server.isRefreshBoss = true;
+                        }
+                    }
+                    for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
+                        final Map map = Manager.getMapid(Server.mapBoss55[util.nextInt(Server.mapBoss55.length)]);
+                        if (map != null) {
+                            map.refreshBoss(util.nextInt(17));
+                            textchat = textchat + ", " + map.template.name;
+                            Server.isRefreshBoss = true;
+                        }
+                    }
+                    for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
+                        final Map map = Manager.getMapid(Server.mapBoss45[util.nextInt(Server.mapBoss45.length)]);
+                        if (map != null) {
+                            map.refreshBoss(util.nextInt(17));
+                            textchat = textchat + ", " + map.template.name;
+                            Server.isRefreshBoss = true;
+                        }
+                    }
+                    for (byte k = 0; k < Server.mapBossVDMQ.length; ++k) {
+                        final Map map = Manager.getMapid(Server.mapBossVDMQ[k]);
+                        if (map != null) {
+                            map.refreshBoss(util.nextInt(17));
+                            textchat = textchat + ", " + map.template.name;
+                            Server.isRefreshBoss = true;
+                        }
+                    }
+
+                    for (short i : mapBossLC) {
+                        val map = Manager.getMapid(i);
+                        if (map != null) {
+                            map.refreshBoss(util.nextInt(3));
+                            textchat = textchat + ", " + map.template.name;
+                            Server.isRefreshBoss = true;
+                        }
+                    }
+                    try {
+                        Manager.chatKTG(textchat);
+                    } catch (IOException e) {
+                    }
                 }
+            } else {
+                Server.isRefreshBoss = false;
             }
         };
         updateBattle = () -> {
@@ -277,12 +277,12 @@ public class Server {
                     PlayerManager.getInstance().put(conn);
                     conn.start();
                     System.out.println("Accept socket size :" + PlayerManager.getInstance().conns_size());
+                    System.out.println("Client IP address:  " + clientIpAddress + " with "
+                            + PlayerManager.getInstance().conns_size(clientIpAddress) + " connections.");
+                    System.out.println("Real clients: " + PlayerManager.getInstance().clients_size());
                 } else {
                     clientSocket.close();
                 }
-
-                System.out.println("Client IP address:  " + clientIpAddress + " with "
-                        + PlayerManager.getInstance().conns_size(clientIpAddress) + " connections.");
             }
         } catch (BindException bindEx) {
             System.exit(0);
@@ -394,7 +394,7 @@ public class Server {
     static {
         Server.instance = null;
         Server.start = false;
-        isRefreshBoss = new boolean[] { false, false, false, false, false, false };
+        isRefreshBoss = false;
         mapBossVDMQ = new short[] { 141, 142, 143 };
         mapBoss45 = new short[] { 14, 15, 16, 34, 35, 52, 68 };
         mapBoss55 = new short[] { 44, 67 };
