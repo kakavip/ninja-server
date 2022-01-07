@@ -62,7 +62,7 @@ class CharacterAdmin(admin.ModelAdmin):
         "name",
         "_class",
         "exp",
-        "skill",
+        # "skill",
         "spoint",
         "k_skill",
         "o_skill",
@@ -74,6 +74,13 @@ class CharacterAdmin(admin.ModelAdmin):
         "level",
         "yen",
         "xu",
+        "maxluggage",
+        "level_bag",
+        # "item_bag",
+        # "item_box",
+        # "item_body",
+        "item_mounts",
+        "effect",
     ]
     list_display_links = ["id", "name"]
     empty_display_value = "--empty--"
@@ -88,6 +95,13 @@ class CharacterAdmin(admin.ModelAdmin):
         "level",
         "yen",
         "xu",
+        "maxluggage",
+        "level_bag",
+        "item_bag",
+        "item_box",
+        "item_body",
+        "item_mounts",
+        "effect",
     ]
     search_fields = ["name"]
     list_filter = ["_class"]
@@ -95,38 +109,8 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(Ninja)
 class NinjaAdmin(CharacterAdmin):
-    list_display = [
-        "id",
-        "name",
-        "_class",
-        "exp",
-        "site",
-        "skill",
-        "spoint",
-        "k_skill",
-        "o_skill",
-        "ppoint",
-        "potential0",
-        "potential1",
-        "potential2",
-        "potential3",
-        "level",
-        "yen",
-        "xu",
-    ]
-    fields = [
-        "name",
-        "_class",
-        "site",
-        "exp",
-        "skill",
-        "spoint",
-        "k_skill",
-        "o_skill",
-        "level",
-        "yen",
-        "xu",
-    ]
+    list_display = CharacterAdmin.list_display + ["site"]
+    fields = CharacterAdmin.fields + ["site"]
 
 
 @admin.register(CloneNinja)
