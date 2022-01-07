@@ -84,6 +84,7 @@ class Character(models.Model):
     item_body = JSONField(blank=True, null=True, default=[], db_column="ItemBody")
     item_mounts = JSONField(blank=True, null=True, default=[], db_column="ItemMounts")
     effect = JSONField(blank=True, null=True, default=[])
+    clan = JSONField(blank=True, null=True, default=[])
 
     class Meta:
         abstract = True
