@@ -557,6 +557,7 @@ public class Controller implements ISessionHandler {
                     } else {
                         // Thach dau
                         if (p.nj.getTournamentData().isCanGoNext()) {
+                        // if (true) {
                             if (p.nj.name.equals(ninjaName)) {
                                 if (p.nj.getTournamentData().getRanked() == 1) {
                                     p.sendYellowMessage("Bạn đã chinh phục thành công top 1 rồi.");

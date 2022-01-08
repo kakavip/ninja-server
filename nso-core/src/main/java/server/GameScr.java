@@ -1152,7 +1152,7 @@ public class GameScr {
                 break;
             }
             case 1: {
-                percent = 45;
+                percent = 55;
                 yen = 247500;
                 if (ttts != 5 || tttt != 0 || tttc != 0) {
                     p.session.sendMessageLog("Tinh luyện 2 cần dùng 5 Tử tinh thạch sơ");
@@ -1161,7 +1161,7 @@ public class GameScr {
                 break;
             }
             case 2: {
-                percent = 34;
+                percent = 50;
                 yen = 408375;
                 if (ttts != 9 || tttt != 0 || tttc != 0) {
                     p.session.sendMessageLog("Tinh luyện 3 cần dùng 9 Tử tinh thạch sơ");
@@ -1170,7 +1170,7 @@ public class GameScr {
                 break;
             }
             case 3: {
-                percent = 26;
+                percent = 45;
                 yen = 673819;
                 if (ttts != 0 || tttt != 4 || tttc != 0) {
                     p.session.sendMessageLog("Tinh luyện 4 cần dùng 4 Tử tinh thạch trung");
@@ -1179,7 +1179,7 @@ public class GameScr {
                 break;
             }
             case 4: {
-                percent = 20;
+                percent = 40;
                 yen = 1111801;
                 if (ttts != 0 || tttt != 7 || tttc != 0) {
                     p.session.sendMessageLog("Tinh luyện 5 cần dùng 7 Tử tinh thạch trung");
@@ -1188,7 +1188,7 @@ public class GameScr {
                 break;
             }
             case 5: {
-                percent = 15;
+                percent = 35;
                 yen = 2056832;
                 if (ttts != 0 || tttt != 10 || tttc != 0) {
                     p.session.sendMessageLog("Tinh luyện 5 cần dùng 7 Tử tinh thạch trung");
@@ -1197,7 +1197,7 @@ public class GameScr {
                 break;
             }
             case 6: {
-                percent = 11;
+                percent = 30;
                 yen = 4010922;
                 if (ttts != 0 || tttt != 0 || tttc != 5) {
                     p.session.sendMessageLog("Tinh luyện 7 cần dùng 5 Tử tinh thạch cao");
@@ -1206,7 +1206,7 @@ public class GameScr {
                 break;
             }
             case 7: {
-                percent = 8;
+                percent = 25;
                 yen = 7420021;
                 if (ttts != 0 || tttt != 0 || tttc != 7) {
                     p.session.sendMessageLog("Tinh luyện 8 cần dùng 7 Tử tinh thạch cao");
@@ -1215,7 +1215,7 @@ public class GameScr {
                 break;
             }
             case 8: {
-                percent = 6;
+                percent = 20;
                 yen = 12243035;
                 if (ttts != 0 || tttt != 0 || tttc != 9) {
                     p.session.sendMessageLog("Tinh luyện 9 cần dùng 9 Tử tinh thạch cao");

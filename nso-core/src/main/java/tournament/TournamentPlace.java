@@ -89,13 +89,11 @@ public class TournamentPlace extends Place {
                 }
             }
 
-            if (state != State.INITIAL) {
-                try {
-                    super.update();
-                    updateAI();
-                } catch (Exception e) {
+            try {
+                super.update();
+                updateAI();
+            } catch (Exception e) {
 
-                }
             }
         }
     }
@@ -195,16 +193,18 @@ public class TournamentPlace extends Place {
 
     public boolean handleDie(Ninja ninjaAI, Ninja ninjaNorm) {
         if (ninjaAI.isDie) {
+            System.out.println("Ninja AI die");
             final Tournament tour = Tournament.getTypeTournament(ninjaAI.getLevel());
             tour.updateRanked(ninjaNorm, ninjaAI, true);
-            this.getUsers().clear();
             kickToHome(ninjaAI, ninjaNorm, tour);
+            this.getUsers().clear();
             return true;
         } else if (ninjaNorm.isDie) {
+            System.out.println("Ninja Normal die");
             final Tournament tour = Tournament.getTypeTournament(ninjaNorm.getLevel());
             tour.updateRanked(ninjaNorm, ninjaAI, false);
-            this.getUsers().clear();
             kickToHome(ninjaAI, ninjaNorm, tour);
+            this.getUsers().clear();
             return true;
         }
         return false;
@@ -219,13 +219,12 @@ public class TournamentPlace extends Place {
             getUsers().clear();
             return;
         }
-        tour.leave(ninjaNorm, ninjaAI);
         this.ninjaAI = null;
         this.norm = null;
         this.state = State.INITIAL;
         this.tick = -1;
-
         Service.batDauTinhGio(ninjaNorm.p, 0);
+        tour.leave(ninjaNorm, ninjaAI);
     }
 
     @Override

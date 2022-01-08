@@ -133,7 +133,6 @@ public abstract class Tournament {
                     final Integer otherRanked = user.nj.getTournamentData().getRanked();
                     if (currentRank.equals(otherRanked)) {
                         user.nj.getTournamentData().setRanked(currentRank + 1);
-                        i--;
                     }
                 }
             }
@@ -348,6 +347,7 @@ public abstract class Tournament {
                 ninja.getPlace().DieReturn(ninja.p);
                 ninja.getPlace().removeUser(ninjaAI.p);
                 ninjaAI.isBusy = false;
+                ninjaAI.isDie = false;
                 for (User participant : this.participants) {
                     if (participant.nj.name.equals(ninja.name)) {
                         participant.nj.isBusy = false;
