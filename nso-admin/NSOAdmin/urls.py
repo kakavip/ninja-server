@@ -23,7 +23,7 @@ from NSOAdmin.views import (
     downloads,
     index,
     jar_file,
-    jar_hsl_file,
+    jar_hsl_x3_file,
     jar_x3_file,
     register,
     server_list,
@@ -41,7 +41,7 @@ urlpatterns = [
     path("nso_moonsmile.apk", apk_file, name="apk_file"),
     path("nso_moonsmile_hack.apk", apk_hack_file, name="apk_hack_file"),
     path("nso_moonsmile.jar", jar_file, name="jar_file"),
-    path("nso_moonsmile_hsl.jar", jar_hsl_file, name="jar_hsl_file"),
+    path("nso_moonsmile_hsl_x3.jar", jar_hsl_x3_file, name="jar_hsl_x3_file"),
     path("nso_moonsmile_x3.jar", jar_x3_file, name="jar_x3_file"),
 ]
 

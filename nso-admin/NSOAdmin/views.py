@@ -102,5 +102,5 @@ def jar_x3_file(request):
     return FileResponse(open("packages/nso-ms.domain.x3.jar", "rb"))
 
 
-def jar_hsl_file(request):
-    return FileResponse(open("packages/nso-ms.auto_hsl.nodomain.jar", "rb"))
+def jar_hsl_x3_file(request):
+    return FileResponse(open("packages/nso-ms.hsl_x3.jar", "rb"))
