@@ -969,37 +969,37 @@ public class GameScr {
             return;
         }
 
-        short[] itemIds;
-        int MAX_LEVEL = p.nj.getLevel() - p.nj.getLevel() % 10 + 10;
-        if (MAX_LEVEL >= 100) {
-            MAX_LEVEL = 100;
-        }
+        short[] itemIds = LAT_HINH_ID;
+        // int MAX_LEVEL = p.nj.getLevel() - p.nj.getLevel() % 10 + 10;
+        // if (MAX_LEVEL >= 100) {
+        // MAX_LEVEL = 100;
+        // }
 
-        if (MAX_LEVEL == 100) {
-            itemIds = LAT_HINH_LV100_ID;
-        } else if (MAX_LEVEL == 90) {
-            itemIds = LAT_HINH_LV90_ID;
-        } else if (MAX_LEVEL == 80) {
-            itemIds = LAT_HINH_LV80_ID;
-        } else if (MAX_LEVEL == 70) {
-            itemIds = LAT_HINH_LV70_ID;
-        } else if (MAX_LEVEL == 60) {
-            itemIds = LAT_HINH_LV60_ID;
-        } else if (MAX_LEVEL == 50) {
-            itemIds = LAT_HINH_LV50_ID;
-        } else if (MAX_LEVEL == 40) {
-            itemIds = LAT_HINH_LV40_ID;
-        } else if (MAX_LEVEL == 30) {
-            itemIds = LAT_HINH_LV30_ID;
-        } else if (MAX_LEVEL == 20) {
-            itemIds = LAT_HINH_LV20_ID;
-        } else if (MAX_LEVEL == 10) {
-            itemIds = LAT_HINH_LV10_ID;
-        } else {
-            itemIds = LAT_HINH_ID;
-        }
+        // if (MAX_LEVEL == 100) {
+        // itemIds = LAT_HINH_LV100_ID;
+        // } else if (MAX_LEVEL == 90) {
+        // itemIds = LAT_HINH_LV90_ID;
+        // } else if (MAX_LEVEL == 80) {
+        // itemIds = LAT_HINH_LV80_ID;
+        // } else if (MAX_LEVEL == 70) {
+        // itemIds = LAT_HINH_LV70_ID;
+        // } else if (MAX_LEVEL == 60) {
+        // itemIds = LAT_HINH_LV60_ID;
+        // } else if (MAX_LEVEL == 50) {
+        // itemIds = LAT_HINH_LV50_ID;
+        // } else if (MAX_LEVEL == 40) {
+        // itemIds = LAT_HINH_LV40_ID;
+        // } else if (MAX_LEVEL == 30) {
+        // itemIds = LAT_HINH_LV30_ID;
+        // } else if (MAX_LEVEL == 20) {
+        // itemIds = LAT_HINH_LV20_ID;
+        // } else if (MAX_LEVEL == 10) {
+        // itemIds = LAT_HINH_LV10_ID;
+        // } else {
+        // itemIds = LAT_HINH_ID;
+        // }
 
-        final short id = itemIds[util.nextInt(itemIds.length)];
+        final short id = itemIds[util.nextInt(itemIds.length - 1)];
         /**
          *
          */
@@ -1039,9 +1039,10 @@ public class GameScr {
             if (i == index) {
                 m.writer().writeShort(id);
             } else {
-                m.writer().writeShort(itemIds[util.nextInt(itemIds.length)]);
+                m.writer().writeShort(itemIds[util.nextInt(itemIds.length - 1)]);
             }
         }
+
         m.writer().flush();
         p.sendMessage(m);
         m.cleanup();
