@@ -13,26 +13,19 @@ RUN mvn dependency:go-offline -B
 
 # copy your other files
 COPY ./src ./src
-COPY ./res ./res
 
 # build for release
 # NOTE: my-project-* should be replaced with the proper prefix
 RUN mvn package && cp target/NinjaServer.jar NinjaServer.jar
-
-# copy config files
-COPY ./ninja.conf ./ninja.conf
-COPY ./application.properties ./application.properties
 
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 
 # copy config files
-COPY --from=target /app/ninja.conf /app/ninja.conf
-COPY --from=target /app/application.properties /app/application.properties
+COPY ./ninja.conf ./ninja.conf
+COPY ./application.properties ./application.properties
 
-# copy res
-COPY --from=target /app/res /app/res 
 # copy build file
 COPY --from=target /app/NinjaServer.jar /app/NinjaServer.jar
 

@@ -24,6 +24,8 @@ services:
       - DB_PORT=3306
       - DB_DATABASE=nja
       - REDIS_CACHE_DEFAULT=redis://redis:6379/1
+    volumes:
+      - ./nso-core/res:/app/res
     ports:
       - 14444:14444
     depends_on:
