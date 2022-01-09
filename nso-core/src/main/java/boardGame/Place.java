@@ -2515,6 +2515,11 @@ public class Place {
                     im.master = master;
                 }
             }
+
+            // up luong
+            long luong = curMob.level * util.nextInt(120, 250) / 100;
+            p.upluongMessage(luong);
+
             for (int i = 0; i < N_ITEM_BOSS; i++) {
                 val itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
                 ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);

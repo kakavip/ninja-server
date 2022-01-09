@@ -684,38 +684,47 @@ public class ItemData {
         if (id == HUYET_NGOC) {
             item.option.add(VU_KHI_OPTION);
             item.option.add(
-                    new Option(73, random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
-            item.option.add(new Option(114, -(random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG)));
+                    new Option(TAN_CONG_ID,
+                            random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
+            item.option.add(
+                    new Option(CHI_MANG_ID, -(random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG)));
 
             item.option.add(TRANG_BI_OPTION);
             item.option
-                    .add(new Option(124, random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST));
+                    .add(new Option(GIAM_TRU_ST_ID,
+                            random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST));
             item.option.add(
-                    new Option(73, -(random ? util.nextInt((int) (0.6 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG)));
+                    new Option(TAN_CONG_ID,
+                            -(random ? util.nextInt((int) (0.6 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG)));
 
             item.option.add(TRANG_SUC_OPTION);
-            item.option.add(new Option(115, random ? util.nextInt((int) (0.8 * NE_DON), NE_DON) : NE_DON));
+            item.option.add(new Option(NE_DON_ID, random ? util.nextInt((int) (0.8 * NE_DON), NE_DON) : NE_DON));
             item.option.add(
-                    new Option(119, -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_MP), MOI_GIAY_HOI_PHUC_MP)
-                            : MOI_GIAY_HOI_PHUC_MP)));
+                    new Option(MOI_GIAY_HOI_PHUC_MP_ID,
+                            -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_MP), MOI_GIAY_HOI_PHUC_MP)
+                                    : MOI_GIAY_HOI_PHUC_MP)));
         }
 
         if (id == HUYEN_TINH_NGOC) {
             item.option.add(VU_KHI_OPTION);
             item.option.add(
-                    new Option(102, random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
-            item.option.add(new Option(115, -(random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG)));
+                    new Option(ST_LEN_QUAI_ID,
+                            random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
+            item.option.add(new Option(NE_DON_ID, -(random ? util.nextInt((int) (0.8 * NE_DON), NE_DON) : NE_DON)));
 
             item.option.add(TRANG_BI_OPTION);
-            item.option.add(new Option(126, random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON));
+            item.option
+                    .add(new Option(PHAN_DON_ID, random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON));
             item.option.add(
-                    new Option(105, -(random ? util.nextInt((int) (0.6 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG)));
+                    new Option(ST_CHI_MANG_ID,
+                            -(random ? util.nextInt((int) (0.6 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG)));
 
             item.option.add(TRANG_SUC_OPTION);
-            item.option.add(new Option(121,
+            item.option.add(new Option(KHANG_SAT_THUONG_CHI_MANG_ID,
                     random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
             item.option.add(
-                    new Option(118, -(random ? util.nextInt((int) (0.8 * KHANG_TAT_CA), KHANG_TAT_CA) : KHANG_TAT_CA)));
+                    new Option(KHANG_TAT_CA_ID,
+                            -(random ? util.nextInt((int) (0.8 * KHANG_TAT_CA), KHANG_TAT_CA) : KHANG_TAT_CA)));
 
         }
 
@@ -723,19 +732,24 @@ public class ItemData {
             item.option.add(VU_KHI_OPTION);
 
             item.option.add(
-                    new Option(103, random ? util.nextInt((int) (0.8 * MAX_ST_NGUOI), MAX_ST_NGUOI) : MAX_ST_NGUOI));
-            item.option.add(new Option(125, -(random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA)));
+                    new Option(ST_LEN_NGUOI_ID,
+                            random ? util.nextInt((int) (0.8 * MAX_ST_NGUOI), MAX_ST_NGUOI) : MAX_ST_NGUOI));
+            item.option.add(
+                    new Option(HP_TOI_DA_ID, -(random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA)));
 
             item.option.add(TRANG_BI_OPTION);
-            item.option.add(new Option(121,
+            item.option.add(new Option(KHANG_SAT_THUONG_CHI_MANG_ID,
                     random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
             item.option.add(
-                    new Option(120, -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_HP), MOI_GIAY_HOI_PHUC_HP)
-                            : MOI_GIAY_HOI_PHUC_HP)));
+                    new Option(MOI_GIAY_HOI_PHUC_HP_ID,
+                            -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_HP), MOI_GIAY_HOI_PHUC_HP)
+                                    : MOI_GIAY_HOI_PHUC_HP)));
 
             item.option.add(TRANG_SUC_OPTION);
-            item.option.add(new Option(116, random ? util.nextInt((int) (0.8 * CHINH_XAC), CHINH_XAC) : CHINH_XAC));
-            item.option.add(new Option(126, -(random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON)));
+            item.option.add(
+                    new Option(CHI_MANG_ID, random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG));
+            item.option.add(
+                    new Option(PHAN_DON_ID, -(random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON)));
 
         }
 
@@ -743,17 +757,23 @@ public class ItemData {
             item.option.add(VU_KHI_OPTION);
 
             item.option
-                    .add(new Option(105, random ? util.nextInt((int) (0.8 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG));
-            item.option.add(new Option(116, -(random ? util.nextInt((int) (0.8 * CHINH_XAC), CHINH_XAC) : CHINH_XAC)));
+                    .add(new Option(ST_CHI_MANG_ID,
+                            random ? util.nextInt((int) (0.8 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG));
+            item.option.add(
+                    new Option(CHINH_XAC_ID, -(random ? util.nextInt((int) (0.8 * CHINH_XAC), CHINH_XAC) : CHINH_XAC)));
 
             item.option.add(TRANG_BI_OPTION);
-            item.option.add(new Option(125, random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA));
-            item.option.add(new Option(117, -(random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA)));
+            item.option.add(
+                    new Option(HP_TOI_DA_ID, random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA));
+            item.option.add(
+                    new Option(MP_TOI_DA_ID, -(random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA)));
 
             item.option.add(TRANG_SUC_OPTION);
-            item.option.add(new Option(117, random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA));
             item.option.add(
-                    new Option(124, -(random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST)));
+                    new Option(MP_TOI_DA_ID, random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA));
+            item.option.add(
+                    new Option(GIAM_TRU_ST_ID,
+                            -(random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST)));
 
         }
 
