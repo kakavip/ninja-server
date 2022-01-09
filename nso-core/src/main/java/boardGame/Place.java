@@ -2049,7 +2049,11 @@ public class Place {
         }
         val p = body.c.p;
 
-        if (body.getEffId(Mob.THIEU_DOT_ID) != null) {
+        boolean isCloneAttackWithChuthan = body instanceof CloneChar && !p.nj.isNhanban;
+
+        if (body.getEffId(Mob.THIEU_DOT_ID) != null)
+
+        {
             curMob.isThieuDot = true;
             curMob.masterThieuDot = body;
         }
@@ -2277,10 +2281,14 @@ public class Place {
                 boolean canReceived = false;
                 int luong = p.nj.getMaxLevel() / 10;
 
+                boolean canDropItem = isCloneAttackWithChuthan
+                        && Math.abs(((CloneChar) body).chuThan.getLevel() - curMob.level) <= 10
+                        || Math.abs(p.nj.getLevel() - curMob.level) <= 10;
+
                 if (curMob.lvboss == 1) {
                     --this.numTA;
 
-                    if (Math.abs(p.nj.getLevel() - curMob.level) <= 10) {
+                    if (canDropItem) {
                         val yen = util.nextInt((int) (curMob.level * YEN_TA * 90 / 100), (int) (curMob.level * YEN_TA));
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
@@ -2293,7 +2301,7 @@ public class Place {
                 } else if (curMob.lvboss == 2) {
                     --this.numTL;
 
-                    if (Math.abs(p.nj.getLevel() - curMob.level) <= 10) {
+                    if (canDropItem) {
                         val yen = util.nextInt((int) (curMob.level * YEN_TL * 90 / 100), (int) (curMob.level * YEN_TL));
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
@@ -2380,6 +2388,8 @@ public class Place {
             return;
         }
 
+        boolean isCloneAttackWithChuthan = body instanceof CloneChar && !p.nj.isNhanban;
+
         short[] arid = new short[0];
         if (this.map.isLangCo()) {
             arid = LANG_CO_ITEM_IDS;
@@ -2438,6 +2448,10 @@ public class Place {
             updateBossItemDrop(curMob);
         }
 
+        boolean canDropItem = isCloneAttackWithChuthan
+                && Math.abs(((CloneChar) body).chuThan.getLevel() - curMob.level) <= 10
+                || Math.abs(p.nj.getLevel() - curMob.level) <= 10;
+
         if (map.isLdgtMap()
                 && curMob.templates.id == 81) {
             // Lam thach thao
@@ -2449,7 +2463,7 @@ public class Place {
 
         } else {
             int randomIndex = arid.length == 0 ? 0 : util.nextInt(arid.length);
-            if (server.manager.EVENT != 0 && Math.abs(curMob.level - body.getLevel()) <= 10) {
+            if (server.manager.EVENT != 0 && canDropItem) {
                 val eventItems = EventItem.getEventDropItemIds();
                 final int index = util.nextInt(0, eventItems.length - 1);
                 if (eventItems[index] != -1) {
@@ -2464,7 +2478,7 @@ public class Place {
             }
 
             if (randomIndex > 0 && arid[randomIndex] != -1
-                    && (this.map.isLangCo() || Math.abs(curMob.level - body.getLevel()) <= 10 || (body.getLevel() > 110
+                    && (this.map.isLangCo() || canDropItem || (body.getLevel() > 110
                             && (curMob.level == 100 || curMob.level == 96)))) {
 
                 if (arid[randomIndex] == 12) {
