@@ -288,7 +288,7 @@ public class Server {
                 // Remove non user session
                 PlayerManager.getInstance().kickGhostSessionByIds(Server.IP_BLACKLIST);
 
-                if (!Session.check(clientIpAddress) && !Server.IP_BLACKLIST.contains(clientIpAddress)) {
+                if (!Session.check(clientIpAddress) && PlayerManager.getInstance().check(clientIpAddress)) {
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
                     conn.start();
