@@ -556,8 +556,7 @@ public class Controller implements ISessionHandler {
                         GameScr.requestRankedInfo(p, ninjaName);
                     } else {
                         // Thach dau
-                        if (p.nj.getTournamentData().isCanGoNext()) {
-                        // if (true) {
+                        if (p.nj.getTournamentData().isCanGoNext() || util.debug) {
                             if (p.nj.name.equals(ninjaName)) {
                                 if (p.nj.getTournamentData().getRanked() == 1) {
                                     p.sendYellowMessage("Bạn đã chinh phục thành công top 1 rồi.");

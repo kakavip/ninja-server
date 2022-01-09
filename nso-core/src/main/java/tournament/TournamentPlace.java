@@ -193,14 +193,12 @@ public class TournamentPlace extends Place {
 
     public boolean handleDie(Ninja ninjaAI, Ninja ninjaNorm) {
         if (ninjaAI.isDie) {
-            System.out.println("Ninja AI die");
             final Tournament tour = Tournament.getTypeTournament(ninjaAI.getLevel());
             tour.updateRanked(ninjaNorm, ninjaAI, true);
             kickToHome(ninjaAI, ninjaNorm, tour);
             this.getUsers().clear();
             return true;
         } else if (ninjaNorm.isDie) {
-            System.out.println("Ninja Normal die");
             final Tournament tour = Tournament.getTypeTournament(ninjaNorm.getLevel());
             tour.updateRanked(ninjaNorm, ninjaAI, false);
             kickToHome(ninjaAI, ninjaNorm, tour);

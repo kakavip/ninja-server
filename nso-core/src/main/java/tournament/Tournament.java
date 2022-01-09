@@ -72,7 +72,8 @@ public abstract class Tournament {
     @NotNull
     public User getUserByNinjaName(String playerName) {
         return Objects.requireNonNull(this.participants.stream()
-                .filter(p -> p != null && p.nj != null && p.nj.name.equals(playerName)).findFirst().orElse(null));
+                .filter(p -> p != null && p.nj != null && p.nj.name != null && p.nj.name.equals(playerName)).findFirst()
+                .orElse(null));
     }
 
     public synchronized void updateRanked(final @NotNull Ninja norm, final @NotNull Ninja ai, boolean isWin) {
@@ -215,7 +216,9 @@ public abstract class Tournament {
                             });
                     tournaments.stream().forEach(tournament -> {
                         final User user = createUser(tournament);
-                        this.participants.add(user);
+                        if (user.nj != null && user.nj.name != null) {
+                            this.participants.add(user);
+                        }
                     });
                 }
 
