@@ -899,6 +899,7 @@ public class TaskList {
                                                                 -1, 99, -1,
                                                 })
                                                 .minLevel(53)
+                                                .bypass(true)
                                                 .build(),
 
                                 builder()
@@ -1089,6 +1090,7 @@ public class TaskList {
                                                                 { LUONG_ID, 500 },
                                                 })
                                                 .minLevel(65)
+                                                .bypass(true)
                                                 .build(),
                                 builder()
                                                 .taskId(42)
