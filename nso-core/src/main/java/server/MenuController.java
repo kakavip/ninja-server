@@ -21,7 +21,9 @@ import threading.Message;
 import threading.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
@@ -391,7 +393,7 @@ public class MenuController {
                                     p.nj.caveID = cave.caveID;
                                 }
                                 if (optionId == 5) {
-                                    if (p.nj.getLevel() < 70 || p.nj.getLevel() > 89) {
+                                    if (p.nj.getLevel() < 70 || p.nj.getLevel() > 130) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId,
                                                 "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
@@ -875,200 +877,29 @@ public class MenuController {
                     break;
                 }
                 // Toyotomi
-                case 9: {
-                    if (menuId == 0) {
-                        if (optionId == 0) {
-                            this.server.manager.sendTB(p, "Top đại gia", BXHManager.getStringBXH(0));
-                        } else if (optionId == 1) {
-                            this.server.manager.sendTB(p, "Top cao thủ", BXHManager.getStringBXH(1));
-                        } else if (optionId == 2) {
-                            this.server.manager.sendTB(p, "Top Gia Tộc", BXHManager.getStringBXH(2));
-                        } else if (optionId == 3) {
-                            this.server.manager.sendTB(p, "Top hang động", BXHManager.getStringBXH(3));
-                        }
-                        break;
-                    }
-                    if (menuId == 1) {
-                        if (p.nj.get().nclass > 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã vào lớp từ trước rồi mà!");
-                            break;
-                        }
-                        if (p.nj.get().ItemBody[1] != null) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con cần tháo vũ khí ra để đến đây nhập học nhé");
-                            break;
-                        }
-                        if (p.nj.getAvailableBag() < 3) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang phải có đủ 2 ô để nhận đồ con nhé");
-                            break;
-                        }
-                        if (p.nj.getLevel() < 10) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con chưa đủ");
-                        }
-                        if (optionId == 0) {
-                            p.Admission((byte) 1);
-                        } else if (optionId == 1) {
-                            p.Admission((byte) 2);
-                        }
-                        p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy chăm chỉ luyện tập để lên cấp con nhé");
-                        break;
-                    }
-                    if (menuId == 2) {
-                        if (p.nj.get().nclass != 1 && p.nj.get().nclass != 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
-                            break;
-                        }
-                        if (optionId == 0) {
-                            if (p.nj.timesResetPpoint == 0) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần tẩy điểm tiềm năng của con đã hết.");
-                                return;
-                            } else {
-                                p.nj.timesResetPpoint -= 1;
-                                p.restPpoint(p.nj.get());
-                                if (p.nj.timesResetPpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
-                                } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được "
-                                                    + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
-                                }
-                            }
-                        }
-                        if (optionId == 1) {
-                            if (p.nj.timesResetSpoint == 0) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần tẩy điểm kỹ năng của con đã hết.");
-                                return;
-                            } else {
-                                p.nj.timesResetSpoint -= 1;
-                                p.restSpoint();
-                                if (p.nj.timesResetSpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
-                                } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được "
-                                                    + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
-                                }
-                            }
-                        }
-                        break;
-                    }
-                    if (menuId == 3) {
-                        Random generator = new Random();
-                        int value = generator.nextInt(3);
-                        if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Ngươi muốn trở thành hỏa Ninja thì học, không thì cút!");
-                        }
-                        if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Trường ta dạy kiếm, và phi tiêu, chẳng dạy các vũ khí vô danh khác.");
-                        }
-                        if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Theo học ở là đây là vinh hạnh của ngươi, biết chứ?");
-                        }
-                        break;
-                    }
-                }
-                // Ookamesama
-                case 10: {
-                    if (menuId == 0) {
-                        if (optionId == 0) {
-                            this.server.manager.sendTB(p, "Top đại gia", BXHManager.getStringBXH(0));
-                        } else if (optionId == 1) {
-                            this.server.manager.sendTB(p, "Top cao thủ", BXHManager.getStringBXH(1));
-                        } else if (optionId == 2) {
-                            this.server.manager.sendTB(p, "Top Gia Tộc", BXHManager.getStringBXH(2));
-                        } else if (optionId == 3) {
-                            this.server.manager.sendTB(p, "Top hang động", BXHManager.getStringBXH(3));
-                        }
-                        break;
-                    }
-                    if (menuId == 1) {
-                        if (p.nj.get().nclass > 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã vào lớp từ trước rồi mà!");
-                            break;
-                        }
-                        if (p.nj.get().ItemBody[1] != null) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con cần tháo vũ khí ra để đến đây nhập học nhé");
-                            break;
-                        }
-                        if (p.nj.getAvailableBag() < 3) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang phải có đủ 2 ô để nhận đồ con nhé");
-                            break;
-                        }
-                        if (p.nj.getLevel() < 10) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con chưa đủ");
-                        }
-                        if (optionId == 0) {
-                            p.Admission((byte) 3);
-                        } else if (optionId == 1) {
-                            p.Admission((byte) 4);
-                        }
-                        p.nj.getPlace().chatNPC(p, (short) 9, "Hãy chăm chỉ luyện tập để lên cấp con nhé");
-                        break;
-                    }
-                    if (menuId == 2) {
-                        if (p.nj.get().nclass != 3 && p.nj.get().nclass != 4) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
-                            break;
-                        }
-                        if (optionId == 0) {
-                            if (p.nj.timesResetPpoint == 0) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần tẩy điểm tiềm năng của con đã hết.");
-                                return;
-                            } else {
-                                p.nj.timesResetPpoint -= 1;
-                                p.restPpoint(p.nj.get());
-                                if (p.nj.timesResetPpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm tiềm năng. Đây là lần cuối con được tẩy tiềm năng, hãy sử dụng cho thật tốt điểm tiềm năng nhé.");
-                                } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm tiềm năng. Con vẫn còn có thể tẩy thêm được "
-                                                    + p.nj.timesResetPpoint + " lần tẩy tiềm năng nữa.");
-                                }
-                            }
-                        }
-                        if (optionId == 1) {
-                            if (p.nj.timesResetSpoint == 0) {
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần tẩy điểm kỹ năng của con đã hết.");
-                                return;
-                            } else {
-                                p.nj.timesResetSpoint -= 1;
-                                p.restSpoint();
-                                if (p.nj.timesResetSpoint == 0) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm kỹ năng. Đây là lần cuối con được tẩy kỹ năng, hãy sử dụng cho thật tốt điểm kỹ năng nhé.");
-                                } else {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ta đã giúp con tẩy điểm kỹ năng. Con vẫn còn có thể tẩy thêm được "
-                                                    + p.nj.timesResetSpoint + " lần tẩy kỹ năng nữa.");
-                                }
-                            }
-                        }
-                        break;
-                    }
-                    if (menuId == 3) {
-                        Random generator = new Random();
-                        int value = generator.nextInt(3);
-                        if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Tập trung học tốt nhé con.");
-                        }
-                        if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Học, để thành tài, để thành người tốt, chứ  không phải để ganh đua với đời.");
-                        }
-                        if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId, "Con có cảm thấy lạnh không?");
-                        }
-                        break;
-                    }
-                }
+                case 9:
+                    // Ookamesama
+                case 10:
                 case 11: {
+                    java.util.Map<Integer, List<Integer>> classesByNpcId = new HashMap<>();
+                    classesByNpcId.put(11, new ArrayList<>(Arrays.asList(5, 6)));
+                    classesByNpcId.put(10, new ArrayList<>(Arrays.asList(3, 4)));
+                    classesByNpcId.put(9, new ArrayList<>(Arrays.asList(1, 2)));
+
+                    java.util.Map<Integer, List<String>> randomMessagesByNpcId = new HashMap<>();
+                    randomMessagesByNpcId.put(11, new ArrayList<>(Arrays
+                            .asList("Một học sinh trường gió chúng ta có thể chấp hai học sinh các trường kia.",
+                                    "So với các trường khác, trường Gió của chúng ta là tốt nhất",
+                                    "Ngươi may mắn mới gặp được ta đó, ta vốn là Thần Gió mà!")));
+                    randomMessagesByNpcId.put(10, new ArrayList<>(Arrays
+                            .asList("Tập trung học tốt nhé con.",
+                                    "Học, để thành tài, để thành người tốt, chứ  không phải để ganh đua với đời.",
+                                    "Con có cảm thấy lạnh không?")));
+                    randomMessagesByNpcId.put(9, new ArrayList<>(Arrays
+                            .asList("Ngươi muốn trở thành hỏa Ninja thì học, không thì cút!",
+                                    "Trường ta dạy kiếm, và phi tiêu, chẳng dạy các vũ khí vô danh khác.",
+                                    "Theo học ở là đây là vinh hạnh của ngươi, biết chứ?")));
+
                     if (menuId == 0) {
                         if (optionId == 0) {
                             this.server.manager.sendTB(p, "Top đại gia", BXHManager.getStringBXH(0));
@@ -1096,17 +927,21 @@ public class MenuController {
                         }
                         if (p.nj.getLevel() < 10) {
                             p.nj.getPlace().chatNPC(p, (short) npcId, "Trình độ của con chưa đủ");
+                            break;
                         }
-                        if (optionId == 0) {
-                            p.Admission((byte) 5);
-                        } else if (optionId == 1) {
-                            p.Admission((byte) 6);
+
+                        if (!(p.nj.getTaskId() == 9 && p.nj.getTaskIndex() == -1)) {
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Con hãy hoàn thành hết nhiệm vụ ở làng Tone trước khi nhận lớp");
+                            break;
                         }
+
+                        p.Admission(classesByNpcId.get((int) npcId).get((int) optionId).byteValue());
                         p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy chăm chỉ luyện tập để lên cấp con nhé");
                         break;
                     }
                     if (menuId == 2) {
-                        if (p.nj.get().nclass != 5 && p.nj.get().nclass != 6) {
+                        if (!classesByNpcId.get((int) npcId).contains((int) p.nj.get().nclass)) {
                             p.nj.getPlace().chatNPC(p, (short) npcId,
                                     "Con không phải là học sinh của trường này, không thể tẩy điểm ở đây.");
                             break;
@@ -1148,22 +983,13 @@ public class MenuController {
                         break;
                     }
                     if (menuId == 3) {
-                        Random generator = new Random();
-                        int value = generator.nextInt(3);
-                        if (value == 0) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Một học sinh trường gió chúng ta có thể chấp hai học sinh các trường kia.");
-                        }
-                        if (value == 1) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "So với các trường khác, trường Gió của chúng ta là tốt nhất");
-                        }
-                        if (value == 2) {
-                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                    "Ngươi may mắn mới gặp được ta đó, ta vốn là Thần Gió mà!");
-                        }
+                        int value = util.nextInt(randomMessagesByNpcId.get((int) npcId).size());
+                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                randomMessagesByNpcId.get((int) npcId).get(value));
                         break;
                     }
+
+                    break;
                 }
                 case 12: {
                     if (menuId == 0) {
@@ -2286,8 +2112,6 @@ public class MenuController {
 
                     p.convertNClass(nClass);
                     p.upluongMessage(-10_000);
-                    p.session.sendMessageLog(
-                            "Hãy thoát game, ta sẽ cập nhật lớp mới cho con. Nhớ cộng lại tiềm năng và kĩ năng nhé.");
                     break;
                 }
                 case 572: {

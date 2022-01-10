@@ -12,6 +12,7 @@ import server.Service;
 import server.util;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CloneChar extends Body {
@@ -57,79 +58,89 @@ public class CloneChar extends Body {
                 val haveClone = red.first();
                 if (haveClone) {
                     cl.id = red.getInt("id");
-                    cl.speed = red.getByte("speed");
-                    cl.nclass = red.getByte("class");
+                    if (red.getShort("level") < 20) {
+                        cl.speed = 10;
+                        cl.setExp(Level.getMaxExp(21) - 1L);
+                        cl.setLevel(20);
+                        cl.ItemBody[1] = ItemData.itemDefault(194);
+                        final Skill skill2 = new Skill();
+                        cl.setSkills(new ArrayList<>());
+                        cl.getSkills().add(skill2);
+                    } else {
+                        cl.speed = red.getByte("speed");
+                        cl.nclass = red.getByte("class");
 
-                    try {
-                        cl.setKyNangSo(red.getInt("kynangso"));
-                        cl.setTiemNangSo(red.getInt("tiemnangso"));
-                        cl.setBanghoa(red.getInt("banghoa"));
-                        cl.setPhongLoi(red.getInt("phongloi"));
+                        try {
+                            cl.setKyNangSo(red.getInt("kynangso"));
+                            cl.setTiemNangSo(red.getInt("tiemnangso"));
+                            cl.setBanghoa(red.getInt("banghoa"));
+                            cl.setPhongLoi(red.getInt("phongloi"));
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    cl.updatePpoint(red.getShort("ppoint"));
-                    cl.setPotential0(red.getShort("potential0"));
-                    cl.setPotential1(red.getShort("potential1"));
-                    cl.setPotential2(red.getInt("potential2"));
-                    cl.setPotential3(red.getInt("potential3"));
-                    cl.setSpoint(red.getShort("spoint"));
-                    JSONArray jar = (JSONArray) JSONValue.parse(red.getString("skill"));
-                    if (jar != null) {
-                        for (byte b = 0; b < jar.size(); ++b) {
-                            final JSONObject job = (JSONObject) jar.get(b);
-                            final Skill skill = new Skill();
-                            skill.id = Byte.parseByte(job.get("id").toString());
-                            skill.point = Byte.parseByte(job.get("point").toString());
-                            cl.getSkills().add(skill);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    }
-                    JSONArray jarr2 = (JSONArray) JSONValue.parse(red.getString("KSkill"));
-                    cl.KSkill = new byte[jarr2.size()];
-                    for (byte j = 0; j < cl.KSkill.length; ++j) {
-                        cl.KSkill[j] = Byte.parseByte(jarr2.get(j).toString());
-                    }
-                    jarr2 = (JSONArray) JSONValue.parse(red.getString("OSkill"));
-                    cl.OSkill = new byte[jarr2.size()];
-                    for (byte j = 0; j < cl.OSkill.length; ++j) {
-                        cl.OSkill[j] = Byte.parseByte(jarr2.get(j).toString());
-                    }
-                    cl.setCSkill(Byte.parseByte(red.getString("CSkill")));
-                    cl.setLevel(red.getShort("level"));
-                    cl.setExp(red.getLong("exp"));
-                    cl.expdown = red.getLong("expdown");
-                    cl.pk = red.getByte("pk");
-                    cl.ItemBody = new Item[16];
-                    jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
-                    if (jar != null) {
-                        for (byte j = 0; j < jar.size(); ++j) {
-                            final JSONObject job2 = (JSONObject) jar.get(j);
-                            final byte index = Byte.parseByte(job2.get("index").toString());
-                            cl.ItemBody[index] = ItemData.parseItem(jar.get(j).toString());
-                        }
-                    }
-                    cl.ItemMounts = new Item[5];
-                    jar = (JSONArray) JSONValue.parse(red.getString("ItemMounts"));
-                    if (jar != null) {
-                        for (byte j = 0; j < jar.size(); ++j) {
-                            final JSONObject job2 = (JSONObject) jar.get(j);
-                            final byte index = Byte.parseByte(job2.get("index").toString());
-                            cl.ItemMounts[index] = ItemData.parseItem(jar.get(j).toString());
-                        }
-                    }
-                    jar = (JSONArray) JSONValue.parse(red.getString("effect"));
 
-                    try {
+                        cl.updatePpoint(red.getShort("ppoint"));
+                        cl.setPotential0(red.getShort("potential0"));
+                        cl.setPotential1(red.getShort("potential1"));
+                        cl.setPotential2(red.getInt("potential2"));
+                        cl.setPotential3(red.getInt("potential3"));
+                        cl.setSpoint(red.getShort("spoint"));
+                        JSONArray jar = (JSONArray) JSONValue.parse(red.getString("skill"));
                         if (jar != null) {
-                            for (int i = 0; i < jar.size(); i++) {
-                                val effect = Effect.fromJSONObject((JSONObject) jar.get(i));
-                                cl.addEffect(effect);
+                            for (byte b = 0; b < jar.size(); ++b) {
+                                final JSONObject job = (JSONObject) jar.get(b);
+                                final Skill skill = new Skill();
+                                skill.id = Byte.parseByte(job.get("id").toString());
+                                skill.point = Byte.parseByte(job.get("point").toString());
+                                cl.getSkills().add(skill);
                             }
                         }
-                    } catch (Exception e) {
+                        JSONArray jarr2 = (JSONArray) JSONValue.parse(red.getString("KSkill"));
+                        cl.KSkill = new byte[jarr2.size()];
+                        for (byte j = 0; j < cl.KSkill.length; ++j) {
+                            cl.KSkill[j] = Byte.parseByte(jarr2.get(j).toString());
+                        }
+                        jarr2 = (JSONArray) JSONValue.parse(red.getString("OSkill"));
+                        cl.OSkill = new byte[jarr2.size()];
+                        for (byte j = 0; j < cl.OSkill.length; ++j) {
+                            cl.OSkill[j] = Byte.parseByte(jarr2.get(j).toString());
+                        }
+                        cl.setCSkill(Byte.parseByte(red.getString("CSkill")));
+                        cl.setLevel(red.getShort("level"));
+                        cl.setExp(red.getLong("exp"));
+                        cl.expdown = red.getLong("expdown");
+                        cl.pk = red.getByte("pk");
+                        cl.ItemBody = new Item[16];
+                        jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
+                        if (jar != null) {
+                            for (byte j = 0; j < jar.size(); ++j) {
+                                final JSONObject job2 = (JSONObject) jar.get(j);
+                                final byte index = Byte.parseByte(job2.get("index").toString());
+                                cl.ItemBody[index] = ItemData.parseItem(jar.get(j).toString());
+                            }
+                        }
+                        cl.ItemMounts = new Item[5];
+                        jar = (JSONArray) JSONValue.parse(red.getString("ItemMounts"));
+                        if (jar != null) {
+                            for (byte j = 0; j < jar.size(); ++j) {
+                                final JSONObject job2 = (JSONObject) jar.get(j);
+                                final byte index = Byte.parseByte(job2.get("index").toString());
+                                cl.ItemMounts[index] = ItemData.parseItem(jar.get(j).toString());
+                            }
+                        }
+                        jar = (JSONArray) JSONValue.parse(red.getString("effect"));
 
+                        try {
+                            if (jar != null) {
+                                for (int i = 0; i < jar.size(); i++) {
+                                    val effect = Effect.fromJSONObject((JSONObject) jar.get(i));
+                                    cl.addEffect(effect);
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
                     }
 
                 }
@@ -139,7 +150,9 @@ public class CloneChar extends Body {
                     e.printStackTrace();
                 }
                 if (!haveClone) {
-                    SQLManager.executeUpdate("INSERT INTO clone_ninja(`id`,`name`,`ItemBody`,`ItemMounts`, `ItemBag`, `ItemBox`) VALUES (" + (-10000000 - n.id) + ",'" + n.name + "','[]','[]', '[]', '[]');");
+                    SQLManager.executeUpdate(
+                            "INSERT INTO clone_ninja(`id`,`name`,`ItemBody`,`ItemMounts`, `ItemBag`, `ItemBox`) VALUES ("
+                                    + (-10000000 - n.id) + ",'" + n.name + "','[]','[]', '[]', '[]');");
                     cl.id = -10000000 - n.id;
                     cl.speed = 10;
                     cl.setExp(Level.getMaxExp(21) - 1L);
@@ -201,8 +214,10 @@ public class CloneChar extends Body {
         final JSONArray jarr = new JSONArray();
         String sqlSET = "`class`=" + this.nclass + ",`ppoint`="
                 + this.getPpoint() + ",`potential0`=" + this.getPotential0() + ",`potential1`="
-                + this.getPotential1() + ",`potential2`=" + this.getPotential2() + ",`potential3`=" + this.getPotential3()
-                + ",`spoint`=" + this.getSpoint() + ",`level`=" + this.getLevel() + ",`exp`=" + this.getExp() + ",`expdown`=" + this.expdown + ",`pk`=" + this.pk + "";
+                + this.getPotential1() + ",`potential2`=" + this.getPotential2() + ",`potential3`="
+                + this.getPotential3()
+                + ",`spoint`=" + this.getSpoint() + ",`level`=" + this.getLevel() + ",`exp`=" + this.getExp()
+                + ",`expdown`=" + this.expdown + ",`pk`=" + this.pk + "";
         jarr.clear();
         for (final Skill skill : this.getSkills()) {
             jarr.add(SkillData.ObjectSkill(skill));
@@ -236,10 +251,13 @@ public class CloneChar extends Body {
         sqlSET = sqlSET + ",`ItemMounts`='" + jarr.toJSONString() + "'";
         jarr.clear();
         for (byte i = 0; i < this.getVeff().size(); ++i) {
-            if (this.getVeff().get(i).template.type == 0 || this.getVeff().get(i).template.type == 18 || this.getVeff().get(i).template.type == 25) {
+            if (this.getVeff().get(i).template.type == 0 || this.getVeff().get(i).template.type == 18
+                    || this.getVeff().get(i).template.type == 25) {
                 final JSONArray jarr2 = new JSONArray();
                 jarr2.add(this.getVeff().get(i).template.id);
-                if (this.getVeff().get(i).template.id == 36 || this.getVeff().get(i).template.id == 42 || this.getVeff().get(i).template.id == 37 || this.getVeff().get(i).template.id == 38 || this.getVeff().get(i).template.id == 39) {
+                if (this.getVeff().get(i).template.id == 36 || this.getVeff().get(i).template.id == 42
+                        || this.getVeff().get(i).template.id == 37 || this.getVeff().get(i).template.id == 38
+                        || this.getVeff().get(i).template.id == 39) {
                     jarr2.add(1);
                     jarr2.add(this.getVeff().get(i).timeRemove);
                 } else {
@@ -270,7 +288,7 @@ public class CloneChar extends Body {
     }
 
     public short[] getWinBuffSkills() {
-        short[] skills = new short[]{-1, -1, -1};
+        short[] skills = new short[] { -1, -1, -1 };
         int idx = 0;
         List<Skill> skillArrayList = this.getSkills();
         for (int i = 0, skillArrayListSize = skillArrayList.size(); i < skillArrayListSize; i++) {

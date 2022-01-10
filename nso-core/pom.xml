@@ -100,6 +100,12 @@
             <version>2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry</artifactId>
+            <version>5.5.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>NinjaServer</finalName>

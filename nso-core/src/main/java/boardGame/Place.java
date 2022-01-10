@@ -895,6 +895,7 @@ public class Place {
 
                 if (TaskHandle.isLockChangeMap((short) mapid, _ninja.getTaskId())) {
                     restPoint(_ninja);
+                    goToMap(p, p.nj.mapLTD);
                     GameCanvas.startOKDlg(_ninja.p.session, Text.get(0, 84));
                     return;
                 }
@@ -2939,6 +2940,19 @@ public class Place {
                 if (area.getNumplayers() < ma.template.maxplayers) {
                     resetDieReturn(p, area);
                     return;
+                }
+            }
+        }
+    }
+
+    private void goToMap(final User p, int mapId) {
+        final Map map = Manager.getMapid(mapId);
+        if (map != null) {
+            for (byte i = 0; i < map.area.length; ++i) {
+                if (map.area[i].getNumplayers() < map.template.maxplayers) {
+                    this.leave(p);
+                    map.area[i].EnterMap0(p.nj);
+                    break;
                 }
             }
         }

@@ -1,5 +1,7 @@
 package threading;
 
+import java.lang.Exception;
+import io.sentry.Sentry;
 import com.sun.management.OperatingSystemMXBean;
 import io.Session;
 import lombok.val;
@@ -184,6 +186,21 @@ public class Server {
 
         clanTerritoryManager.start();
 
+        initSentry();
+    }
+
+    private void initSentry() {
+        Sentry.init(options -> {
+            options.setDsn("https://cc4ba987408a4dba8910a8b52e98118b@o1112665.ingest.sentry.io/6142463");
+            // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance
+            // monitoring.
+            // We recommend adjusting this value in production.
+            options.setTracesSampleRate(1.0);
+            // When first trying Sentry it's good to see what the SDK is doing:
+            options.setDebug(util.debug);
+            // set environment
+            options.setEnvironment(util.debug ? "developemnt" : "production");
+        });
     }
 
     private static final Object MUTEX = new Object();

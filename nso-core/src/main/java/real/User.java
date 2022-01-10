@@ -983,6 +983,26 @@ public class User extends Actor implements SendMessage {
         this.nj.get().resetOSkill();
 
         this.loadSkill();
+
+        this.updateNClassMessage();
+    }
+
+    public void updateNClassMessage() throws IOException {
+        final Message m = new Message(-30);
+        m.writer().writeByte(-126);
+        m.writer().writeByte(this.nj.get().speed());
+        m.writer().writeInt(this.nj.get().getMaxHP());
+        m.writer().writeInt(this.nj.get().getMaxMP());
+        m.writer().writeShort(this.nj.get().getPotential0());
+        m.writer().writeShort(this.nj.get().getPotential1());
+        m.writer().writeInt(this.nj.get().getPotential2());
+        m.writer().writeInt(this.nj.get().getPotential3());
+        m.writer().writeByte(this.nj.get().nclass);
+        m.writer().writeShort(this.nj.get().getSpoint());
+        m.writer().writeShort(this.nj.get().getPpoint());
+        m.writer().flush();
+        this.sendMessage(m);
+        m.cleanup();
     }
 
     public void updatePotential() throws IOException {
@@ -1307,9 +1327,11 @@ public class User extends Actor implements SendMessage {
                         }
                         server.manager.sendTB(this, "Thông báo",
                                 "Số người đang online: " + PlayerManager.getInstance().conns_size() + "\n "
-                                        + "Chuyển đổi vòng xoay may mắn thường thành vòng xoay may mắn lượng\n"
-                                        + "Mở lại thiên địa bảng\n"
-                                        + "Fix vào ldgt bị nhốt lại trong đó\n"
+                                        + "Thần thú sẽ xuất hiện vào những giờ lẻ, nhanh tay săn để sở hữu những món đồ ưng ý.\n"
+                                        + "Chinh phục thiên địa bảng để trở thành một ninja mạnh mẽ.\n"
+                                        + "Bạn có thể chuyển phái tại NPC Hùng Vương khi đã có đủ 10.000 lượng.\n"
+                                        + "Làm nhiệm vụ hằng ngày để có cơ hội nhận lượng, exp.\n"
+                                        + "Dễ dàng kiếm lượng bằng cách: Săn TA/TL/Thần Thú + nvhn/nvtt/nvct + mở phúc mang nhẫn giả.\n"
                                         + "Chúc các bạn online vui vẻ");
 
                         if (this.nj != null && this.nj.clan != null) {
@@ -2586,7 +2608,6 @@ public class User extends Actor implements SendMessage {
                             JSONArray jsonObject = (JSONArray) obj;
 
                             for (int i = 0; i < jsonObject.size(); i++) {
-                                System.out.println(jsonObject.get(i));
                                 if (jsonObject.get(i).equals(username)) {
                                     session.sendMessageLog("Mỗi tài khoản chỉ được nhập mã quà tặng này 1 lần");
                                     return;
