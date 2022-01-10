@@ -129,6 +129,12 @@ class Character(models.Model):
 class Ninja(Character):
     site = JSONField(blank=True, null=True, default=[])
     clan = JSONField(blank=True, null=True, default=[])
+    nvhn_count = models.IntegerField(
+        blank=True, null=True, db_column="nvhncount", default=0
+    )
+    tathu_count = models.IntegerField(
+        blank=True, null=True, db_column="tathucount", default=0
+    )
 
     class Meta:
         db_table = "ninja"

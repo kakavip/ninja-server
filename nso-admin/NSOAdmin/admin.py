@@ -109,8 +109,13 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(Ninja)
 class NinjaAdmin(CharacterAdmin):
-    list_display = CharacterAdmin.list_display + ["site", "clan"]
-    fields = CharacterAdmin.fields + ["site", "clan"]
+    list_display = CharacterAdmin.list_display + [
+        "site",
+        "clan",
+        "nvhn_count",
+        "tathu_count",
+    ]
+    fields = CharacterAdmin.fields + ["site", "clan", "nvhn_count", "tathu_count"]
 
 
 @admin.register(CloneNinja)
