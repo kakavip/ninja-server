@@ -74,7 +74,6 @@ class CharacterAdmin(admin.ModelAdmin):
         "level",
         "yen",
         "xu",
-        "clan",
         "maxluggage",
         "level_bag",
         # "item_bag",
@@ -96,7 +95,6 @@ class CharacterAdmin(admin.ModelAdmin):
         "level",
         "yen",
         "xu",
-        "clan",
         "maxluggage",
         "level_bag",
         "item_bag",
@@ -111,8 +109,8 @@ class CharacterAdmin(admin.ModelAdmin):
 
 @admin.register(Ninja)
 class NinjaAdmin(CharacterAdmin):
-    list_display = CharacterAdmin.list_display + ["site"]
-    fields = CharacterAdmin.fields + ["site"]
+    list_display = CharacterAdmin.list_display + ["site", "clan"]
+    fields = CharacterAdmin.fields + ["site", "clan"]
 
 
 @admin.register(CloneNinja)

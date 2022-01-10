@@ -77,14 +77,15 @@ class Character(models.Model):
     exp = models.BigIntegerField(blank=True, null=True, default=0)
     yen = models.IntegerField(blank=True, null=True, default=0)
     xu = models.IntegerField(blank=True, null=True, default=0)
-    maxluggage = models.IntegerField(blank=False, null=False, default = 30)
-    level_bag = models.IntegerField(blank=False, null=False, default=1, db_column="levelBag")
+    maxluggage = models.IntegerField(blank=False, null=False, default=30)
+    level_bag = models.IntegerField(
+        blank=False, null=False, default=1, db_column="levelBag"
+    )
     item_bag = JSONField(blank=True, null=True, default=[], db_column="ItemBag")
     item_box = JSONField(blank=True, null=True, default=[], db_column="ItemBox")
     item_body = JSONField(blank=True, null=True, default=[], db_column="ItemBody")
     item_mounts = JSONField(blank=True, null=True, default=[], db_column="ItemMounts")
     effect = JSONField(blank=True, null=True, default=[])
-    clan = JSONField(blank=True, null=True, default=[])
 
     class Meta:
         abstract = True
@@ -127,6 +128,7 @@ class Character(models.Model):
 
 class Ninja(Character):
     site = JSONField(blank=True, null=True, default=[])
+    clan = JSONField(blank=True, null=True, default=[])
 
     class Meta:
         db_table = "ninja"
