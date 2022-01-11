@@ -2260,8 +2260,8 @@ public class MenuController {
         } else if (idnpc == Manager.ID_EVENT_NPC) {
             createMenu(Manager.ID_EVENT_NPC, Manager.MENU_EVENT_NPC,
                     Manager.EVENT_NPC_CHAT[util.nextInt(0, Manager.EVENT_NPC_CHAT.length - 1)], p);
-        } else if ("buffteam".equals(p.nj.name) && idnpc == 28) {
-            createMenu(28, new String[] { "Bảo trì", "Lưu dữ liệu" }, "Oke", p);
+            // } else if ("buffteam".equals(p.nj.name) && idnpc == 28) {
+            // createMenu(28, new String[] { "Bảo trì", "Lưu dữ liệu" }, "Oke", p);
         } else if (idnpc == 32 && p.nj.getPlace().map.id == IBattle.BAO_DANH_GT_BACH
                 || p.nj.getPlace().map.id == IBattle.BAO_DANH_GT_HAC) {
             createMenu(idnpc, new String[] { "Tổng kết", "Rời khỏi đây" }, "", p);
