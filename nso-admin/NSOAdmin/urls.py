@@ -45,4 +45,4 @@ urlpatterns = [
     path("nso_moonsmile_x3.jar", jar_x3_file, name="jar_x3_file"),
 ]
 
-urlpatterns += staticfiles_urlpatterns()
+# urlpatterns += staticfiles_urlpatterns()

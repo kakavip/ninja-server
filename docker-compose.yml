@@ -32,8 +32,8 @@ services:
       - mysql
   nginx:
     build: ./nginx
-    # volumes:
-    #   - static_volume:/home/app/web/staticfiles
+    volumes:
+      - static_volume:/home/app/web/staticfiles
     ports:
       - 80:80
     depends_on:
