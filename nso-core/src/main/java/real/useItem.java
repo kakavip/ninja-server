@@ -840,6 +840,23 @@ public class useItem {
                 p.nj.removeItemBag(index, 1);
                 break;
             }
+            case 546: {
+                boolean hasLinhChi = false;
+                for (Effect eff : p.nj.getVeff()) {
+                    if (eff.template.id == 22) {
+                        hasLinhChi = true;
+                        break;
+                    }
+                }
+
+                if (hasLinhChi) {
+                    p.setEffect(22, 0, 7200000, 2);
+                } else {
+                    p.setEffect(33, 0, 7200000, 4);
+                }
+                p.nj.removeItemBag(index, 1);
+                break;
+            }
             case 573: {
                 if (p.updateXpMounts(200, (byte) 0)) {
                     p.nj.removeItemBag(index, 1);
