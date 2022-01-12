@@ -61,6 +61,22 @@ public class PlayerManager {
         return false;
     }
 
+    public boolean checkGhostIpAddress(String clientIpAddress) {
+        if (this.conns_size(clientIpAddress) > 1) {
+            int counter = 0;
+            for (Session conn : this.conns_ip.get(clientIpAddress)) {
+                if (conn != null && conn.user == null) {
+                    counter += 1;
+
+                    if (counter >= 2) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public void put(final Session conn) {
         this.conns_id.put(conn.id, conn);
         this.conns.add(conn);
@@ -190,7 +206,7 @@ public class PlayerManager {
                         conn.disconnect();
                         this.kickSessionNonUser(conn);
                     } catch (Exception e) {
-                        
+
                     }
                 }
             }

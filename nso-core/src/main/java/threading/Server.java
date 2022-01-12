@@ -293,8 +293,13 @@ public class Server {
                 InetSocketAddress socketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
                 String clientIpAddress = socketAddress.getAddress().getHostAddress();
 
+                // Close socket by ghost ip address
+                if (Server.IP_BLACKLIST.contains(clientIpAddress)) {
+                    clientSocket.close();
+                }
+
                 // check ghost connections
-                if (!PlayerManager.getInstance().check(clientIpAddress)) {
+                if (PlayerManager.getInstance().checkGhostIpAddress(clientIpAddress)) {
                     if (!Server.IP_BLACKLIST.contains(clientIpAddress)) {
                         Server.IP_BLACKLIST.add(clientIpAddress);
                     }
@@ -305,7 +310,9 @@ public class Server {
                 // Remove non user session
                 PlayerManager.getInstance().kickGhostSessionByIds(Server.IP_BLACKLIST);
 
-                if (!Session.check(clientIpAddress) && PlayerManager.getInstance().check(clientIpAddress)) {
+                if (!Session.check(clientIpAddress) && PlayerManager.getInstance().check(clientIpAddress)
+                        && !Server.IP_BLACKLIST.contains(clientIpAddress)) {
+
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
                     conn.start();
