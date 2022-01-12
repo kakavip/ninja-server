@@ -2241,17 +2241,17 @@ public class User extends Actor implements SendMessage {
         }
 
         // Diem hoạt động
-        m.writer().writeShort(39);
-        m.writer().writeShort(40);
-        m.writer().writeShort(41);
-        m.writer().writeShort(42);
-        m.writer().writeShort(43);
-        m.writer().writeShort(44);
-        m.writer().writeShort(45);
-        m.writer().writeShort(46);
-        m.writer().writeShort(47);
-        m.writer().writeShort(48);
-        m.writer().writeShort(49);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
+        m.writer().writeShort(0);
         // NV HANG NGAY
         // Finish Day
         m.writer().writeByte(p.nj.nvhnCount);
