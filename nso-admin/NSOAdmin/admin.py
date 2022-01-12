@@ -43,7 +43,7 @@ class PlayerAdmin(admin.ModelAdmin):
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
     fields = ["username", "password", "luong", "ninja", "status"]
-    search_fields = ["username", "ninja"]
+    search_fields = ["username", "password", "ninja"]
     list_filter = ["status", "lock"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
 
@@ -217,7 +217,7 @@ class ItemAdmin(admin.ModelAdmin):
     list_display_links = ["id", "name"]
     empty_display_value = "--empty--"
     list_filter = ["type", "nclass", "gender"]
-    search_fields = ["name", "description"]
+    search_fields = ["id", "name", "description"]
     fields = [
         "name",
         "description",
@@ -315,7 +315,7 @@ class EffectAdmin(admin.ModelAdmin):
     list_display = ["id", "type", "name", "icon_id"]
     list_display_links = ["id", "name"]
     empty_display_value = "--empty--"
-    search_fields = ["name"]
+    search_fields = ["id", "name"]
     fields = ["type", "name", "icon_id"]
 
 
