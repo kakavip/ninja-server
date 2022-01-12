@@ -1381,7 +1381,7 @@ public class MenuController {
                             break;
                         }
                         case 2: {
-                            if (optionId == 0) {
+                            if (optionId == 0 || optionId == 1) {
                                 this.server.manager.rotationluck[0].luckMessage(p);
                                 break;
                             }
@@ -1392,7 +1392,7 @@ public class MenuController {
                             break;
                         }
                         case 3: {
-                            if (optionId == 0) {
+                            if (optionId == 0 || optionId == 1) {
                                 this.server.manager.rotationluck[1].luckMessage(p);
                                 break;
                             }
@@ -1833,7 +1833,8 @@ public class MenuController {
                             break;
                         }
                         case 4: {
-                            this.sendWrite(p, (short) 24_4, "Nhập mã");
+                            // this.sendWrite(p, (short) 24_4, "Nhập mã");
+                            this.sendWrite(p, (short) 53, "Mã quà tặng:");
                             break;
                         }
                         case 5: {

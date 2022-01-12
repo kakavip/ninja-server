@@ -24894,8 +24894,8 @@ CREATE TABLE `ninja` (
   `taskCount` smallint(6) DEFAULT '0'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC;
 alter table `ninja`
-add column `reward50` int(11) NOT NULL DEFAULT '0';
-add column `reward0` int(11) NOT NULL DEFAULT '0';
+add column `reward70` int(11) NOT NULL DEFAULT '0',
+add column `reward90` int(11) NOT NULL DEFAULT '0',
 add column `reward130` int(11) NOT NULL DEFAULT '0';
 
 --

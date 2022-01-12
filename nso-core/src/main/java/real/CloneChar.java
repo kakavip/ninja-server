@@ -250,22 +250,9 @@ public class CloneChar extends Body {
         }
         sqlSET = sqlSET + ",`ItemMounts`='" + jarr.toJSONString() + "'";
         jarr.clear();
-        for (byte i = 0; i < this.getVeff().size(); ++i) {
-            if (this.getVeff().get(i).template.type == 0 || this.getVeff().get(i).template.type == 18
-                    || this.getVeff().get(i).template.type == 25) {
-                final JSONArray jarr2 = new JSONArray();
-                jarr2.add(this.getVeff().get(i).template.id);
-                if (this.getVeff().get(i).template.id == 36 || this.getVeff().get(i).template.id == 42
-                        || this.getVeff().get(i).template.id == 37 || this.getVeff().get(i).template.id == 38
-                        || this.getVeff().get(i).template.id == 39) {
-                    jarr2.add(1);
-                    jarr2.add(this.getVeff().get(i).timeRemove);
-                } else {
-                    jarr2.add(0);
-                    jarr2.add(this.getVeff().get(i).timeRemove - System.currentTimeMillis());
-                }
-                jarr2.add(this.getVeff().get(i).param);
-                jarr.add(jarr2);
+        for (Effect effect : this.getVeff()) {
+            if (Effect.isPermanentEffect(effect)) {
+                jarr.add(effect.toJSONObject());
             }
         }
         sqlSET = sqlSET + ",`effect`='" + jarr.toJSONString() + "'";
