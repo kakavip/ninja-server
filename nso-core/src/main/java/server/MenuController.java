@@ -1304,6 +1304,32 @@ public class MenuController {
                                     }
                                     break;
                                 }
+
+                                // NOTE fix error when go to map for nvhn pb hack
+                                case 3: {
+                                    // Di toi
+                                    if (p.nj.getTasks() != null
+                                            && p.nj.getTasks()[NHIEM_VU_HANG_NGAY] != null) {
+                                        val task = p.nj.getTasks()[NHIEM_VU_HANG_NGAY];
+                                        val map = Server.getMapById(task.getMapId());
+                                        p.nj.setMapid(map.id);
+                                        for (Npc npc : map.template.npc) {
+                                            if (npc.id == 13) {
+                                                p.nj.x = npc.x;
+                                                p.nj.y = npc.y;
+                                                p.nj.getPlace().leave(p);
+                                                map.getFreeArea().Enter(p);
+                                                break;
+                                            }
+                                        }
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Nhiệm vụ lần này gặp lỗi con hãy đi up level lên đi rồi nhận lại nhiệm vụ từ ta");
+                                    } else {
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Hãy nhận nhiệm vụ từ ta để có thể chuyển map");
+                                    }
+                                    break;
+                                }
                             }
                             break;
                         }
