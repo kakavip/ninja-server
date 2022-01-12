@@ -118,13 +118,13 @@ public class Manager {
         this.loadConfigFile();
         this.EVENT = 0;
         if (this.rotationluck[0] == null) {
-            this.rotationluck[0] = new RotationLuck("Vòng xoay vip", (byte) 0, (short) 120, 1000000, 50000000,
-                    1000000000);
+            this.rotationluck[0] = new RotationLuck("Vòng xoay vip", (byte) 1, (short) 120, 10000, 100_000,
+                    500_000_000, "lượng");
             this.rotationluck[0].start();
         }
         if (rotationluck[1] == null) {
-            this.rotationluck[1] = new RotationLuck("Vòng xoay lượng", (byte) 1, (short) 120, 10000, 100_000,
-                    500_000_000, "lượng");
+            this.rotationluck[1] = new RotationLuck("Vòng xoay thường", (byte) 0, (short) 120, 1000000, 50000000,
+                    1000000000);
             this.rotationluck[1].start();
         }
         this.loadDataBase();

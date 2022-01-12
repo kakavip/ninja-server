@@ -29,7 +29,8 @@ public class RotationLuck extends Thread {
     protected ArrayList<Players> players;
     protected String currency;
 
-    public RotationLuck(final String title, final byte type, final short time, final int min, final int max, final int maxtotal, String currency) {
+    public RotationLuck(final String title, final byte type, final short time, final int min, final int max,
+            final int maxtotal, String currency) {
 
         this.title = null;
         this.time = 120;
@@ -53,7 +54,8 @@ public class RotationLuck extends Thread {
 
     }
 
-    public RotationLuck(final String title, final byte type, final short time, final int min, final int max, final int maxtotal) {
+    public RotationLuck(final String title, final byte type, final short time, final int min, final int max,
+            final int maxtotal) {
         this(title, type, time, min, max, maxtotal, "xu");
     }
 
@@ -103,7 +105,8 @@ public class RotationLuck extends Thread {
             }
         }
         if (p2 == null && (joinAmount > this.max || joinAmount < this.min)) {
-            p.session.sendMessageLog("Bạn chỉ có thể đặt cược từ " + util.getFormatNumber(this.min) + " đến " + util.getFormatNumber(this.max) + currency + ".");
+            p.session.sendMessageLog("Bạn chỉ có thể đặt cược từ " + util.getFormatNumber(this.min) + " đến "
+                    + util.getFormatNumber(this.max) + currency + ".");
             return;
         }
         if (p2 == null) {
@@ -114,7 +117,8 @@ public class RotationLuck extends Thread {
             this.players.add(p2);
         }
         if (p2.joinAmount + joinAmount > this.max) {
-            p.session.sendMessageLog("Bạn chỉ có thể đặt tối đa " + util.getFormatNumber(this.max - p2.joinAmount) + ".");
+            p.session.sendMessageLog(
+                    "Bạn chỉ có thể đặt tối đa " + util.getFormatNumber(this.max - p2.joinAmount) + ".");
             return;
         }
         final Players players = p2;
@@ -150,8 +154,10 @@ public class RotationLuck extends Thread {
         }
         Players p = null;
 
+        float luck = util.nextInt(101) *1.0f;
         for (final Players player : this.players) {
-            if (this.percentWin(player.name) > util.nextInt(100)) {
+            luck -= this.percentWin(player.name);
+            if (luck <=0) {
                 p = player;
                 break;
             }
@@ -177,7 +183,7 @@ public class RotationLuck extends Thread {
             }
         }
         Manager.serverChat("server", "Chúc mừng " + p.name.toUpperCase() + " đã chiến thắng " + util.getFormatNumber(amountWin) + " " + currency + " trong trò chơi Vòng xoay may mắn");
-        this.winnerInfo = "Người vừa chiến thắng:\n" + ((this.type == 0) ? ("c" + util.nextInt(10)) : "") + "" + p.name + "\nSố " + currency + " thắng: " + util.getFormatNumber(amountWin) + " " + currency + "\nSố " + amountWin + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
+        this.winnerInfo = "Người vừa chiến thắng:\n" + ((this.type == 0) ? ("c" + util.nextInt(10)) : "") + "" + p.name + "\nSố " + currency + " thắng: " + util.getFormatNumber(amountWin) + " " + currency + "\nNgười chơi " + p.name + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
         this.players.clear();
         Thread.sleep(1000L);
         this.time = this.setTime;
@@ -191,10 +197,6 @@ public class RotationLuck extends Thread {
     }
 
     protected float percentWin(final String njname) {
-        if (njname.equals("admin")) {
-            return util.nextInt(85, 90);
-        }
-
         for (short i = 0; i < this.players.size(); ++i) {
             if (this.players.get(i).name.equals(njname)) {
                 return this.players.get(i).joinAmount * 100.0f / this.total;
@@ -236,7 +238,8 @@ public class RotationLuck extends Thread {
         m.writer().writeShort(this.time);
         m.writer().writeUTF(util.getFormatNumber(this.total) + " " + currency);
         m.writer().writeShort((short) this.percentWin(p.nj.name));
-        m.writer().writeUTF((util.parseString("" + this.percentWin(p.nj.name), ".") == null) ? "0" : util.parseString("" + this.percentWin(p.nj.name), "."));
+        m.writer().writeUTF((util.parseString("" + this.percentWin(p.nj.name), ".") == null) ? "0"
+                : util.parseString("" + this.percentWin(p.nj.name), "."));
         m.writer().writeShort(this.numPlayers);
         m.writer().writeUTF(this.winnerInfo);
         m.writer().writeByte(this.type);
