@@ -68,7 +68,7 @@ public class PlayerManager {
                 if (conn != null && conn.user == null) {
                     counter += 1;
 
-                    if (counter >= 2) {
+                    if (counter >= 4) {
                         return true;
                     }
                 }
