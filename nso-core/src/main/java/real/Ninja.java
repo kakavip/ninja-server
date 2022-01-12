@@ -79,6 +79,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public byte reward30 = 0;
     public byte reward40 = 0;
     public byte reward50 = 0;
+    public byte reward70 = 0;
+    public byte reward90 = 0;
+    public byte reward130 = 0;
     public long suishou;
     public long hayatemi;
     public long bousouhayate;
@@ -719,6 +722,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.reward30 = red.getByte("reward30");
                     nj.reward40 = red.getByte("reward40");
                     nj.reward50 = red.getByte("reward50");
+                    nj.reward70 = red.getByte("reward70");
+                    nj.reward90 = red.getByte("reward90");
+                    nj.reward130 = red.getByte("reward130");
                     nj.newlogin = util.getDate(red.getString("newlogin"));
                     nj.ddClan = red.getBoolean("ddClan");
                     nj.caveID = red.getInt("caveID");
@@ -819,7 +825,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     + ",`bagCaveMax`=" + this.bagCaveMax + ",`itemIDCaveMax`=" + this.itemIDCaveMax + ",`exptype`="
                     + this.exptype + "";
             sqlSET = sqlSET + ",`reward10`=" + reward10 + ",`reward20`=" + reward20 + ",`reward30`=" + reward30
-                    + ",`reward40`=" + reward40 + ",`reward50`=" + reward50 + ",`pointEvent`=" + pointEvent
+                    + ",`reward40`=" + reward40 + ",`reward50`=" + reward50 + ",`reward70`=" + reward70 + ",`reward90`="
+                    + reward90 + ",`reward130`=" + reward130 + ",`pointEvent`=" + pointEvent
                     + ",`timesResetPpoint`=" + timesResetPpoint + ",`timesResetSpoint`=" + timesResetSpoint + "";
             sqlSET = sqlSET + ", `tasks`='" + converter.writeValueAsString(getTasks()) + "'";
 

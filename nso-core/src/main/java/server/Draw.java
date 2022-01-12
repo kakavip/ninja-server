@@ -39,6 +39,44 @@ public class Draw {
                 p.sendYellowMessage("Vị trí người này không thể đi tới");
                 break;
             }
+            case 24_0_0: {
+                try {
+                    long luong = Integer.parseInt(str);
+                    if (p.luong < luong) {
+                        p.session.sendMessageLog("Số lượng trong hành trang của bạn phải lớn hơn " + luong + " lượng.");
+                        break;
+                    } else if (p.nj.yen + 10_000 * luong > 2_000_000_000) {
+                        p.session.sendMessageLog("Số yên trong hành trang của bạn đã đạt mức tối đa.");
+                        break;
+                    } else {
+                        p.upluongMessage(-luong);
+                        p.nj.upyenMessage(10_000 * luong);
+                        break;
+                    }
+                } catch (NumberFormatException ex) {
+                    p.session.sendMessageLog("Sai định dạng.");
+                    break;
+                }
+            }
+            case 24_0_1: {
+                try {
+                    long luong = Integer.parseInt(str);
+                    if (p.luong < luong) {
+                        p.session.sendMessageLog("Số lượng trong hành trang của bạn phải lớn hơn " + luong + " lượng.");
+                        break;
+                    } else if (p.nj.xu + 10_000 * luong > 2_000_000_000) {
+                        p.session.sendMessageLog("Số xu trong hành trang của bạn đã đạt mức tối đa.");
+                        break;
+                    } else {
+                        p.upluongMessage(-luong);
+                        p.nj.upxuMessage(10_000 * luong);
+                        break;
+                    }
+                } catch (NumberFormatException ex) {
+                    p.session.sendMessageLog("Sai định dạng.");
+                    break;
+                }
+            }
             case 24_1: {
 
                 try {
