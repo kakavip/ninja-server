@@ -1652,7 +1652,7 @@ public class MenuController {
                     }
                 }
                 case 92: {
-                    p.typemenu = ((menuId == 0) ? 93 : 94);
+                    p.typemenu = ((menuId == 0) ? 94 : 93);
                     this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                     break;
                 }

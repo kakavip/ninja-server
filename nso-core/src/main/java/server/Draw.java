@@ -159,14 +159,14 @@ public class Draw {
                     return;
                 }
                 final int xujoin = Integer.parseInt(num);
-                Draw.server.manager.rotationluck[b].joinLuck(p, xujoin);
+                Draw.server.manager.rotationluck[1 - b].joinLuck(p, xujoin);
                 break;
             }
             case 101: {
                 if (b < 0 || b >= Draw.server.manager.rotationluck.length) {
                     return;
                 }
-                Draw.server.manager.rotationluck[b].luckMessage(p);
+                Draw.server.manager.rotationluck[1 - b].luckMessage(p);
                 break;
             }
             case 102: {
