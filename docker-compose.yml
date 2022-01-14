@@ -26,6 +26,7 @@ services:
       - REDIS_CACHE_DEFAULT=redis://redis:6379/1
     volumes:
       - ./nso-core/res:/app/res
+      - ./nso-core/black_list_ips.txt:/app/log/black_list_ips.txt
     ports:
       - 14444:14444
     depends_on:
