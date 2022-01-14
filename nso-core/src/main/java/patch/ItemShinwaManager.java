@@ -16,7 +16,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
 public class ItemShinwaManager {
 
     public static long _1DAY = 24 * 60 * 60 * 1000;
@@ -55,7 +54,8 @@ public class ItemShinwaManager {
     public static void updateItemStatus(@NotNull ItemShinwa itemShinwa, byte status) {
         itemShinwa.status = status;
         items.get(itemShinwa.sellUIIndex).remove(itemShinwa);
-        SQLManager.executeUpdate("UPDATE `itemshinwa` set item='" + Mapper.converter.writeValueAsString(itemShinwa) + "' where id = " + itemShinwa.getItemId());
+        SQLManager.executeUpdate("UPDATE `itemshinwa` set item='" + Mapper.converter.writeValueAsString(itemShinwa)
+                + "' where id = " + itemShinwa.getItemId());
         if (status == 1) {
             itemShinwa.sellUIIndex = -1;
             addItemToList(itemShinwa, -1);
@@ -70,7 +70,6 @@ public class ItemShinwaManager {
         SQLManager.executeUpdate("DELETE FROM `itemshinwa` where id=" + itemShinwa.getItemId());
         items.get(itemShinwa.sellUIIndex).remove(itemShinwa);
     }
-
 
     public static int getItemShopId(final @NotNull Item item) {
         if (ItemData.ItemDataId(item.id).type == 26) {
@@ -109,7 +108,8 @@ public class ItemShinwaManager {
     @SneakyThrows
     public static synchronized void add(@NotNull ItemShinwa item) {
         item.sellUIIndex = getItemShopId(item.item);
-        SQLManager.executeUpdate("INSERT INTO `itemshinwa`(item) values ('" + Mapper.converter.writeValueAsString(item) + "');");
+        SQLManager.executeUpdate(
+                "INSERT INTO `itemshinwa`(item) values ('" + Mapper.converter.writeValueAsString(item) + "');");
         SQLManager.executeQuery("select max(id) id from `itemshinwa`", red -> {
             if (red.first()) {
                 item.itemId = red.getInt("id");
@@ -186,26 +186,30 @@ public class ItemShinwaManager {
         val xu = itemShinwa.getPrice() * 95 / 100;
 
         if (ninja != null) {
-            val canReceiveXu = ninja.xu + xu <= 2_000_000_000;
-            if (canReceiveXu) {
-                ninja.upxuMessage(xu);
-                ninja.p.sendYellowMessage("Bạn nhận được " + itemShinwa.getPrice() + " xu từ chợ đen");
-                ItemShinwaManager.deleteItem(itemShinwa);
-            } else {
-                ninja.p.sendYellowMessage("Bạn đã bán được 1 món hàng từ chợ đen thu về " + xu + " vui lòng tiêu bớt xu để nhận được xu");
-                ItemShinwaManager.updateItemStatus(itemShinwa, (byte) 1);
-            }
+            ninja.upxuMessage(xu);
+            ninja.p.sendYellowMessage("Bạn nhận được " + itemShinwa.getPrice() + " xu từ chợ đen");
+            ItemShinwaManager.deleteItem(itemShinwa);
+            // val canReceiveXu = ninja.xu + xu <= 2_000_000_000;
+            // if (canReceiveXu) {
+            // ninja.upxuMessage(xu);
+            // ninja.p.sendYellowMessage("Bạn nhận được " + itemShinwa.getPrice() + " xu từ
+            // chợ đen");
+            // ItemShinwaManager.deleteItem(itemShinwa);
+            // } else {
+            // ninja.p.sendYellowMessage(
+            // "Bạn đã bán được 1 món hàng từ chợ đen thu về " + xu + " vui lòng tiêu bớt xu
+            // để nhận được xu");
+            // ItemShinwaManager.updateItemStatus(itemShinwa, (byte) 1);
+            // }
         } else {
             ItemShinwaManager.updateItemStatus(itemShinwa, (byte) 1);
         }
     }
 
-
     @Getter
     @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ItemShinwa implements Serializable {
-
 
         private int itemId;
         public Item item;
@@ -214,7 +218,6 @@ public class ItemShinwaManager {
         private int price;
         private int quantity;
         private int sellUIIndex;
-
 
         /**
          * 0 seling
@@ -248,11 +251,12 @@ public class ItemShinwaManager {
             return System.currentTimeMillis() - timeStart >= _1DAY || getRemainTime() <= 0;
         }
 
-
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
             ItemShinwa that = (ItemShinwa) o;
             return itemId == that.itemId;
         }

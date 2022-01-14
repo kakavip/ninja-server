@@ -26,6 +26,7 @@ import java.net.SocketException;
 import java.rmi.Naming;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,8 +40,6 @@ import java.net.InetSocketAddress;
 import static threading.Manager.MOMENT_REFRESH_BATTLE;
 
 public class Server {
-    public static List<String> IP_BLACKLIST;
-
     public static long TIME_SLEEP_SHINWA_THREAD;
     private static Server instance;
     private static Runnable updateBattle;
@@ -288,30 +287,33 @@ public class Server {
                 stop();
 
             }));
+
             while (Server.start) {
+                List<String> blackListIps = util.ReadBlackListIps().stream().map(ip -> ip.getName()).collect(
+                        Collectors.toList());
+
                 final Socket clientSocket = this.listenSocket.accept();
                 InetSocketAddress socketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
                 String clientIpAddress = socketAddress.getAddress().getHostAddress();
 
                 // Close socket by ghost ip address
-                if (Server.IP_BLACKLIST.contains(clientIpAddress)) {
+                if (blackListIps.contains(clientIpAddress)) {
                     clientSocket.close();
                 }
 
                 // check ghost connections
                 if (PlayerManager.getInstance().checkGhostIpAddress(clientIpAddress)) {
-                    if (!Server.IP_BLACKLIST.contains(clientIpAddress)) {
-                        Server.IP_BLACKLIST.add(clientIpAddress);
+                    if (!blackListIps.contains(clientIpAddress)) {
+                        blackListIps.add(clientIpAddress);
+                        util.WriteBlackListIps(clientIpAddress);
                     }
-
-                    System.out.println("Ghost IP Address List: " + Server.IP_BLACKLIST);
                 }
 
                 // Remove non user session
-                PlayerManager.getInstance().kickGhostSessionByIds(Server.IP_BLACKLIST);
+                PlayerManager.getInstance().kickGhostSessionByIds(blackListIps);
 
-                if (!Session.check(clientIpAddress) && PlayerManager.getInstance().check(clientIpAddress)
-                        && !Server.IP_BLACKLIST.contains(clientIpAddress)) {
+                if (PlayerManager.getInstance().check(clientIpAddress)
+                        && !blackListIps.contains(clientIpAddress)) {
 
                     final Session conn = new Session(clientSocket, this.serverMessageHandler);
                     PlayerManager.getInstance().put(conn);
@@ -441,7 +443,6 @@ public class Server {
         mapBoss65 = new short[] { 24, 41, 45, 59 };
         mapBoss75 = new short[] { 18, 36, 54 };
         mapBossLC = new short[] { 134, 135, 136, 137 };
-        Server.IP_BLACKLIST = new ArrayList<>();
     }
 
     public Map[] getMaps() {

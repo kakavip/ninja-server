@@ -68,7 +68,7 @@ public class PlayerManager {
                 if (conn != null && conn.user == null) {
                     counter += 1;
 
-                    if (counter >= 4) {
+                    if (counter >= Manager.MAX_SOCKET_PER_CLIENT) {
                         return true;
                     }
                 }

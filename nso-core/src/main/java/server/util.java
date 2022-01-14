@@ -22,7 +22,8 @@ public class util {
     public static final SimpleDateFormat dateFormatDay;
 
     public static synchronized Date getDate(final String dateString) {
-        if (dateString == null || dateString.equals("")) return new Date();
+        if (dateString == null || dateString.equals(""))
+            return new Date();
         try {
             return util.dateFormat.parse(dateString);
         } catch (ParseException e) {
@@ -184,38 +185,77 @@ public class util {
         return percent >= util.nextInt(1, maxPercent);
     }
 
-    public static List<Ip> ReadIp(){
+    public static List<Ip> ReadBlackListIps() {
         ArrayList<Ip> list = new ArrayList<>();
-        try{
-            FileReader fr = new FileReader("log/ip.txt");
+        try {
+            FileReader fr = new FileReader("log/black_list_ips.txt");
             BufferedReader br = new BufferedReader(fr);
             String line = "";
-            while(true){
+            while (true) {
                 line = br.readLine();
-                if (line == null){
+                if (line == null) {
                     break;
                 }
-                /*String txt[] = line.split(";");
-                String name = txt[0];
-                byte log = Byte.parseByte(txt[1]);*/
+                /*
+                 * String txt[] = line.split(";");
+                 * String name = txt[0];
+                 * byte log = Byte.parseByte(txt[1]);
+                 */
                 list.add(new Ip(line));
             }
             fr.close();
             br.close();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         return list;
     }
-    
-    public static void WriteIp(String IP){
-        try{
+
+    public static void WriteBlackListIps(String ip) {
+        try {
+            FileWriter fw = new FileWriter("log/black_list_ips.txt", true);
+            BufferedWriter bs = new BufferedWriter(fw);
+            bs.write(ip);
+            bs.newLine();
+            bs.close();
+            fw.close();
+        } catch (Exception e) {
+        }
+    }
+
+    public static List<Ip> ReadIp() {
+        ArrayList<Ip> list = new ArrayList<>();
+        try {
+            FileReader fr = new FileReader("log/ip.txt");
+            BufferedReader br = new BufferedReader(fr);
+            String line = "";
+            while (true) {
+                line = br.readLine();
+                if (line == null) {
+                    break;
+                }
+                /*
+                 * String txt[] = line.split(";");
+                 * String name = txt[0];
+                 * byte log = Byte.parseByte(txt[1]);
+                 */
+                list.add(new Ip(line));
+            }
+            fr.close();
+            br.close();
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public static void WriteIp(String IP) {
+        try {
             FileWriter fw = new FileWriter("log/ip.txt");
             BufferedWriter bs = new BufferedWriter(fw);
             bs.write(IP);
             bs.newLine();
             bs.close();
             fw.close();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 }

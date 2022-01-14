@@ -3287,7 +3287,7 @@ public class Place {
                                 dy = 160;
                             }
                             if (Math.abs(user.nj.get().x - mob.x) < dx && Math.abs(user.nj.get().y - mob.y) < dy) {
-                                int dame = mob.level * mob.level / 6;
+                                int dame = mob.level * mob.level / 4;
                                 if (this.map.cave != null && this.map.cave.finsh > 0 && this.map.getXHD() == 6) {
                                     final int dup = dame = dame * (10 * this.map.cave.finsh + 100) / 100;
                                 }

@@ -398,6 +398,12 @@ public class useItem {
                 p.sendYellowMessage("Bạn không có điểm hiếu chiến");
                 break;
             }
+            case 268: {
+                p.nj.removeItemBag(index, 1);
+                p.nj.taThuCount++;
+                p.sendYellowMessage("Số lần làm nhiệm vụ tà thú của bạn là " + p.nj.taThuCount);
+                break;
+            }
             case 279: {
                 server.menu.sendWrite(p, (short) 1, "Nhập tên nhân vật");
                 break;
@@ -573,6 +579,26 @@ public class useItem {
                 --c3.useCave;
                 p.sendYellowMessage(
                         "Số lần đi hang động của bạn trong ngày hôm nay tăng lên là " + p.nj.useCave + " lần");
+                p.nj.removeItemBag(index, 1);
+                break;
+            }
+            case 281: {
+                if (p.nj.clan == null) {
+                    p.sendYellowMessage("Bạn cần vào gia tộc để có thể sử dụng item này.");
+                    return;
+                }
+
+                ClanManager clanManager = ClanManager.getClanByName(p.nj.clan.clanName);
+                if (clanManager.use_card <= 0) {
+                    p.session.sendMessageLog("Số lần dùng Lệnh bài gia tộc của bạn đã hết");
+                    return;
+
+                }
+                clanManager.use_card--;
+                clanManager.openDun++;
+
+                p.sendYellowMessage(
+                        "Số lần đi lãnh địa gia tộc của bạn là " + clanManager.openDun + " lần");
                 p.nj.removeItemBag(index, 1);
                 break;
             }
