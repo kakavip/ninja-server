@@ -930,7 +930,7 @@ public class MenuController {
                             break;
                         }
 
-                        if (!(p.nj.getTaskId() == 9 && p.nj.getTaskIndex() == -1 && !p.nj.isNhanban)) {
+                        if (!(p.nj.getTaskId() == 9 && p.nj.getTaskIndex() == -1) && !p.nj.isNhanban) {
                             p.nj.getPlace().chatNPC(p, (short) npcId,
                                     "Con hãy hoàn thành hết nhiệm vụ ở làng Tone trước khi nhận lớp");
                             break;

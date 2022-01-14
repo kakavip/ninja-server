@@ -23,6 +23,7 @@ FROM openjdk:8-jre-alpine
 WORKDIR /app
 
 # copy config files
+COPY ./black_list_ips.txt ./log/black_list_ips.txt
 COPY ./ninja.conf ./ninja.conf
 COPY ./application.properties ./application.properties
 
