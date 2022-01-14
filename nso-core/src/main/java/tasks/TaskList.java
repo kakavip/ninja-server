@@ -288,7 +288,7 @@ public class TaskList {
                                                 .build(),
                                 builder()
                                                 .taskId(14)
-                                                .minLevel(19)
+                                                .minLevel(16)
                                                 .npcTalk("Ta làm trang sức để bán nhưng lại hết nguyên liêu con có thể tìm giúp ta không ?")
                                                 .mobs(new int[][] {
                                                                 {},
@@ -399,7 +399,7 @@ public class TaskList {
                                                 .build(),
                                 builder()
                                                 .taskId(18)
-                                                .minLevel(25)
+                                                .minLevel(26)
                                                 .npcTalk("Sau 10 roi mà nó đã không chịu nổi rồi con có thể giúp ta tìm thuốc cứu nó không ?")
                                                 .mobs(new int[][] {
                                                                 {},
