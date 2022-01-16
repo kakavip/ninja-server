@@ -637,6 +637,46 @@ public class User extends Actor implements SendMessage {
                 }
                 break;
             }
+            case -60: {
+                if (m == null) {
+                    return;
+                }
+                final byte index = m.reader().readByte();
+
+                System.out.println("Index: " + index);
+                clan = ClanManager.getClanByName(this.nj.clan.clanName);
+                if (clan != null) {
+                    if (index < 0 || index >= clan.items.size()) {
+                        return;
+                    }
+
+                    Item item = clan.items.get(index).clone();
+                    switch (item.id) {
+                        case 281:
+                            if (this.nj.clan.typeclan < 3) {
+                                this.session.sendMessageLog("Chỉ tộc trường/phó mới sử dụng đc vật phẩm này.");
+                                return;
+                            }
+
+                            if (clan.use_card <= 0) {
+                                this.session.sendMessageLog("Số lần dùng Lệnh bài gia tộc của bạn đã hết");
+                            }
+
+                            clan.use_card--;
+                            clan.openDun++;
+                            this.sendYellowMessage("Số lần đi lãnh địa gia tộc của bạn là " + clan.openDun + " lần");
+
+                            clan.removeItem(item.id, 1);
+                            clan.requestClanItem(this);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                break;
+            }
             default:
                 util.Debug("Not match message not map " + cmd);
         }

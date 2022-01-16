@@ -219,7 +219,8 @@ public class ClanManager {
     }
 
     public void sendMessage(final @Nullable Message m) {
-        if (m == null) return;
+        if (m == null)
+            return;
         for (ClanMember member : this.members) {
             final Ninja n = PlayerManager.getInstance().getNinja(member.cName);
             if (n != null) {
@@ -267,7 +268,8 @@ public class ClanManager {
     }
 
     public void chat(final @Nullable User p, @Nullable Message m) throws IOException {
-        if (p == null || m == null) return;
+        if (p == null || m == null)
+            return;
         final String text = m.reader().readUTF();
         m.cleanup();
         m = new Message(-19);
@@ -279,7 +281,8 @@ public class ClanManager {
     }
 
     public void changeClanType(final @Nullable User p, @Nullable Message m) throws IOException {
-        if (m == null || p == null) return;
+        if (m == null || p == null)
+            return;
 
         final String cName = m.reader().readUTF();
         final byte typeclan = m.reader().readByte();
@@ -327,7 +330,8 @@ public class ClanManager {
     }
 
     public void openItemLevel(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
 
         if (p.nj.clan.typeclan == 4 || p.nj.clan.typeclan == 3) {
             final int coinDown = this.getCoinOpen();
@@ -360,7 +364,8 @@ public class ClanManager {
     private int thanThuIndex = 0;
 
     public void sendClanItem(final @Nullable User p, final @Nullable Message m) throws IOException {
-        if (p == null || m == null) return;
+        if (p == null || m == null)
+            return;
 
         final byte index = m.reader().readByte();
         final String cName = m.reader().readUTF();
@@ -404,7 +409,8 @@ public class ClanManager {
     }
 
     public void setAlert(final @Nullable User p, @Nullable Message m) throws IOException {
-        if (p == null || m == null) return;
+        if (p == null || m == null)
+            return;
 
         final String newalert = m.reader().readUTF();
         m.cleanup();
@@ -428,7 +434,8 @@ public class ClanManager {
     }
 
     public void moveOutClan(final @Nullable User p, @Nullable Message m) throws IOException {
-        if (p == null || m == null) return;
+        if (p == null || m == null)
+            return;
 
         final String cName = m.reader().readUTF();
         m.cleanup();
@@ -503,7 +510,8 @@ public class ClanManager {
     }
 
     public void clanUpLevel(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
 
         if (p.nj.clan.typeclan == 4 || p.nj.clan.typeclan == 3) {
             final int coinDown = this.getCoinUp();
@@ -528,7 +536,8 @@ public class ClanManager {
     }
 
     public void inputCoinClan(final @Nullable User p, @Nullable Message m) throws IOException {
-        if (p == null || m == null) return;
+        if (p == null || m == null)
+            return;
 
         final int inputcoin = m.reader().readInt();
         m.cleanup();
@@ -550,7 +559,8 @@ public class ClanManager {
             m.writer().flush();
             p.sendMessage(m);
             m.cleanup();
-            val message = p.nj.name + " đã đóng góp " + inputcoin + " xu vào gia tộc ngân sách tăng " + this.coin + " xu";
+            val message = p.nj.name + " đã đóng góp " + inputcoin + " xu vào gia tộc ngân sách tăng " + this.coin
+                    + " xu";
             informAll(message);
         }
     }
@@ -573,7 +583,8 @@ public class ClanManager {
     }
 
     public void LogClan(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
         final Message m = new Message(-28);
         m.writer().writeByte(-114);
         m.writer().writeUTF(this.log);
@@ -583,7 +594,8 @@ public class ClanManager {
     }
 
     public void requestClanInfo(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
         final Message m = new Message(-28);
         m.writer().writeByte(-113);
         m.writer().writeUTF(this.name);
@@ -605,11 +617,11 @@ public class ClanManager {
         p.sendMessage(m);
         m.cleanup();
 
-
     }
 
     public void requestClanMember(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
 
         final Message m = new Message(-28);
         m.writer().writeByte(-112);
@@ -632,7 +644,8 @@ public class ClanManager {
     }
 
     public void requestClanItem(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
 
         final Message m = new Message(-28);
         m.writer().writeByte(-111);
@@ -663,7 +676,6 @@ public class ClanManager {
             m.writer().writeInt(thanThu.getMaxEXP());
             m.writer().writeByte(thanThu.getStars());
         }
-
 
         m.writer().flush();
         p.sendMessage(m);
@@ -711,9 +723,9 @@ public class ClanManager {
 
             if (this.clanBattle != null) {
                 this.clanBattleData = this.clanBattle.getBattleData();
-                sqlSET = sqlSET + ",`clan_battle_data`='" + Mapper.converter.writeValueAsString(this.clanBattleData) + "'";
+                sqlSET = sqlSET + ",`clan_battle_data`='" + Mapper.converter.writeValueAsString(this.clanBattleData)
+                        + "'";
             }
-
 
             SQLManager.executeUpdate("UPDATE `clan` SET " + sqlSET + " WHERE `id`=" + this.id + " LIMIT 1;");
         } catch (Exception e) {
@@ -722,11 +734,13 @@ public class ClanManager {
     }
 
     public static void createClan(final @Nullable User p, @NotNull String name) {
-        if (p == null) return;
+        if (p == null)
+            return;
 
         name = name.toLowerCase();
         if (p.luong < LUONG_CREATE_CLAN) {
-            p.session.sendMessageLog("Bạn cần có " + String.format("%,d", LUONG_CREATE_CLAN) + " lượng để thành lập gia tộc");
+            p.session.sendMessageLog(
+                    "Bạn cần có " + String.format("%,d", LUONG_CREATE_CLAN) + " lượng để thành lập gia tộc");
             return;
         }
         ClanManager clan = getClanByName(name);
@@ -749,35 +763,36 @@ public class ClanManager {
                 clan.members.add(mem);
                 p.nj.clan = mem;
 
-
                 SQLManager.executeUpdate("INSERT INTO clan(`name`,`reg_date`,`log`,`alert`,`members`, `exp`) " +
-                        "VALUES ('" + clan.name + "','" + clan.reg_date + "','" + clan.log + "','" + clan.alert + "','[" + mem + "]', 0);");
+                        "VALUES ('" + clan.name + "','" + clan.reg_date + "','" + clan.log + "','" + clan.alert + "','["
+                        + mem + "]', 0);");
 
                 ClanManager finalClan = clan;
-                SQLManager.executeQuery("SELECT `id` FROM `clan` WHERE `name`LIKE'" + clan.name + "' LIMIT 1;", (red) -> {
-                    red.first();
-                    finalClan.id = red.getInt("id");
-                    finalClan.writeLog("", 0, finalClan.coin, util.toDateString(Date.from(Instant.now())));
-                    finalClan.week = util.toDateString(Date.from(Instant.now()));
-                    readWriteLock.writeLock().lock();
-                    try {
-                        ClanManager.entrys.add(finalClan);
-                    } finally {
-                        readWriteLock.writeLock().unlock();
-                    }
-                    finalClan.flush();
-                    p.nj.flush();
-                    p.upluong(-LUONG_CREATE_CLAN);
-                    final Message m = new Message(-28);
-                    m.writer().writeByte(-96);
-                    m.writer().writeUTF(finalClan.name);
-                    m.writer().writeInt(p.luong);
-                    m.writer().flush();
-                    p.sendMessage(m);
-                    m.cleanup();
-                    p.setTypeClan(4);
+                SQLManager.executeQuery("SELECT `id` FROM `clan` WHERE `name`LIKE'" + clan.name + "' LIMIT 1;",
+                        (red) -> {
+                            red.first();
+                            finalClan.id = red.getInt("id");
+                            finalClan.writeLog("", 0, finalClan.coin, util.toDateString(Date.from(Instant.now())));
+                            finalClan.week = util.toDateString(Date.from(Instant.now()));
+                            readWriteLock.writeLock().lock();
+                            try {
+                                ClanManager.entrys.add(finalClan);
+                            } finally {
+                                readWriteLock.writeLock().unlock();
+                            }
+                            finalClan.flush();
+                            p.nj.flush();
+                            p.upluong(-LUONG_CREATE_CLAN);
+                            final Message m = new Message(-28);
+                            m.writer().writeByte(-96);
+                            m.writer().writeUTF(finalClan.name);
+                            m.writer().writeInt(p.luong);
+                            m.writer().flush();
+                            p.sendMessage(m);
+                            m.cleanup();
+                            p.setTypeClan(4);
 
-                });
+                        });
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -831,7 +846,8 @@ public class ClanManager {
 
     public void inviteToDun(String name) {
 
-        if (clanTerritory == null) return;
+        if (clanTerritory == null)
+            return;
 
         final Ninja ninja = getMem(name).getNinja();
         if (ninja.p.getClanTerritoryData() == null) {
@@ -867,7 +883,6 @@ public class ClanManager {
         return clanBattleData;
     }
 
-
     public boolean restore() {
         if (this.getClanBattleData() != null && !this.getClanBattleData().isExpired()) {
             this.setClanBattle(new ClanBattle(this.getClanBattleData()));
@@ -880,7 +895,8 @@ public class ClanManager {
 
     @Nullable
     public ClanThanThu getCurrentThanThu() {
-        if (this.clanThanThus.size() == 0) return null;
+        if (this.clanThanThus.size() == 0)
+            return null;
         return this.clanThanThus.get(this.getThanThuIndex() % this.clanThanThus.size());
     }
 

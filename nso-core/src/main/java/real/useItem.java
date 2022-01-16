@@ -1091,11 +1091,11 @@ public class useItem {
                 final ClanManager clanMng = p.nj.clan.clanManager();
                 final ClanThanThu thanThu = clanMng.getCurrentThanThu();
                 if (thanThu != null) {
-                    if (thanThu.upExp(2)) {
+                    if (thanThu.upExp(200)) {
                         p.nj.removeItemBag(index, 1);
                     }
                 } else {
-                    p.sendYellowMessage("Có cái nịt");
+                    p.sendYellowMessage("Bạn cần có thần thú gia tộc để sử dụng vật phẩm này");
                 }
                 break;
             }
@@ -1108,10 +1108,12 @@ public class useItem {
                 if (clanMng != null) {
                     thanThu = clanMng.getCurrentThanThu();
                 }
-                if (thanThu != null && thanThu.upExp(5)) {
-                    p.nj.removeItemBag(index, 1);
+                if (thanThu != null) {
+                    if (thanThu.upExp(500)) {
+                        p.nj.removeItemBag(index, 1);
+                    }
                 } else {
-                    p.sendYellowMessage("Có cái nịt");
+                    p.sendYellowMessage("Bạn cần có thần thú gia tộc để sử dụng vật phẩm này");
                 }
                 break;
             }
@@ -1173,7 +1175,7 @@ public class useItem {
                     }
 
                     if (coMoi) {
-                        if (util.percent(70, 30)) {
+                        if (util.percent(100, 30)) {
                             val random = new int[] { 599, 600 }[util.nextInt(2)];
                             int quantity = util.nextInt(0, 5);
                             final Item item1 = ItemData.itemDefault(random);

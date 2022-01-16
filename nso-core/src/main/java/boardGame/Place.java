@@ -3516,13 +3516,13 @@ public class Place {
             final int min = rightNow.get(12);
             final int sec = rightNow.get(13);
 
-            if (((min % 2) == 0) && (sec == 1)) {
-                final File f = new File("log/ip.txt");
-                if (f.exists()) {
-                    f.delete();
-                    System.out.println("Xoá file ip");
-                }
-            }
+            // if (((min % 2) == 0) && (sec == 1)) {
+            // final File f = new File("log/ip.txt");
+            // if (f.exists()) {
+            // f.delete();
+            // System.out.println("Xoá file ip");
+            // }
+            // }
 
             synchronized (this._itemMap) {
                 for (ItemMap itemMap : _itemMap) {
