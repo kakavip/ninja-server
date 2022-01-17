@@ -1367,11 +1367,14 @@ public class User extends Actor implements SendMessage {
                         }
                         server.manager.sendTB(this, "Thông báo",
                                 "Số người đang online: " + PlayerManager.getInstance().conns_size() + "\n "
-                                        + "Thần thú sẽ xuất hiện vào những giờ lẻ, nhanh tay săn để sở hữu những món đồ ưng ý.\n"
-                                        + "Chinh phục thiên địa bảng để trở thành một ninja mạnh mẽ.\n"
-                                        + "Bạn có thể chuyển phái tại NPC Hùng Vương khi đã có đủ 10.000 lượng.\n"
-                                        + "Làm nhiệm vụ hằng ngày để có cơ hội nhận lượng, exp.\n"
-                                        + "Dễ dàng kiếm lượng bằng cách: Săn TA/TL/Thần Thú + nvhn/nvtt/nvct + mở phúc mang nhẫn giả.\n"
+                                // + "Thần thú sẽ xuất hiện vào những giờ lẻ, nhanh tay săn để sở hữu những món
+                                // đồ ưng ý.\n"
+                                // + "Chinh phục thiên địa bảng để trở thành một ninja mạnh mẽ.\n"
+                                // + "Bạn có thể chuyển phái tại NPC Hùng Vương khi đã có đủ 10.000 lượng.\n"
+                                // + "Làm nhiệm vụ hằng ngày để có cơ hội nhận lượng, exp.\n"
+                                // + "Dễ dàng kiếm lượng bằng cách: Săn TA/TL/Thần Thú + nvhn/nvtt/nvct + mở
+                                // phúc mang nhẫn giả.\n"
+                                        + "- Sự kiện Tết nguyên đán chính thức bắt đầu từ ngày 18/1/2022. Nhanh tay tới NPC Tiên nữ để nhận hướng dẫn làm sự kiện\n"
                                         + "Chúc các bạn online vui vẻ");
 
                         if (this.nj != null && this.nj.clan != null) {
