@@ -2293,6 +2293,10 @@ public class MenuController {
             if (EventItem.entrys.length == 0) {
                 return;
             }
+
+            p.nj.getPlace().chatNPC(p, idNpc,
+                    "Sự kiện tết nguyên đán đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bánh để nhận được những vật phẩm vô cùng độc đáo...");
+
             if (index < EventItem.entrys.length) {
                 EventItem entry = EventItem.entrys[index];
                 if (entry != null) {

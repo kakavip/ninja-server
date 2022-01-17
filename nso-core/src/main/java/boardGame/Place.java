@@ -392,7 +392,7 @@ public class Place {
         chatLock.lock();
         try {
             debugChat(p, chat);
-            userChat(p, chat);
+            // userChat(p, chat);
         } catch (Exception e) {
 
         } finally {
@@ -2467,7 +2467,7 @@ public class Place {
             if (server.manager.EVENT != 0 && canDropItem) {
                 val eventItems = EventItem.getEventDropItemIds();
                 final int index = util.nextInt(0, eventItems.length - 1);
-                if (eventItems[index] != -1) {
+                if (util.nextInt(10) < 7 && eventItems[index] != -1) {
 
                     val itemMap = this.LeaveItem(eventItems[index], p.nj.x, p.nj.y);
                     if (itemMap != null) {

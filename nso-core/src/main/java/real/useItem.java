@@ -1239,9 +1239,8 @@ public class useItem {
                         return;
                     }
 
-                    p.updateExp(entry.getOutput().getExp(), false);
                     if (util.nextInt(10) < 3) {
-                        p.updateExp(2 * entry.getOutput().getExp(), false);
+                        p.updateExp(entry.getOutput().getExp(), false);
                     } else {
                         final short[] arId = entry.getOutput().getIdItems();
                         final short idI = arId[util.nextInt(arId.length)];
