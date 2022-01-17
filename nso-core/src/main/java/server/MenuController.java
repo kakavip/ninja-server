@@ -1217,6 +1217,10 @@ public class MenuController {
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 3)) {
                                             p.nj.upMainTask();
                                         }
+
+                                        p.ticketGold += 1;
+                                        p.nj.getPlace().chatNPC(p, (short) 25,
+                                                "Con được tặng một vé lượng. Hãy tiếp tục cố gắng nhé.");
                                     }
                                     break;
                                 }
@@ -1838,15 +1842,16 @@ public class MenuController {
                             break;
                         }
                         case 5: {
-                            switch (optionId) {
-                                case 0:
-                                    this.sendWrite(p, (short) 24_8, "Nhập tên người nhận");
-                                    break;
-                                case 1:
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Ngươi đang có " + p.ticketGold + " vé tặng lượng");
-                                    break;
+                            if (p.ticketGold <= 0) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Ngươi đã hết vé tặng lượng. Hãy tích cực tham gia hoạt động hằng ngày để có thể tăng số lượng vé.");
+                            } else {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Ngươi đang có " + p.ticketGold
+                                                + " vé tặng lượng. Mỗi vé có thể tặng 100 lượng.");
+                                this.sendWrite(p, (short) 24_8, "Nhập tên người nhận");
                             }
+
                             break;
                         }
                     }
@@ -2175,11 +2180,13 @@ public class MenuController {
             val itemNames = new String[EventItem.entrys.length + 1];
 
             for (int i = 0; i < itemNames.length - 1; i++) {
-                itemNames[i] = EventItem.entrys[i].getOutput().getItemData().name;
+                itemNames[i] = "Làm " + EventItem.entrys[i].getOutput().getItemData().name;
             }
 
             itemNames[EventItem.entrys.length] = "Hướng dẫn";
-            createMenu(33, itemNames, "", p);
+            createMenu(33, itemNames,
+                    "Sự kiện tết nguyên đán đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bánh để nhận được những vật phẩm vô cùng độc đáo...",
+                    p);
         }
         if (idnpc == 24 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
@@ -2293,9 +2300,6 @@ public class MenuController {
             if (EventItem.entrys.length == 0) {
                 return;
             }
-
-            p.nj.getPlace().chatNPC(p, idNpc,
-                    "Sự kiện tết nguyên đán đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bánh để nhận được những vật phẩm vô cùng độc đáo...");
 
             if (index < EventItem.entrys.length) {
                 EventItem entry = EventItem.entrys[index];

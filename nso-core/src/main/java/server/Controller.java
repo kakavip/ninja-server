@@ -488,9 +488,9 @@ public class Controller implements ISessionHandler {
                     val price = message.reader().readInt();
                     val item = p.nj.ItemBag[indexUI];
 
-                    int FEE = 5_000;
+                    int FEE = 50_000;
                     // int FEE_GOLD = 150;
-                    if (item != null && p.nj.xu >= 5_000) {
+                    if (item != null && p.nj.xu >= FEE) {
                         if (item.isExpires)
                             return;
                         ItemShinwa itemShinwa = new ItemShinwa(item, p.nj.name, price);

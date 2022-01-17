@@ -120,16 +120,12 @@ public class Draw {
                 p.nameUS = str;
                 Ninja user_gift_gold = PlayerManager.getInstance().getNinja(str);
                 if (user_gift_gold == null) {
-                    p.session.sendMessageLog("Người chơi không có trên mạng. Không thể nhận kim cương");
+                    p.session.sendMessageLog("Người chơi không có online. Không thể nhận lượng.");
                     break;
                 }
                 if (user_gift_gold != null) {
-                    if (p.luong < 10) {
-                        p.session.sendMessageLog("Không đủ lượng");
-                        break;
-                    } else {
-                        p.sendGold();
-                    }
+                    p.sendGold();
+                    break;
                 }
             case 50: {
                 ClanManager.createClan(p, str);

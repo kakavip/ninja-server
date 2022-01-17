@@ -2515,15 +2515,15 @@ public class User extends Actor implements SendMessage {
 
     public void sendGold() {
         Ninja userGF = PlayerManager.getInstance().getNinja(nameUS);
-        if (luong < 10) {
+        if (luong < 100) {
             session.sendMessageLog("Không đủ lượng");
             return;
         } else {
-            userGF.p.upluongMessage(10);
-            upluong(-10);
+            userGF.p.upluongMessage(100);
+            upluongMessage(-100);
             ticketGold -= 1;
-            session.sendMessageLog("Đã tặng cho " + nameUS + " 10 lượng");
-            userGF.p.session.sendMessageLog(nj.name + " đã tặng cho bạn 10 lượng");
+            session.sendMessageLog("Đã tặng cho " + nameUS + " 100 lượng");
+            userGF.p.session.sendMessageLog(nj.name + " đã tặng cho bạn 100 lượng");
         }
     }
 
