@@ -37,12 +37,13 @@ class PlayerAdmin(admin.ModelAdmin):
         "lock",
         "ninja",
         "luong",
+        "ticket_gold",
         "password",
         "joined_time",
     ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
-    fields = ["username", "password", "luong", "ninja", "status"]
+    fields = ["username", "password", "luong", "ninja", "status", "ticket_gold"]
     search_fields = ["username", "password", "ninja"]
     list_filter = ["status", "lock"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
@@ -214,7 +215,7 @@ class ItemAdmin(admin.ModelAdmin):
         "option_3",
     ]
 
-    list_display_links = ["id", "name"]
+    list_display_links = ["id", "name", "icon_id"]
     empty_display_value = "--empty--"
     list_filter = ["type", "nclass", "gender"]
     search_fields = ["id", "name", "description"]
