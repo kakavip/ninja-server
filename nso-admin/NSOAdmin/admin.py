@@ -215,10 +215,10 @@ class ItemAdmin(admin.ModelAdmin):
         "option_3",
     ]
 
-    list_display_links = ["id", "name", "icon_id"]
+    list_display_links = ["id", "name"]
     empty_display_value = "--empty--"
     list_filter = ["type", "nclass", "gender"]
-    search_fields = ["id", "name", "description"]
+    search_fields = ["id", "name", "description", "icon_id"]
     fields = [
         "name",
         "description",
