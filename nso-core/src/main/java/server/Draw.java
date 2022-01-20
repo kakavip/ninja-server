@@ -4,6 +4,8 @@ import real.Ninja;
 import real.ClanManager;
 import real.PlayerManager;
 import java.io.IOException;
+
+import patch.EventItem;
 import threading.Message;
 import real.User;
 import threading.Server;
@@ -168,6 +170,29 @@ public class Draw {
             case 102: {
                 p.typemenu = 92;
                 MenuController.doMenuArray(p, new String[] { "Vòng xoay vip", "Vòng xoay thường" });
+                break;
+            }
+
+            default: {
+                if (menuId >= MenuController.MIN_EVENT_MENU_ID
+                        && menuId <= MenuController.MIN_EVENT_MENU_ID + EventItem.entrys.length) {
+                    int index = menuId - MenuController.MIN_EVENT_MENU_ID;
+
+                    try {
+                        int quantity = Integer.parseInt(str);
+                        if (quantity > 5000 || quantity <= 0) {
+                            p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 5000.");
+                            break;
+                        }
+
+                        EventItem entry = EventItem.entrys[index];
+                        MenuController.lamSuKien(p, entry, quantity);
+                    } catch (NumberFormatException ex) {
+                        p.session.sendMessageLog("Sai định dạng.");
+                        break;
+                    }
+                }
+
                 break;
             }
         }

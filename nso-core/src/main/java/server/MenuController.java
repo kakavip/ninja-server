@@ -42,6 +42,8 @@ public class MenuController {
     public static final int MIN_YEN_NVHN = 300;
     public static final int MAX_YEN_NVHN = 400;
 
+    public static final int MIN_EVENT_MENU_ID = 1000;
+
     Server server;
 
     public MenuController() {
@@ -384,11 +386,28 @@ public class MenuController {
                                                 "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
                                     }
-                                    if (p.nj.party != null && p.nj.party.ninjas.size() > 1) {
-                                        p.session.sendMessageLog("Hoạt động lần này chỉ được phép một mình");
-                                        return;
+                                    if (p.nj.party != null) {
+                                        synchronized (p.nj.party.ninjas) {
+                                            for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
+                                                if (p.nj.party.ninjas.get(i).getLevel() < 60
+                                                        || p.nj.party.ninjas.get(i).getLevel() > 69) {
+                                                    p.session.sendMessageLog(
+                                                            "Thành viên trong nhóm trình độ không phù hợp");
+                                                    return;
+                                                }
+                                            }
+                                        }
                                     }
-                                    cave = new Cave(6);
+                                    if (p.nj.party != null) {
+                                        if (p.nj.party.cave == null) {
+                                            cave = new Cave(6);
+                                            p.nj.party.openCave(cave, p.nj.name);
+                                        } else {
+                                            cave = p.nj.party.cave;
+                                        }
+                                    } else {
+                                        cave = new Cave(6);
+                                    }
                                     p.nj.caveID = cave.caveID;
                                 }
                                 if (optionId == 5) {
@@ -2293,6 +2312,11 @@ public class MenuController {
                             "Kiếm", "Phi tiêu", "Kunai", "Cung", "Đao", "Quạt" });
                     break;
                 }
+                case 5: {
+                    p.passold = "";
+                    this.sendWrite(p, (short) 51, "Nhập mật khẩu cũ");
+                    break;
+                }
                 default:
                     p.nj.getPlace().chatNPC(p, idNpc, "Ta đứng đây từ " + (util.nextInt(0, 1) == 1 ? "chiều" : "trưa"));
             }
@@ -2304,7 +2328,7 @@ public class MenuController {
             if (index < EventItem.entrys.length) {
                 EventItem entry = EventItem.entrys[index];
                 if (entry != null) {
-                    lamSuKien(p, entry);
+                    this.sendWrite(p, (short) (MIN_EVENT_MENU_ID + index), "Nhập số lượng");
                 }
             } else {
                 String huongDan = "";
@@ -2356,23 +2380,32 @@ public class MenuController {
     }
 
     public static void lamSuKien(User p, EventItem entry) throws IOException {
+        lamSuKien(p, entry, 1);
+    }
+
+    public static void lamSuKien(User p, EventItem entry, int quantity) throws IOException {
         boolean enough = true;
         for (Recipe input : entry.getInputs()) {
             int id = input.getId();
-            enough = p.nj.enoughItemId(id, input.getCount());
+            enough = p.nj.enoughItemId(id, input.getCount() * quantity);
             if (!enough) {
                 p.nj.getPlace().chatNPC(p, (short) 33, "Con không đủ " + input.getItemData().name + " để làm sự kiện");
                 break;
             }
         }
-        if (enough && p.nj.xu >= entry.getCoin() && p.nj.yen >= entry.getCoinLock() && p.luong >= entry.getGold()) {
+        if (enough && p.nj.xu >= entry.getCoin() * quantity && p.nj.yen >= entry.getCoinLock() * quantity
+                && p.luong >= entry.getGold() * quantity) {
             for (Recipe input : entry.getInputs()) {
-                p.nj.removeItemBags(input.getId(), input.getCount());
+                p.nj.removeItemBags(input.getId(), input.getCount() * quantity);
             }
-            p.nj.addItemBag(true, entry.getOutput().getItem());
-            p.nj.upxuMessage(-entry.getCoin());
-            p.nj.upyenMessage(-entry.getCoinLock());
-            p.upluongMessage(-entry.getGold());
+
+            Item it = entry.getOutput().getItem();
+            it.quantity = quantity;
+
+            p.nj.addItemBag(true, it);
+            p.nj.upxuMessage(-entry.getCoin() * quantity);
+            p.nj.upyenMessage(-entry.getCoinLock() * quantity);
+            p.upluongMessage(-entry.getGold() * quantity);
         }
     }
 

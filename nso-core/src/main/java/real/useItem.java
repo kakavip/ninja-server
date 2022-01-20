@@ -803,6 +803,41 @@ public class useItem {
                     return;
                 }
             }
+            case 449: {
+                if (p.updateXpMounts(5, (byte) 0)) {
+                    p.nj.removeItemBag(index, 1);
+                    break;
+                }
+                break;
+            }
+            case 450: {
+                if (p.updateXpMounts(7, (byte) 0)) {
+                    p.nj.removeItemBag(index, 1);
+                    break;
+                }
+                break;
+            }
+            case 451: {
+                if (p.updateXpMounts(14, (byte) 0)) {
+                    p.nj.removeItemBag(index, 1);
+                    break;
+                }
+                break;
+            }
+            case 452: {
+                if (p.updateXpMounts(20, (byte) 0)) {
+                    p.nj.removeItemBag(index, 1);
+                    break;
+                }
+                break;
+            }
+            case 453: {
+                if (p.updateXpMounts(25, (byte) 0)) {
+                    p.nj.removeItemBag(index, 1);
+                    break;
+                }
+                break;
+            }
             case 454: {
                 if (p.updateSysMounts()) {
                     p.nj.removeItemBag(index, 1);
@@ -848,6 +883,27 @@ public class useItem {
                     p.setEffect(id, 0, _1HOUR * 5, 2);
                 }
                 p.nj.removeItemBag(index, 1);
+                break;
+            }
+            case 549: {
+                int num = util.nextInt(100_000, 150_000);
+                p.nj.upyenMessage(num);
+                p.nj.removeItemBag(index, 1);
+                p.sendYellowMessage("Bạn nhận được " + num + " yên");
+                break;
+            }
+            case 550: {
+                int num = util.nextInt(250_000, 300_000);
+                p.nj.upyenMessage(num);
+                p.nj.removeItemBag(index, 1);
+                p.sendYellowMessage("Bạn nhận được " + num + " yên");
+                break;
+            }
+            case 551: {
+                int num = util.nextInt(500_000, 550_000);
+                p.nj.upyenMessage(num);
+                p.nj.removeItemBag(index, 1);
+                p.sendYellowMessage("Bạn nhận được " + num + " yên");
                 break;
             }
             case 565: {

@@ -1098,8 +1098,8 @@ public class Body implements ISoloer {
         }
 
         int fantal = this.Fatal();
-        if (fantal > 750) {
-            fantal = 750;
+        if (fantal > 1000) {
+            fantal = 1000;
         }
         boolean flag = (util.nextInt(1, 1500) < fantal);
 

@@ -1122,6 +1122,9 @@ public class Place {
         if (nj.get().getEffId(18) != null) {
             return;
         }
+        // remove an than for tieu 35
+        nj.p.removeEffect(16);
+
         final short xold = nj.get().x;
         final short yold = nj.get().y;
         nj.y = y;
@@ -2014,8 +2017,8 @@ public class Place {
                 Mob mob = arrMob[i];
                 if (mob != null) {
                     int fantal = (int) _char.Fatal();
-                    if (fantal > 750) {
-                        fantal = 750;
+                    if (fantal > 1000) {
+                        fantal = 1000;
                     }
                     boolean flag = (util.nextInt(1000) < fantal);
                     int dame = (int) _char.dameMax();
@@ -2463,11 +2466,10 @@ public class Place {
             }
 
         } else {
-            int randomIndex = arid.length == 0 ? 0 : util.nextInt(arid.length);
             if (server.manager.EVENT != 0 && canDropItem) {
                 val eventItems = EventItem.getEventDropItemIds();
                 final int index = util.nextInt(0, eventItems.length - 1);
-                if (util.nextInt(10) < 7 && eventItems[index] != -1) {
+                if (util.nextInt(100) < 10 && eventItems[index] != -1) {
 
                     val itemMap = this.LeaveItem(eventItems[index], p.nj.x, p.nj.y);
                     if (itemMap != null) {
@@ -2478,6 +2480,7 @@ public class Place {
                 }
             }
 
+            int randomIndex = arid.length == 0 ? 0 : util.nextInt(arid.length);
             if (randomIndex > 0 && arid[randomIndex] != -1
                     && (this.map.isLangCo() || canDropItem || (body.getLevel() > 110
                             && (curMob.level == 100 || curMob.level == 96)))) {
