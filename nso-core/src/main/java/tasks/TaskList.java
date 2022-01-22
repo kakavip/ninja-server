@@ -131,7 +131,6 @@ public class TaskList {
                                                 .build(),
                                 builder()
                                                 .taskId(7)
-
                                                 .name("NV trắc nghiệm khiến thức")
                                                 .detail("")
                                                 .subNames(new String[] {
@@ -848,7 +847,7 @@ public class TaskList {
                                                 .build(),
 
                                 builder()
-                                                .taskId(34)
+                                                .taskId(33)
                                                 .minLevel(51)
                                                 .npcTalk("Làng ta ma bao vây, chúng nó quấy phá làm làng ta không thể nào yên bình con có thể giúp ta diệt trừ chúng không ?")
                                                 .mobs(new int[][] {
@@ -876,7 +875,7 @@ public class TaskList {
                                                 .build(),
 
                                 builder()
-                                                .taskId(35)
+                                                .taskId(34)
                                                 .minLevel(53)
                                                 .npcTalk("Ta muốn chiêu đãi con đặc sản làng ta nhưng mà nguyên liệu lại hết. Ta thì chân đang đau, con có thể giúp ta hái 1 ít nấm về chế biến món ăn không ?")
                                                 .itemsPick(new int[] {
@@ -903,7 +902,7 @@ public class TaskList {
                                                 .build(),
 
                                 builder()
-                                                .taskId(36)
+                                                .taskId(35)
                                                 .minLevel(55)
                                                 .npcTalk("Ngôi làng chuẩn bị đóng một đợt hạn hán dài nguồn nước quanh làng đã sắp không trụ nổi con có thể giúp dân làng múc nước tích trữ không")
 
@@ -935,7 +934,7 @@ public class TaskList {
                                                 .build(),
 
                                 builder()
-                                                .taskId(37)
+                                                .taskId(36)
                                                 .minLevel(57)
                                                 .npcTalk("Ban đêm có những hồn ma lãng vãng quanh làng hù trẻ em và người già rất nhiều, không ít những người yếu bóng vía trở thành hồn ma do bị hù con có thể giúp ta thu thập hồn mà của họ về để ta làm lễ cho họ không")
                                                 .itemsPick(new int[] {
@@ -961,7 +960,7 @@ public class TaskList {
                                                 .build(),
 
                                 builder()
-                                                .taskId(38)
+                                                .taskId(37)
                                                 .minLevel(59)
                                                 .npcTalk("Ta có thử thách nho nhỏ dành cho con đây")
                                                 .mobs(new int[][] {
@@ -988,7 +987,7 @@ public class TaskList {
                                                 .build(),
 
                                 builder()
-                                                .taskId(39)
+                                                .taskId(38)
                                                 .minLevel(61)
                                                 .npcTalk("Sắp tới sinh nhật cô con gái bé bỏng của ta ta muốn tạo bất ngờ cho nó. Tuy nhiên ta để ý thấy ngươi hay nhìn trộm con gái của ta."
                                                                 +
@@ -1022,11 +1021,10 @@ public class TaskList {
                                                                 { 61, 0 },
                                                                 {}
                                                 })
-                                                .minLevel(61)
                                                 .build(),
 
                                 builder()
-                                                .taskId(40)
+                                                .taskId(39)
                                                 .minLevel(63)
                                                 .npcTalk("Sống gió phủ đời trai tương lai nhờ nhà vợ à câu này không đúng với nhà ta lắm. Nhà ta áp dụng câu không làm mà đòi ăn thì chỉ có ăn ... à mà thôi "
                                                                 +
@@ -1054,11 +1052,10 @@ public class TaskList {
                                                 .counts(new int[] {
                                                                 -1, 10, 1, 100, -1
                                                 })
-                                                .minLevel(63)
                                                 .build(),
 
                                 builder()
-                                                .taskId(41)
+                                                .taskId(40)
                                                 .minLevel(65)
                                                 .npcTalk("Sau khi cố gắng lao động mà không đủ ăn thì thử đen đỏ thử xem, hồi còn giàu ta cũng hay chơi mấy đồ yêu này lắm")
                                                 .name("NV Thử tài may mắn")
@@ -1089,11 +1086,10 @@ public class TaskList {
                                                                 { EXP_ID, 100_000_000 },
                                                                 { LUONG_ID, 500 },
                                                 })
-                                                .minLevel(65)
                                                 .bypass(true)
                                                 .build(),
                                 builder()
-                                                .taskId(42)
+                                                .taskId(41)
                                                 .minLevel(67)
                                                 .npcTalk("Bệnh thành tích là không tốt nhưng không có thành tích thì không ai nể thôi cố gắng lấy thành tích về đi bố vợ tưởng lai hứa sẽ gả con gái cho")
                                                 .name("NV Chiến trường")
@@ -1111,11 +1107,10 @@ public class TaskList {
                                                                 { EXP_ID, 100_000_000 },
                                                                 { LUONG_ID, 500 },
                                                 })
-                                                .minLevel(67)
                                                 .build(),
 
                                 builder()
-                                                .taskId(43)
+                                                .taskId(42)
                                                 .minLevel(69)
                                                 .npcTalk("Ta hứa là đây là nhiệm vụ cuối cùng ráng làm đi ta sẽ thưởng to")
 
@@ -1134,7 +1129,6 @@ public class TaskList {
                                                 .counts(new int[] {
                                                                 -1, 50, -1
                                                 })
-                                                .minLevel(69)
                                                 .build(),
                 };
         }
