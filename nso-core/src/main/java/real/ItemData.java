@@ -812,55 +812,55 @@ public class ItemData {
         item.setLock(true);
 
         if (id == 685) {
-            item.option.add(new Option(6, 1000));
-            item.option.add(new Option(87, 500));
+            item.option.add(new Option(6, 2500));
+            item.option.add(new Option(87, 1250));
             item.setUpgrade(1);
         } else if (id == 686) {
-            item.option.add(new Option(6, 2000));
-            item.option.add(new Option(87, 750));
+            item.option.add(new Option(6, 4500));
+            item.option.add(new Option(87, 1750));
             item.setUpgrade(2);
         } else if (id == 687) {
-            item.option.add(new Option(6, 3000));
-            item.option.add(new Option(87, 1000));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 7500));
+            item.option.add(new Option(87, 2500));
+            item.option.add(new Option(79, 50));
             item.setUpgrade(3);
         } else if (id == 688) {
-            item.option.add(new Option(6, 4000));
-            item.option.add(new Option(87, 1250));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 10000));
+            item.option.add(new Option(87, 3000));
+            item.option.add(new Option(79, 60));
             item.setUpgrade(4);
         } else if (id == 689) {
-            item.option.add(new Option(6, 5000));
-            item.option.add(new Option(87, 1500));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 12500));
+            item.option.add(new Option(87, 4000));
+            item.option.add(new Option(79, 75));
             item.setUpgrade(5);
         } else if (id == 690) {
-            item.option.add(new Option(6, 6000));
-            item.option.add(new Option(87, 1750));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 15000));
+            item.option.add(new Option(87, 4500));
+            item.option.add(new Option(79, 75));
             item.setUpgrade(6);
         } else if (id == 691) {
-            item.option.add(new Option(6, 7000));
-            item.option.add(new Option(87, 2000));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 17000));
+            item.option.add(new Option(87, 5000));
+            item.option.add(new Option(79, 75));
             item.option.add(new Option(64, 0));
             item.setUpgrade(7);
         } else if (id == 692) {
-            item.option.add(new Option(6, 8000));
-            item.option.add(new Option(87, 2250));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 20000));
+            item.option.add(new Option(87, 6000));
+            item.option.add(new Option(79, 75));
             item.option.add(new Option(64, 0));
             item.setUpgrade(8);
         } else if (id == 693) {
-            item.option.add(new Option(6, 9000));
-            item.option.add(new Option(87, 2500));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 23000));
+            item.option.add(new Option(87, 7000));
+            item.option.add(new Option(79, 75));
             item.option.add(new Option(64, 0));
             item.setUpgrade(9);
         } else if (id == 694) {
-            item.option.add(new Option(6, 10000));
-            item.option.add(new Option(87, 2725));
-            item.option.add(new Option(79, 25));
+            item.option.add(new Option(6, 25000));
+            item.option.add(new Option(87, 8000));
+            item.option.add(new Option(79, 75));
             item.option.add(new Option(64, 0));
             item.setUpgrade(10);
         }
