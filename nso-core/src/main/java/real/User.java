@@ -2805,7 +2805,7 @@ public class User extends Actor implements SendMessage {
         if (xpup < 0) {
             xpup = 0;
         }
-        xpup -= xpup * (this.nj.get().getMaxLevel() / 1000 - 0.5);
+        xpup -= xpup * (this.nj.get().getMaxLevel() * 2 / 1000 - 0.1);
 
         if (useMulti) {
             xpup *= Manager.MULTI_EXP;
@@ -2828,7 +2828,7 @@ public class User extends Actor implements SendMessage {
             this.nj.get().expdown = 0L;
             final long xpold = this.nj.get().getExp();
 
-            if (xpold >= 10711676205700L) {
+            if (xpold >= Level.getMaxExp(Manager.MAX_LEVEL + 1) - 1) {
                 xpup = 0;
             }
 
@@ -2839,7 +2839,7 @@ public class User extends Actor implements SendMessage {
                 this.nj.clone.updateExp(cXpup);
             }
 
-            if (this.nj.get().getLevel() > 130) {
+            if (this.nj.get().getLevel() > Manager.MAX_LEVEL) {
                 xpup = 0;
             }
 

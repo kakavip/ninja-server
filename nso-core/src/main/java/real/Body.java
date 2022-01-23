@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import patch.*;
 import server.util;
+import threading.Manager;
 import threading.Message;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -916,7 +917,11 @@ public class Body implements ISoloer {
         if (this.level == null) {
             this.level = new AtomicInteger(level);
         } else {
-            this.level.set(level);
+            if (level > Manager.MAX_LEVEL) {
+                this.level.set(Manager.MAX_LEVEL);
+            } else {
+                this.level.set(level);
+            }
         }
     }
 
@@ -1188,14 +1193,15 @@ public class Body implements ISoloer {
         return exp.get();
     }
 
-    public void setExp(long exp) {
-
-        if (this.exp != null && this.exp.get() <= 10711676205700L) {
-            if (this.exp.get() <= 10711676205700L) {
-                this.exp.set(exp);
-            }
+    public void setExp(long newExp) {
+        long upExp = newExp;
+        if (upExp > Level.getMaxExp(Manager.MAX_LEVEL + 1) - 1) {
+            upExp = Level.getMaxExp(Manager.MAX_LEVEL + 1) - 1;
+        }
+        if (this.exp != null) {
+            this.exp.set(upExp);
         } else {
-            this.exp = new AtomicLong(exp);
+            this.exp = new AtomicLong(upExp);
         }
     }
 
@@ -1310,16 +1316,17 @@ public class Body implements ISoloer {
     public synchronized void updateExp(long xpup) {
         final long xpold = this.getExp();
 
-        if (xpold >= 10711676205700L) {
+        if (xpold >= Level.getMaxExp(Manager.MAX_LEVEL + 1) - 1) {
             xpup = 0;
         }
 
         this.setExp(this.getExp() + xpup);
+
         final int oldLv = this.getLevel();
         this.setLevel_Exp(this.getExp());
 
-        if (this.getLevel() > 130) {
-            this.setLevel(130);
+        if (this.getLevel() > Manager.MAX_LEVEL) {
+            this.setLevel(Manager.MAX_LEVEL);
             this.setExp(xpold);
             // xpup = 0;
         }

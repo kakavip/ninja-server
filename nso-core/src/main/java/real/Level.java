@@ -1,6 +1,8 @@
 package real;
 
 import lombok.val;
+import threading.Manager;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -72,7 +74,7 @@ public class Level {
             levelToLevelObj.put(lv, Level.entrys.get(i));
         }
 
-        for (int level = 0; level <= 130; level++) {
+        for (int level = 0; level <= Manager.MAX_LEVEL + 1; level++) {
             long num = 0L;
             for (int i = 0; i < level; ++i) {
                 num += getLevel(i).exps;

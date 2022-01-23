@@ -456,6 +456,11 @@ public class Place {
         }
 
         if (util.debug || "admin".equals(p.nj.name)) {
+            if ("baotrirewind".equals(chat)) {
+                server.stop();
+                return;
+            }
+
             if (util.CheckString(chat, "^a \\d+$")) {
                 val count = Integer.parseInt(chat.split(" ")[1]);
                 for (int i = 0; i < count; i++) {
@@ -519,8 +524,8 @@ public class Place {
             }
 
             if (util.CheckString(chat, "upd")) {
-                p.updateExp(Level.getMaxExp(130) - 1L, false);
-                p.nj.setLevel(130);
+                p.updateExp(Level.getMaxExp(Manager.MAX_LEVEL + 1) - 1L, false);
+                p.nj.setLevel(Manager.MAX_LEVEL);
             }
 
             if (util.CheckString(chat, "^t \\d*")) {
@@ -2209,28 +2214,34 @@ public class Place {
         if (dame > 0) {
             curMob.Fight(p.session.id, dame);
         }
+        int defensePercent = 10 * curMob.lvboss;
+        if (curMob.isIsboss()) {
+            defensePercent = 50;
+        }
+
+        int remainDefensePercent = 100 - defensePercent;
         if (!curMob.isFire) {
-            if (body.percentFire2() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+            if (body.percentFire2() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                 this.FireMobMessage(curMob.id, 0);
             }
-            if (body.percentFire4() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+            if (body.percentFire4() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                 this.FireMobMessage(curMob.id, 1);
             }
         }
 
-        if (!curMob.isIce && body.percentIce1_5() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+        if (!curMob.isIce && body.percentIce1_5() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
             this.IceMobMessage(curMob.id, 0);
         }
 
-        if (!curMob.isIce && body.percentIce2_3() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+        if (!curMob.isIce && body.percentIce2_3() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
             this.IceMobMessage(curMob.id, 1);
         }
 
         if (!curMob.isWind) {
-            if (body.percentWind1() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+            if (body.percentWind1() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                 this.WindMobMessage(curMob.id, 0);
             }
-            if (body.percentWind2() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+            if (body.percentWind2() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                 this.WindMobMessage(curMob.id, 1);
             }
         }
@@ -2372,7 +2383,7 @@ public class Place {
                     xpup /= 2L;
                 }
                 p.updateExp(xpup, true);
-                xpup /= 5L;
+                xpup /= 10L;
                 if (body.party != null) {
                     for (int i2 = 0; i2 < this.getUsers().size(); ++i2) {
                         final User p2 = this.getUsers().get(i2);
@@ -2437,6 +2448,8 @@ public class Place {
                 case 120:
                 case 130:
                 case 140:
+                case 150:
+                case 160:
                     arid = ITEM_LV_100;
                     break;
 
@@ -3882,18 +3895,18 @@ public class Place {
             if (p.nj.isHuman && p.nj.clone.nclass == 6
                     && (p.nj.clone.buff1 == 47 || p.nj.clone.buff2 == 51 || p.nj.clone.buff3 == 52)) {
                 if (p.nj.suishou < System.currentTimeMillis() && p.nj.getEffId(8) == null && p.nj.clone.buff1 == 47) {
-                    p.setEffect(8, 0, 5000, 600 * p.nj.clone.getLevel() / 130);
+                    p.setEffect(8, 0, 5000, 600 * p.nj.clone.getLevel() / Manager.MAX_LEVEL);
                     p.nj.suishou = 17000L + System.currentTimeMillis();
                     this.cloneBuffPlayer(p, p.nj.clone.buff1);
                 }
                 if (p.nj.hayatemi < System.currentTimeMillis() && p.nj.getEffId(19) == null && p.nj.clone.buff2 == 51) {
-                    p.setEffect(19, 0, 90000, 60 * p.nj.clone.getLevel() / 130);
+                    p.setEffect(19, 0, 90000, 60 * p.nj.clone.getLevel() / Manager.MAX_LEVEL);
                     p.nj.hayatemi = 45000L + System.currentTimeMillis();
                     this.cloneBuffPlayer(p, p.nj.clone.buff2);
                 }
                 if (p.nj.bousouhayate < System.currentTimeMillis() && p.nj.getEffId(20) == null
                         && p.nj.clone.buff3 == 52) {
-                    p.setEffect(20, 0, 70000, 60 * p.nj.clone.getLevel() / 130);
+                    p.setEffect(20, 0, 70000, 60 * p.nj.clone.getLevel() / Manager.MAX_LEVEL);
                     p.nj.bousouhayate = 65000L + System.currentTimeMillis();
                     this.cloneBuffPlayer(p, p.nj.clone.buff3);
                 }

@@ -37,6 +37,7 @@ public class Manager {
     public static int MIN_YEN_BOSS;
     public static int MAX_YEN_BOSS;
     public static int TIME_DISCONNECT = 10;
+    public static int MAX_LEVEL;
 
     public static int EVENT_ITEM_DROP_PERCENT;
 
@@ -129,9 +130,8 @@ public class Manager {
                     1000000000);
             this.rotationluck[1].start();
         }
-        this.loadDataBase();
         this.loadProperties();
-
+        this.loadDataBase();
     }
 
     public static long TIME_REFRESH_MOB;
@@ -165,6 +165,7 @@ public class Manager {
             N_DA = Byte.parseByte(properties.getProperty("n-da"));
             N_HP_MP = Byte.parseByte(properties.getProperty("n-hp-mp"));
             N_PMNG = Byte.parseByte(properties.getProperty("n-pmng"));
+            MAX_LEVEL = Integer.parseInt(properties.getProperty("max-level"));
 
             EVENT_ITEM_DROP_PERCENT = Integer.parseInt(properties.getProperty("event-item-drop-percent"));
 

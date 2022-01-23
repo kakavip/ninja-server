@@ -502,6 +502,8 @@ public class ItemData {
             case 120:
             case 130:
             case 140:
+            case 150:
+            case 160:
                 hpMpLevel = 90;
                 break;
             default:
