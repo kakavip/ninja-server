@@ -2469,7 +2469,7 @@ public class Place {
             if (server.manager.EVENT != 0 && canDropItem) {
                 val eventItems = EventItem.getEventDropItemIds();
                 final int index = util.nextInt(0, eventItems.length - 1);
-                if (util.nextInt(100) < 10 && eventItems[index] != -1) {
+                if (util.nextInt(100) <= Manager.EVENT_ITEM_DROP_PERCENT && eventItems[index] != -1) {
 
                     val itemMap = this.LeaveItem(eventItems[index], p.nj.x, p.nj.y);
                     if (itemMap != null) {

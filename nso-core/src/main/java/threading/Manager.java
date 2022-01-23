@@ -38,6 +38,8 @@ public class Manager {
     public static int MAX_YEN_BOSS;
     public static int TIME_DISCONNECT = 10;
 
+    public static int EVENT_ITEM_DROP_PERCENT;
+
     public int PORT;
     public static String host;
     public static String mysql_host;
@@ -163,6 +165,8 @@ public class Manager {
             N_DA = Byte.parseByte(properties.getProperty("n-da"));
             N_HP_MP = Byte.parseByte(properties.getProperty("n-hp-mp"));
             N_PMNG = Byte.parseByte(properties.getProperty("n-pmng"));
+
+            EVENT_ITEM_DROP_PERCENT = Integer.parseInt(properties.getProperty("event-item-drop-percent"));
 
             MIN_YEN_BOSS = Integer.parseInt(properties.getProperty("min-yen-boss"));
             MAX_YEN_BOSS = Integer.parseInt(properties.getProperty("max-yen-boss"));
