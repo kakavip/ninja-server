@@ -2,7 +2,6 @@ version: "3.7"
 
 services:
   nja_server:
-    restart: always
     build: ./nso-core
     image: kakavip198kaka/nja_server:0.1
     deploy:
@@ -32,6 +31,7 @@ services:
     depends_on:
       - mysql
   nginx:
+    restart: always
     build: ./nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
@@ -89,7 +89,6 @@ services:
 
   php_myadmin:
     image: phpmyadmin/phpmyadmin
-    restart: always
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: 123789
