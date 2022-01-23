@@ -411,7 +411,7 @@ public class MenuController {
                                     p.nj.caveID = cave.caveID;
                                 }
                                 if (optionId == 5) {
-                                    if (p.nj.getLevel() < 70 || p.nj.getLevel() > 130) {
+                                    if (p.nj.getLevel() < 70) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId,
                                                 "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
@@ -440,7 +440,7 @@ public class MenuController {
                                     p.nj.caveID = cave.caveID;
                                 }
                                 if (optionId == 6) {
-                                    if (p.nj.getLevel() < 90 || p.nj.getLevel() > 130) {
+                                    if (p.nj.getLevel() < 90) {
                                         p.nj.getPlace().chatNPC(p, (short) npcId,
                                                 "Trình độ của con không thích hợp để vào cửa này.");
                                         return;
@@ -451,7 +451,7 @@ public class MenuController {
                                         synchronized (p.nj.party.ninjas) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
                                                 if (p.nj.party.ninjas.get(i).getLevel() < 90
-                                                        || p.nj.party.ninjas.get(i).getLevel() > 131) {
+                                                        || p.nj.party.ninjas.get(i).getLevel() > 151) {
                                                     p.session.sendMessageLog(
                                                             "Thành viên trong nhóm trình độ không phù hợp");
                                                     return;
@@ -654,7 +654,8 @@ public class MenuController {
                                     if (p.nj.get().getLevel() <= 80) {
                                         result = GeninTournament.gi().register(p);
 
-                                    } else if (p.nj.get().getLevel() > 80 && p.nj.get().getLevel() <= 130) {
+                                    } else if (p.nj.get().getLevel() > 80
+                                            && p.nj.get().getLevel() <= Manager.MAX_LEVEL) {
                                         result = KageTournament.gi().register(p);
                                     }
 
@@ -713,10 +714,10 @@ public class MenuController {
                         }
                         case 2: {
                             if (optionId == 0) {
-                                if (p.nj.isNhanban) {
-                                    p.session.sendMessageLog("Chức năng này không dành cho phân thân");
-                                    return;
-                                }
+                                // if (p.nj.isNhanban) {
+                                // p.session.sendMessageLog("Chức năng này không dành cho phân thân");
+                                // return;
+                                // }
 
                                 // if (p.nj.getEffId(34) == null) {
                                 // p.nj.getPlace().chatNPC(p, (short) 5, "Phải dùng thí luyện thiếp mới có thể
@@ -2289,12 +2290,17 @@ public class MenuController {
                 }
                 case 3: {
                     if (p.luong >= 10_000) {
+                        if (p.nj.maxluggage == 120) {
+                            p.sendYellowMessage("Hành trang của bạn đã đạt số lượng ô tối đa.");
+                            break;
+                        }
 
                         synchronized (p.nj) {
                             p.nj.maxluggage = 120;
                         }
 
                         p.upluongMessage(-10_000);
+                        p.session.sendMessageLog("Vui lòng thoát game để hệ thống cập nhật 120 ô hành trang.");
                     } else {
                         p.sendYellowMessage("Ta cũng cần ăn cơm đem 10.000 lượng đến đây ta thông hành trang cho");
                     }
