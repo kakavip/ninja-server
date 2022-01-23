@@ -73,7 +73,7 @@ public class TaskOrder implements Serializable, Cloneable {
 
             for (int i = level - 10; i < level + 10; i++) {
                 for (Map map : maps) {
-                    if (map.isLangCo() || map.VDMQ())
+                    if (!map.canDoNvhn())
                         continue;
 
                     if (map.getMobIdByLevel(i) != -1) {

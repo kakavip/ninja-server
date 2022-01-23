@@ -113,6 +113,11 @@ public class Map extends Thread {
         return id >= 118 && id <= 124;
     }
 
+    public boolean canDoNvhn() {
+        return !(this.isLangCo() || this.VDMQ() || this.isLdgtMap() || Map.isCaveMap(this.id) || this.isChienTruongKeo()
+                || this.isGtcMap() || this.loiDaiMap());
+    }
+
     public void initMob() {
         for (byte j = 0; j < this.area.length; ++j) {
             this.area[j].getMobs().clear();
