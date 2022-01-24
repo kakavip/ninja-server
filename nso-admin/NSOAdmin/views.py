@@ -59,10 +59,13 @@ def register(request):
             return response.fail("Tài khoản và mật khẩu không được trống.")
 
         if not (
-            username == re.findall(r"([\w|\d]+)", username)[0]
-            and password == re.findall(r"([\w|\d]+)", password)[0]
+            username == re.findall(r"([a-z0-9]+)", username)[0]
+            and password == re.findall(r"([a-z0-9]+)", password)[0]
         ):
             return response.fail("Tài khoản và mật khẩu phải là số hoặc chữ.")
+
+        if len(username) < 5 or len(password) < 5:
+            return response.fail("Tài khoản hoặc mật khẩu phải từ 5 kí tự trở lên.")
 
         player: Optional[Player] = Player.objects.filter(username=username).first()
         if not player:
