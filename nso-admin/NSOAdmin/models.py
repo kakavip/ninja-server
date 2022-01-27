@@ -75,6 +75,7 @@ class Character(models.Model):
     )
     level = models.IntegerField(blank=True, null=True, default=0)
     exp = models.BigIntegerField(blank=True, null=True, default=0)
+    expdown = models.BigIntegerField(blank=True, null=True, default=0)
     yen = models.IntegerField(blank=True, null=True, default=0)
     xu = models.IntegerField(blank=True, null=True, default=0)
     maxluggage = models.IntegerField(blank=False, null=False, default=30)
