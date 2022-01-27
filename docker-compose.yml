@@ -39,6 +39,7 @@ services:
       - 80:80
     depends_on:
       - nja_admin
+      - php_myadmin
 
   redis:
     image: redis:4.0.11
@@ -91,8 +92,8 @@ services:
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: 123789
-    ports:
-      - 2052:80
+    # ports:
+    #   - 2052:80
     depends_on:
       - mysql
 
