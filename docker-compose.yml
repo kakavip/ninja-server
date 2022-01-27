@@ -39,7 +39,7 @@ services:
       - 80:80
     depends_on:
       - nja_admin
-  
+
   redis:
     image: redis:4.0.11
     environment:
@@ -78,8 +78,7 @@ services:
   mysql:
     restart: always
     image: mysql:5.7.20
-    command: mysqld --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
     volumes:
       - local_mysql_data:/var/lib/mysql
     environment:
@@ -93,7 +92,7 @@ services:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: 123789
     ports:
-      - 18085:80
+      - 2052:80
     depends_on:
       - mysql
 
