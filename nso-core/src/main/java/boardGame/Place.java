@@ -3918,7 +3918,7 @@ public class Place {
         }
 
         updateSpecialEvent(p);
-        if (this.map.isLangCo() && (p.nj.isDie || p.nj.expdown > 0L)) {
+        if (this.map.isLangCo() && (p.nj.isDie || p.nj.expdown > 0L || p.nj.pk > 0)) {
             this.DieReturn(p);
         }
 
