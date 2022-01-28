@@ -2003,8 +2003,8 @@ public class Place {
 
                     }
                     if (dame != 0) {
-                        if (_char.getTypepk() == Constants.PK_DOSAT
-                                || player.getTypepk() == Constants.PK_DOSAT
+                        if ((_char.getTypepk() == Constants.PK_DOSAT
+                                || player.getTypepk() == Constants.PK_DOSAT) && this.map.canPkDosat()
                                 || (_char.getTypepk() == PK_PHE && player.getTypepk() == PK_PHE)
                                 || (_char.solo != null && player.solo != null)
                                 || _char.getTypepk() == PK_TRANG || _char.getTypepk() == PK_DEN

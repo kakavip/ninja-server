@@ -26,6 +26,8 @@ public class Map extends Thread {
     @NotNull
     public static final int[] arrLang;
     @NotNull
+    public static final int[] arrLangCo;
+    @NotNull
     public static final int[] arrTruong;
     @NotNull
     public MapTemplate template;
@@ -369,7 +371,29 @@ public class Map extends Thread {
 
     static {
         arrLang = new int[] { 10, 17, 22, 32, 38, 43, 48 };
+        arrLangCo = new int[] { 138 };
         arrTruong = new int[] { 1, 27, 72 };
+    }
+
+    public boolean canPkDosat() {
+        for (int i = 0; i < Map.arrLang.length; i++) {
+            if (Map.arrLang[i] == this.id) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < Map.arrLangCo.length; i++) {
+            if (Map.arrLang[i] == this.id) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < Map.arrTruong.length; i++) {
+            if (Map.arrLang[i] == this.id) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int getMobLevel3(int level) {
