@@ -54,7 +54,12 @@ public class useItem {
 
         if (item.id != 194) {
             if ((p.nj.get().nclass == 0 && item.id == 547)
-                    || item.id != 400 && (data.nclass > 0 && data.nclass != p.nj.get().nclass)) {
+                    || item.id != 400 && (data.nclass > 0
+                            && (data.nclass != p.nj.get().nclass && p.nj.get().nclass != 0
+                                    || p.nj.get().nclass == 0 && data.nclass != 1))) { // No
+                // class
+                // use
+                // kiem
                 p.sendYellowMessage("Môn phái không phù hợp");
                 return;
             }
