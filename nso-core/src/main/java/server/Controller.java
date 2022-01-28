@@ -488,16 +488,16 @@ public class Controller implements ISessionHandler {
                     val price = message.reader().readInt();
                     val item = p.nj.ItemBag[indexUI];
 
-                    int FEE = 50_000;
-                    // int FEE_GOLD = 150;
-                    if (item != null && p.nj.xu >= FEE) {
+                    // int FEE = 50_000;
+                    int FEE_GOLD = 50;
+                    if (item != null && p.luong >= FEE_GOLD) {
                         if (item.isExpires)
                             return;
                         ItemShinwa itemShinwa = new ItemShinwa(item, p.nj.name, price);
                         ItemShinwaManager.add(itemShinwa);
                         p.nj.removeItemBag(indexUI);
-                        p.nj.upxuMessage(-FEE);
-                        // p.upluongMessage(-FEE_GOLD);
+                        // p.nj.upxuMessage(-FEE);
+                        p.upluongMessage(-FEE_GOLD);
                         p.endLoad(true);
                         Service.CharViewInfo(p, false);
                         p.endLoad(true);
@@ -505,7 +505,7 @@ public class Controller implements ISessionHandler {
                     } else {
                         p.endLoad(true);
                         p.sendYellowMessage(
-                                "Không đủ " + String.format("%,d", FEE) + " xu.");
+                                "Không đủ " + String.format("%,d", FEE_GOLD) + " lượng.");
 
                     }
                     break;
