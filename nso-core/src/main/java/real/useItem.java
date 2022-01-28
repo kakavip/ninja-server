@@ -18,6 +18,7 @@ import patch.EventItem;
 import server.GameScr;
 import server.util;
 import threading.Server;
+import threading.Manager;
 import threading.Map;
 
 import static threading.Manager.*;
@@ -502,6 +503,11 @@ public class useItem {
                     p.sendYellowMessage("Bạn đã mở túi vải này rồi");
                     return;
                 }
+                if (p.nj.maxluggage >= Manager.MAX_LUGGAGE) {
+                    p.sendYellowMessage("Bạn đã mở tối đa ô hàng trang.");
+                    return;
+                }
+
                 p.nj.levelBag = level;
                 final Ninja c = p.nj;
                 c.maxluggage += useItem.arrOpenBag[level];

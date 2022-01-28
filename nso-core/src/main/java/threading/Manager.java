@@ -38,6 +38,7 @@ public class Manager {
     public static int MAX_YEN_BOSS;
     public static int TIME_DISCONNECT = 10;
     public static int MAX_LEVEL;
+    public static int MAX_LUGGAGE;
 
     public static int EVENT_ITEM_DROP_PERCENT;
 
@@ -166,6 +167,7 @@ public class Manager {
             N_HP_MP = Byte.parseByte(properties.getProperty("n-hp-mp"));
             N_PMNG = Byte.parseByte(properties.getProperty("n-pmng"));
             MAX_LEVEL = Integer.parseInt(properties.getProperty("max-level"));
+            MAX_LUGGAGE = Integer.parseInt(properties.getProperty("max-luggage"));
 
             EVENT_ITEM_DROP_PERCENT = Integer.parseInt(properties.getProperty("event-item-drop-percent"));
 

@@ -2290,13 +2290,13 @@ public class MenuController {
                 }
                 case 3: {
                     if (p.luong >= 10_000) {
-                        if (p.nj.maxluggage == 120) {
+                        if (p.nj.maxluggage >= Manager.MAX_LUGGAGE) {
                             p.sendYellowMessage("Hành trang của bạn đã đạt số lượng ô tối đa.");
                             break;
                         }
 
                         synchronized (p.nj) {
-                            p.nj.maxluggage = 120;
+                            p.nj.maxluggage = Manager.MAX_LUGGAGE;
                         }
 
                         p.upluongMessage(-10_000);

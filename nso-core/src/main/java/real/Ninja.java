@@ -20,6 +20,7 @@ import server.SQLManager;
 import server.Service;
 import server.util;
 import tasks.TaskTemplate;
+import threading.Manager;
 import threading.Message;
 import threading.Server;
 
@@ -608,14 +609,14 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.xuBox = red.getInt("xuBox");
                     nj.yen = red.getInt("yen");
                     nj.maxluggage = red.getInt("maxluggage");
-                    if (nj.maxluggage > 120) {
-                        nj.maxluggage = 120;
+                    if (nj.maxluggage > Manager.MAX_LUGGAGE) {
+                        nj.maxluggage = Manager.MAX_LUGGAGE;
                     }
                     nj.levelBag = red.getByte("levelBag");
                     nj.ItemBag = new Item[nj.maxluggage];
                     jar = (JSONArray) JSONValue.parse(red.getString("ItemBag"));
                     if (jar != null) {
-                        for (byte j = 0; j < jar.size(); ++j) {
+                        for (byte j = 0; j < jar.size() && j < nj.maxluggage; ++j) {
                             final JSONObject job2 = (JSONObject) jar.get((int) j);
                             final byte index = Byte.parseByte(job2.get((Object) "index").toString());
                             nj.ItemBag[index] = ItemData.parseItem(jar.get((int) j).toString());
