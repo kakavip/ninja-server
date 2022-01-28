@@ -1091,7 +1091,7 @@ public class TaskList {
                                 builder()
                                                 .taskId(41)
                                                 .minLevel(67)
-                                                .npcTalk("Bệnh thành tích là không tốt nhưng không có thành tích thì không ai nể thôi cố gắng lấy thành tích về đi bố vợ tưởng lai hứa sẽ gả con gái cho")
+                                                .npcTalk("Ta hứa là đây là nhiệm vụ cuối cùng ráng làm đi ta sẽ thưởng to")
                                                 .name("NV Chiến trường")
                                                 .detail("")
                                                 .subNames(new String[] {
@@ -1104,6 +1104,7 @@ public class TaskList {
                                                                 -1, 2000, 2000, -1,
                                                 })
                                                 .rewards(new int[][] {
+                                                                { 228, 1 },
                                                                 { EXP_ID, 100_000_000 },
                                                                 { LUONG_ID, 500 },
                                                 })
@@ -1129,6 +1130,7 @@ public class TaskList {
                                                 .counts(new int[] {
                                                                 -1, 50, -1
                                                 })
+                                                .bypass(true)
                                                 .build(),
                 };
         }
