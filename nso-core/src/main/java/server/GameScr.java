@@ -633,6 +633,7 @@ public class GameScr {
             p.session.sendMessageLog("Hành trang không đủ chỗ trống");
             return;
         }
+        boolean canUnlockItem = isCoin;
         int crys = 0;
         final byte[] arrItem = new byte[m.reader().available()];
         for (byte i = 0; i < arrItem.length; ++i) {
@@ -640,6 +641,10 @@ public class GameScr {
             final byte index = m.reader().readByte();
             final Item item = p.nj.getIndexBag(index);
             if (item != null) {
+                if (item.isLock()) {
+                    canUnlockItem = false;
+                }
+
                 final ItemData data = ItemData.ItemDataId(item.id);
                 if (data.type != 26 || item.id >= 12) {
                     p.session.sendMessageLog("Chỉ có thể dùng đá dưới 12 để nâng cấp");
@@ -691,7 +696,9 @@ public class GameScr {
             } else {
                 item2.id = (short) (id - 1);
             }
-            item2.setLock(true);
+            if (!canUnlockItem) {
+                item2.setLock(true);
+            }
             final int index2 = p.nj.getIndexBagNotItem();
             p.nj.ItemBag[index2] = item2;
             for (byte k = 0; k < arrItem.length; ++k) {

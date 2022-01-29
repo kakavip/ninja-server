@@ -2507,6 +2507,9 @@ public class Place {
                         // if (im.item.id == 12) {
                         // quantity = util.nextInt(curMob.level * 140, curMob.level * 150);
                         // }
+                        if (curMob.lvboss == 0 && !curMob.isIsboss()) {
+                            im.item.setLock(true);
+                        }
                         if (im.item.id == 455 || im.item.id == 456) {
                             im.item.isExpires = true;
                             im.item.expires = util.TimeDay(7);
