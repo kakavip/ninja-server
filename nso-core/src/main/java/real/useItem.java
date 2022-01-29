@@ -240,7 +240,9 @@ public class useItem {
         final byte numbagnull = p.nj.getAvailableBag();
         switch (item.id) {
             case 12: {
-                p.nj.upyenMessage(util.nextInt((int) YEN_TA * 30 / 100, (int) YEN_TA));
+                p.nj.upyenMessage(
+                        Math.min(p.nj.get().getLevel(), MAX_LEVEL_RECEIVE_YEN_COEF) * Manager.YEN_NORMAL_COEF
+                                * util.nextInt(90, 100) / 100);
                 p.nj.removeItemBag(index, 1);
                 break;
             }
@@ -388,7 +390,9 @@ public class useItem {
                 int luck = util.nextInt(100);
                 if (luck <= 30) {
                     // up yen
-                    p.nj.upyenMessage(util.nextInt(p.nj.getMaxLevel() * 140, p.nj.getMaxLevel() * 150));
+                    p.nj.upyenMessage(
+                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, p.nj.getMaxLevel()) * Manager.YEN_NORMAL_COEF
+                                    * util.nextInt(90, 100) / 100);
                 } else if (luck <= 50) {
                     // up luong
                     int nluong = util.nextInt(p.nj.getMaxLevel() / 10, p.nj.getMaxLevel() / 5);

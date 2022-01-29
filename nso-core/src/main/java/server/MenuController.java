@@ -38,10 +38,6 @@ import static real.User.TypeTBLOption.*;
 public class MenuController {
 
     public static final String MSG_HANH_TRANG = "Hành trang không đủ chỗ trống";
-
-    public static final int MIN_YEN_NVHN = 300;
-    public static final int MAX_YEN_NVHN = 400;
-
     public static final int MIN_EVENT_MENU_ID = 1000;
 
     Server server;
@@ -1227,11 +1223,16 @@ public class MenuController {
                                         } else if (luck <= 45) {
                                             long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                            p.updateExp((long) currentLvExps * util.nextInt(3, 7) / 100, true);
+                                            p.updateExp((long) currentLvExps * util.nextInt(1, 3) / 100, true);
                                             ;
                                         } else {
-                                            p.nj.upyenMessage(util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
-                                                    MAX_YEN_NVHN * p.nj.getLevel()));
+
+                                            p.nj.upyenMessage(
+                                                    Math.min(p.nj.getLevel(), Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
+                                                            * Manager.YEN_NVHN_COEF *
+                                                            util.nextInt(90,
+                                                                    100)
+                                                            / 100);
                                         }
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 1)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 3)) {
@@ -1315,8 +1316,12 @@ public class MenuController {
 
                                                 p.updateExp((long) currentLvExps * util.nextInt(3, 7) / 100, true);
                                             } else {
-                                                p.nj.upyenMessage(util.nextInt(p.nj.getLevel() * MIN_YEN_NVHN,
-                                                        MAX_YEN_NVHN * p.nj.getLevel()));
+                                                p.nj.upyenMessage(
+                                                        Math.min(p.nj.getLevel(), Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
+                                                                * Manager.YEN_NVHN_COEF *
+                                                                util.nextInt(90,
+                                                                        100)
+                                                                / 100);
                                             }
 
                                             p.nj.upMainTask();

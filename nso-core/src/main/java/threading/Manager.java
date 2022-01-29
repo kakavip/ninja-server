@@ -41,6 +41,13 @@ public class Manager {
     public static int MAX_LUGGAGE;
     public static int MAX_ITEM_QUANTITY;
 
+    public static int YEN_NORMAL_COEF;
+    public static int YEN_NVHN_COEF;
+    public static int YEN_TA_COEF;
+    public static int YEN_TL_COEF;
+    public static int YEN_TT_COEF;
+    public static int MAX_LEVEL_RECEIVE_YEN_COEF;
+
     public static int EVENT_ITEM_DROP_PERCENT;
 
     public int PORT;
@@ -156,8 +163,14 @@ public class Manager {
             properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             MAX_PERCENT = Byte.parseByte(properties.getProperty("drop-item-percent"));
             PERCENT_TA_TL = Byte.parseByte(properties.getProperty("percent-ta-tl"));
-            YEN_TA = Long.parseLong(properties.getProperty("yen-ta"));
-            YEN_TL = Long.parseLong(properties.getProperty("yen-tl"));
+
+            YEN_NORMAL_COEF = Integer.parseInt(properties.getProperty("yen-normal-coef"));
+            YEN_NVHN_COEF = Integer.parseInt(properties.getProperty("yen-nvhn-coef"));
+            YEN_TA_COEF = Integer.parseInt(properties.getProperty("yen-ta-coef"));
+            YEN_TL_COEF = Integer.parseInt(properties.getProperty("yen-tl-coef"));
+            YEN_TT_COEF = Integer.parseInt(properties.getProperty("yen-tt-coef"));
+            MAX_LEVEL_RECEIVE_YEN_COEF = Integer.parseInt(properties.getProperty("max-level-receive-yen-coef"));
+
             TIME_REFRESH_MOB = 1000 * Long.parseLong(properties.getProperty("time-refresh-mob"));
             MIN_DA_LV = Byte.parseByte(properties.getProperty("min-da-lv"));
             MAX_DA_LV = Byte.parseByte(properties.getProperty("max-da-lv"));

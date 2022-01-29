@@ -2304,7 +2304,8 @@ public class Place {
                     --this.numTA;
 
                     if (canDropItem) {
-                        val yen = util.nextInt((int) (curMob.level * YEN_TA * 90 / 100), (int) (curMob.level * YEN_TA));
+                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * YEN_TA_COEF
+                                * util.nextInt(90, 100) / 100;
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
 
@@ -2317,7 +2318,8 @@ public class Place {
                     --this.numTL;
 
                     if (canDropItem) {
-                        val yen = util.nextInt((int) (curMob.level * YEN_TL * 90 / 100), (int) (curMob.level * YEN_TL));
+                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * YEN_TL_COEF
+                                * util.nextInt(90, 100) / 100;
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
 
@@ -2499,14 +2501,13 @@ public class Place {
                             && (curMob.level == 100 || curMob.level == 96)))) {
 
                 if (arid[randomIndex] == 12) {
-                    p.nj.upyenMessage(util.nextInt(curMob.level * 140, curMob.level * 150));
+                    p.nj.upyenMessage(
+                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, curMob.level) * Manager.YEN_NORMAL_COEF
+                                    * util.nextInt(90, 100) / 100);
                 } else {
                     final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
                     if (im != null) {
                         int quantity = 1;
-                        // if (im.item.id == 12) {
-                        // quantity = util.nextInt(curMob.level * 140, curMob.level * 150);
-                        // }
                         if (curMob.lvboss == 0 && !curMob.isIsboss()) {
                             im.item.setLock(true);
                         }
@@ -2545,7 +2546,7 @@ public class Place {
                 ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
                 if (im != null) {
                     if (im.item.id == 12) {
-                        im.item.quantity = util.nextInt(Manager.MIN_YEN_BOSS, Manager.MAX_YEN_BOSS);
+                        im.item.quantity = curMob.level * Manager.YEN_TT_COEF * util.nextInt(90, 100) / 100;
                     }
                     // NOTE anyone can pick up
                     // im.master = master;
