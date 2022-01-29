@@ -78,17 +78,15 @@ public class useItem {
 
             // change yoroi
             if (item.id == 420 || item.id == 421 || item.id == 422) {
-                Item newItem = item;
+                Item newItem = item.clone();
 
                 if (p.nj.get().nclass == 1 || p.nj.get().nclass == 2) {
-                    newItem = ItemData.itemDefault(420, true);
+                    newItem.id = 420;
                 } else if (p.nj.get().nclass == 3 || p.nj.get().nclass == 4) {
-                    newItem = ItemData.itemDefault(421, true);
+                    newItem.id = 421;
                 } else if (p.nj.get().nclass == 5 || p.nj.get().nclass == 6) {
-                    newItem = ItemData.itemDefault(422, true);
+                    newItem.id = 422;
                 }
-
-                System.out.println("New item: " + newItem);
 
                 p.nj.get().ItemBody[data.type] = newItem;
             } else {
