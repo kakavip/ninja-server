@@ -10,6 +10,7 @@ import server.util;
 
 import java.io.IOException;
 
+import threading.Manager;
 import threading.Message;
 
 import java.util.ArrayList;
@@ -307,7 +308,12 @@ public class ItemData {
             return;
         }
         final Item item = p.nj.getIndexBag(index);
-        if (quantity > 0 && item != null && item.quantity > 1 && quantity <= item.quantity) {
+        if (item.quantity <= 0 || item.quantity >= Manager.MAX_ITEM_QUANTITY) {
+            p.session.sendMessageLog("Số lượng quá lớn không thể tách.");
+            return;
+        }
+
+        if (quantity > 0 && item != null && item.quantity > 1 && quantity < item.quantity) {
             final Item itemup = new Item();
             itemup.id = item.id;
             itemup.setLock(item.isLock());

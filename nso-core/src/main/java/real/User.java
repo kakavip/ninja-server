@@ -1587,7 +1587,7 @@ public class User extends Actor implements SendMessage {
         final byte index = m.reader().readByte();
         m.cleanup();
         final Item item = this.nj.getIndexBag(index);
-        if (item == null) {
+        if (item == null || item.quantity <= 0) {
             return;
         }
         useItem.uesItem(this, item, index);

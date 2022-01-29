@@ -379,6 +379,12 @@ public class useItem {
                 break;
             }
             case 38:
+                // Item item = p.nj.getItemIdBag(index);
+                if (item.quantity >= Manager.MAX_ITEM_QUANTITY || item.quantity <= 0) {
+                    p.session.sendMessageLog("Số lượng quá lớn không thể sử dụng.");
+                    return;
+                }
+
                 int luck = util.nextInt(100);
                 if (luck <= 30) {
                     // up yen
@@ -1301,6 +1307,11 @@ public class useItem {
 
                     if (numbagnull == 0) {
                         p.session.sendMessageLog("Hành trang không đủ chỗ trống");
+                        return;
+                    }
+
+                    if (item.quantity >= Manager.MAX_ITEM_QUANTITY || item.quantity <= 0) {
+                        p.session.sendMessageLog("Số lượng quá lớn không thể sử dụng.");
                         return;
                     }
 

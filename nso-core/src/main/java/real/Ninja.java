@@ -456,15 +456,16 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         try {
             final Item item2 = item;
             item2.quantity -= quantity;
+            if (item.quantity <= 0) {
+                this.ItemBag[index] = null;
+            }
+
             final Message m = new Message(18);
             m.writer().writeByte(index);
             m.writer().writeShort(quantity);
             m.writer().flush();
             this.p.sendMessage(m);
             m.cleanup();
-            if (item.quantity <= 0) {
-                this.ItemBag[index] = null;
-            }
         } catch (IOException ex) {
         }
     }
@@ -619,7 +620,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                         for (byte j = 0; j < jar.size() && j < nj.maxluggage; ++j) {
                             final JSONObject job2 = (JSONObject) jar.get((int) j);
                             final byte index = Byte.parseByte(job2.get((Object) "index").toString());
-                            nj.ItemBag[index] = ItemData.parseItem(jar.get((int) j).toString());
+                            Item item = ItemData.parseItem(jar.get((int) j).toString());
+                            if (item == null || item.quantity <= 0) {
+                                item = null;
+                            }
+                            nj.ItemBag[index] = item;
                         }
                     }
                     nj.ItemBox = new Item[30];
@@ -628,7 +633,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                         for (byte j = 0; j < jar.size(); ++j) {
                             final JSONObject job2 = (JSONObject) jar.get((int) j);
                             final byte index = Byte.parseByte(job2.get((Object) "index").toString());
-                            nj.ItemBox[index] = ItemData.parseItem(jar.get((int) j).toString());
+                            Item item = ItemData.parseItem(jar.get((int) j).toString());
+                            if (item == null || item.quantity <= 0) {
+                                item = null;
+                            }
+                            nj.ItemBox[index] = item;
                         }
                     }
                     nj.ItemBody = new Item[16];
@@ -637,7 +646,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                         for (byte j = 0; j < jar.size(); ++j) {
                             final JSONObject job2 = (JSONObject) jar.get((int) j);
                             final byte index = Byte.parseByte(job2.get((Object) "index").toString());
-                            nj.ItemBody[index] = ItemData.parseItem(jar.get((int) j).toString());
+                            Item item = ItemData.parseItem(jar.get((int) j).toString());
+                            if (item == null || item.quantity <= 0) {
+                                item = null;
+                            }
+                            nj.ItemBody[index] = item;
                         }
                     }
                     nj.ItemMounts = new Item[5];
@@ -780,7 +793,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.clear();
             for (int j = 0; j < this.ItemBag.length; ++j) {
                 final Item item = this.ItemBag[j];
-                if (item != null) {
+                if (item != null && item.quantity > 0) {
                     jarr.add(ItemData.ObjectItem(item, j));
                 }
             }
@@ -788,7 +801,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.clear();
             for (byte j = 0; j < this.ItemBox.length; ++j) {
                 final Item item = this.ItemBox[j];
-                if (item != null) {
+                if (item != null && item.quantity > 0) {
                     jarr.add(ItemData.ObjectItem(item, j));
                 }
             }
@@ -796,7 +809,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.clear();
             for (byte j = 0; j < this.ItemBody.length; ++j) {
                 final Item item = this.ItemBody[j];
-                if (item != null) {
+                if (item != null && item.quantity > 0) {
                     jarr.add(ItemData.ObjectItem(item, j));
                 }
             }
@@ -804,7 +817,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.clear();
             for (byte j = 0; j < this.ItemMounts.length; ++j) {
                 final Item item = this.ItemMounts[j];
-                if (item != null) {
+                if (item != null && item.quantity > 0) {
                     jarr.add(ItemData.ObjectItem(item, j));
                 }
             }
