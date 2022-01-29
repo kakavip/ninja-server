@@ -586,10 +586,10 @@ public class ItemData {
 
         for (int i = 0; i < nDa; i++) {
             int minDa = MIN_DA_LV - 1;
-            int maxDa = minDa;
+            int maxDa = Math.min((short) maxLv / 10, MAX_DA_LV);
 
-            if (Math.min((short) maxLv / 10, MAX_DA_LV) >= maxDa) {
-                maxDa = Math.min((short) maxLv / 10, MAX_DA_LV) - 1;
+            if (maxDa < minDa) {
+                maxDa = minDa + 1;
             }
 
             items[a] = (short) util.nextInt(minDa, maxDa);
