@@ -2805,7 +2805,7 @@ public class User extends Actor implements SendMessage {
         if (xpup < 0) {
             xpup = 0;
         }
-        xpup -= xpup * (this.nj.get().getMaxLevel() * 2 / 1000 - 0.1);
+        xpup -= xpup * (this.nj.get().getMaxLevel() * 5 / 1000 - 0.25);
 
         if (useMulti) {
             xpup *= Manager.MULTI_EXP;

@@ -396,7 +396,7 @@ public class useItem {
                 } else {
                     // up kinh nghiem
                     long maxLvExp = Level.getLevel(p.nj.get().getLevel() - 1).exps;
-                    long nExp = maxLvExp * util.nextInt(3, 5) / 10000;
+                    long nExp = maxLvExp * util.nextInt(1, 3) / 10000;
                     p.updateExp(nExp, true);
                     p.sendYellowMessage("Bạn nhận được " + nExp + " kịnh nghiệm.");
                 }
