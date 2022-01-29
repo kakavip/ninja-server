@@ -1446,7 +1446,7 @@ public class Place {
                                 && (this.numTA < 3 && this.numTL < 1) && candyBattle == null) {
 
                             int luck = util.nextInt(100);
-                            if (luck <= 25) {
+                            if (luck <= 10) {
                                 mob.lvboss = 2;
                             } else {
                                 mob.lvboss = 1;
