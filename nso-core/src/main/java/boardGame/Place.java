@@ -2458,11 +2458,6 @@ public class Place {
             }
         }
 
-        if (this.map.VDMQ() && body.getLevel() >= 100 && util.nextInt(100) <= 15
-                && (curMob.lvboss == 1 || curMob.lvboss == 2)) {
-            arid = new short[] { 545 };
-        }
-
         if (curMob.isIsboss()) {
             updateBossItemDrop(curMob);
         }
@@ -2498,7 +2493,7 @@ public class Place {
             int randomIndex = arid.length == 0 ? 0 : util.nextInt(arid.length);
             if (randomIndex > 0 && arid[randomIndex] != -1
                     && (this.map.isLangCo() || canDropItem || (body.getLevel() > 110
-                            && (curMob.level == 100 || curMob.level == 96)))) {
+                            && curMob.level >= 100))) {
 
                 if (arid[randomIndex] == 12) {
                     p.nj.upyenMessage(
@@ -2508,7 +2503,7 @@ public class Place {
                     final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
                     if (im != null) {
                         int quantity = 1;
-                        if (curMob.lvboss == 0 && !curMob.isIsboss()) {
+                        if (curMob.lvboss == 0 && !curMob.isIsboss() && !this.map.isLangCo() && curMob.level <= 140) {
                             im.item.setLock(true);
                         }
                         if (im.item.id == 455 || im.item.id == 456) {
@@ -2530,13 +2525,6 @@ public class Place {
             if (this.map.cave == null) {
                 Manager.chatKTG(body.c.name + " đã tiêu diệt " + curMob.templates.name);
             }
-            if (this.map.VDMQ()) {
-                final ItemMap im = this.LeaveItem((short) 547, p.nj.x, p.nj.y);
-                if (im != null) {
-                    im.master = master;
-                }
-            }
-
             // up luong
             long luong = curMob.level * util.nextInt(120, 250) / 100;
             p.upluongMessage(luong);
@@ -2704,8 +2692,8 @@ public class Place {
         short otherPk = other.get().getTypepk();
         return (body.ItemBody[1] != null && other.get() != null
                 && ((myPk == 1 & otherPk == 1)
-                        || myPk == 3
-                        || otherPk == 3
+                        || ((myPk == 3
+                                || otherPk == 3) && other.getPlace().map.canPkDosat())
                         || (myPk == PK_TRANG && otherPk == PK_DEN)
                         || (myPk == PK_DEN && otherPk == PK_TRANG))
                 || (p.nj.solo != null
@@ -2788,7 +2776,7 @@ public class Place {
                             if (Math.abs(other.get().y - nj2.y) > temp.dy) {
                                 continue;
                             }
-                            if (nj2.getTypepk() == 3 || body.getTypepk() == 3
+                            if (((nj2.getTypepk() == 3 || body.getTypepk() == 3) && nj2.getPlace().map.canPkDosat())
                                     || (body.getTypepk() == 1 && nj2.getTypepk() == 1 || nj2.getTypepk() == PK_TRANG
                                             || nj2.getTypepk() == PK_DEN)) {
                                 arNinja[n] = nj2;

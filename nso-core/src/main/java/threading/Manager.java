@@ -186,8 +186,6 @@ public class Manager {
 
             EVENT_ITEM_DROP_PERCENT = Integer.parseInt(properties.getProperty("event-item-drop-percent"));
 
-            MIN_YEN_BOSS = Integer.parseInt(properties.getProperty("min-yen-boss"));
-            MAX_YEN_BOSS = Integer.parseInt(properties.getProperty("max-yen-boss"));
             BOSS_WAIT_TIME_UNIT = Integer.parseInt(properties.getProperty("boss-wait-time-unit"));
 
             BOSS_ITEM_LV45 = concatArray(parseShortArray(properties.getProperty("boss-item-lv45")),
