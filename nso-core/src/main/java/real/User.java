@@ -2662,7 +2662,7 @@ public class User extends Actor implements SendMessage {
                                 return;
                             }
 
-                            if (nj.getAvailableBag() == 0) {
+                            if (nj.getAvailableBag() <= 5) {
                                 session.sendMessageLog("Hành trang không đủ chỗ trống");
                                 return;
                             }
@@ -2681,46 +2681,34 @@ public class User extends Actor implements SendMessage {
                                 upluongMessage(luong);
                             }
                             if (itemId != -1) {
-                                Item it = new Item();
-                                for (byte i = 0; i < itemQuantity; i++) {
-                                    it = ItemData.itemDefault(itemId);
-                                    nj.addItemBag(true, it);
-                                }
+                                Item it = ItemData.itemDefault(itemId);
+                                it.quantity = itemQuantity;
+                                nj.addItemBag(true, it);
                             }
                             if (itemId1 != -1) {
-                                Item it1 = new Item();
-                                for (byte i = 0; i < itemQuantity1; i++) {
-                                    it1 = ItemData.itemDefault(itemId1);
-                                    nj.addItemBag(true, it1);
-                                }
+                                Item it1 = ItemData.itemDefault(itemId1);
+                                it1.quantity = itemQuantity1;
+                                nj.addItemBag(true, it1);
                             }
                             if (itemId2 != -1) {
-                                Item it2 = new Item();
-                                for (byte i = 0; i < itemQuantity2; i++) {
-                                    it2 = ItemData.itemDefault(itemId2);
-                                    nj.addItemBag(true, it2);
-                                }
+                                Item it2 = ItemData.itemDefault(itemId2);
+                                it2.quantity = itemQuantity2;
+                                nj.addItemBag(true, it2);
                             }
                             if (itemId3 != -1) {
-                                Item it3 = new Item();
-                                for (byte i = 0; i < itemQuantity3; i++) {
-                                    it3 = ItemData.itemDefault(itemId3);
-                                    nj.addItemBag(true, it3);
-                                }
+                                Item it3 = ItemData.itemDefault(itemId3);
+                                it3.quantity = itemQuantity3;
+                                nj.addItemBag(true, it3);
                             }
                             if (itemId4 != -1) {
-                                Item it4 = new Item();
-                                for (byte i = 0; i < itemQuantity4; i++) {
-                                    it4 = ItemData.itemDefault(itemId4);
-                                    nj.addItemBag(true, it4);
-                                }
+                                Item it4 = ItemData.itemDefault(itemId4);
+                                it4.quantity = itemQuantity4;
+                                nj.addItemBag(true, it4);
                             }
                             if (itemId5 != -1) {
-                                Item it5 = new Item();
-                                for (byte i = 0; i < itemQuantity5; i++) {
-                                    it5 = ItemData.itemDefault(itemId5);
-                                    nj.addItemBag(true, it5);
-                                }
+                                Item it5 = ItemData.itemDefault(itemId5);
+                                it5.quantity = itemQuantity5;
+                                nj.addItemBag(true, it5);
                             }
                             if (messTB.length() > 0) {
                                 server.manager.sendTB(this, "Quà tặng", "Phần quà của bạn là:\n" + messTB);
