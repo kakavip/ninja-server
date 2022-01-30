@@ -43,6 +43,7 @@ public class Server {
     public static long TIME_SLEEP_SHINWA_THREAD;
     private static Server instance;
     private static Runnable updateBattle;
+    private static Runnable autoSaveUserData;
     public IBattle globalBattle;
     private ServerSocket listenSocket;
     public volatile static boolean start;
@@ -183,6 +184,20 @@ public class Server {
             }
         };
 
+        autoSaveUserData = () -> {
+            final Calendar rightNow = Calendar.getInstance();
+            final short min = (short) rightNow.get(12);
+
+            for (Session conn : PlayerManager.getInstance().conns) {
+                if (conn != null && conn.user != null && conn.user.nj != null) {
+                    conn.user.flush();
+                    conn.user.nj.flush();
+                }
+            }
+            System.out.println("Auto save user data: " + PlayerManager.getInstance().conns_size() + " account.");
+
+        };
+
         clanTerritoryManager.start();
 
         initSentry();
@@ -213,6 +228,7 @@ public class Server {
             BXHManager.init();
             instance.daemonThread.addRunner(Server.updateRefreshBoss);
             instance.daemonThread.addRunner(Server.updateBattle);
+            instance.daemonThread.addRunner(Server.autoSaveUserData);
         }
         return Server.instance;
     }
