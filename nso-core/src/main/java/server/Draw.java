@@ -44,6 +44,10 @@ public class Draw {
             case 24_0_0: {
                 try {
                     long luong = Integer.parseInt(str);
+                    if (luong <= 0) {
+                        p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
+                        break;
+                    }
                     if (p.luong < luong) {
                         p.session.sendMessageLog("Số lượng trong hành trang của bạn phải lớn hơn " + luong + " lượng.");
                         break;
@@ -63,6 +67,10 @@ public class Draw {
             case 24_0_1: {
                 try {
                     long luong = Integer.parseInt(str);
+                    if (luong <= 0) {
+                        p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
+                        break;
+                    }
                     if (p.luong < luong) {
                         p.session.sendMessageLog("Số lượng trong hành trang của bạn phải lớn hơn " + luong + " lượng.");
                         break;
@@ -83,6 +91,10 @@ public class Draw {
 
                 try {
                     long yen = Integer.parseInt(str);
+                    if (yen <= 0) {
+                        p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
+                        break;
+                    }
                     if (p.nj.yen < yen) {
                         p.session.sendMessageLog("Số yên trong hành trang của bạn phải lớn hơn " + yen + " yên.");
                         break;
