@@ -20,14 +20,14 @@ public class RmiRemoteImpl extends UnicastRemoteObject implements RmiRemote, Ser
 
     @Override
     public void addXuMessage(String ninjaName, int xu) throws RemoteException {
-        PlayerManager.getInstance().getPlayer(ninjaName).lockAcc();
+        // PlayerManager.getInstance().getPlayer(ninjaName).lockAcc();
         // ninja.upxuMessage(xu);
         // ninja.flush();
     }
 
     @Override
     public void addLuongMessage(String playerName, int luong) throws RemoteException {
-        PlayerManager.getInstance().getPlayer(playerName).lockAcc();
+        // PlayerManager.getInstance().getPlayer(playerName).lockAcc();
         // player.upluongMessage(luong);
         // player.flush();
     }
@@ -54,14 +54,14 @@ public class RmiRemoteImpl extends UnicastRemoteObject implements RmiRemote, Ser
         // } else {
         // item.quantity = quantity;
         // }
-        PlayerManager.getInstance().getNinja(ninjaName).p.lockAcc();
+        // PlayerManager.getInstance().getNinja(ninjaName).p.lockAcc();
 
     }
 
     @SneakyThrows
     @Override
     public void chuyenSinh(String ninjaName) throws RemoteException {
-        PlayerManager.getInstance().getPlayer(ninjaName).lockAcc();
+        // PlayerManager.getInstance().getPlayer(ninjaName).lockAcc();
         // p.updateExp(Level.getMaxExp(71) - 1L, false);
         // p.nj.setLevel(70);
         // p.upluongMessage(5_000_000L);
@@ -74,7 +74,7 @@ public class RmiRemoteImpl extends UnicastRemoteObject implements RmiRemote, Ser
     @SneakyThrows
     @Override
     public void chuyenPhai(@NotNull String ninjaName, @NotNull String phaiName) throws RemoteException {
-        PlayerManager.getInstance().getPlayer(ninjaName).lockAcc();
+        // PlayerManager.getInstance().getPlayer(ninjaName).lockAcc();
         // val n = n1.get();
 
         // final User user = n1.p;
