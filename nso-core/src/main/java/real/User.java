@@ -888,10 +888,10 @@ public class User extends Actor implements SendMessage {
     }
 
     @SneakyThrows
-    private void lockAcc() {
-        // SQLManager.executeUpdate("UPDATE `player` set `lock`=1 where `id`=" + this.id
-        // + " limit 1;");
-        // session.disconnect();
+    public void lockAcc() {
+        SQLManager.executeUpdate("UPDATE `player` set `lock`=1 where `id`=" + this.id
+                + " limit 1;");
+        session.disconnect();
     }
 
     private void pluspPoint(final Message m) throws IOException {
