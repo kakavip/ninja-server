@@ -1247,6 +1247,7 @@ public class GameScr {
             p.nj.upXuMessage(-(yen - preYen));
         }
 
+        it.setLock(true);
         if (percent >= util.nextInt(80)) {
             for (byte k = 0; k < it.option.size(); ++k) {
                 final Option option = it.option.get(k);
@@ -1357,6 +1358,7 @@ public class GameScr {
             for (byte k = 0; k < arrIndex.length; ++k) {
                 p.nj.removeItemBag(arrIndex[k], 1);
             }
+            item.setLock(true);
             p.sendYellowMessage("Đã dịch chuyển trang bị");
             p.requestItemInfoMessage(item, index, 3);
         }
@@ -1533,8 +1535,8 @@ public class GameScr {
             mainItem.option.get(i).param += exp;
             int nextUpgrade = getNextUpgrade(mainItem.option.get(i).param);
 
+            mainItem.setLock(true);
             upgradeNgoc(mainItem, oldUpGrad, nextUpgrade);
-
             mainItem.setUpgrade((byte) nextUpgrade);
             val m2 = new Message(-144);
             m2.writer().writeByte(indexUI);
@@ -1557,6 +1559,8 @@ public class GameScr {
                 }
 
                 p.nj.upxuMessage(-GameScr.xuGotNgoc.get((int) item.getUpgrade()));
+                item.setLock(true);
+
                 p.endLoad(true);
                 for (Option option : item.option) {
                     if (option.param < -1) {
@@ -1579,8 +1583,10 @@ public class GameScr {
 
         } else if (type == 3) {
             // DOSTH
-            val item = p.nj.ItemBag[indexUI];
+            Item item = p.nj.ItemBag[indexUI];
             val iter = item.ngocs.iterator();
+            item.setLock(true);
+
             p.endLoad(true);
 
             while (iter.hasNext()) {

@@ -181,7 +181,7 @@ public class Draw {
             }
             case 102: {
                 p.typemenu = 92;
-                MenuController.doMenuArray(p, new String[] { "Vòng xoay vip", "Vòng xoay thường" });
+                MenuController.doMenuArray(p, new String[] { "Vòng xoay thường", "Vòng xoay vip" });
                 break;
             }
 
