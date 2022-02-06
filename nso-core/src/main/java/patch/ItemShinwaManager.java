@@ -171,7 +171,7 @@ public class ItemShinwaManager {
                 } finally {
 
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         System.out.println("STOP RETURN THREAD");
                     }
