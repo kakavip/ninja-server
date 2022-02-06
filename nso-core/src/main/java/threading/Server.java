@@ -228,7 +228,7 @@ public class Server {
             BXHManager.init();
             instance.daemonThread.addRunner(Server.updateRefreshBoss);
             instance.daemonThread.addRunner(Server.updateBattle);
-            instance.daemonThread.addRunner(Server.autoSaveUserData);
+            // instance.daemonThread.addRunner(Server.autoSaveUserData);
         }
         return Server.instance;
     }
