@@ -2573,12 +2573,20 @@ public class Place {
                 battle.updateBattler(body.c, other.isHuman, other);
             }
 
-        }
-        if (other.isDie) {
+            Body b = body.get();
+            User p = body.c.p;
+            boolean isCloneAttackWithChuthan = b instanceof CloneChar && !p.nj.isNhanban;
 
-            if (body.getTypepk() == PK_DOSAT) {
-                body.updatePk(1);
+            if (body.getTypepk() == PK_DOSAT
+                    || isCloneAttackWithChuthan && ((CloneChar) b).chuThan != null
+                            && ((CloneChar) b).chuThan.getTypepk() == PK_DOSAT) {
+                if (isCloneAttackWithChuthan) {
+                    ((CloneChar) b).chuThan.updatePk(1);
+                } else {
+                    body.updatePk(1);
+                }
             }
+
             final long num1 = Level.getMaxExp(other.getLevel());
             final long num2 = Level.getLevel(other.getLevel()).exps;
             if (other.pk > 0) {
@@ -2602,6 +2610,7 @@ public class Place {
             other.type = 14;
             this.sendDie(other);
         }
+
     }
 
     private void skillEffect(@Nullable final Body body, @Nullable final Ninja other) {
@@ -2808,8 +2817,15 @@ public class Place {
                         body.damage(other);
 
                         if (nj4.isDie) {
-                            if (body.getTypepk() == PK_DOSAT) {
-                                body.updatePk(1);
+                            boolean isCloneAttackWithChuthan = body instanceof CloneChar && !p.nj.isNhanban;
+
+                            if (body.getTypepk() == PK_DOSAT
+                                    || isCloneAttackWithChuthan && ((CloneChar) body).chuThan.getTypepk() == PK_DOSAT) {
+                                if (isCloneAttackWithChuthan) {
+                                    ((CloneChar) body).chuThan.updatePk(1);
+                                } else {
+                                    body.updatePk(1);
+                                }
                             }
 
                             if (battle != null) {
