@@ -36,7 +36,6 @@ public class DaemonThread extends Thread {
     private Thread updateStateThread;
     private Thread returnThread;
 
-
     public DaemonThread() {
         this.setName("Session Collector");
         this.setPriority(Thread.MIN_PRIORITY);
@@ -86,7 +85,8 @@ public class DaemonThread extends Thread {
                 final int minute = Calendar.getInstance().get(Calendar.MINUTE);
 
                 if (hour == 23 &&
-                        minute == 0 && (Tournament.lastTimeReward == -1 || System.currentTimeMillis() - Tournament.lastTimeReward > 3600000L)) {
+                        minute == 0 && (Tournament.lastTimeReward == -1
+                                || System.currentTimeMillis() - Tournament.lastTimeReward > 3600000L)) {
                     GeninTournament.gi().rewardNinja();
                     KageTournament.gi().rewardNinja();
 
@@ -95,7 +95,6 @@ public class DaemonThread extends Thread {
 
                     Tournament.lastTimeReward = System.currentTimeMillis();
                 }
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -141,20 +140,25 @@ public class DaemonThread extends Thread {
         for (ClanManager entry : ClanManager.entrys) {
             if (entry != null) {
                 for (Item item : entry.items) {
-                    if (item.isExpires && item.expireTrung() && (item.id == TRUNG_DI_LONG_ID || item.id == TRUNG_HAI_MA_ID)) {
+                    if (item.isExpires && item.expireTrung()
+                            && (item.id == TRUNG_DI_LONG_ID || item.id == TRUNG_HAI_MA_ID)) {
                         if (item.id == TRUNG_DI_LONG_ID) {
                             if (entry.containThanThu(0)) {
                                 if (!entry.containThanThu(2)) {
                                     entry.sendMessage(entry.createMessage("Gia tộc bạn nhận được hoả long"));
-                                    entry.clanThanThus.add(new ClanThanThu(ItemData.itemDefault(ClanThanThu.HOA_LONG_ID), ClanThanThu.MAX_THAN_THU_EXPS, ClanThanThu.MAX_THAN_THU_EXPS, 0));
+                                    entry.clanThanThus
+                                            .add(new ClanThanThu(ItemData.itemDefault(ClanThanThu.HOA_LONG_ID),
+                                                    ClanThanThu.MAX_THAN_THU_EXPS, ClanThanThu.MAX_THAN_THU_EXPS, 0));
                                 }
                             } else {
                                 entry.sendMessage(entry.createMessage("Gia tộc bạn nhận được dị long cáp 1"));
-                                entry.clanThanThus.add(new ClanThanThu(ItemData.itemDefault(ClanThanThu.DI_LONG_1_ID), 0, ClanThanThu.MAX_THAN_THU_EXPS, 0));
+                                entry.clanThanThus.add(new ClanThanThu(ItemData.itemDefault(ClanThanThu.DI_LONG_1_ID),
+                                        0, ClanThanThu.MAX_THAN_THU_EXPS, 0));
                             }
                         } else {
                             entry.sendMessage(entry.createMessage("Gia tộc bạn nhận được hải mã cấp 1"));
-                            entry.clanThanThus.add(new ClanThanThu(ItemData.itemDefault(ClanThanThu.HAI_MA_1_ID), 0, ClanThanThu.MAX_THAN_THU_EXPS, 1));
+                            entry.clanThanThus.add(new ClanThanThu(ItemData.itemDefault(ClanThanThu.HAI_MA_1_ID), 0,
+                                    ClanThanThu.MAX_THAN_THU_EXPS, 1));
                         }
                         entry.removeItem(item.id, 1);
                     }

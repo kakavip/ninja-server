@@ -225,7 +225,7 @@ public class Manager {
 
             TIME_DESTROY_MAP = Integer.parseInt(properties.getProperty("time-Destroy-Map"));
             MAX_CLIENT = Short.parseShort(properties.getProperty("max-Client"));
-            TIME_DISCONNECT = Short.parseShort(properties.getProperty("time-Disconnect"));
+            TIME_DISCONNECT = Short.parseShort(properties.getProperty("time-disconnect"));
 
             Resource.TIME_REMOVE_RESOURCE = Long.parseLong(properties.getProperty("time-remove-resource")) * 60000;
             User.DIFFER_USE_ITEM_TIME = Short.parseShort(properties.getProperty("differ-use-item-time"));
