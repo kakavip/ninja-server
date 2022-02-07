@@ -183,10 +183,8 @@ public class ItemShinwaManager {
 
     public static void returnXuToSeller(@NotNull ItemShinwaManager.ItemShinwa itemShinwa) {
         val ninja = PlayerManager.getInstance().getNinja(itemShinwa.getSeller());
-        val xu = itemShinwa.getPrice() * 95 / 100;
-
         if (ninja != null) {
-            ninja.upxuMessage(xu);
+            ninja.upxuMessage((long) (itemShinwa.getPrice() * 0.95));
             ninja.p.sendYellowMessage("Bạn nhận được " + itemShinwa.getPrice() + " xu từ chợ đen");
             ItemShinwaManager.deleteItem(itemShinwa);
             // val canReceiveXu = ninja.xu + xu <= 2_000_000_000;

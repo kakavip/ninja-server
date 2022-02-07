@@ -507,9 +507,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         m.cleanup();
     }
 
-    public synchronized int upxu(long x) {
-        final long xunew = this.xu + x;
-        if (xunew >= 2000000000L || xunew <= -2000000000L) {
+    public int upxu(long x) {
+        if (x >= 2000000000L - this.xu) {
             this.xu = 2000000000;
         } else {
             this.xu += (int) x;
@@ -518,8 +517,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     public synchronized int upyen(long x) {
-        final long yennew = this.yen + x;
-        if (yennew >= 2000000000L || yennew <= -2000000000L) {
+        if (x >= 2000000000 - this.yen) {
             this.yen = 2000000000;
         } else {
             this.yen += (int) x;
