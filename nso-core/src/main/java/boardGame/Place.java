@@ -2107,7 +2107,7 @@ public class Place {
         }
 
         if (this.map.cave != null || (curMob.level > 1 && Math.abs(curMob.level - body.getLevel()) <= 10)) {
-            xpup += xpnew * (75 + 2.5 * (curMob.level - body.getLevel())) / 100;
+            xpup += xpnew * (75 + 2.5 * (curMob.level - body.getLevel())) / 200;
         }
 
         if (map.isLdgtMap()) {
