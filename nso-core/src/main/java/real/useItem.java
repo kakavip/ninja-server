@@ -393,16 +393,12 @@ public class useItem {
                     p.nj.upyenMessage(
                             Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, p.nj.getMaxLevel()) * Manager.YEN_NORMAL_COEF
                                     * util.nextInt(90, 100) / 100);
-                } else if (luck <= 50) {
-                    // up luong
-                    int nluong = util.nextInt(p.nj.getMaxLevel() / 10, p.nj.getMaxLevel() / 5);
-                    p.upluongMessage(nluong);
                 } else {
                     // up kinh nghiem
                     long maxLvExp = Level.getLevel(p.nj.get().getLevel() - 1).exps;
                     long nExp = maxLvExp * util.nextInt(1, 3) / 10000;
-                    p.updateExp(nExp, true);
-                    p.sendYellowMessage("Bạn nhận được " + nExp + " kịnh nghiệm.");
+                    p.updateExp(Math.min(nExp, 1000000), true);
+                    p.sendYellowMessage("Bạn nhận được " + nExp + " kinh nghiệm.");
                 }
                 p.nj.removeItemBag(index, 1);
                 break;
