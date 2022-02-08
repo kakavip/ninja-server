@@ -113,6 +113,7 @@ public class RotationLuck extends Thread {
             p2 = new Players(p.id);
             p2.user = p.username;
             p2.name = p.nj.name;
+            p2.type = p.nj.typebet;
             ++this.numPlayers;
             this.players.add(p2);
         }
@@ -121,11 +122,17 @@ public class RotationLuck extends Thread {
                     "Bạn chỉ có thể đặt tối đa " + util.getFormatNumber(this.max - p2.joinAmount) + ".");
             return;
         }
+        if (this.type == 2 && p2.type != p.nj.typebet) {
+
+            p.session.sendMessageLog(
+                    "Bạn đã đặt " + (p2.type == 0 ? "Tài" : "Xỉu") + ". Vui lòng chọn lại.");
+            return;
+        }
         final Players players = p2;
         players.joinAmount += joinAmount;
         upAmountMessage(-joinAmount, p);
         this.total += joinAmount;
-        if (this.numPlayers == 2 && !this.start) {
+        if ((this.numPlayers == 2 || this.numPlayers == 1 && this.type == 2) && !this.start) {
             this.begin();
             final Ninja ns = PlayerManager.getInstance().getNinja(this.players.get(0).name);
             if (ns != null) {
@@ -136,54 +143,94 @@ public class RotationLuck extends Thread {
     }
 
     private void turned() throws Exception {
-
-        for (int i = 0; i < this.players.size(); ++i) {
-            for (int j = i + 1; j < this.players.size(); ++j) {
-                if (this.players.get(i).joinAmount < this.players.get(j).joinAmount) {
-                    final String tempuser = this.players.get(j).user;
-                    final String tempname = this.players.get(j).name;
-                    final int tempAmount = this.players.get(j).joinAmount;
-                    this.players.get(j).user = this.players.get(i).user;
-                    this.players.get(j).name = this.players.get(i).name;
-                    this.players.get(j).joinAmount = this.players.get(i).joinAmount;
-                    this.players.get(i).user = tempuser;
-                    this.players.get(i).name = tempname;
-                    this.players.get(i).joinAmount = tempAmount;
+        if (this.type != 2) {
+            for (int i = 0; i < this.players.size(); ++i) {
+                for (int j = i + 1; j < this.players.size(); ++j) {
+                    if (this.players.get(i).joinAmount < this.players.get(j).joinAmount) {
+                        final String tempuser = this.players.get(j).user;
+                        final String tempname = this.players.get(j).name;
+                        final int tempAmount = this.players.get(j).joinAmount;
+                        this.players.get(j).user = this.players.get(i).user;
+                        this.players.get(j).name = this.players.get(i).name;
+                        this.players.get(j).joinAmount = this.players.get(i).joinAmount;
+                        this.players.get(i).user = tempuser;
+                        this.players.get(i).name = tempname;
+                        this.players.get(i).joinAmount = tempAmount;
+                    }
                 }
             }
-        }
-        Players p = null;
+            Players p = null;
 
-        float luck = util.nextInt(101) *1.0f;
-        for (final Players player : this.players) {
-            luck -= this.percentWin(player.name);
-            if (luck <=0) {
-                p = player;
-                break;
+            float luck = util.nextInt(101) * 1.0f;
+            for (final Players player : this.players) {
+                luck -= this.percentWin(player.name);
+                if (luck <= 0) {
+                    p = player;
+                    break;
+                }
             }
-        }
-        if (p == null) {
-            p = this.players.get(util.nextInt(this.players.size()));
+            if (p == null) {
+                p = this.players.get(util.nextInt(this.players.size()));
+            }
+
+            long amountWin = this.total;
+            if (this.numPlayers > 1) {
+                amountWin = amountWin * 95L / 100L;
+            }
+            final Ninja ns = PlayerManager.getInstance().getNinja(p.name);
+            if (ns != null) {
+                upAmountMessage(amountWin, ns.p);
+            } else {
+                if (currency.equals("xu")) {
+                    SQLManager
+                            .executeUpdate(
+                                    "UPDATE `ninja` SET `xu`=`xu`+" + amountWin + " WHERE `name`='" + p.name + "';");
+                } else {
+                    SQLManager.executeUpdate(
+                            "UPDATE `player` SET `luong`=`luong`+" + amountWin + " WHERE `id`=" + p.id + ";");
+                }
+            }
+            Manager.serverChat("server", "Chúc mừng " + p.name.toUpperCase() + " đã chiến thắng "
+                    + util.getFormatNumber(amountWin) + " " + currency + " trong trò chơi Vòng xoay may mắn");
+            this.winnerInfo = "Người vừa chiến thắng:\n" + ((this.type == 0) ? ("c" + util.nextInt(10)) : "") + ""
+                    + p.name
+                    + "\nSố " + currency + " thắng: " + util.getFormatNumber(amountWin) + " " + currency
+                    + "\nNgười chơi "
+                    + p.name + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
+        } else {
+            int luck = util.nextInt(100) % 2;
+            String luckName = luck == 0 ? "Tài" : "Xỉu";
+
+            int counter = 0;
+            for (final Players player : this.players) {
+                if (player.type == luck) {
+                    counter += 1;
+                    final Ninja ns = PlayerManager.getInstance().getNinja(player.name);
+                    long amountWin = player.joinAmount * 2;
+                    if (ns != null) {
+                        upAmountMessage(amountWin, ns.p);
+                    } else {
+                        if (currency.equals("xu")) {
+                            SQLManager
+                                    .executeUpdate(
+                                            "UPDATE `ninja` SET `xu`=`xu`+" + amountWin + " WHERE `name`='"
+                                                    + player.name
+                                                    + "';");
+                        } else {
+                            SQLManager.executeUpdate(
+                                    "UPDATE `player` SET `luong`=`luong`+" + amountWin + " WHERE `id`=" + player.id
+                                            + ";");
+                        }
+                    }
+                }
+            }
+
+            Manager.serverChat("server", "Chúc mừng những người chơi " + luckName + " trong trò chơi Tài Xỉu.");
+            this.winnerInfo = "Có " + counter + " người chơi " + luckName + " vừa chiến thắng.";
         }
 
-        long amountWin = this.total;
-        if (this.numPlayers > 1) {
-            amountWin = amountWin * 95L / 100L;
-        }
         this.numPlayers = 0;
         this.total = 0;
-        final Ninja ns = PlayerManager.getInstance().getNinja(p.name);
-        if (ns != null) {
-            upAmountMessage(amountWin, ns.p);
-        } else {
-            if (currency.equals("xu")) {
-                SQLManager.executeUpdate("UPDATE `ninja` SET `xu`=`xu`+" + amountWin + " WHERE `name`='" + p.name + "';");
-            } else {
-                SQLManager.executeUpdate("UPDATE `player` SET `luong`=`luong`+" + amountWin + " WHERE `id`=" + p.id + ";");
-            }
-        }
-        Manager.serverChat("server", "Chúc mừng " + p.name.toUpperCase() + " đã chiến thắng " + util.getFormatNumber(amountWin) + " " + currency + " trong trò chơi Vòng xoay may mắn");
-        this.winnerInfo = "Người vừa chiến thắng:\n" + ((this.type == 0) ? ("c" + util.nextInt(10)) : "") + "" + p.name + "\nSố " + currency + " thắng: " + util.getFormatNumber(amountWin) + " " + currency + "\nNgười chơi " + p.name + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
         this.players.clear();
         Thread.sleep(1000L);
         this.time = this.setTime;
@@ -197,12 +244,33 @@ public class RotationLuck extends Thread {
     }
 
     protected float percentWin(final String njname) {
-        for (short i = 0; i < this.players.size(); ++i) {
-            if (this.players.get(i).name.equals(njname)) {
-                return this.players.get(i).joinAmount * 100.0f / this.total;
+        if (this.type == 2) {
+            int taiNum = 0;
+            int njtypebet = -1;
+            for (short i = 0; i < this.players.size(); ++i) {
+                if (this.players.get(i).type == 0) {
+                    taiNum += 1;
+                }
+                if (this.players.get(i).name.equals(njname)) {
+                    njtypebet = this.players.get(i).type;
+                }
             }
+
+            if (njtypebet == -1) {
+                return 0.0f;
+            }
+
+            float taiPercent = taiNum * 100.0f / this.players.size();
+            return njtypebet == 0 ? taiPercent : 100 - taiPercent;
+        } else {
+            for (short i = 0; i < this.players.size(); ++i) {
+                if (this.players.get(i).name.equals(njname)) {
+                    return this.players.get(i).joinAmount * 100.0f / this.total;
+                }
+            }
+            return 0.0f;
         }
-        return 0.0f;
+
     }
 
     @Override
@@ -270,11 +338,19 @@ public class RotationLuck extends Thread {
         int joinAmount;
         int id;
 
+        // tai = 0, xiu = 1
+        int type;
+
         private Players(int id) {
+            this(id, 0);
+        }
+
+        private Players(int id, int type) {
             this.user = null;
             this.name = null;
             this.joinAmount = 0;
             this.id = id;
+            this.type = type;
         }
     }
 }

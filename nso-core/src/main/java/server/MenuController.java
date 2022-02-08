@@ -1431,6 +1431,11 @@ public class MenuController {
                             }
                             break;
                         }
+                        case 4: {
+                            p.typemenu = 30_4;
+                            doMenuArray(p, new String[] { "Tài", "Xỉu" });
+                            break;
+                        }
                     }
                     break;
                 }
@@ -2061,6 +2066,11 @@ public class MenuController {
                     }
                     break;
                 }
+                case 30_4: {
+                    p.nj.typebet = menuId; // tai = 0, xiu =1
+                    this.server.manager.rotationluck[2].luckMessage(p);
+                    break;
+                }
                 case 36_4_0: {
                     if (p.luong < 10_000) {
                         p.sendYellowMessage("Con cần có đủ 10.000 lượng để chuyển phái.");
@@ -2216,6 +2226,9 @@ public class MenuController {
         if (idnpc == 24 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
                     "Mã quà tặng", "Tặng lượng" });
+        } else if (idnpc == 30 && p.nj.getLevel() > 1) {
+            this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
+                    "Tài Xỉu" });
         } else if (idnpc == 0 && (p.nj.getPlace().map.isGtcMap() ||
                 p.nj.getPlace().map.loiDaiMap())) {
             if (p.nj.hasBattle() || p.nj.getClanBattle() != null) {

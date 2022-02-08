@@ -120,7 +120,7 @@ public class Manager {
     public Manager() {
         entrys = new HashMap<>();
         ItemSell.entrys = new ConcurrentHashMap<>();
-        this.rotationluck = new RotationLuck[2];
+        this.rotationluck = new RotationLuck[3];
         this.NinjaS = new String[] { "Chưa vào lớp", "Ninja Kiếm", "Ninja Phi Tiêu", "Ninja Kunai", "Ninja Cung",
                 "Ninja Đao", "Ninja Quạt" };
         preload();
@@ -138,6 +138,11 @@ public class Manager {
             this.rotationluck[1] = new RotationLuck("Vòng xoay thường", (byte) 0, (short) 120, 1000000, 50000000,
                     1000000000);
             this.rotationluck[1].start();
+        }
+        if (rotationluck[2] == null) {
+            this.rotationluck[2] = new RotationLuck("Tài xỉu", (byte) 2, (short) 60, 100000, 50000000,
+                    2000000000);
+            this.rotationluck[2].start();
         }
         this.loadProperties();
         this.loadDataBase();
