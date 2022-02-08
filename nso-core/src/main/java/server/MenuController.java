@@ -1840,6 +1840,9 @@ public class MenuController {
                             break;
                         }
                         case 1: {
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Con đang có " + p.nj.nActPoint + " điểm hoạt động. Con chỉ có thể chuyển đc "
+                                            + p.nj.nActPoint * 1000000 + " yên.");
                             this.sendWrite(p, (short) 24_1, "Số lượng");
                             break;
                         }

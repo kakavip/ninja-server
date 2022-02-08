@@ -661,9 +661,10 @@ public class Place {
                 }
                 try {
                     if (util.compare_Day(Date.from(Instant.now()), p.nj.newlogin)) {
+                        p.nj.upNActPoint(-1);
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 5;
+                        p.nj.useCave = 2;
                         p.setClanTerritoryId(-1);
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
@@ -681,7 +682,7 @@ public class Place {
                     try {
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 5;
+                        p.nj.useCave = 2;
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
                         p.nj.taThuCount = 2;
@@ -2287,14 +2288,18 @@ public class Place {
         if (curMob.isDie && curMob.level > 1) {
             ++this.numMobDie;
             if (this.map.cave != null) {
-                this.map.cave.updatePoint(1);
+                if (!curMob.isIsboss()) {
+                    this.map.cave.updatePoint((int) (Math.pow(3, curMob.lvboss)));
+                } else {
+                    this.map.cave.updatePoint(20);
+                }
             }
             final int master = curMob.sortNinjaFight();
 
             if (!this.map.isLdgtMap()) {
-                boolean isReceivedLuong = util.nextInt(100) <= 10;
+                boolean isReceivedLuong = util.nextInt(100) <= 7;
                 boolean canReceived = false;
-                int luong = p.nj.getMaxLevel() / 10;
+                int luong = (int) (Math.min(curMob.level, MAX_LEVEL_RECEIVE_LUONG_COEF) * LUONG_COEF * 1.0 / 100);
 
                 boolean canDropItem = isCloneAttackWithChuthan
                         && Math.abs(((CloneChar) body).chuThan.getLevel() - curMob.level) <= 10

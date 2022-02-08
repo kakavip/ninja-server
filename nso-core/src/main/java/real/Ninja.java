@@ -67,6 +67,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public int menuType;
     public int nvhnCount;
     public int taThuCount;
+    public int nActPoint;
     public long lastTimeMove = -1;
     public volatile boolean isBusy = false;
     private short taskIndex = 0;
@@ -87,6 +88,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public long hayatemi;
     public long bousouhayate;
     public int typemenu;
+    public int typebet;
 
     @Nullable
     public CandyBattle candyBattle;
@@ -130,6 +132,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
         this.nvhnCount = 20;
         this.taThuCount = 1;
+        this.nActPoint = 0;
 
         this.p = null;
         this.setPlace(null);
@@ -525,6 +528,13 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         return (int) x;
     }
 
+    public synchronized void upNActPoint(int n) {
+        this.nActPoint += n;
+        if (this.nActPoint <= 0) {
+            this.nActPoint = 0;
+        }
+    }
+
     public synchronized void upxuMessage(final long x) {
         try {
             final Message m = new Message(95);
@@ -683,6 +693,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     try {
                         nj.taThuCount = red.getInt("tathucount");
                         nj.nvhnCount = red.getInt("nvhncount");
+                        nj.nActPoint = red.getInt("nactpoint");
                         nj.get().setKyNangSo(red.getInt("kynangso"));
                         nj.get().setTiemNangSo(red.getInt("tiemnangso"));
                         nj.get().setBanghoa(red.getInt("banghoa"));
@@ -847,6 +858,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
             sqlSET = sqlSET + ", `nvhncount`=" + nvhnCount + "";
             sqlSET = sqlSET + ", `tathucount`=" + taThuCount + "";
+            sqlSET = sqlSET + ", `nactpoint`=" + nActPoint + "";
             sqlSET = sqlSET + ", `taskId`=" + getTaskId() + "";
             sqlSET = sqlSET + ", `taskIndex`=" + getTaskIndex() + "";
             sqlSET = sqlSET + ", `taskCount`=" + taskCount + "";
@@ -1114,6 +1126,10 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         val task = this.tasks[typeNhiemVu];
         if (task != null) {
             if (task.isDone()) {
+                if (typeNhiemVu == TaskOrder.NHIEM_VU_HANG_NGAY && this.nvhnCount == 10) {
+                    this.nActPoint += 3;
+                }
+
                 huyNhiemVu(typeNhiemVu);
                 return true;
             } else {

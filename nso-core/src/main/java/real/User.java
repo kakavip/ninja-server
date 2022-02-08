@@ -1485,9 +1485,9 @@ public class User extends Actor implements SendMessage {
             return;
         }
         SQLManager.executeUpdate(
-                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `exptype`, `skill`) VALUES "
+                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `exptype`, `nactpoint`, `skill`) VALUES "
                         + "(\"" + name + "\"," + gender + "," + head
-                        + ",'[]','[]','[]','[]', '[]', '[]','[]', 1, '[{\"id\": 0, \"point\": 0}]');");
+                        + ",'[]','[]','[]','[]', '[]', '[]','[]', 1, 30, '[{\"id\": 0, \"point\": 0}]');");
         for (byte i = 0; i < this.sortNinja.length; ++i) {
             if (this.sortNinja[i] == null) {
                 this.sortNinja[i] = name;
@@ -2284,7 +2284,7 @@ public class User extends Actor implements SendMessage {
         }
 
         // Diem hoạt động
-        m.writer().writeShort(0);
+        m.writer().writeShort(p.nj.nActPoint);
         m.writer().writeShort(0);
         m.writer().writeShort(0);
         m.writer().writeShort(0);

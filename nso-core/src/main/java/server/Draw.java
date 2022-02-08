@@ -91,6 +91,7 @@ public class Draw {
 
                 try {
                     long yen = Integer.parseInt(str);
+                    long maxYenTransfer = p.nj.nActPoint * 1_000_000L;
                     if (yen <= 0) {
                         p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
                         break;
@@ -101,7 +102,11 @@ public class Draw {
                     } else if (p.nj.xu + yen > 2000000000) {
                         p.session.sendMessageLog("Số xu trong hành trang của bạn đã đạt mức tối đa.");
                         break;
+                    } else if (yen > maxYenTransfer) {
+                        p.session.sendMessageLog("Bạn chỉ có thể chuyển " + maxYenTransfer + " yên.");
+                        break;
                     } else {
+                        p.nj.upNActPoint(-((int) (yen / 1000000) + 1));
                         p.nj.upyenMessage(-yen);
                         p.nj.upxuMessage(yen);
                         break;
@@ -169,14 +174,22 @@ public class Draw {
                     return;
                 }
                 final int xujoin = Integer.parseInt(num);
-                Draw.server.manager.rotationluck[1 - b].joinLuck(p, xujoin);
+                if (b!= 2) {
+                    Draw.server.manager.rotationluck[1 - b].joinLuck(p, xujoin);
+                } else {
+                    Draw.server.manager.rotationluck[2].joinLuck(p, xujoin);
+                }
                 break;
             }
             case 101: {
                 if (b < 0 || b >= Draw.server.manager.rotationluck.length) {
                     return;
                 }
-                Draw.server.manager.rotationluck[1 - b].luckMessage(p);
+                if (b != 2) {
+                    Draw.server.manager.rotationluck[1 - b].luckMessage(p);
+                } else {
+                    Draw.server.manager.rotationluck[2].luckMessage(p);
+                }
                 break;
             }
             case 102: {
