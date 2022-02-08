@@ -1219,7 +1219,8 @@ public class MenuController {
                                     } else {
                                         int luck = util.nextInt(0, 100);
                                         if (luck <= 30) {
-                                            p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
+                                            int lv = Math.min(p.nj.getLevel(), Manager.MAX_LEVEL_RECEIVE_LUONG_COEF);
+                                            p.upluongMessage(util.nextInt(lv, lv * 2));
                                         } else if (luck <= 45) {
                                             long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
@@ -1228,11 +1229,12 @@ public class MenuController {
                                         } else {
 
                                             p.nj.upyenMessage(
-                                                    Math.min(p.nj.getLevel(), Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
-                                                            * Manager.YEN_NVHN_COEF *
+                                                    (long) (Math.min(p.nj.getLevel(),
+                                                            Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
+                                                            * (Manager.YEN_COEF * 2.5) *
                                                             util.nextInt(90,
                                                                     100)
-                                                            / 100);
+                                                            / 100));
                                         }
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 1)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 3)) {
@@ -1310,18 +1312,21 @@ public class MenuController {
 
                                             int luck = util.nextInt(0, 100);
                                             if (luck <= 30) {
-                                                p.upluongMessage(util.nextInt(p.nj.getLevel(), p.nj.getLevel() * 2));
+                                                int lv = Math.min(p.nj.getLevel(),
+                                                        Manager.MAX_LEVEL_RECEIVE_LUONG_COEF);
+                                                p.upluongMessage(util.nextInt(lv, lv * 2));
                                             } else if (luck < 60) {
                                                 long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
                                                 p.updateExp((long) currentLvExps * util.nextInt(3, 7) / 100, true);
                                             } else {
                                                 p.nj.upyenMessage(
-                                                        Math.min(p.nj.getLevel(), Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
-                                                                * Manager.YEN_NVHN_COEF *
+                                                        (long) (Math.min(p.nj.getLevel(),
+                                                                Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
+                                                                * (Manager.YEN_COEF * 2.5) *
                                                                 util.nextInt(90,
                                                                         100)
-                                                                / 100);
+                                                                / 100));
                                             }
 
                                             p.nj.upMainTask();

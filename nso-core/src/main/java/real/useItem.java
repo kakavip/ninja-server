@@ -241,7 +241,7 @@ public class useItem {
         switch (item.id) {
             case 12: {
                 p.nj.upyenMessage(
-                        Math.min(p.nj.get().getLevel(), MAX_LEVEL_RECEIVE_YEN_COEF) * Manager.YEN_NORMAL_COEF
+                        Math.min(p.nj.get().getLevel(), MAX_LEVEL_RECEIVE_YEN_COEF) * Manager.YEN_COEF
                                 * util.nextInt(90, 100) / 100);
                 p.nj.removeItemBag(index, 1);
                 break;
@@ -391,7 +391,7 @@ public class useItem {
                 if (luck <= 30) {
                     // up yen
                     p.nj.upyenMessage(
-                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, p.nj.getMaxLevel()) * Manager.YEN_NORMAL_COEF
+                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, p.nj.getMaxLevel()) * Manager.YEN_COEF
                                     * util.nextInt(90, 100) / 100);
                 } else {
                     // up kinh nghiem

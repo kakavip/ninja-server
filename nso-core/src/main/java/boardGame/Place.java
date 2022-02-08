@@ -2309,9 +2309,9 @@ public class Place {
                     --this.numTA;
 
                     if (canDropItem) {
-                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * YEN_TA_COEF
+                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * (YEN_COEF * 3.5)
                                 * util.nextInt(90, 100) / 100;
-                        body.c.upyenMessage(yen);
+                        body.c.upyenMessage((long) yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
 
                         if (isReceivedLuong) {
@@ -2323,7 +2323,7 @@ public class Place {
                     --this.numTL;
 
                     if (canDropItem) {
-                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * YEN_TL_COEF
+                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * (YEN_COEF * 12)
                                 * util.nextInt(90, 100) / 100;
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
@@ -2502,7 +2502,7 @@ public class Place {
 
                 if (arid[randomIndex] == 12) {
                     p.nj.upyenMessage(
-                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, curMob.level) * Manager.YEN_NORMAL_COEF
+                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, curMob.level) * Manager.YEN_COEF
                                     * util.nextInt(90, 100) / 100);
                 } else {
                     final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
@@ -2527,30 +2527,17 @@ public class Place {
         }
 
         if (curMob.isIsboss()) {
+            boolean canDropBossItem = false;
+
             if (this.map.cave == null) {
                 Manager.chatKTG(body.c.name + " đã tiêu diệt " + curMob.templates.name);
-            }
-            // up luong
-            long luong = curMob.level * util.nextInt(120, 250) / 100;
-            p.upluongMessage(luong);
-
-            for (int i = 0; i < N_ITEM_BOSS; i++) {
-                val itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
-                ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
-                if (im != null) {
-                    if (im.item.id == 12) {
-                        im.item.quantity = curMob.level * Manager.YEN_TT_COEF * util.nextInt(90, 100) / 100;
-                    }
-                    // NOTE anyone can pick up
-                    // im.master = master;
-                }
+                canDropBossItem = true;
             }
 
             if (this.map.cave != null && this.map.getXHD() == 9
                     && ((this.map.id == 157 && this.map.cave.level == 0)
                             || (this.map.id == 158 && this.map.cave.level == 1)
-                            || (this.map.id == 159 && this.map.cave.level == 2))
-                    && util.nextInt(3) < 3) {
+                            || (this.map.id == 159 && this.map.cave.level == 2))) {
                 this.map.cave.updatePoint(this.getMobs().size());
                 for (short k2 = 0; k2 < this.getMobs().size(); ++k2) {
                     this.getMobs().get(k2).updateHP(-this.getMobs().get(k2).hpmax);
@@ -2561,6 +2548,27 @@ public class Place {
                 }
                 final Cave cave = this.map.cave;
                 ++cave.level;
+
+                canDropBossItem = true;
+            }
+
+            if (canDropBossItem) {
+                // up luong
+                val luong = Math.min(curMob.level, Manager.MAX_LEVEL_RECEIVE_LUONG_COEF)
+                        * (Manager.LUONG_COEF * 0.25) * util.nextInt(90, 100) / 100;
+                p.upluongMessage((long) luong);
+
+                for (int i = 0; i < N_ITEM_BOSS; i++) {
+                    val itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
+                    ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
+                    if (im != null) {
+                        if (im.item.id == 12) {
+                            im.item.quantity = curMob.level * (Manager.YEN_COEF * 15) * util.nextInt(90, 100) / 100;
+                        }
+                        // NOTE anyone can pick up
+                        // im.master = master;
+                    }
+                }
             }
         }
     }
