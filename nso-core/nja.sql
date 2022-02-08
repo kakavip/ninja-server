@@ -24897,6 +24897,9 @@ alter table `ninja`
 add column `reward70` int(11) NOT NULL DEFAULT '0',
 add column `reward90` int(11) NOT NULL DEFAULT '0',
 add column `reward130` int(11) NOT NULL DEFAULT '0';
+alter table `ninja`
+add column `nactpoint` int(11) NOT NULL DEFAULT '30';
+
 
 --
 -- Dumping data for table `ninja`
@@ -27602,6 +27605,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `itemshinwa`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `npc`
+--
+ALTER TABLE `npc`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 37;
 --
 -- AUTO_INCREMENT for table `naptien`
 --
