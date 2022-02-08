@@ -101,7 +101,7 @@ public class DaemonThread extends Thread {
             } finally {
                 try {
                     synchronized (this) {
-                        wait(TIME_TO_DISCONNECT);
+                        wait(60_000L);
                     }
                 } catch (Exception e) {
                 }
