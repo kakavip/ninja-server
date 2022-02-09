@@ -664,7 +664,7 @@ public class Place {
                         p.nj.upNActPoint(-1);
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 2;
+                        p.nj.useCave = 5;
                         p.setClanTerritoryId(-1);
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
@@ -682,7 +682,7 @@ public class Place {
                     try {
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 2;
+                        p.nj.useCave = 5;
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
                         p.nj.taThuCount = 2;
@@ -2527,11 +2527,11 @@ public class Place {
         }
 
         if (curMob.isIsboss()) {
-            boolean canDropBossItem = false;
+            boolean canDropBossLuong = false;
 
             if (this.map.cave == null) {
                 Manager.chatKTG(body.c.name + " đã tiêu diệt " + curMob.templates.name);
-                canDropBossItem = true;
+                canDropBossLuong = true;
             }
 
             if (this.map.cave != null && this.map.getXHD() == 9
@@ -2549,25 +2549,26 @@ public class Place {
                 final Cave cave = this.map.cave;
                 ++cave.level;
 
-                canDropBossItem = true;
+                canDropBossLuong = true;
             }
 
-            if (canDropBossItem) {
+            if (canDropBossLuong) {
                 // up luong
                 val luong = Math.min(curMob.level, Manager.MAX_LEVEL_RECEIVE_LUONG_COEF)
                         * (Manager.LUONG_COEF * 0.25) * util.nextInt(90, 100) / 100;
                 p.upluongMessage((long) luong);
+            }
 
-                for (int i = 0; i < N_ITEM_BOSS; i++) {
-                    val itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
-                    ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
-                    if (im != null) {
-                        if (im.item.id == 12) {
-                            im.item.quantity = curMob.level * (Manager.YEN_COEF * 15) * util.nextInt(90, 100) / 100;
-                        }
-                        // NOTE anyone can pick up
-                        // im.master = master;
+            // drop item
+            for (int i = 0; i < N_ITEM_BOSS; i++) {
+                val itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
+                ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
+                if (im != null) {
+                    if (im.item.id == 12) {
+                        im.item.quantity = curMob.level * (Manager.YEN_COEF * 15) * util.nextInt(90, 100) / 100;
                     }
+                    // NOTE anyone can pick up
+                    // im.master = master;
                 }
             }
         }
