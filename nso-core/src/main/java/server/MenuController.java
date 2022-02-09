@@ -1694,19 +1694,20 @@ public class MenuController {
                     switch (menuId) {
                         case 0: {
                             p.typemenu = 92_0;
+                            this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                             break;
                         }
                         case 1: {
                             p.typemenu = 92_1;
+                            this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                             break;
                         }
                         case 2: {
-                            p.typemenu = 92_2;
+                            p.typemenu = 30_4;
+                            doMenuArray(p, new String[] { "Tài", "Xỉu" });
                             break;
                         }
                     }
-
-                    this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                     break;
                 }
 

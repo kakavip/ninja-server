@@ -209,7 +209,7 @@ public class RotationLuck extends Thread {
                 if (player.type == luckTypebet) {
                     counter += 1;
                     final Ninja ns = PlayerManager.getInstance().getNinja(player.name);
-                    long amountWin = player.joinAmount * 2;
+                    long amountWin = (long) (player.joinAmount * 2 * 0.95);
                     if (ns != null) {
                         upAmountMessage(amountWin, ns.p);
                     } else {
@@ -307,11 +307,11 @@ public class RotationLuck extends Thread {
                     if (this.type == 2) {
                         if (this.time == 8 || this.time == 5 || this.time == 2) {
                             if (this.sucsacs.size() == 2 && this.totalSucSac() < 10 && this.totalSucSac() > 4) {
-                                boolean taiWin = util.nextInt(100) < 30;
+                                boolean taiWin = util.nextInt(100) % 2 == 1;
                                 if (!taiWin) {
                                     this.sucsacs.add(util.nextInt(10 - this.totalSucSac()) + 1);
                                 } else {
-                                    this.sucsacs.add(util.nextInt(6) + 1);
+                                    this.sucsacs.add(util.nextInt(10 - this.totalSucSac(), 6) + 1);
                                 }
 
                             } else {
