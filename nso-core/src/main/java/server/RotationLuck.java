@@ -200,10 +200,7 @@ public class RotationLuck extends Thread {
                     + "\nNgười chơi "
                     + p.name + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
         } else {
-            int luck = 0;
-            for (Integer suc : this.sucsacs) {
-                luck += suc;
-            }
+            int luck = this.totalSucSac();
             String luckName = luck >= 10 ? "Tài" : "Xỉu";
             int luckTypebet = luck > 10 ? 0 : 1;
 
@@ -281,6 +278,15 @@ public class RotationLuck extends Thread {
 
     }
 
+    private int totalSucSac() {
+        int luck = 0;
+        for (Integer suc : this.sucsacs) {
+            luck += suc;
+        }
+
+        return luck;
+    }
+
     @Override
     public void run() {
         while (this.running) {
@@ -300,7 +306,17 @@ public class RotationLuck extends Thread {
 
                     if (this.type == 2) {
                         if (this.time == 8 || this.time == 5 || this.time == 2) {
-                            this.sucsacs.add(util.nextInt(6) + 1);
+                            if (this.sucsacs.size() == 2 && this.totalSucSac() < 10 && this.totalSucSac() > 4) {
+                                boolean taiWin = util.nextInt(100) < 30;
+                                if (!taiWin) {
+                                    this.sucsacs.add(util.nextInt(10 - this.totalSucSac()) + 1);
+                                } else {
+                                    this.sucsacs.add(util.nextInt(6) + 1);
+                                }
+
+                            } else {
+                                this.sucsacs.add(util.nextInt(6) + 1);
+                            }
                         }
                         this.winnerInfo = sucsacText();
 
