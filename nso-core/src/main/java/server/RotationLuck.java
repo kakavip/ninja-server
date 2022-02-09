@@ -205,7 +205,7 @@ public class RotationLuck extends Thread {
                 luck += suc;
             }
             String luckName = luck >= 10 ? "Tài" : "Xỉu";
-            int luckTypebet = luck >= 10 ? 0 : 1;
+            int luckTypebet = luck > 10 ? 0 : 1;
 
             int counter = 0;
             for (final Players player : this.players) {
