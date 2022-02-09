@@ -205,10 +205,11 @@ public class RotationLuck extends Thread {
                 luck += suc;
             }
             String luckName = luck >= 10 ? "Tài" : "Xỉu";
+            int luckTypebet = luck >= 10 ? 0 : 1;
 
             int counter = 0;
             for (final Players player : this.players) {
-                if (player.type == luck) {
+                if (player.type == luckTypebet) {
                     counter += 1;
                     final Ninja ns = PlayerManager.getInstance().getNinja(player.name);
                     long amountWin = player.joinAmount * 2;
