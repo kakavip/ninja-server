@@ -201,7 +201,7 @@ public class RotationLuck extends Thread {
                     + p.name + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
         } else {
             int luck = this.totalSucSac();
-            String luckName = luck >= 10 ? "Tài" : "Xỉu";
+            String luckName = luck > 10 ? "Tài" : "Xỉu";
             int luckTypebet = luck > 10 ? 0 : 1;
 
             int counter = 0;
