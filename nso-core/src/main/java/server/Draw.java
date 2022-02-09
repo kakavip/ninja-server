@@ -174,7 +174,7 @@ public class Draw {
                     return;
                 }
                 final int xujoin = Integer.parseInt(num);
-                if (b!= 2) {
+                if (b != 2) {
                     Draw.server.manager.rotationluck[1 - b].joinLuck(p, xujoin);
                 } else {
                     Draw.server.manager.rotationluck[2].joinLuck(p, xujoin);
@@ -194,7 +194,7 @@ public class Draw {
             }
             case 102: {
                 p.typemenu = 92;
-                MenuController.doMenuArray(p, new String[] { "Vòng xoay thường", "Vòng xoay vip" });
+                MenuController.doMenuArray(p, new String[] { "Vòng xoay thường", "Vòng xoay VIP", "Tài Xỉu" });
                 break;
             }
 

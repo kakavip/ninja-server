@@ -28,6 +28,7 @@ public class RotationLuck extends Thread {
     protected boolean running;
     protected ArrayList<Players> players;
     protected String currency;
+    private ArrayList<Integer> sucsacs;
 
     public RotationLuck(final String title, final byte type, final short time, final int min, final int max,
             final int maxtotal, String currency) {
@@ -43,6 +44,7 @@ public class RotationLuck extends Thread {
         this.winnerInfo = "Chưa có thông tin";
         this.running = true;
         this.players = new ArrayList<>();
+        this.sucsacs = new ArrayList<>();
         this.title = title;
         this.type = type;
         this.setTime = time;
@@ -198,8 +200,11 @@ public class RotationLuck extends Thread {
                     + "\nNgười chơi "
                     + p.name + " tham gia: " + util.getFormatNumber(p.joinAmount) + " " + currency;
         } else {
-            int luck = util.nextInt(100) % 2;
-            String luckName = luck == 0 ? "Tài" : "Xỉu";
+            int luck = 0;
+            for (Integer suc : this.sucsacs) {
+                luck += suc;
+            }
+            String luckName = luck >= 10 ? "Tài" : "Xỉu";
 
             int counter = 0;
             for (final Players player : this.players) {
@@ -226,11 +231,13 @@ public class RotationLuck extends Thread {
             }
 
             Manager.serverChat("server", "Chúc mừng những người chơi " + luckName + " trong trò chơi Tài Xỉu.");
-            this.winnerInfo = "Có " + counter + " người chơi " + luckName + " vừa chiến thắng.";
+            this.winnerInfo = "Kết quả " + luck + " điểm." + "Có " + counter + " người chơi " + luckName
+                    + " vừa chiến thắng.";
         }
 
         this.numPlayers = 0;
         this.total = 0;
+        this.sucsacs.clear();
         this.players.clear();
         Thread.sleep(1000L);
         this.time = this.setTime;
@@ -289,6 +296,20 @@ public class RotationLuck extends Thread {
                         continue;
                     }
                     this.open = false;
+
+                    if (this.type == 2) {
+                        if (this.time == 8 || this.time == 5 || this.time == 2) {
+                            this.sucsacs.add(util.nextInt(6) + 1);
+                        }
+                        this.winnerInfo = sucsacText();
+
+                        for (Players player : this.players) {
+                            final Ninja ns = PlayerManager.getInstance().getNinja(player.name);
+                            if (ns != null) {
+                                luckMessage(ns.p);
+                            }
+                        }
+                    }
                 }
                 continue;
             } catch (Exception e) {
@@ -297,6 +318,15 @@ public class RotationLuck extends Thread {
             break;
         }
         util.Debug("Close Thread Lucky");
+    }
+
+    public String sucsacText() {
+        String text = "";
+        for (int i = 0; i < this.sucsacs.size(); i++) {
+            text += "Kết quả xúc sắc " + (i + 1) + " là: " + this.sucsacs.get(i) + "\n";
+        }
+
+        return text;
     }
 
     protected void luckMessage(final User p) throws IOException {

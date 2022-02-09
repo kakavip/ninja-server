@@ -1691,22 +1691,26 @@ public class MenuController {
                     }
                 }
                 case 92: {
-                    p.typemenu = ((menuId == 0) ? 94 : 93);
+                    switch (menuId) {
+                        case 0: {
+                            p.typemenu = 92_0;
+                            break;
+                        }
+                        case 1: {
+                            p.typemenu = 92_1;
+                            break;
+                        }
+                        case 2: {
+                            p.typemenu = 92_2;
+                            break;
+                        }
+                    }
+
                     this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                     break;
                 }
-                case 93: {
-                    if (menuId == 0) {
-                        this.server.manager.rotationluck[0].luckMessage(p);
-                        break;
-                    }
-                    if (menuId == 1) {
-                        this.server.manager.sendTB(p, "Vòng xoay vip", "Tham gia đi xem luật lm gì");
-                        break;
-                    }
-                    break;
-                }
-                case 94: {
+
+                case 92_0: {
                     if (menuId == 0) {
                         this.server.manager.rotationluck[1].luckMessage(p);
                         break;
@@ -1717,9 +1721,33 @@ public class MenuController {
                     }
                     break;
                 }
+                case 92_1: {
+                    if (menuId == 0) {
+                        this.server.manager.rotationluck[0].luckMessage(p);
+                        break;
+                    }
+                    if (menuId == 1) {
+                        this.server.manager.sendTB(p, "Vòng xoay vip", "Tham gia đi xem luật lm gì");
+                        break;
+                    }
+                    break;
+                }
+                case 92_2: {
+                    if (menuId == 0) {
+                        this.server.manager.rotationluck[2].luckMessage(p);
+                        break;
+                    }
+                    if (menuId == 1) {
+                        this.server.manager.sendTB(p, "Tài xỉu", "Tham gia đi xem luật lm gì");
+                        break;
+                    }
+                    break;
+                }
+
                 case 95: {
                     break;
                 }
+
                 case 120: {
                     if (menuId > 0 && menuId < 7) {
                         p.Admission(menuId);
