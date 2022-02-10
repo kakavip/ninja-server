@@ -1224,7 +1224,10 @@ public class MenuController {
                                         } else if (luck <= 45) {
                                             long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                            p.updateExp((long) currentLvExps * util.nextInt(1, 3) / 100, true);
+                                            long xpup = Math.min((long) currentLvExps * util.nextInt(1, 3) / 100,
+                                                    10_000_000L);
+
+                                            p.updateExp(xpup, true);
                                             ;
                                         } else {
 
@@ -1318,7 +1321,10 @@ public class MenuController {
                                             } else if (luck < 60) {
                                                 long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
 
-                                                p.updateExp((long) currentLvExps * util.nextInt(3, 7) / 100, true);
+                                                long xpup = Math.min((long) currentLvExps * util.nextInt(1, 3) / 100,
+                                                        10_000_000L);
+
+                                                p.updateExp(xpup, true);
                                             } else {
                                                 p.nj.upyenMessage(
                                                         (long) (Math.min(p.nj.getLevel(),
