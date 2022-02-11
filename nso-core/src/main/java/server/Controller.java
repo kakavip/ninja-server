@@ -498,15 +498,15 @@ public class Controller implements ISessionHandler {
                         p.nj.removeItemBag(indexUI);
                         // p.nj.upxuMessage(-FEE);
                         p.upluongMessage(-FEE_GOLD);
-                        // p.endLoad(true);
+                        Service.CharViewInfo(p, false);
+                        p.endLoad(true);
                         Service.CharViewInfo(p, false);
                         p.endLoad(true);
                         break;
                     } else {
-                        p.endLoad(true);
                         p.sendYellowMessage(
                                 "Không đủ " + String.format("%,d", FEE_GOLD) + " lượng.");
-
+                        p.endLoad(true);
                     }
                     break;
                 }
