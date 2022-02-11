@@ -514,8 +514,9 @@ public class Controller implements ISessionHandler {
                     // Buy item shinwa
                     val itemId = message.reader().readInt();
                     val itemShinwa = ItemShinwaManager.findItemById(itemId);
+                    boolean canBuy = !ItemShinwaManager.items.get(-1).contains(itemShinwa);
 
-                    if (!itemShinwa.isExpired() && itemShinwa.getPrice() <= p.nj.getXu()) {
+                    if (!itemShinwa.isExpired() && itemShinwa.getPrice() <= p.nj.getXu() && canBuy) {
                         // final byte bagNull = p.nj.getAvailableBag();
                         if (p.nj.getAvailableBag() == 0) {
                             p.session.sendMessageLog("Hành trang không đủ chổ trống");
