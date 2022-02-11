@@ -498,7 +498,7 @@ public class Controller implements ISessionHandler {
                         p.nj.removeItemBag(indexUI);
                         // p.nj.upxuMessage(-FEE);
                         p.upluongMessage(-FEE_GOLD);
-                        p.endLoad(true);
+                        // p.endLoad(true);
                         Service.CharViewInfo(p, false);
                         p.endLoad(true);
                         break;
