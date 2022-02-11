@@ -521,20 +521,21 @@ public class Controller implements ISessionHandler {
                             p.session.sendMessageLog("Hành trang không đủ chổ trống");
                             return;
                         }
-                        p.endLoad(true);
                         p.nj.upxuMessage(-itemShinwa.getPrice());
                         p.nj.addItemBag(false, itemShinwa.getItem());
                         returnXuToSeller(itemShinwa);
+
+                        p.endLoad(true);
                         break;
                     }
                     if (p.nj.xu < itemShinwa.getPrice()) {
                         // Khong du xu
-                        p.endLoad(true);
                         p.sendYellowMessage("Không đủ xu để mua item");
+                        p.endLoad(true);
                         return;
                     } else {
-                        p.endLoad(true);
                         p.sendYellowMessage("Lỗi không xác định !");
+                        p.endLoad(true);
                     }
                     break;
                 }
