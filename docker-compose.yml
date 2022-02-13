@@ -92,8 +92,8 @@ services:
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: 123789
-    # ports:
-    #   - 2052:80
+    ports:
+      - 18085:80
     depends_on:
       - mysql
 
