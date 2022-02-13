@@ -138,7 +138,7 @@ public class Manager {
             this.rotationluck[1].start();
         }
         if (rotationluck[2] == null) {
-            this.rotationluck[2] = new RotationLuck("Tài xỉu", (byte) 2, (short) 60, 100000, 500000000,
+            this.rotationluck[2] = new RotationLuck("Tài xỉu", (byte) 2, (short) 60, 100000, 50000000,
                     2000000000);
             this.rotationluck[2].start();
         }
