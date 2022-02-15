@@ -393,6 +393,12 @@ public class useItem {
                     p.nj.upyenMessage(
                             Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, p.nj.getMaxLevel()) * Manager.YEN_COEF
                                     * util.nextInt(90, 100) / 100);
+
+                } else if (luck <= 50) {
+                    // up luong
+                    int nluong = util.nextInt(p.nj.getMaxLevel() / 10, p.nj.getMaxLevel() / 5);
+                    p.upluongMessage(nluong);
+                    p.sendYellowMessage("Bạn nhận được " + nluong + " lượng.");
                 } else {
                     // up kinh nghiem
                     long maxLvExp = Level.getLevel(p.nj.get().getLevel() - 1).exps;
