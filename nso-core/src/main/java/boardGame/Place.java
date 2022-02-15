@@ -664,7 +664,7 @@ public class Place {
                         p.nj.upNActPoint(-1);
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 5;
+                        p.nj.useCave = 2;
                         p.setClanTerritoryId(-1);
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
@@ -682,7 +682,7 @@ public class Place {
                     try {
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 5;
+                        p.nj.useCave = 2;
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
                         p.nj.taThuCount = 2;
@@ -2557,6 +2557,9 @@ public class Place {
                 val luong = Math.min(curMob.level, Manager.MAX_LEVEL_RECEIVE_LUONG_COEF)
                         * (Manager.LUONG_COEF * 0.25) * util.nextInt(90, 100) / 100;
                 p.upluongMessage((long) luong);
+            }
+            if (this.map.cave != null && this.map.getXHD() == 9 && !canDropBossLuong) {
+                p.upluongMessage(10L);
             }
 
             // drop item
