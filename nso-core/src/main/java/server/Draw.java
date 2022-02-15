@@ -135,17 +135,41 @@ public class Draw {
                 p.diamond_send = str;
                 p.sendDiamond();
                 break;
-            case 24_8:
+            case 24_8: {
                 p.nameUS = str;
-                Ninja user_gift_gold = PlayerManager.getInstance().getNinja(str);
+                Ninja user_gift_gold = PlayerManager.getInstance().getNinja(p.nameUS);
                 if (user_gift_gold == null) {
                     p.session.sendMessageLog("Người chơi không có online. Không thể nhận lượng.");
                     break;
                 }
-                if (user_gift_gold != null) {
-                    p.sendGold();
+
+                Draw.server.menu.sendWrite(p, (short) 24_8_1, "Nhập số lượng vé");
+                break;
+            }
+            case 24_8_1: {
+                try {
+                    int nTicket = Integer.parseInt(str);
+                    if (nTicket <= 0) {
+                        p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
+                        break;
+                    }
+                    if (nTicket > 10000) {
+                        p.session.sendMessageLog("Chỉ có thể tặng tối đa 10.000 vé lượng 1 lần.");
+                        break;
+                    }
+                    Ninja user_gift_gold = PlayerManager.getInstance().getNinja(p.nameUS);
+                    if (user_gift_gold == null) {
+                        p.session.sendMessageLog("Người chơi không có online. Không thể nhận lượng.");
+                        break;
+                    } else {
+                        p.sendGold(nTicket);
+                        break;
+                    }
+                } catch (NumberFormatException ex) {
+                    p.session.sendMessageLog("Sai định dạng.");
                     break;
                 }
+            }
             case 50: {
                 ClanManager.createClan(p, str);
                 break;
