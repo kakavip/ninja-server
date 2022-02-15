@@ -1153,7 +1153,7 @@ public class GameScr {
             case 0: {
                 percent = 60;
                 yen = 150000;
-                if (ttts != 3 || tttt != 0 || tttc != 0) {
+                if ((ttts != 3 || tttt != 0 || tttc != 0) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 1 cần dùng 3 Tử tinh thạch sơ");
                     return;
                 }
@@ -1162,7 +1162,7 @@ public class GameScr {
             case 1: {
                 percent = 53;
                 yen = 247500;
-                if (ttts != 5 || tttt != 0 || tttc != 0) {
+                if ((ttts != 5 || tttt != 0 || tttc != 0) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 2 cần dùng 5 Tử tinh thạch sơ");
                     return;
                 }
@@ -1171,7 +1171,7 @@ public class GameScr {
             case 2: {
                 percent = 46;
                 yen = 408375;
-                if (ttts != 9 || tttt != 0 || tttc != 0) {
+                if ((ttts != 9 || tttt != 0 || tttc != 0) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 3 cần dùng 9 Tử tinh thạch sơ");
                     return;
                 }
@@ -1180,7 +1180,7 @@ public class GameScr {
             case 3: {
                 percent = 39;
                 yen = 673819;
-                if (ttts != 0 || tttt != 4 || tttc != 0) {
+                if ((ttts != 0 || tttt != 4 || tttc != 0) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 4 cần dùng 4 Tử tinh thạch trung");
                     return;
                 }
@@ -1189,7 +1189,7 @@ public class GameScr {
             case 4: {
                 percent = 32;
                 yen = 1111801;
-                if (ttts != 0 || tttt != 7 || tttc != 0) {
+                if ((ttts != 0 || tttt != 7 || tttc != 0) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 5 cần dùng 7 Tử tinh thạch trung");
                     return;
                 }
@@ -1198,7 +1198,7 @@ public class GameScr {
             case 5: {
                 percent = 25;
                 yen = 2056832;
-                if (ttts != 0 || tttt != 10 || tttc != 0) {
+                if ((ttts != 0 || tttt != 10 || tttc != 0) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 5 cần dùng 7 Tử tinh thạch trung");
                     return;
                 }
@@ -1207,7 +1207,7 @@ public class GameScr {
             case 6: {
                 percent = 18;
                 yen = 4010922;
-                if (ttts != 0 || tttt != 0 || tttc != 5) {
+                if ((ttts != 0 || tttt != 0 || tttc != 5) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 7 cần dùng 5 Tử tinh thạch cao");
                     return;
                 }
@@ -1216,7 +1216,7 @@ public class GameScr {
             case 7: {
                 percent = 11;
                 yen = 7420021;
-                if (ttts != 0 || tttt != 0 || tttc != 7) {
+                if ((ttts != 0 || tttt != 0 || tttc != 7) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 8 cần dùng 7 Tử tinh thạch cao");
                     return;
                 }
@@ -1225,7 +1225,7 @@ public class GameScr {
             case 8: {
                 percent = 4;
                 yen = 12243035;
-                if (ttts != 0 || tttt != 0 || tttc != 9) {
+                if ((ttts != 0 || tttt != 0 || tttc != 9) && !util.debug) {
                     p.session.sendMessageLog("Tinh luyện 9 cần dùng 9 Tử tinh thạch cao");
                     return;
                 }
@@ -1248,7 +1248,7 @@ public class GameScr {
         }
 
         it.setLock(true);
-        if (percent >= util.nextInt(80)) {
+        if (percent >= util.nextInt(80) || util.debug) {
             for (byte k = 0; k < it.option.size(); ++k) {
                 final Option option = it.option.get(k);
                 option.param += ItemData.ThinhLuyenParam(it.option.get(k).id, tl);
@@ -1470,7 +1470,7 @@ public class GameScr {
             item.setLock(true);
             ngocItem.setLock(true);
 
-            if (suc) {
+            if (suc || util.debug) {
                 item.ngocs.add(ngocItem);
                 p.nj.removeItemBag(ngocIndex);
                 p.sendYellowMessage("Khảm ngọc thành công");
@@ -1533,7 +1533,7 @@ public class GameScr {
             int oldUpGrad = getNextUpgrade(mainItem.option.get(i).param);
 
             mainItem.option.get(i).param += exp;
-            int nextUpgrade = getNextUpgrade(mainItem.option.get(i).param);
+            int nextUpgrade = util.debug ? 10 : getNextUpgrade(mainItem.option.get(i).param);
 
             mainItem.setLock(true);
             upgradeNgoc(mainItem, oldUpGrad, nextUpgrade);
