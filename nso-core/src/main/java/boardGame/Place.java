@@ -391,7 +391,7 @@ public class Place {
         }
         chatLock.lock();
         try {
-            // debugChat(p, chat);
+            debugChat(p, chat);
             // userChat(p, chat);
         } catch (Exception e) {
 
