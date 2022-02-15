@@ -91,11 +91,11 @@ public class Draw {
 
                 try {
                     long yen = Integer.parseInt(str);
-                    long maxYenTransfer = p.nj.nActPoint * 1_000_000L;
                     if (yen <= 0) {
                         p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
                         break;
                     }
+                    long maxYenTransfer = p.nj.nActPoint * 10_000_000L;
                     if (p.nj.yen < yen) {
                         p.session.sendMessageLog("Số yên trong hành trang của bạn phải lớn hơn " + yen + " yên.");
                         break;
@@ -106,7 +106,7 @@ public class Draw {
                         p.session.sendMessageLog("Bạn chỉ có thể chuyển " + maxYenTransfer + " yên.");
                         break;
                     } else {
-                        p.nj.upNActPoint(-((int) (yen / 1000000) + 1));
+                        p.nj.upNActPoint(-((int) (yen / 10_000_000L) + 1));
                         p.nj.upyenMessage(-yen);
                         p.nj.upxuMessage(yen);
                         break;
