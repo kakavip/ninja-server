@@ -1467,70 +1467,130 @@ public class MenuController {
                 }
                 case 32: {
                     switch (menuId) {
+                        // case 0: {
+                        // switch (optionId) {
+                        // case 0: {
+                        // // Tham gia chiến trường kẹo
+                        // Server.candyBattleManager.enter(p.nj);
+                        // break;
+                        // }
+                        // case 1: {
+                        // // Hướng dẫn chiến trường kẹo
+                        // Service.sendThongBao(p.nj, "Chiến trường kẹo:\n"
+                        // + "\t- 20 ninja sẽ chia làm 2 đội Kẹo Trăng và Kẹo Đen.\n"
+                        // + "\t- Mỗi đội chơi sẽ có nhiệm vụ tấn công giở kẹo của đối phương, nhặt kẹo
+                        // và sau đó chạy về bỏ vào giỏ kẹo của bên đội mình.\n"
+                        // + "\t- Trong khoảng thời gian ninja giữ kẹo sẽ bị mất một lượng HP nhất định
+                        // theo thời gian.\n"
+                        // + "\t- Giữ càng nhiều thì nguy hiểm càng lớn.\n"
+                        // + "\t- Còn 10 phú cuối cùng sẽ xuất hiện Phù Thuỷ");
+                        // break;
+                        // }
+                        // }
+                        // break;
+                        // }
                         case 0: {
-                            switch (optionId) {
-                                case 0: {
-                                    // Tham gia chiến trường kẹo
-                                    Server.candyBattleManager.enter(p.nj);
-                                    break;
-                                }
-                                case 1: {
-                                    // Hướng dẫn chiến trường kẹo
-                                    Service.sendThongBao(p.nj, "Chiến trường kẹo:\n"
-                                            + "\t- 20 ninja sẽ chia làm 2 đội Kẹo Trăng và Kẹo Đen.\n"
-                                            + "\t- Mỗi đội chơi sẽ có nhiệm vụ tấn công giở kẹo của đối phương, nhặt kẹo và sau đó chạy về bỏ vào giỏ kẹo của bên đội mình.\n"
-                                            + "\t- Trong khoảng thời gian ninja giữ kẹo sẽ bị mất một lượng HP nhất định theo thời gian.\n"
-                                            + "\t- Giữ càng nhiều thì nguy hiểm càng lớn.\n"
-                                            + "\t- Còn 10 phú cuối cùng sẽ xuất hiện Phù Thuỷ");
-                                    break;
-                                }
-                            }
+                            p.typemenu = 32_0;
+                            doMenuArray(p, new String[] { "Thách đấu" });
                             break;
                         }
                         case 1: {
-                            // Option 1
-                            val clanManager = ClanManager.getClanByName(p.nj.clan.clanName);
-                            if (clanManager != null) {
-                                // Có gia tọc và khong battle
-                                if (clanManager.getClanBattle() == null) {
-                                    // Chua duoc moi battle
-                                    if (p.nj.getClanBattle() == null) {
-                                        // La toc truong thach dau
-                                        if (p.nj.clan.typeclan == TOC_TRUONG) {
-                                            if (clanManager.getClanBattleData() == null
-                                                    || (clanManager.getClanBattleData() != null
-                                                            && clanManager.getClanBattleData().isExpired())) {
-                                                sendWrite(p, (byte) 4, "Nhập vào gia tộc muốn chiến đấu");
-                                            } else {
-                                                if (clanManager.restore()) {
-                                                    enterClanBattle(p, clanManager);
-                                                } else {
-                                                    p.nj.getPlace().chatNPC(p, (short) 32, "Không hỗ trợ");
-                                                }
-                                            }
+                            p.typemenu = 32_1;
+                            doMenuArray(p, new String[] { "Luyện tinh thạch", "Tinh luyện vật phẩm",
+                                    "Dịch chuyển trang bị", "Hướng dẫn" });
+                            break;
+                        }
+                        case 2: {
+                            p.typemenu = 32_2;
+                            doMenuArray(p, new String[] { "Luyện bí kíp", "Nâng cấp bí kíp", "Hướng dẫn" });
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case 32_0: {
+                    val clanManager = ClanManager.getClanByName(p.nj.clan.clanName);
+                    if (clanManager != null) {
+                        // Có gia tọc và khong battle
+                        if (clanManager.getClanBattle() == null) {
+                            // Chua duoc moi battle
+                            if (p.nj.getClanBattle() == null) {
+                                // La toc truong thach dau
+                                if (p.nj.clan.typeclan == TOC_TRUONG) {
+                                    if (clanManager.getClanBattleData() == null
+                                            || (clanManager.getClanBattleData() != null
+                                                    && clanManager.getClanBattleData().isExpired())) {
+                                        sendWrite(p, (byte) 4, "Nhập vào gia tộc muốn chiến đấu");
+                                    } else {
+                                        if (clanManager.restore()) {
+                                            enterClanBattle(p, clanManager);
                                         } else {
-                                            // Thử tìm battle data
                                             p.nj.getPlace().chatNPC(p, (short) 32, "Không hỗ trợ");
                                         }
                                     }
                                 } else {
-                                    enterClanBattle(p, clanManager);
+                                    // Thử tìm battle data
+                                    p.nj.getPlace().chatNPC(p, (short) 32, "Không hỗ trợ");
                                 }
                             }
-                            break;
+                        } else {
+                            enterClanBattle(p, clanManager);
                         }
-                        case 4: {
-                            if (optionId == 0) {
-                                p.openUI(43);
-                            } else if (optionId == 1) {
-                                p.openUI(44);
-                                break;
-                            } else if (optionId == 2) {
-                                p.openUI(45);
-                                break;
+                    }
+                    break;
+                }
+                case 32_1: {
+                    if (menuId == 0) {
+                        p.openUI(43);
+                        break;
+                    } else if (menuId == 1) {
+                        p.openUI(44);
+                        break;
+                    } else if (menuId == 2) {
+                        p.openUI(45);
+                        break;
+                    }
+
+                    break;
+                }
+                case 32_2: {
+                    Item bikipItem = p.nj.get().ItemBody[15];
+                    if (menuId == 0) {
+                        // luyen bi kip
+                        if (p.nj.isNhanban) {
+                            p.session.sendMessageLog("Chức năng này không dành cho phân thân");
+                            return;
+                        }
+
+                        if (bikipItem != null) {
+                            if (bikipItem.getUpgrade() != 0) {
+                                p.session.sendMessageLog("Không thể luyện bí kíp đã nâng cấp.");
+                                return;
                             }
-                            break;
+                            if (bikipItem.isExpires) {
+                                p.session.sendMessageLog("Không thể luyện bí kíp có thời hạn sử dụng.");
+                                return;
+                            }
+
+                            if (p.luong < 1000) {
+                                p.session.sendMessageLog("Bạn không đủ 1000 lượng để sử dụng chức năng này.");
+                                return;
+                            }
+
+                            luyenBiKip(p);
+                            p.upluongMessage(-1000L);
+                            p.sendYellowMessage("Bạn đã luyện bí kíp thành công.");
+                        } else {
+                            p.session.sendMessageLog("Hãy sử dụng bí kíp để sử dụng được chức năng này.");
+                            return;
                         }
+                    } else if (menuId == 1) {
+                        // nang cap bi1 kip
+                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                "Chức năng này đang cập nhật nhé");
+                    } else if (menuId == 2) {
+                        p.session.sendMessageLog(
+                                "Tham gia mini game lật hình để có cơ hội nhận bí kíp vĩnh viễn. Mỗi lần luyện bí kíp sẽ mất 1.000 lượng.");
                     }
                     break;
                 }
@@ -2210,6 +2270,40 @@ public class MenuController {
         nangCapMat.put((byte) 9, new int[] { 50, 20_000_000, 15, 1500, 20 });
     }
 
+    private void luyenBiKip(User p) throws IOException {
+        Item bikipItem = p.nj.get().ItemBody[15];
+        Item item = bikipItem.clone();
+        item.option.clear();
+
+        
+        int nCS = util.nextInt(1, 5);
+        int[] optionIds = new int[nCS];
+        for (int i = 0; i < nCS; i++) {
+            while (true) {
+                int randCS = ItemData.PARAM_IDS.get(util.nextInt(ItemData.PARAM_IDS.size()));
+
+                boolean isExisted = false;
+                for (int j = 0; j < i; j++) {
+                    if (optionIds[j] == randCS) {
+                        isExisted = true;
+                        break;
+                    }
+                }
+                if (!isExisted) {
+                    optionIds[i] = randCS;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < optionIds.length; i++) {
+            double lowCoef = util.nextInt(60, 100) * 1.0 / 100;
+            item.option.add(new Option(optionIds[i], (int) (lowCoef * ItemData.PARAMS.get(optionIds[i]))));
+        }
+
+        p.nj.get().ItemBody[15] = item;
+        p.sendInfo(false);
+    }
+
     private void nangMat(User p, Item item, boolean vip) throws IOException {
 
         if (item.id < 694) {
@@ -2295,6 +2389,8 @@ public class MenuController {
         } else if (idnpc == 30 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
                     "Tài Xỉu" });
+        } else if (idnpc == 32 && p.nj.getLevel() > 1) {
+            this.doMenuArray(p, new String[] { "Gia tộc chiến", "Tinh luyện", "Bí kíp" });
         } else if (idnpc == 0 && (p.nj.getPlace().map.isGtcMap() ||
                 p.nj.getPlace().map.loiDaiMap())) {
             if (p.nj.hasBattle() || p.nj.getClanBattle() != null) {

@@ -653,20 +653,13 @@ public class ItemData {
     public static int LAM_TINH_NGOC = 654;
     public static int LUC_NGOC = 655;
 
-    public static int MAX_ST_NGUOI = 250;
-    public static int HP_TOI_DA = 50;
-    public static int MP_TOI_DA = 50;
-    public static int CHI_MANG = 15;
-    public static int KHANG_ST_CHI_MANG = 5;
-    public static int MOI_GIAY_HOI_PHUC_HP = 5;
-    public static int MOI_GIAY_HOI_PHUC_MP = 5;
-    public static int MAX_TAN_CONG = 100;
-    public static int GIAM_TRU_ST = 15;
-    public static int PHAN_DON = 10;
-    public static int ST_CHI_MANG = 100;
-    public static int CHINH_XAC = 50;
-    public static int NE_DON = 10;
-    public static int KHANG_TAT_CA = 10;
+    private static double getHighCoef() {
+        return util.nextInt(80, 100) * 1.0 / 100;
+    }
+
+    private static double getLowCoef() {
+        return util.nextInt(60, 100) * 1.0 / 100;
+    }
 
     @NotNull
     public static Item itemNgocDefault(int id, int upgrade, boolean random) {
@@ -693,46 +686,59 @@ public class ItemData {
             item.option.add(VU_KHI_OPTION);
             item.option.add(
                     new Option(TAN_CONG_ID,
-                            random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
+                            random ? (int) (getHighCoef() * PARAMS.get(TAN_CONG_ID))
+                                    : PARAMS.get(TAN_CONG_ID)));
             item.option.add(
-                    new Option(CHI_MANG_ID, -(random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG)));
+                    new Option(CHI_MANG_ID,
+                            -(random ? (int) (getHighCoef() * PARAMS.get(CHI_MANG_ID))
+                                    : PARAMS.get(CHI_MANG_ID))));
 
             item.option.add(TRANG_BI_OPTION);
             item.option
                     .add(new Option(GIAM_TRU_ST_ID,
-                            random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST));
+                            random ? (int) (getHighCoef() * PARAMS.get(GIAM_TRU_ST_ID))
+                                    : PARAMS.get(GIAM_TRU_ST_ID)));
             item.option.add(
                     new Option(TAN_CONG_ID,
-                            -(random ? util.nextInt((int) (0.6 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG)));
+                            -(random ? (int) (getLowCoef() * PARAMS.get(TAN_CONG_ID))
+                                    : PARAMS.get(TAN_CONG_ID))));
 
             item.option.add(TRANG_SUC_OPTION);
-            item.option.add(new Option(NE_DON_ID, random ? util.nextInt((int) (0.8 * NE_DON), NE_DON) : NE_DON));
+            item.option.add(
+                    new Option(NE_DON_ID,
+                            random ? (int) (getHighCoef() * PARAMS.get(NE_DON_ID)) : PARAMS.get(NE_DON_ID)));
             item.option.add(
                     new Option(MOI_GIAY_HOI_PHUC_MP_ID,
-                            -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_MP), MOI_GIAY_HOI_PHUC_MP)
-                                    : MOI_GIAY_HOI_PHUC_MP)));
+                            -(random ? (int) (getHighCoef() * PARAMS.get(MOI_GIAY_HOI_PHUC_HP))
+                                    : PARAMS.get(MOI_GIAY_HOI_PHUC_HP))));
         }
 
         if (id == HUYEN_TINH_NGOC) {
             item.option.add(VU_KHI_OPTION);
             item.option.add(
                     new Option(ST_LEN_QUAI_ID,
-                            random ? util.nextInt((int) (0.8 * MAX_TAN_CONG), MAX_TAN_CONG) : MAX_TAN_CONG));
-            item.option.add(new Option(NE_DON_ID, -(random ? util.nextInt((int) (0.8 * NE_DON), NE_DON) : NE_DON)));
+                            random ? (int) (getHighCoef() * PARAMS.get(ST_LEN_QUAI_ID))
+                                    : PARAMS.get(ST_LEN_QUAI_ID)));
+            item.option.add(new Option(NE_DON_ID,
+                    -(random ? (int) (getHighCoef() * PARAMS.get(NE_DON_ID)) : PARAMS.get(NE_DON_ID))));
 
             item.option.add(TRANG_BI_OPTION);
             item.option
-                    .add(new Option(PHAN_DON_ID, random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON));
+                    .add(new Option(PHAN_DON_ID,
+                            random ? (int) (getHighCoef() * PARAMS.get(PHAN_DON)) : PARAMS.get(PHAN_DON)));
             item.option.add(
                     new Option(ST_CHI_MANG_ID,
-                            -(random ? util.nextInt((int) (0.6 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG)));
+                            -(random ? (int) (getLowCoef() * PARAMS.get(ST_CHI_MANG))
+                                    : PARAMS.get(ST_CHI_MANG))));
 
             item.option.add(TRANG_SUC_OPTION);
             item.option.add(new Option(KHANG_SAT_THUONG_CHI_MANG_ID,
-                    random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
+                    random ? (int) (getHighCoef() * PARAMS.get(KHANG_SAT_THUONG_CHI_MANG_ID))
+                            : PARAMS.get(KHANG_SAT_THUONG_CHI_MANG_ID)));
             item.option.add(
                     new Option(KHANG_TAT_CA_ID,
-                            -(random ? util.nextInt((int) (0.8 * KHANG_TAT_CA), KHANG_TAT_CA) : KHANG_TAT_CA)));
+                            -(random ? (int) (getHighCoef() * PARAMS.get(KHANG_TAT_CA_ID))
+                                    : PARAMS.get(KHANG_TAT_CA_ID))));
 
         }
 
@@ -741,23 +747,28 @@ public class ItemData {
 
             item.option.add(
                     new Option(ST_LEN_NGUOI_ID,
-                            random ? util.nextInt((int) (0.8 * MAX_ST_NGUOI), MAX_ST_NGUOI) : MAX_ST_NGUOI));
+                            random ? (int) (getHighCoef() * PARAMS.get(ST_LEN_NGUOI_ID))
+                                    : PARAMS.get(ST_LEN_NGUOI_ID)));
             item.option.add(
-                    new Option(HP_TOI_DA_ID, -(random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA)));
+                    new Option(HP_TOI_DA_ID, -(random ? (int) (getHighCoef() * PARAMS.get(HP_TOI_DA_ID))
+                            : PARAMS.get(HP_TOI_DA_ID))));
 
             item.option.add(TRANG_BI_OPTION);
             item.option.add(new Option(KHANG_SAT_THUONG_CHI_MANG_ID,
-                    random ? util.nextInt((int) (0.8 * KHANG_ST_CHI_MANG), KHANG_ST_CHI_MANG) : KHANG_ST_CHI_MANG));
+                    random ? (int) (getHighCoef() * PARAMS.get(KHANG_SAT_THUONG_CHI_MANG_ID))
+                            : PARAMS.get(KHANG_SAT_THUONG_CHI_MANG_ID)));
             item.option.add(
                     new Option(MOI_GIAY_HOI_PHUC_HP_ID,
-                            -(random ? util.nextInt((int) (0.8 * MOI_GIAY_HOI_PHUC_HP), MOI_GIAY_HOI_PHUC_HP)
-                                    : MOI_GIAY_HOI_PHUC_HP)));
+                            -(random ? (int) (getHighCoef() * PARAMS.get(MOI_GIAY_HOI_PHUC_HP_ID))
+                                    : PARAMS.get(MOI_GIAY_HOI_PHUC_HP_ID))));
 
             item.option.add(TRANG_SUC_OPTION);
             item.option.add(
-                    new Option(CHI_MANG_ID, random ? util.nextInt((int) (0.8 * CHI_MANG), CHI_MANG) : CHI_MANG));
+                    new Option(CHI_MANG_ID,
+                            random ? (int) (getHighCoef() * PARAMS.get(CHI_MANG_ID)) : PARAMS.get(CHI_MANG_ID)));
             item.option.add(
-                    new Option(PHAN_DON_ID, -(random ? util.nextInt((int) (0.8 * PHAN_DON), PHAN_DON) : PHAN_DON)));
+                    new Option(PHAN_DON_ID,
+                            -(random ? (int) (getHighCoef() * PARAMS.get(PHAN_DON_ID)) : PARAMS.get(PHAN_DON_ID))));
 
         }
 
@@ -766,22 +777,28 @@ public class ItemData {
 
             item.option
                     .add(new Option(ST_CHI_MANG_ID,
-                            random ? util.nextInt((int) (0.8 * ST_CHI_MANG), ST_CHI_MANG) : ST_CHI_MANG));
+                            random ? (int) (getHighCoef() * PARAMS.get(ST_CHI_MANG_ID))
+                                    : PARAMS.get(ST_CHI_MANG_ID)));
             item.option.add(
-                    new Option(CHINH_XAC_ID, -(random ? util.nextInt((int) (0.8 * CHINH_XAC), CHINH_XAC) : CHINH_XAC)));
+                    new Option(CHINH_XAC_ID,
+                            -(random ? (int) (getHighCoef() * PARAMS.get(CHINH_XAC_ID)) : PARAMS.get(CHINH_XAC_ID))));
 
             item.option.add(TRANG_BI_OPTION);
             item.option.add(
-                    new Option(HP_TOI_DA_ID, random ? util.nextInt((int) (0.8 * HP_TOI_DA), HP_TOI_DA) : HP_TOI_DA));
+                    new Option(HP_TOI_DA_ID,
+                            random ? (int) (getHighCoef() * PARAMS.get(HP_TOI_DA_ID)) : PARAMS.get(HP_TOI_DA_ID)));
             item.option.add(
-                    new Option(MP_TOI_DA_ID, -(random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA)));
+                    new Option(MP_TOI_DA_ID,
+                            -(random ? (int) (getHighCoef() * PARAMS.get(MP_TOI_DA_ID)) : PARAMS.get(MP_TOI_DA_ID))));
 
             item.option.add(TRANG_SUC_OPTION);
             item.option.add(
-                    new Option(MP_TOI_DA_ID, random ? util.nextInt((int) (0.8 * MP_TOI_DA), MP_TOI_DA) : MP_TOI_DA));
+                    new Option(MP_TOI_DA_ID,
+                            random ? (int) (getHighCoef() * PARAMS.get(MP_TOI_DA_ID)) : PARAMS.get(MP_TOI_DA_ID)));
             item.option.add(
                     new Option(GIAM_TRU_ST_ID,
-                            -(random ? util.nextInt((int) (0.8 * GIAM_TRU_ST), GIAM_TRU_ST) : GIAM_TRU_ST)));
+                            -(random ? (int) (getHighCoef() * PARAMS.get(GIAM_TRU_ST_ID))
+                                    : PARAMS.get(GIAM_TRU_ST_ID))));
 
         }
 
@@ -881,36 +898,42 @@ public class ItemData {
 
     @NotNull
     public static final Map<@NotNull Integer, @NotNull Integer> PARAMS;
+    @NotNull
+    public static final List<Integer> PARAM_IDS;
 
     public static final int TAN_CONG_ID = 73;
-
     public static final int ST_LEN_QUAI_ID = 102;
-
     public static final int ST_LEN_NGUOI_ID = 103;
-
     public static final int ST_CHI_MANG_ID = 105;
 
     public static final int CHI_MANG_ID = 114;
-
     public static final int NE_DON_ID = 115;
-
     public static final int CHINH_XAC_ID = 116;
-
     public static final int MP_TOI_DA_ID = 117;
 
     public static final int KHANG_TAT_CA_ID = 118;
-
     public static final int MOI_GIAY_HOI_PHUC_MP_ID = 119;
-
     public static final int MOI_GIAY_HOI_PHUC_HP_ID = 120;
-
     public static final int KHANG_SAT_THUONG_CHI_MANG_ID = 121;
 
     public static final int GIAM_TRU_ST_ID = 124;
-
     public static final int HP_TOI_DA_ID = 125;
-
     public static final int PHAN_DON_ID = 126;
+
+    public static int MAX_ST_NGUOI = 250;
+    public static int HP_TOI_DA = 50;
+    public static int MP_TOI_DA = 50;
+    public static int CHI_MANG = 15;
+    public static int KHANG_ST_CHI_MANG = 5;
+    public static int MOI_GIAY_HOI_PHUC_HP = 5;
+    public static int MOI_GIAY_HOI_PHUC_MP = 5;
+    public static int MAX_TAN_CONG = 100;
+    public static int GIAM_TRU_ST = 15;
+    public static int PHAN_DON = 10;
+    public static int ST_CHI_MANG = 100;
+    public static int CHINH_XAC = 50;
+    public static int NE_DON = 10;
+    public static int KHANG_TAT_CA = 10;
 
     static {
         server = Server.getInstance();
@@ -934,6 +957,8 @@ public class ItemData {
         PARAMS.put(GIAM_TRU_ST_ID, GIAM_TRU_ST);
         PARAMS.put(HP_TOI_DA_ID, HP_TOI_DA);
         PARAMS.put(PHAN_DON_ID, PHAN_DON);
+
+        PARAM_IDS = new ArrayList(PARAMS.keySet());
     }
 
     public boolean isEye() {
