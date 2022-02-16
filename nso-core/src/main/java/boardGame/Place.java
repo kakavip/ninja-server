@@ -668,6 +668,7 @@ public class Place {
                         p.setClanTerritoryId(-1);
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
+                        p.nj.nvdvCount = 0;
                         p.nj.taThuCount = 2;
                         p.setClanTerritoryData(null);
                         if (p.nj.battleData != null) {
@@ -685,6 +686,7 @@ public class Place {
                         p.nj.useCave = 2;
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
+                        p.nj.nvdvCount = 0;
                         p.nj.taThuCount = 2;
                         p.setClanTerritoryId(-1);
                         if (p.nj.battleData != null) {
@@ -2180,14 +2182,32 @@ public class Place {
         }
 
         if (curMob.isDie) {
-            if (p.nj.getTasks()[0] != null && curMob.templates.id == p.nj.getTasks()[0].getKillId()
-                    || p.nj.getTasks()[1] != null && curMob.templates.id == p.nj.getTasks()[1].getKillId()) {
+            if (p.nj.getTasks()[0] != null || p.nj.getTasks()[1] != null || p.nj.getTasks()[2] != null) {
                 if (curMob.lvboss == 3) {
                     // Ta thu
-                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_TA_THU, 1);
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_TA_THU, 1, curMob.templates.id);
                 }
-                p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_HANG_NGAY, 1);
+                p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_HANG_NGAY, 1, curMob.templates.id);
 
+                if (curMob.templates.id == 0) {
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.BU_NHIN_KILL_ID);
+                }
+
+                if (Math.abs(p.nj.getLevel() - curMob.level) <= 10) {
+                    switch (curMob.lvboss) {
+                        case 0:
+                            p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.NORMAL_MOB_KILL_ID);
+                            break;
+                        case 1:
+                            p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.TA_MOB_KILL_ID);
+                            break;
+                        case 2:
+                            p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.TL_MOB_KILL_ID);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             if (curMob.templates.id == 57
                     && p.nj.getTaskId() == 36
@@ -2602,6 +2622,8 @@ public class Place {
                 } else {
                     body.updatePk(1);
                 }
+
+                p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.INCREASE_PK_POINT_KILL_ID);
             }
 
             final long num1 = Level.getMaxExp(other.getLevel());
@@ -2732,7 +2754,7 @@ public class Place {
             return;
         }
 
-        val p = body.c.p;
+        User p = body.c.p;
         final int ninjaId = m.reader().readInt();
         m.cleanup();
         // TODO CHECK
@@ -2843,6 +2865,9 @@ public class Place {
                                 } else {
                                     body.updatePk(1);
                                 }
+
+                                p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1,
+                                        TaskOrder.INCREASE_PK_POINT_KILL_ID);
                             }
 
                             if (battle != null) {

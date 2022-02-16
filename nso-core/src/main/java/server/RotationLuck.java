@@ -11,6 +11,8 @@ import threading.Manager;
 
 import java.util.ArrayList;
 
+import patch.TaskOrder;
+
 public class RotationLuck extends Thread {
 
     protected String title;
@@ -106,11 +108,13 @@ public class RotationLuck extends Thread {
                 break;
             }
         }
+
         if (p2 == null && (joinAmount > this.max || joinAmount < this.min)) {
             p.session.sendMessageLog("Bạn chỉ có thể đặt cược từ " + util.getFormatNumber(this.min) + " đến "
                     + util.getFormatNumber(this.max) + currency + ".");
             return;
         }
+
         if (p2 == null) {
             p2 = new Players(p.id);
             p2.user = p.username;
@@ -130,6 +134,25 @@ public class RotationLuck extends Thread {
                     "Bạn đã đặt " + (p2.type == 0 ? "Tài" : "Xỉu") + ". Vui lòng chọn lại.");
             return;
         }
+
+        // check is first join.
+        if (p2.joinAmount == 0) {
+            // update nvdv
+            switch (this.type) {
+                case 0:
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.VXMM_NORMAL_KILL_ID);
+                    break;
+                case 1:
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.VXMM_VIP_KILL_ID);
+                    break;
+                case 2:
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.TAI_XIU_KILL_ID);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         final Players players = p2;
         players.joinAmount += joinAmount;
         upAmountMessage(-joinAmount, p);

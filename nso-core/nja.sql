@@ -24899,7 +24899,10 @@ add column `reward90` int(11) NOT NULL DEFAULT '0',
 add column `reward130` int(11) NOT NULL DEFAULT '0';
 alter table `ninja`
 add column `nactpoint` int(11) NOT NULL DEFAULT '30';
-
+alter table `ninja`
+add column `nvdvcount` smallint(6) DEFAULT '0',
+add column `DVPoints` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[0,0,0,0,0,0,0,0,0,0]';
+update  `ninja` set DVPoints='[500,500,500,500,500,500,500,500,500,500]';
 
 --
 -- Dumping data for table `ninja`

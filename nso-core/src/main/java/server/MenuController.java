@@ -558,35 +558,98 @@ public class MenuController {
                             break;
                         }
                     } else if (menuId == 1) {
-                        if (optionId == 4) {
-                            // Nang mat thuong
-                            final val item = p.nj.get().ItemBody[14];
-                            if (item != null && item.getUpgrade() != 0) {
-                                nangMat(p, item, false);
-                            } else {
-                                p.sendYellowMessage("Hãy sử dụng Nguyệt Nhãn để sử dụng được chức năng này.");
-                            }
+                        if (p.nj.isNhanban) {
+                            p.session.sendMessageLog("Chức năng này không dành cho phân thân");
+                            return;
+                        }
 
-                        } else if (optionId == 5) {
-                            // Nang mắt vip
-                            final val item = p.nj.get().ItemBody[14];
-                            if (item != null && item.getUpgrade() != 0) {
-                                nangMat(p, item, true);
-                            } else {
-                                p.sendYellowMessage("Hãy sử dụng Nguyệt Nhãn để sử dụng được chức năng này.");
-                            }
-                        } else if (optionId == 6) {
-                            final List<int[]> data = MenuController.nangCapMat.keySet().stream()
-                                    .map(s -> nangCapMat.get(s)).collect(Collectors.toList());
+                        final Item matItem = p.nj.get().ItemBody[14];
+                        switch (optionId) {
+                            case 0:
+                                if (p.nj.get().getLevel() < 50) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Nhiệm vụ danh vọng yêu cầu trình độ cấp 50. Hãy chăm chỉ luyện tập nhé.");
+                                    break;
+                                }
+                                // Nhan nhiem vu
+                                if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] == null) {
+                                    if (p.nj.nvdvCount < 50) {
+                                        TaskOrder task = createNvdvTask();
+                                        if (task != null) {
+                                            p.nj.addTaskOrder(task);
+                                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                    "Nhận nhiệm vụ thành công.");
+                                        } else {
+                                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                    "Nhiệm vụ lần này có chút trục trặc chắc con không làm được rồi ahihi");
+                                        }
+                                    } else {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Nhiệm vụ hôm nay con đã làm hết quay lại vào ngày hôm sau");
+                                    }
+                                } else {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Hãy hoàn thành nhiệm vụ hiện tại để nhận nhiệm vụ mới.");
+                                }
+                                break;
+                            case 1:
+                                // Tra nhiem vu
+                                if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_DANH_VONG)) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
+                                }
+                                break;
+                            case 2:
+                                // Huy nhiem vu
+                                p.nj.huyNhiemVu(NHIEM_VU_DANH_VONG);
+                                p.nj.getPlace().chatNPC(p, (short) npcId, "Huỷ nhiệm vụ thành công.");
+                                break;
+                            case 3:
+                                // Nhan mat
+                                p.nj.getPlace().chatNPC(p, (short) npcId, "Chức năng này đang cập nhật nhé");
+                                break;
+                            case 4:
+                                // Nang mat thuong
+                                if (matItem != null && matItem.getUpgrade() != 0) {
+                                    nangMat(p, matItem, false);
+                                } else {
+                                    p.sendYellowMessage("Hãy sử dụng Nguyệt Nhãn để sử dụng được chức năng này.");
+                                }
+                                break;
+                            case 5:
+                                // Nang mắt vip
+                                if (matItem != null && matItem.getUpgrade() != 0) {
+                                    nangMat(p, matItem, true);
+                                } else {
+                                    p.sendYellowMessage("Hãy sử dụng Nguyệt Nhãn để sử dụng được chức năng này.");
+                                }
+                                break;
+                            case 6:
+                                final List<int[]> data = MenuController.nangCapMat.keySet().stream()
+                                        .map(s -> nangCapMat.get(s)).collect(Collectors.toList());
 
-                            String s = "Sử dụng vật phẩm sự kiện để có thể nhận mắt 1\n";
-                            for (int i = 0, dataSize = data.size(); i < dataSize; i++) {
-                                int[] datum = data.get(i);
-                                s += "-Nâng cấp mắt " + (i + 2) + " dùng " + datum[0] + " viên đá danh vọng cấp "
-                                        + (i + 2) + " nâng thường " + datum[1] + " xu xác suất " + datum[2] + "%, VIP "
-                                        + datum[1] + " xu " + datum[3] + " lượng xác suất " + datum[4] + "% \n\n";
-                            }
-                            Service.sendThongBao(p.nj, s);
+                                String s = "";
+                                if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] != null) {
+                                    TaskOrder task = p.nj.getTasks()[NHIEM_VU_DANH_VONG];
+
+                                    s += "Thông tin nhiệm vụ danh vọng: \n";
+                                    s += task.nvdvText() + "\n";
+                                    s += "\n";
+                                    s += "--------------------------------\n";
+                                    s += "\n";
+                                }
+                                s += "Tham gia chiến trường để có thể nhận mắt 1\n";
+                                for (int i = 0, dataSize = data.size(); i < dataSize; i++) {
+                                    int[] datum = data.get(i);
+                                    s += "-Nâng cấp mắt " + (i + 2) + " dùng " + datum[0] + " viên đá danh vọng cấp "
+                                            + (i + 2) + " nâng thường " + datum[1] + " xu xác suất " + datum[2]
+                                            + "%, VIP "
+                                            + datum[1] + " xu " + datum[3] + " lượng xác suất " + datum[4] + "% \n\n";
+                                }
+                                Service.sendThongBao(p.nj, s);
+                                break;
+                            default:
+                                break;
                         }
                     }
                     break;
@@ -1217,28 +1280,6 @@ public class MenuController {
                                         p.nj.getPlace().chatNPC(p, (short) 25,
                                                 "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
-                                        int luck = util.nextInt(0, 100);
-                                        if (luck <= 30) {
-                                            int lv = Math.min(p.nj.getLevel(), Manager.MAX_LEVEL_RECEIVE_LUONG_COEF);
-                                            p.upluongMessage(util.nextInt(lv, lv * 2));
-                                        } else if (luck <= 45) {
-                                            long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
-
-                                            long xpup = Math.min((long) currentLvExps * util.nextInt(1, 3) / 100,
-                                                    10_000_000L);
-
-                                            p.updateExp(xpup, true);
-                                            ;
-                                        } else {
-
-                                            p.nj.upyenMessage(
-                                                    (long) (Math.min(p.nj.getLevel(),
-                                                            Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
-                                                            * (Manager.YEN_COEF * 2.5) *
-                                                            util.nextInt(90,
-                                                                    100)
-                                                            / 100));
-                                        }
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 1)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 3)) {
                                             p.nj.upMainTask();
@@ -1307,34 +1348,8 @@ public class MenuController {
                                         p.nj.getPlace().chatNPC(p, (short) 25,
                                                 "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                     } else {
-                                        val i = ItemData.itemDefault(251);
-                                        i.quantity = p.nj.get().getLevel() >= 60 ? 5 : 2;
-                                        p.nj.addItemBag(true, i);
                                         if ((p.nj.getTaskId() == 30 && p.nj.getTaskIndex() == 2)
                                                 || (p.nj.getTaskId() == 39 && p.nj.getTaskIndex() == 1)) {
-
-                                            int luck = util.nextInt(0, 100);
-                                            if (luck <= 30) {
-                                                int lv = Math.min(p.nj.getLevel(),
-                                                        Manager.MAX_LEVEL_RECEIVE_LUONG_COEF);
-                                                p.upluongMessage(util.nextInt(lv, lv * 2));
-                                            } else if (luck < 60) {
-                                                long currentLvExps = Level.getLevel(p.nj.getLevel()).exps;
-
-                                                long xpup = Math.min((long) currentLvExps * util.nextInt(1, 3) / 100,
-                                                        10_000_000L);
-
-                                                p.updateExp(xpup, true);
-                                            } else {
-                                                p.nj.upyenMessage(
-                                                        (long) (Math.min(p.nj.getLevel(),
-                                                                Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
-                                                                * (Manager.YEN_COEF * 2.5) *
-                                                                util.nextInt(90,
-                                                                        100)
-                                                                / 100));
-                                            }
-
                                             p.nj.upMainTask();
                                         }
                                     }
@@ -2201,6 +2216,14 @@ public class MenuController {
             int toneCount = (int) Arrays.stream(p.nj.ItemBag).filter(i -> i != null && i.id == item.id + 11)
                     .map(i -> i.quantity).reduce(0, Integer::sum);
             if (toneCount >= nangCapMat.get(item.getUpgrade())[0]) {
+                int minDVPoint = 100 * item.getUpgrade();
+                for (int i = 0; i < p.nj.DVPoints.length; i++) {
+                    if (p.nj.DVPoints[i] < minDVPoint) {
+                        p.sendYellowMessage(
+                                "Tất cả điểm danh vọng cần đạt " + minDVPoint + " để có thể nâng cấp Nguyệt Nhãn.");
+                        return;
+                    }
+                }
 
                 if (vip && nangCapMat.get(item.getUpgrade())[3] > p.luong) {
                     p.sendYellowMessage("Không đủ lượng nâng cấp vật phẩm");

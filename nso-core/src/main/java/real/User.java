@@ -1511,6 +1511,18 @@ public class User extends Actor implements SendMessage {
         }
     }
 
+    public void confirmMessageLog(byte id, String str) {
+        try {
+            final Message msg = new Message((byte) 107);
+            msg.writer().writeByte(id);
+            msg.writer().writeUTF(str);
+            msg.writer().flush();
+            this.sendMessage(msg);
+            msg.cleanup();
+        } catch (Exception ex) {
+        }
+    }
+
     public void privateChat(Message m) throws IOException {
         final String name = m.reader().readUTF();
         final String chat = m.reader().readUTF();
@@ -2286,16 +2298,21 @@ public class User extends Actor implements SendMessage {
 
         // Diem hoạt động
         m.writer().writeShort(p.nj.nActPoint);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
-        m.writer().writeShort(0);
+        // Diem danh vong
+        for (int i = 0; i < p.nj.DVPoints.length; i++) {
+            m.writer().writeShort((short) p.nj.DVPoints[i]);
+        }
+
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
+        // m.writer().writeShort(0);
         // NV HANG NGAY
         // Finish Day
         m.writer().writeByte(p.nj.nvhnCount);
@@ -2684,32 +2701,32 @@ public class User extends Actor implements SendMessage {
                             if (luong != 0 && luong > 0) {
                                 upluongMessage(luong);
                             }
-                            if (itemId != -1) {
+                            if (itemId != -1 && itemQuantity > 0) {
                                 Item it = ItemData.itemDefault(itemId);
                                 it.quantity = itemQuantity;
                                 nj.addItemBag(true, it);
                             }
-                            if (itemId1 != -1) {
+                            if (itemId1 != -1 && itemQuantity1 > 0) {
                                 Item it1 = ItemData.itemDefault(itemId1);
                                 it1.quantity = itemQuantity1;
                                 nj.addItemBag(true, it1);
                             }
-                            if (itemId2 != -1) {
+                            if (itemId2 != -1 && itemQuantity2 > 0) {
                                 Item it2 = ItemData.itemDefault(itemId2);
                                 it2.quantity = itemQuantity2;
                                 nj.addItemBag(true, it2);
                             }
-                            if (itemId3 != -1) {
+                            if (itemId3 != -1 && itemQuantity3 > 0) {
                                 Item it3 = ItemData.itemDefault(itemId3);
                                 it3.quantity = itemQuantity3;
                                 nj.addItemBag(true, it3);
                             }
-                            if (itemId4 != -1) {
+                            if (itemId4 != -1 && itemQuantity4 > 0) {
                                 Item it4 = ItemData.itemDefault(itemId4);
                                 it4.quantity = itemQuantity4;
                                 nj.addItemBag(true, it4);
                             }
-                            if (itemId5 != -1) {
+                            if (itemId5 != -1 && itemQuantity5 > 0) {
                                 Item it5 = ItemData.itemDefault(itemId5);
                                 it5.quantity = itemQuantity5;
                                 nj.addItemBag(true, it5);

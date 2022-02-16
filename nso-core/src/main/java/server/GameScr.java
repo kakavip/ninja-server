@@ -5,6 +5,7 @@ import lombok.val;
 import clan.ClanThanThu;
 import patch.Constants;
 import patch.Resource;
+import patch.TaskOrder;
 import tournament.KageTournament;
 import real.*;
 
@@ -693,6 +694,11 @@ public class GameScr {
             if (util.nextInt(1, 100) <= percen) {
                 suc = true;
                 item2.id = id;
+
+                if (id == 10) {
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.UPGRADE_TONE_KILL_ID);
+                }
+
             } else {
                 item2.id = (short) (id - 1);
             }
@@ -975,6 +981,9 @@ public class GameScr {
             p.session.sendMessageLog("Cần có phiếu may mắn.");
             return;
         }
+
+        // update nvdv
+        p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.LAT_HINH_KILL_ID);
 
         short[] itemIds = LAT_HINH_ID;
         // int MAX_LEVEL = p.nj.getLevel() - p.nj.getLevel() % 10 + 10;

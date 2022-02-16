@@ -67,6 +67,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public int menuType;
     public int nvhnCount;
     public int taThuCount;
+    public int nvdvCount;
+    @NotNull
+    public int[] DVPoints;
     public int nActPoint;
     public long lastTimeMove = -1;
     public volatile boolean isBusy = false;
@@ -117,7 +120,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     @Nullable
     public BattleData battleData;
     @NotNull
-    private TaskOrder[] tasks = new TaskOrder[2];
+    private TaskOrder[] tasks = new TaskOrder[3];
     @Nullable
     private Battle battle;
     @Nullable
@@ -130,9 +133,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
     protected Ninja() {
 
+        this.nvdvCount = 50;
         this.nvhnCount = 20;
         this.taThuCount = 1;
         this.nActPoint = 0;
+        this.DVPoints = null;
 
         this.p = null;
         this.setPlace(null);
@@ -693,6 +698,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     try {
                         nj.taThuCount = red.getInt("tathucount");
                         nj.nvhnCount = red.getInt("nvhncount");
+                        nj.nvdvCount = red.getInt("nvdvcount");
                         nj.nActPoint = red.getInt("nactpoint");
                         nj.get().setKyNangSo(red.getInt("kynangso"));
                         nj.get().setTiemNangSo(red.getInt("tiemnangso"));
@@ -702,9 +708,15 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     } catch (Exception e) {
                         nj.battleData = new BattleData();
                     }
+                    // get diem nhiem vu danh vong.
+                    jarr2 = (JSONArray) JSONValue.parse(red.getString("DVPoints"));
+                    nj.DVPoints = new int[jarr2.size()];
+                    for (int j = 0; j < nj.DVPoints.length; ++j) {
+                        nj.DVPoints[j] = Integer.parseInt(jarr2.get((int) j).toString());
+                    }
 
-                    if (nj.getTasks().length != 2) {
-                        nj.setTasks(new TaskOrder[2]);
+                    if (nj.getTasks().length != 3) {
+                        nj.setTasks(new TaskOrder[3]);
                     }
 
                     try {
@@ -798,6 +810,13 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             }
             sqlSET = sqlSET + ",`OSkill`='" + jarr.toJSONString() + "',`CSkill`=" + this.getCSkill() + "";
             jarr.clear();
+
+            for (final int dvId : this.DVPoints) {
+                jarr.add(dvId);
+            }
+            sqlSET = sqlSET + ",`DVPoints`='" + jarr.toJSONString() + "'";
+            jarr.clear();
+
             for (int j = 0; j < this.ItemBag.length; ++j) {
                 final Item item = this.ItemBag[j];
                 if (item != null && item.quantity > 0) {
@@ -858,6 +877,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
             sqlSET = sqlSET + ", `nvhncount`=" + nvhnCount + "";
             sqlSET = sqlSET + ", `tathucount`=" + taThuCount + "";
+            sqlSET = sqlSET + ", `nvdvcount`=" + nvdvCount + "";
             sqlSET = sqlSET + ", `nactpoint`=" + nActPoint + "";
             sqlSET = sqlSET + ", `taskId`=" + getTaskId() + "";
             sqlSET = sqlSET + ", `taskIndex`=" + getTaskIndex() + "";
@@ -1062,7 +1082,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         if (task == null) {
             return;
         }
-        sendATaskMessage(task);
+        if (task.getTaskId() != TaskOrder.NHIEM_VU_DANH_VONG) {
+            sendATaskMessage(task);
+        }
         this.getTasks()[task.getTaskId()] = task;
     }
 
@@ -1087,25 +1109,36 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public void huyNhiemVu(int typeNhiemVu) {
         if (typeNhiemVu == TaskOrder.NHIEM_VU_TA_THU) {
             taThuCount--;
-        } else {
+        } else if (typeNhiemVu == TaskOrder.NHIEM_VU_HANG_NGAY) {
             nvhnCount++;
+        } else if (typeNhiemVu == TaskOrder.NHIEM_VU_DANH_VONG) {
+            nvdvCount++;
         }
         this.tasks[typeNhiemVu] = null;
-        val m = new Message(-158);
-        val ds = m.writer();
-        ds.writeByte(typeNhiemVu);
-        ds.flush();
-        sendMessage(m);
-        m.cleanup();
+        if (typeNhiemVu != TaskOrder.NHIEM_VU_DANH_VONG) {
+            val m = new Message(-158);
+            val ds = m.writer();
+            ds.writeByte(typeNhiemVu);
+            ds.flush();
+            sendMessage(m);
+            m.cleanup();
+        }
     }
 
-    public void updateTaskOrder(int typeTask, int point) {
-        val task = this.tasks[typeTask];
+    public void updateTaskOrder(int typeTask, int point, int killId) {
+        TaskOrder task = this.tasks[typeTask];
         if (task == null) {
             return;
         }
-        task.setCount(task.getCount() + point);
-        updateTaskMessage(task);
+
+        util.Debug("TaskOrder " + typeTask + ": " + point + " point, killId:  " + killId);
+
+        if (task.getKillId() == killId) {
+            task.setCount(task.getCount() + point);
+            if (typeTask != TaskOrder.NHIEM_VU_DANH_VONG) {
+                updateTaskMessage(task);
+            }
+        }
     }
 
     @SneakyThrows
@@ -1123,12 +1156,10 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     public boolean hoanThanhNhiemVu(int typeNhiemVu) {
-        val task = this.tasks[typeNhiemVu];
+        TaskOrder task = this.tasks[typeNhiemVu];
         if (task != null) {
             if (task.isDone()) {
-                if (typeNhiemVu == TaskOrder.NHIEM_VU_HANG_NGAY && this.nvhnCount == 10) {
-                    this.nActPoint += 3;
-                }
+                this.getRewards(task);
 
                 huyNhiemVu(typeNhiemVu);
                 return true;
@@ -1137,6 +1168,64 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             }
         }
         return false;
+    }
+
+    @SneakyThrows
+    private void getRewards(final TaskOrder task) {
+        if (task.isDone()) {
+            if (task.getTaskId() == TaskOrder.NHIEM_VU_HANG_NGAY) {
+                int luck = util.nextInt(100);
+                if (luck <= 30) {
+                    int lv = Math.min(this.get().getLevel(), Manager.MAX_LEVEL_RECEIVE_LUONG_COEF);
+                    this.p.upluongMessage(util.nextInt(lv, lv * 2));
+
+                } else if (luck <= 45) {
+                    long currentLvExps = Level.getLevel(this.get().getLevel()).exps;
+
+                    long xpup = Math.min((long) (currentLvExps * util.nextInt(1, 3) / 100),
+                            10_000_000L);
+                    this.p.updateExp(xpup, true);
+                } else {
+                    this.upyenMessage(
+                            (long) (Math.min(this.get().getLevel(),
+                                    Manager.MAX_LEVEL_RECEIVE_YEN_COEF)
+                                    * (Manager.YEN_COEF * 2.5) *
+                                    util.nextInt(90,
+                                            100)
+                                    / 100));
+                }
+
+                if (this.nvhnCount == 10) {
+                    this.upNActPoint(3);
+                }
+            } else if (task.getTaskId() == TaskOrder.NHIEM_VU_TA_THU) {
+                Item i = ItemData.itemDefault(251);
+                i.quantity = this.get().getLevel() >= 60 ? 5 : 2;
+                this.addItemBag(true, i);
+            } else if (task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
+                int ddvN = util.nextInt(5);
+                int ddvId = 695 + ddvN;
+                int nDdv = util.nextInt(5, 7) - ddvN;
+
+                Item i = ItemData.itemDefault(ddvId);
+                i.quantity = nDdv;
+                this.addItemBag(true, i);
+
+                // update dv point
+                this.upDVPoints(util.nextInt(5, 10), task.nvdvType());
+
+                if (this.nvdvCount % 10 == 0) {
+                    this.upNActPoint(3);
+                }
+            }
+        }
+    }
+
+    private void upDVPoints(int point, int type) {
+        this.DVPoints[type] += point;
+        if (this.DVPoints[type] > 1000) {
+            this.DVPoints[type] = 1000;
+        }
     }
 
     public boolean enoughItemId(int id, int count) {
