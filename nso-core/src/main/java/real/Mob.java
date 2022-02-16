@@ -12,7 +12,8 @@ import server.Service;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static threading.Manager.TIME_REFRESH_MOB;
+import static threading.Manager.*;
+import static real.ItemData.*;
 
 public class Mob {
 
@@ -53,6 +54,8 @@ public class Mob {
     public long timeFight;
     public MobData templates;
 
+    private short[] arrItemIds;
+
     public AtomicInteger attackCount = new AtomicInteger(0);
 
     @NotNull
@@ -69,6 +72,60 @@ public class Mob {
         this.xpup = 100000L;
         this.isDie = false;
         this.nFight = new HashMap<>();
+
+        this.setArrItemIds();
+    }
+
+    public short[] getArrItemIds() {
+        return this.arrItemIds;
+    }
+
+    private void setArrItemIds() {
+        int curMobMaxLv = this.level - this.level % 10 + 10;
+        if (curMobMaxLv > 100) {
+            curMobMaxLv = 100;
+        }
+
+        switch (curMobMaxLv) {
+            case 10:
+                this.arrItemIds = ITEM_LV_10;
+                break;
+            case 20:
+                this.arrItemIds = ITEM_LV_20;
+                break;
+            case 30:
+                this.arrItemIds = ITEM_LV_30;
+                break;
+            case 40:
+                this.arrItemIds = ITEM_LV_40;
+                break;
+            case 50:
+                this.arrItemIds = ITEM_LV_50;
+                break;
+            case 60:
+                this.arrItemIds = ITEM_LV_60;
+                break;
+            case 70:
+                this.arrItemIds = ITEM_LV_70;
+                break;
+            case 80:
+                this.arrItemIds = ITEM_LV_80;
+                break;
+            case 90:
+                this.arrItemIds = ITEM_LV_90;
+                break;
+            case 100:
+            case 110:
+            case 120:
+            case 130:
+            case 140:
+            case 150:
+            case 160:
+                this.arrItemIds = ITEM_LV_100;
+                break;
+            default:
+                this.arrItemIds = new short[0];
+        }
     }
 
     public void updateHP(final int num) {
@@ -161,6 +218,36 @@ public class Mob {
 
     public void setIsboss(boolean isboss) {
         this.isboss = isboss;
+
+        // update item.
+        this.updateBossItemDrop();
+    }
+
+    private void updateBossItemDrop() {
+        if (this.isboss && (this.templates.arrIdItem == null || this.templates.arrIdItem.length == 0)) {
+            if (this.level == 45) {
+                this.templates.arrIdItem = BOSS_ITEM_LV45;
+            } else if (this.level == 55) {
+                this.templates.arrIdItem = BOSS_ITEM_LV55;
+            } else if (this.level == 60) {
+                this.templates.arrIdItem = BOSS_ITEM_LV60;
+            } else if (this.level == 65) {
+                this.templates.arrIdItem = BOSS_ITEM_LV65;
+            } else if (this.level == 75) {
+                this.templates.arrIdItem = BOSS_ITEM_LV75;
+            } else if (this.level == 90) {
+                this.templates.arrIdItem = BOSS_ITEM_LV90;
+            } else if (this.level == 100) {
+                this.templates.arrIdItem = BOSS_ITEM_LV100;
+            } else if (this.level == 99) {
+                this.templates.arrIdItem = BOSS_ITEM_LV99;
+            } else if (this.level == 110) {
+                this.templates.arrIdItem = BOSS_ITEM_LV110;
+            } else {
+                this.templates.arrIdItem = BOSS_DEFAULT_ITEM;
+            }
+        }
+
     }
 
     @SneakyThrows

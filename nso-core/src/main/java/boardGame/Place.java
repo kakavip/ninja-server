@@ -2438,53 +2438,7 @@ public class Place {
         } else if (this.map.VDMQ()) {
             arid = (body.getEffId(41) == null && body.getEffId(40) == null) ? EMPTY : VDMQ_ITEM_IDS;
         } else {
-            int curMobMaxLv = curMob.level - curMob.level % 10 + 10;
-            if (curMobMaxLv > 100) {
-                curMobMaxLv = 100;
-            }
-            switch (curMobMaxLv) {
-                case 10:
-                    arid = ITEM_LV_10;
-                    break;
-                case 20:
-                    arid = ITEM_LV_20;
-                    break;
-                case 30:
-                    arid = ITEM_LV_30;
-                    break;
-                case 40:
-                    arid = ITEM_LV_40;
-                    break;
-                case 50:
-                    arid = ITEM_LV_50;
-                    break;
-                case 60:
-                    arid = ITEM_LV_60;
-                    break;
-                case 70:
-                    arid = ITEM_LV_70;
-                    break;
-                case 80:
-                    arid = ITEM_LV_80;
-                    break;
-                case 90:
-                    arid = ITEM_LV_90;
-                    break;
-                case 100:
-                case 110:
-                case 120:
-                case 130:
-                case 140:
-                case 150:
-                case 160:
-                    arid = ITEM_LV_100;
-                    break;
-
-            }
-        }
-
-        if (curMob.isIsboss()) {
-            updateBossItemDrop(curMob);
+            arid = curMob.getArrItemIds();
         }
 
         boolean canDropItem = isCloneAttackWithChuthan
@@ -2528,7 +2482,7 @@ public class Place {
                     final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
                     if (im != null) {
                         int quantity = 1;
-                        if (curMob.lvboss == 0 && !curMob.isIsboss() && !this.map.isLangCo() && curMob.level <= 140) {
+                        if (curMob.lvboss == 0 && !this.map.isLangCo() && curMob.level <= 140) {
                             im.item.setLock(true);
                         }
                         if (im.item.id == 455 || im.item.id == 456) {
@@ -2543,7 +2497,6 @@ public class Place {
                     }
                 }
             }
-
         }
 
         if (curMob.isIsboss()) {
@@ -2584,7 +2537,12 @@ public class Place {
 
             // drop item
             for (int i = 0; i < N_ITEM_BOSS; i++) {
-                val itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
+                short itemId;
+                if (this.map.isLangCo()) {
+                    itemId = BOSS_LC_ITEM[util.nextInt(0, BOSS_LC_ITEM.length - 1)];
+                } else {
+                    itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
+                }
                 ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
                 if (im != null) {
                     if (im.item.id == 12) {
@@ -2691,36 +2649,6 @@ public class Place {
             if (body.percentWind2() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                 this.WindNinjaMessage(other.id, 1);
             }
-        }
-
-    }
-
-    private void updateBossItemDrop(@Nullable final Mob mob) {
-        if (mob == null) {
-            return;
-        }
-        if (map.isLangCo()) {
-            mob.templates.arrIdItem = BOSS_LC_ITEM;
-        } else if (mob.level == 45) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV45;
-        } else if (mob.level == 55) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV55;
-        } else if (mob.level == 60) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV60;
-        } else if (mob.level == 65) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV65;
-        } else if (mob.level == 75) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV75;
-        } else if (mob.level == 90) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV90;
-        } else if (mob.level == 100) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV100;
-        } else if (mob.level == 99) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV99;
-        } else if (mob.level == 110) {
-            mob.templates.arrIdItem = BOSS_ITEM_LV110;
-        } else {
-            mob.templates.arrIdItem = Manager.BOSS_DEFAULT_ITEM;
         }
 
     }
