@@ -28,7 +28,7 @@ public class Cave {
     @NotNull
     Server server;
     @NotNull
-    public static final HashMap<@NotNull Integer,@NotNull Cave> caves;
+    public static final HashMap<@NotNull Integer, @NotNull Cave> caves;
 
     public Cave(final int x) {
         this.level = 0;
@@ -169,6 +169,9 @@ public class Cave {
                     nj.p.setTimeMap((int) (this.time - System.currentTimeMillis()) / 1000);
 
                     nj.p.sendYellowMessage("Hoàn thành hang động");
+                    nj.upNActPoint(2);
+                    nj.p.sendYellowMessage("Bạn nhận được 2 điểm hoạt động");
+
                     if (nj.party != null && nj.party.cave != null) {
                         nj.party.cave = null;
                     }

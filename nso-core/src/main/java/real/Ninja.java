@@ -1209,7 +1209,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             } else if (task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
                 int ddvN = util.nextInt(5);
                 int ddvId = 695 + ddvN;
-                int nDdv = util.nextInt(5, 7) - ddvN;
+                int nDdv = util.nextInt(10, 15) - ddvN * 2;
 
                 Item i = ItemData.itemDefault(ddvId);
                 i.quantity = nDdv;
