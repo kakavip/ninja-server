@@ -1137,6 +1137,10 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             task.setCount(task.getCount() + point);
             if (typeTask != TaskOrder.NHIEM_VU_DANH_VONG) {
                 updateTaskMessage(task);
+            } else {
+                if (task.isDone()) {
+                    this.p.sendYellowMessage("Đã hoàn thành nhiệm vụ danh vọng.");
+                }
             }
         }
     }
