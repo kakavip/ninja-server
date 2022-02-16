@@ -1273,11 +1273,11 @@ public class Body implements ISoloer {
     }
 
     public void resetOSkill() {
-        this.OSkill = new byte[] { -1, -1, -1 };
+        this.OSkill = new byte[] { -1, -1, -1, -1, -1 };
     }
 
     public void resetKSkill() {
-        this.KSkill = new byte[] { -1, -1, -1, -1, -1 };
+        this.KSkill = new byte[] { -1, -1, -1 };
     }
 
     public short getCSkill() {
