@@ -600,9 +600,13 @@ public class MenuController {
                                 }
                                 break;
                             case 2:
-                                // Huy nhiem vu
-                                p.nj.huyNhiemVu(NHIEM_VU_DANH_VONG);
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Huỷ nhiệm vụ thành công.");
+                                if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] != null) {
+                                    // Huy nhiem vu
+                                    p.nj.huyNhiemVu(NHIEM_VU_DANH_VONG);
+                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Huỷ nhiệm vụ thành công.");
+                                } else {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Con chưa có nhiệm vụ danh vọng nào cả.");
+                                }
                                 break;
                             case 3:
                                 // Nhan mat
@@ -632,7 +636,7 @@ public class MenuController {
                                 if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] != null) {
                                     TaskOrder task = p.nj.getTasks()[NHIEM_VU_DANH_VONG];
 
-                                    s += "Thông tin nhiệm vụ danh vọng: \n";
+                                    s += "Thông tin nhiệm vụ danh vọng (" + p.nj.nvdvCount + "/50) : \n";
                                     s += task.nvdvText() + "\n";
                                     s += "\n";
                                     s += "--------------------------------\n";
@@ -2275,7 +2279,6 @@ public class MenuController {
         Item item = bikipItem.clone();
         item.option.clear();
 
-        
         int nCS = util.nextInt(1, 5);
         int[] optionIds = new int[nCS];
         for (int i = 0; i < nCS; i++) {
