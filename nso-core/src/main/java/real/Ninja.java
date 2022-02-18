@@ -1090,7 +1090,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
     public void sendTaskOrders() {
         for (TaskOrder task : this.getTasks()) {
-            if (task == null) {
+            if (task == null || task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
                 continue;
             }
             this.sendATaskMessage(task);
@@ -1131,7 +1131,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             return;
         }
 
-        util.Debug("TaskOrder " + typeTask + ": " + point + " point, killId:  " + killId);
+        util.Debug("TaskOrder " + typeTask + ": " + point + " point, killId: " + killId);
 
         if (task.getKillId() == killId) {
             task.setCount(task.getCount() + point);
@@ -1207,7 +1207,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 i.quantity = this.get().getLevel() >= 60 ? 5 : 2;
                 this.addItemBag(true, i);
             } else if (task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
-                int ddvN = util.nextInt(5);
+                int ddvN = task.nvdvType() / 2;
                 int ddvId = 695 + ddvN;
                 int nDdv = util.nextInt(10, 15) - ddvN * 2;
 

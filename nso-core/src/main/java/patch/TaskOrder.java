@@ -20,16 +20,16 @@ public class TaskOrder implements Serializable, Cloneable {
     public static int NHIEM_VU_TA_THU = 1;
     public static int NHIEM_VU_DANH_VONG = 2;
 
-    public static int VXMM_VIP_KILL_ID = -1;
-    public static int VXMM_NORMAL_KILL_ID = -2;
-    public static int TAI_XIU_KILL_ID = -3;
-    public static int UPGRADE_TONE_KILL_ID = -4;
-    public static int LAT_HINH_KILL_ID = -5;
-    public static int INCREASE_PK_POINT_KILL_ID = -6;
-    public static int BU_NHIN_KILL_ID = -7;
-    public static int NORMAL_MOB_KILL_ID = -8;
-    public static int TA_MOB_KILL_ID = -9;
-    public static int TL_MOB_KILL_ID = -10;
+    public static int BU_NHIN_KILL_ID = -1;
+    public static int NORMAL_MOB_KILL_ID = -2;
+    public static int INCREASE_PK_POINT_KILL_ID = -3;
+    public static int TAI_XIU_KILL_ID = -4;
+    public static int VXMM_NORMAL_KILL_ID = -5;
+    public static int TA_MOB_KILL_ID = -6;
+    public static int TL_MOB_KILL_ID = -7;
+    public static int UPGRADE_TONE_KILL_ID = -8;
+    public static int LAT_HINH_KILL_ID = -9;
+    public static int VXMM_VIP_KILL_ID = -10;
 
     private int count;
     private int maxCount;
@@ -45,16 +45,16 @@ public class TaskOrder implements Serializable, Cloneable {
 
     public static int[] nvdvTypes = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     public static String[] NVDV_NAMES = new String[] {
-            "- Tham gia vòng xoay may mắn vip %d/%d lần",
-            "- Tham gia vòng xoay may mắn thường %d/%d lần",
-            "- Tham gia minigame tài xỉu %d/%d lần",
-            "- Luyện thành công đá 11: %d/%d lần",
-            "- Lật hình %d/%d lần",
-            "- Tăng điểm hiếu chiến %d/%d lần",
             "- Hạ gục %d/%d bù nhìn",
             "- Tiêu diệt %d/%d quái thường không lệch quá 10 cấp độ",
+            "- Tăng điểm hiếu chiến %d/%d lần",
+            "- Tham gia minigame tài xỉu %d/%d lần",
+            "- Tham gia vòng xoay may mắn thường %d/%d lần",
             "- Tiêu diệt %d/%d tinh anh không lệch quá 10 cấp độ",
-            "- Tiêu diệt %d/%d thủ lĩnh không lệch quá 10 cấp độ"
+            "- Tiêu diệt %d/%d thủ lĩnh không lệch quá 10 cấp độ",
+            "- Luyện thành công đá 11: %d/%d lần",
+            "- Lật hình %d/%d lần",
+            "- Tham gia vòng xoay may mắn vip %d/%d lần",
     };
 
     public TaskOrder() {
