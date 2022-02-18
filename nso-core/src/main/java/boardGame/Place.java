@@ -2434,9 +2434,11 @@ public class Place {
 
         short[] arid = new short[0];
         if (this.map.isLangCo()) {
-            arid = LANG_CO_ITEM_IDS;
+            arid = util.nextInt(100) < (int) (MAX_PERCENT / 3) ? LANG_CO_ITEM_IDS : EMPTY;
         } else if (this.map.VDMQ()) {
-            arid = (body.getEffId(41) == null && body.getEffId(40) == null) ? EMPTY : VDMQ_ITEM_IDS;
+            arid = (body.getEffId(41) == null && body.getEffId(40) == null)
+                    || util.nextInt(100) >= MAX_PERCENT ? EMPTY
+                            : VDMQ_ITEM_IDS;
         } else {
             arid = curMob.getArrItemIds();
         }
