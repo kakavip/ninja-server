@@ -1097,11 +1097,11 @@ public class useItem {
                 if (item.quantity >= 300) {
                     // Tiem nang so
                     p.nj.addItemBag(false, ItemData.itemDefault(253));
-                    p.nj.removeItemBags(index, 300);
+                    p.nj.removeItemBags(item.id, 300);
                 } else if (item.quantity >= 250) {
                     // Ky nang so
                     p.nj.addItemBag(false, ItemData.itemDefault(252));
-                    p.nj.removeItemBags(index, 250);
+                    p.nj.removeItemBags(item.id, 250);
                 } else {
                     p.sendYellowMessage("Không đủ mảnh giấy vụn");
                 }
