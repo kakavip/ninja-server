@@ -99,7 +99,7 @@ public class Draw {
                     if (p.nj.yen < yen) {
                         p.session.sendMessageLog("Số yên trong hành trang của bạn phải lớn hơn " + yen + " yên.");
                         break;
-                    } else if (p.nj.xu + yen > 2000000000) {
+                    } else if (p.nj.xu + yen > 2_000_000_000) {
                         p.session.sendMessageLog("Số xu trong hành trang của bạn đã đạt mức tối đa.");
                         break;
                     } else if (yen > maxYenTransfer) {
@@ -122,19 +122,6 @@ public class Draw {
                 p.cardDCoin();
                 break;
             }
-            case 24_6_1_0:
-                p.nameUS = str;
-                Ninja user_gift_coin = PlayerManager.getInstance().getNinja(str);
-                if (user_gift_coin != null) {
-                    server.menu.sendWrite(p, (short) -1004_2, "Số lượng");
-                } else {
-                    p.session.sendMessageLog("Người chơi không có trên mạng. Không thể nhận kim cương");
-                }
-                break;
-            case 24_6_1_1:
-                p.diamond_send = str;
-                p.sendDiamond();
-                break;
             case 24_8: {
                 p.nameUS = str;
                 Ninja user_gift_gold = PlayerManager.getInstance().getNinja(p.nameUS);
@@ -153,7 +140,7 @@ public class Draw {
                         p.session.sendMessageLog("Phải nhập số lớn hơn 0.");
                         break;
                     }
-                    if (nTicket > 10000) {
+                    if (nTicket > 10_000) {
                         p.session.sendMessageLog("Chỉ có thể tặng tối đa 10.000 vé lượng 1 lần.");
                         break;
                     }
