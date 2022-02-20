@@ -221,8 +221,7 @@ public class TaskHandle {
                 Service.openUISay(ninja, npcTemplateId, Talk.getTask(0, 115));
                 ninja.upyenMessage(800L);
                 ninja.p.updateExp(24080L, false);
-                ninja.addItemBag(false, ItemData.itemDefault(37));
-                val i3 = ItemData.itemDefault(225);
+                val i3 = ItemData.itemDefault(222);
                 i3.setLock(true);
                 ninja.addItemBag(false, i3);
                 break;
@@ -973,7 +972,6 @@ public class TaskHandle {
         } else if (itemId >= 222 && itemId <= 228) {
             int count = 0;
             for (Item item : ninja.ItemBag) {
-
                 if (item != null && item.getData().type == 22) {
                     count++;
                 }

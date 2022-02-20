@@ -688,7 +688,6 @@ public class TaskList {
                                                 })
 
                                                 .rewards(new int[][] {
-                                                                { 224, 1 },
                                                                 { EXP_ID, 8_000_000 },
                                                                 { LUONG_ID, 200 },
                                                 })
