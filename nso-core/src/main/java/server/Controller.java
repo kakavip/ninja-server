@@ -349,12 +349,14 @@ public class Controller implements ISessionHandler {
 
                 case 61: {
                     if (p != null && !p.nj.isDie) {
-                        val cloneMessage = message.cloneMessage();
-                        p.nj.getPlace().attackNinja(p.nj.get(), message);
-                        if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()) {
-                            p.nj.getPlace().attackNinja(p.nj.clone, (Message) cloneMessage);
+                        if (p.nj.getPlace().canAttackNinja(p.nj.get(), message.cloneMessage())) {
+                            val cloneMessage = message.cloneMessage();
+                            p.nj.getPlace().attackNinja(p.nj.get(), message);
+                            if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()) {
+                                p.nj.getPlace().attackNinja(p.nj.clone, (Message) cloneMessage);
+                            }
+                            break;
                         }
-                        break;
                     }
                     break;
                 }
@@ -607,10 +609,10 @@ public class Controller implements ISessionHandler {
 
     private void attackPlayerVsMob(Message message, User p) throws IOException {
         if (p != null && !p.nj.isDie) {
-            val _ninja = p.nj;
+            Ninja _ninja = p.nj;
 
             if (p != null && _ninja != null && _ninja.getCSkill() != -1) {
-                if (_ninja.ItemBody[1] == null) {
+                if (!_ninja.canUseVukhi()) {
                     p.sendYellowMessage("Vũ khí không hợp lệ");
                     return;
                 }

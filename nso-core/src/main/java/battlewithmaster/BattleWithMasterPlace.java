@@ -10,6 +10,7 @@ import real.Ninja;
 import real.User;
 import server.Service;
 import threading.Map;
+import threading.Message;
 
 import java.io.IOException;
 
@@ -28,10 +29,10 @@ public class BattleWithMasterPlace extends TournamentPlace {
         return 780;
     }
 
-
     @Override
     public void Enter(final @Nullable User p) throws IOException {
-        if (p == null) return;
+        if (p == null)
+            return;
         super.Enter(p);
     }
 
@@ -41,7 +42,12 @@ public class BattleWithMasterPlace extends TournamentPlace {
     }
 
     @Override
-    protected boolean canAttackNinja(Body body, Ninja other) {
+    public boolean canAttackNinja(Body body, Ninja other) {
+        return true;
+    }
+
+    @Override
+    public boolean canAttackNinja(final @Nullable Body body, @Nullable Message m) {
         return true;
     }
 
@@ -52,7 +58,8 @@ public class BattleWithMasterPlace extends TournamentPlace {
      */
     @Override
     public boolean handleDie(final @Nullable Ninja ninjaAI, final @Nullable Ninja ninjaNorm) {
-        if (ninjaAI == null || ninjaNorm == null) return false;
+        if (ninjaAI == null || ninjaNorm == null)
+            return false;
         if (ninjaAI.isDie) {
             ninjaNorm.upMainTask();
             kickToHome(ninjaAI, ninjaNorm, null);
@@ -69,8 +76,10 @@ public class BattleWithMasterPlace extends TournamentPlace {
 
     @SneakyThrows
     @Override
-    protected void kickToHome(final @Nullable Ninja ninjaAI, final @Nullable Ninja ninjaNorm, final @Nullable Tournament tour) {
-        if (ninjaNorm == null || ninjaAI == null) return;
+    protected void kickToHome(final @Nullable Ninja ninjaAI, final @Nullable Ninja ninjaNorm,
+            final @Nullable Tournament tour) {
+        if (ninjaNorm == null || ninjaAI == null)
+            return;
         ninjaNorm.getPlace().gotoHaruna(ninjaNorm.p);
         getUsers().clear();
         Service.batDauTinhGio(ninjaNorm.p, 0);

@@ -1776,6 +1776,26 @@ public class Place {
         return im;
     }
 
+    private boolean canAttack(final Body body) {
+        User p = body.c.p;
+
+        if (!body.canUseSkill()) {
+            return false;
+        }
+
+        if (!body.canUseVukhi()) {
+            p.sendYellowMessage("Vũ khí không hợp lệ");
+            return false;
+        }
+
+        if (!body.canUseBikip()) {
+            p.sendYellowMessage("Bí kíp không hợp lệ");
+            return false;
+        }
+
+        return true;
+    }
+
     public void FightMob(@Nullable final Body body, @Nullable final Message m) throws IOException {
         if (body == null || m == null) {
             return;
@@ -1787,10 +1807,13 @@ public class Place {
             body.setCSkill(body.getSkills().get(0).id);
         }
 
-        final Skill skill = body.getMyCSkillObject();
-        if (skill == null) {
+        if (!canAttack(body)) {
             return;
         }
+
+        p.removeEffect(15);
+        p.removeEffect(16);
+
         final int mobId = m.reader().readUnsignedByte();
         m.cleanup();
         final Mob mob = this.getMob(mobId);
@@ -1816,21 +1839,8 @@ public class Place {
 
         final Mob[] arMob = new Mob[10];
         arMob[0] = mob;
-        if (body.ItemBody[1] == null) {
-            p.sendYellowMessage("Vũ khí không thích hợp");
-            util.Debug("Không vũ khí không thích hợp");
-            return;
-        }
-        p.removeEffect(15);
-        p.removeEffect(16);
-        final SkillTemplates data = SkillData.Templates(skill.id, skill.point);
-        p.getMp();
-        if (body.mp < data.manaUse && !(body instanceof CloneChar)) {
-            MessageSubCommand.sendMP((Ninja) body);
-            return;
-        }
 
-        if (skill.coolDown > System.currentTimeMillis() || Math.abs(p.nj.get().x - mob.x) > 150
+        if (Math.abs(p.nj.get().x - mob.x) > 150
                 || Math.abs(p.nj.get().y - mob.y) > 150) {
             return;
         }
@@ -1839,7 +1849,18 @@ public class Place {
                 || Math.abs(body.y - mob.y) > body.getCSkillTemplate().dy + 30) {
             return;
         }
-        skill.coolDown = System.currentTimeMillis() + data.coolDown;
+
+        final Skill skill = body.getMyCSkillObject();
+        if (skill == null) {
+            return;
+        }
+        final SkillTemplates data = SkillData.Templates(skill.id, skill.point);
+        p.getMp();
+        if (body.mp < data.manaUse && !(body instanceof CloneChar)) {
+            MessageSubCommand.sendMP((Ninja) body);
+            return;
+        }
+
         body.c.mobAtk = mob.id;
 
         if (body.isHuman) {
@@ -1923,16 +1944,19 @@ public class Place {
             return;
         }
 
+        if (!canAttack(_char)) {
+            return;
+        }
+
         val p = _char.c.p;
         if (_char.getCSkill() == -1 && _char.getSkills().size() > 0) {
             _char.setCSkill(_char.getSkills().get(0).id);
         }
+
         final Skill skill = _char.getSkill(_char.getCSkill());
         if (skill == null) {
             return;
         }
-
-        final SkillTemplates temp = SkillData.Templates(skill.id, skill.point);
 
         if (arrMob != null && arrChar != null) {
             try {
@@ -1972,6 +1996,7 @@ public class Place {
             }
         }
 
+        final SkillTemplates temp = SkillData.Templates(skill.id, skill.point);
         if (arrChar != null) {
             byte i;
             for (i = 0; i < arrChar.length; i = (byte) (i + 1)) {
@@ -2413,9 +2438,9 @@ public class Place {
 
         boolean isCloneAttackWithChuthan = body instanceof CloneChar && !p.nj.isNhanban;
 
-        short[] arid = new short[0];
+        short[] arid;
         if (this.map.isLangCo()) {
-            arid = util.nextInt(100) < (int) (MAX_PERCENT / 3) ? LANG_CO_ITEM_IDS : EMPTY;
+            arid = util.nextInt(100) < MAX_PERCENT / 2 ? LANG_CO_ITEM_IDS : EMPTY;
         } else if (this.map.VDMQ()) {
             arid = (body.getEffId(41) == null && body.getEffId(40) == null)
                     || util.nextInt(100) >= MAX_PERCENT ? EMPTY
@@ -2636,7 +2661,7 @@ public class Place {
 
     }
 
-    protected boolean canAttackNinja(final @Nullable Body body, final @Nullable Ninja other) {
+    public boolean canAttackNinja(final @Nullable Body body, final @Nullable Ninja other) {
         if (body == null || other == null) {
             return false;
         }
@@ -2658,6 +2683,22 @@ public class Place {
                 || (p.nj.solo != null
                         && other.solo != null
                         && p.nj.solo == other.solo));
+    }
+
+    public boolean canAttackNinja(final @Nullable Body body, @Nullable Message m) throws IOException {
+        if (body == null || m == null) {
+            return false;
+        }
+
+        final int ninjaId = m.reader().readInt();
+        m.cleanup();
+
+        final Ninja other = this.getNinja(ninjaId);
+        if (other == null) {
+            return false;
+        }
+
+        return canAttackNinja(body, other);
     }
 
     public void attackNinja(final @Nullable Body body, @Nullable Message m) throws IOException {

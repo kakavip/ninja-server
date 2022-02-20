@@ -24,6 +24,15 @@ import static real.ItemData.*;
 @SuppressWarnings("ALL")
 public class Body implements ISoloer {
     public static short PERCENT_DAME_PEOPLE;
+
+    public static short NCLASS_NONE = 0;
+    public static short NCLASS_KIEM = 1;
+    public static short NCLASS_TIEU = 2;
+    public static short NCLASS_KUNAI = 3;
+    public static short NCLASS_CUNG = 4;
+    public static short NCLASS_DAO = 5;
+    public static short NCLASS_QUAT = 6;
+
     public int id;
     public byte head;
     public int typeSolo;
@@ -1305,6 +1314,22 @@ public class Body implements ISoloer {
         this.skills = skills;
     }
 
+    public boolean canUseSkill() {
+        final Skill skill = this.getMyCSkillObject();
+        if (skill == null) {
+            return false;
+        }
+
+        final SkillTemplates data = SkillData.Templates(skill.id, skill.point);
+        if (skill.coolDown > System.currentTimeMillis()) {
+            util.Debug("Kỹ năng chưa hồi.");
+            return false;
+        }
+
+        skill.coolDown = System.currentTimeMillis() + data.coolDown;
+        return true;
+    }
+
     public short getTypepk() {
         return typepk;
     }
@@ -1346,6 +1371,37 @@ public class Body implements ISoloer {
                 }
             }
         }
+
+    }
+
+    public boolean canUseVukhi() {
+        if (this.ItemBody[1] == null) {
+            return false;
+        }
+        int itemNClass = ItemDataId(this.ItemBody[1].id).nclass;
+        if (itemNClass == Body.NCLASS_KIEM && this.nclass == Body.NCLASS_NONE) {
+            return true;
+        }
+        if (itemNClass != this.nclass) {
+            util.Debug("Vũ khí không thích hợp");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean canUseBikip() {
+        if (this.ItemBody[15] == null) {
+            return true;
+        }
+
+        int itemNClass = ItemDataId(this.ItemBody[15].id).nclass;
+        if (itemNClass != this.nclass) {
+            util.Debug("Bí kíp không phù hợp");
+            return false;
+        }
+
+        return true;
 
     }
 }
