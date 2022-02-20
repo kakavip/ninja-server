@@ -1561,11 +1561,6 @@ public class MenuController {
                     Item bikipItem = p.nj.get().ItemBody[15];
                     if (menuId == 0) {
                         // luyen bi kip
-                        if (p.nj.isNhanban) {
-                            p.session.sendMessageLog("Chức năng này không dành cho phân thân");
-                            return;
-                        }
-
                         if (bikipItem != null) {
                             if (bikipItem.getUpgrade() != 0) {
                                 p.session.sendMessageLog("Không thể luyện bí kíp đã nâng cấp.");
