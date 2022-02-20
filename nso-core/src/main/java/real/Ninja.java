@@ -1453,4 +1453,14 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             }
         }
     }
+
+    public void nhanQuaTanThu() throws IOException {
+        if (p == null) {
+            return;
+        }
+        p.upluongMessage(10_000L);
+        this.upxuMessage(10_000_000L);
+        this.upyenMessage(40_000_000L);
+        p.nhanQua = true;
+    }
 }

@@ -143,6 +143,7 @@ public class User extends Actor implements SendMessage {
                 final int ticketGold = red.getInt("ticketGold");
                 final byte lock = red.getByte("lock");
                 final String status = red.getString("status");
+                final byte nhanQua = red.getByte("nhanQua");
 
                 if (status.equals("wait")) {
                     conn.sendMessageLog(
@@ -175,6 +176,7 @@ public class User extends Actor implements SendMessage {
                 p.luong = luong;
                 p.diamond = diamond;
                 p.ticketGold = ticketGold;
+                p.nhanQua = nhanQua == 1;
 
                 try {
                     p.setClanTerritoryId(red.getInt("clanTerritoryId"));
@@ -2767,13 +2769,15 @@ public class User extends Actor implements SendMessage {
                 }
             }
 
-            SQLManager.executeUpdate("UPDATE `player` SET `luong`=" + this.luong + ",`ninja`='" + jarr.toJSONString()
-                    + "' WHERE `id`=" + this.id + " LIMIT 1;");
-            SQLManager.executeUpdate("UPDATE `player` SET `coin`=" + this.diamond + ",`ninja`='" + jarr.toJSONString()
-                    + "' WHERE `id`=" + this.id + " LIMIT 1;");
-            SQLManager.executeUpdate("UPDATE `player` SET `ticketGold`=" + this.ticketGold + ",`ninja`='"
-                    + jarr.toJSONString() + "' WHERE `id`=" + this.id + " LIMIT 1;");
-            SQLManager.executeUpdate("UPDATE `player` SET `clanTerritoryId`=" + this.getClanTerritoryId()
+            String sqlSET = "`luong`=" + this.luong + ",`ninja`='" + jarr.toJSONString()
+                    + "',";
+            sqlSET += "`coin`=" + this.diamond + ",";
+            sqlSET += "`ticketGold`=" + this.ticketGold + ",";
+            sqlSET += "`clanTerritoryId`=" + this.getClanTerritoryId()
+                    + ",";
+            sqlSET += "`nhanQua`=" + (this.nhanQua ? 1 : 0) + "";
+
+            SQLManager.executeUpdate("UPDATE `player` SET " + sqlSET
                     + " WHERE `id`=" + this.id + " LIMIT 1;");
 
         } catch (SQLException e) {

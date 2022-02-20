@@ -651,10 +651,6 @@ public class Place {
 
                     self.sendMounts(p.nj.get(), recv);
                 }
-
-                if (p.nj.getLevel() == 1 && !p.nhanQua) {
-                    self.nhanQuaDangNhap(p);
-                }
                 val u = Arrays.asList(p);
                 for (BuNhin buNhin : self.buNhins) {
                     MessageSubCommand.sendBuNhin(buNhin, u);
@@ -808,21 +804,6 @@ public class Place {
 
     private void addUser(@NotNull User p) {
         this._users.add(p);
-    }
-
-    private void nhanQuaDangNhap(@Nullable User p) throws IOException {
-        if (p == null) {
-            return;
-        }
-
-        // p.updateExp(Level.getMaxExp(21) - 1L, false);
-        // p.nj.setLevel(20);
-        // p.upluongMessage(5_000L);
-        // p.nj.upxuMessage(10_000_000L);
-        // p.nj.upyenMessage(20_000_000L);
-        // p.nj.ItemBody[1] = itemDefault(194);
-        p.nhanQua = true;
-
     }
 
     protected boolean resetPlaceIfInBattle(@Nullable final User p) throws IOException {

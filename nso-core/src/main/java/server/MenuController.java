@@ -2506,6 +2506,19 @@ public class MenuController {
                     this.sendWrite(p, (short) 51, "Nhập mật khẩu cũ");
                     break;
                 }
+                case 6: {
+                    // nhan qua tan thu
+                    if (p.nhanQua) {
+                        p.nj.getPlace().chatNPC(p, idNpc,
+                                "Con đã nhận quà tân thủ rồi. Mỗi tài khoản chỉ được nhận một lần duy nhất.");
+                    } else {
+                        p.nj.nhanQuaTanThu();
+                        p.nj.getPlace().chatNPC(p, idNpc,
+                                "Con đã nhận quà tân thủ thành công.");
+                    }
+
+                    break;
+                }
                 default:
                     p.nj.getPlace().chatNPC(p, idNpc, "Ta đứng đây từ " + (util.nextInt(0, 1) == 1 ? "chiều" : "trưa"));
             }
@@ -2605,23 +2618,6 @@ public class MenuController {
         }
         for (int i = 0; i < count; i++) {
             p.nj.addItemBag(false, ItemData.itemDefault(idItem));
-        }
-        return false;
-    }
-
-    private boolean nhanQua(User p, short[] idThuong) {
-        if (p.nj.getAvailableBag() == 0) {
-            p.sendYellowMessage("Hành trang phải đủ " + idThuong.length + " ô để nhận vật phẩm");
-            return true;
-        }
-        for (short i : idThuong) {
-            if (i == 12) {
-                val quantity = util.nextInt(10_000_000, 15_000_000);
-                p.nj.upyen(quantity);
-            } else {
-                Item item = ItemData.itemDefault(i);
-                p.nj.addItemBag(false, item);
-            }
         }
         return false;
     }
