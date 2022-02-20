@@ -1107,9 +1107,9 @@ public class useItem {
                 }
                 break;
             }
-            case 256: {
-                // Tay am cap 60 tl
-                if (p.nj.get().getLevel() >= 60 && p.nj.get().expdown != 0) {
+            case 254: {
+                // Tay tam duoi cap 30
+                if (p.nj.get().getLevel() < 30 && p.nj.get().expdown != 0) {
                     p.upExpDown(p.nj.get().expdown);
                     p.nj.removeItemBag(index, 1);
                 } else {
@@ -1117,7 +1117,6 @@ public class useItem {
                 }
                 break;
             }
-
             case 255: {
                 // Tay am duoi cap 60
                 if (p.nj.get().getLevel() < 60 && p.nj.get().expdown != 0) {
@@ -1128,9 +1127,9 @@ public class useItem {
                 }
                 break;
             }
-            case 254: {
-                // Tay tam duoi cap 30
-                if (p.nj.get().getLevel() < 30 && p.nj.get().expdown != 0) {
+            case 256: {
+                // Tay am cap 60 tl
+                if (p.nj.get().getLevel() >= 60 && p.nj.get().expdown != 0) {
                     p.upExpDown(p.nj.get().expdown);
                     p.nj.removeItemBag(index, 1);
                 } else {
@@ -1303,6 +1302,11 @@ public class useItem {
                     return;
                 }
                 upDaDanhVong(p, item);
+                break;
+            }
+            case 705: {
+                p.nj.nvdvCount -= 1;
+                p.sendYellowMessage("Số lần làm nhiệmm vụ danh vọng của bạn là: " + p.nj.nvdvCount);
                 break;
             }
 
