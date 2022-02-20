@@ -334,7 +334,7 @@ public class RotationLuck extends Thread {
                                 if (!taiWin) {
                                     this.sucsacs.add(util.nextInt(10 - this.totalSucSac()) + 1);
                                 } else {
-                                    this.sucsacs.add(util.nextInt(10 - this.totalSucSac(), 6) + 1);
+                                    this.sucsacs.add(util.nextInt(11 - this.totalSucSac(), 6));
                                 }
 
                             } else {
