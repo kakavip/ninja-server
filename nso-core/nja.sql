@@ -24904,6 +24904,11 @@ add column `nvdvcount` smallint(6) DEFAULT '0',
 add column `DVPoints` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[0,0,0,0,0,0,0,0,0,0]';
 update  `ninja` set DVPoints='[500,500,500,500,500,500,500,500,500,500]';
 
+alter table `ninja`
+add column `ticketXu` int(11) NOT NULL DEFAULT '0',
+add column `ticketYen` int(11) NOT NULL DEFAULT '0';
+
+
 --
 -- Dumping data for table `ninja`
 --
@@ -25595,6 +25600,9 @@ CREATE TABLE `player` (
   `clanTerritoryId` int(11) DEFAULT '-1',
   `level` varchar(15) DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC;
+
+alter table `player`
+add column `nhanQua` tinyint(11) NOT NULL DEFAULT '0';
 --
 -- Dumping data for table `player`
 --
