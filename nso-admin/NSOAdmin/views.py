@@ -52,8 +52,8 @@ def register(request):
     client_ip: str = secure.get_ip_from_request(request)
 
     if request.method == "POST":
-        username = request.data.get("user")
-        password = request.data.get("pass")
+        username: Optional[str] = request.data.get("user")
+        password: Optional[str] = request.data.get("pass")
 
         if not (username and password):
             return response.fail("Tài khoản và mật khẩu không được trống.")
@@ -62,10 +62,16 @@ def register(request):
             username == re.findall(r"([a-z0-9]+)", username)[0]
             and password == re.findall(r"([a-z0-9]+)", password)[0]
         ):
-            return response.fail("Tài khoản và mật khẩu phải là số hoặc chữ.")
+            return response.fail("Tài khoản và mật khẩu phải là số và chữ thường.")
 
-        if len(username) < 5 or len(password) < 5:
-            return response.fail("Tài khoản hoặc mật khẩu phải từ 5 kí tự trở lên.")
+        if len(username) < 8 or len(password) < 8:
+            return response.fail("Tài khoản hoặc mật khẩu phải từ 8 kí tự trở lên.")
+
+        if password.isdigit() or password.isalpha():
+            return response.fail("Mật khẩu cần phải có cả chữ thường và số.")
+
+        if ("123" in password) or ("abc" in password):
+            return response.fail("Mật khẩu không an toàn. Vui lòng chọn mật khẩu khác.")
 
         player: Optional[Player] = Player.objects.filter(username=username).first()
         if not player:
