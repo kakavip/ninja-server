@@ -70,7 +70,11 @@ def register(request):
         if password.isdigit() or password.isalpha():
             return response.fail("Mật khẩu cần phải có cả chữ thường và số.")
 
-        if ("123" in password) or ("abc" in password):
+        if (
+            ("123" in password)
+            or ("abc" in password)
+            or (len(list(set(password))) <= 2)
+        ):
             return response.fail("Mật khẩu không an toàn. Vui lòng chọn mật khẩu khác.")
 
         player: Optional[Player] = Player.objects.filter(username=username).first()
