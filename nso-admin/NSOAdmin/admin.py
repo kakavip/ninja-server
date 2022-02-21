@@ -40,12 +40,21 @@ class PlayerAdmin(admin.ModelAdmin):
         "ticket_gold",
         "password",
         "joined_time",
+        "nhan_qua",
     ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
-    fields = ["username", "password", "luong", "ninja", "status", "ticket_gold"]
+    fields = [
+        "username",
+        "password",
+        "luong",
+        "ninja",
+        "status",
+        "ticket_gold",
+        "nhan_qua",
+    ]
     search_fields = ["username", "password", "ninja"]
-    list_filter = ["status", "lock"]
+    list_filter = ["status", "nhan_qua", "lock"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
 
 
@@ -116,6 +125,10 @@ class NinjaAdmin(CharacterAdmin):
         "clan",
         "nvhn_count",
         "tathu_count",
+        "nvdv_count",
+        "dv_points",
+        "ticket_xu",
+        "ticket_yen",
     ]
     fields = CharacterAdmin.fields + [
         "expdown",
@@ -123,6 +136,8 @@ class NinjaAdmin(CharacterAdmin):
         "clan",
         "nvhn_count",
         "tathu_count",
+        "nvdv_count",
+        "dv_points",
     ]
 
 

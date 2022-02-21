@@ -37,6 +37,9 @@ class Player(models.Model):
     clan_territory_id = models.IntegerField(
         blank=True, null=True, default=-1, db_column="clanTerritoryId"
     )
+    nhan_qua = models.BooleanField(
+        db_column="nhanQua", blank=True, null=True, default=False
+    )
 
     lock = models.BooleanField(default=False)
 
@@ -135,6 +138,17 @@ class Ninja(Character):
     )
     tathu_count = models.IntegerField(
         blank=True, null=True, db_column="tathucount", default=0
+    )
+    nvdv_count = models.IntegerField(
+        blank=True, null=True, db_column="nvdvcount", default=0
+    )
+    dv_points = JSONField(db_column="DVPoints", blank=True, null=True)
+
+    ticket_yen = models.IntegerField(
+        blank=True, null=True, default=0, db_column="ticketYen"
+    )
+    ticket_xu = models.IntegerField(
+        blank=True, null=True, default=0, db_column="ticketXu"
     )
 
     class Meta:
