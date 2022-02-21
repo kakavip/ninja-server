@@ -208,6 +208,80 @@ public class Draw {
                 MenuController.doMenuArray(p, new String[] { "Vòng xoay thường", "Vòng xoay VIP", "Tài Xỉu" });
                 break;
             }
+            case 600:
+            case 601:
+            case 610:
+            case 611: {
+                try {
+                    int nTicket = Integer.parseInt(str);
+                    if (nTicket > 10 || nTicket <= 0) {
+                        p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 10.");
+                        break;
+                    }
+
+                    long amount = nTicket * 100_000_000;
+                    if (menuId % 2 == 0) {
+                        // gui
+                        if (menuId % 100 == 0) {
+                            // yen
+                            if (p.nj.yen < amount) {
+                                p.session.sendMessageLog("Bạn không đủ " + amount + " yên để kí gửi.");
+                                break;
+                            }
+
+                            p.nj.upyenMessage(-amount);
+                            p.nj.upTicketYen(nTicket);
+                        } else {
+                            // xu
+                            if (p.nj.xu < amount) {
+                                p.session.sendMessageLog("Bạn không đủ " + amount + " xu để kí gửi.");
+                                break;
+                            }
+                            p.nj.upxuMessage(-amount);
+                            p.nj.upTicketXu(nTicket);
+                        }
+                    } else {
+                        // rut
+                        if (menuId % 100 == 1) {
+                            // yen
+                            if (nTicket > p.nj.ticketYen) {
+                                p.session.sendMessageLog("Bạn không đủ " + nTicket + " vé yên để rút.");
+                                break;
+                            }
+
+                            if (p.nj.yen + amount > 2_000_000_000 || p.nj.yen + amount < 0) {
+                                p.session.sendMessageLog(
+                                        "Yên trong hành trang của bạn quá lớn, không thể rút " + amount + " yên.");
+                                break;
+                            }
+
+                            p.nj.upyenMessage(amount);
+                            p.nj.upTicketYen(-nTicket);
+                        } else {
+                            // xu
+                            if (nTicket > p.nj.ticketXu) {
+                                p.session.sendMessageLog("Bạn không đủ " + nTicket + " vé xu để rút.");
+                                break;
+                            }
+
+                            if (p.nj.xu + amount > 2_000_000_000 || p.nj.xu + amount < 0) {
+                                p.session.sendMessageLog(
+                                        "Xu trong hành trang của bạn quá lớn, không thể rút " + amount + " xu.");
+                                break;
+                            }
+
+                            p.nj.upxuMessage(amount);
+                            p.nj.upTicketXu(-nTicket);
+
+                        }
+                    }
+                } catch (NumberFormatException ex) {
+                    p.session.sendMessageLog("Sai định dạng.");
+                    break;
+                }
+
+                break;
+            }
 
             default: {
                 if (menuId >= MenuController.MIN_EVENT_MENU_ID

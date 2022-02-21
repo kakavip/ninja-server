@@ -38,6 +38,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public int xu;
     public int xuBox;
     public int yen;
+    public int ticketXu;
+    public int ticketYen;
     public int maxluggage;
     protected byte levelBag;
     public int mapType;
@@ -151,6 +153,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         this.xu = 0;
         this.xuBox = 0;
         this.yen = 0;
+        this.ticketXu = 0;
+        this.ticketYen = 0;
         this.maxluggage = 30;
         this.levelBag = 0;
         this.ItemBag = null;
@@ -533,6 +537,14 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         return (int) x;
     }
 
+    public synchronized void upTicketXu(int x) {
+        this.ticketXu += x;
+    }
+
+    public synchronized void upTicketYen(int x) {
+        this.ticketYen += x;
+    }
+
     public synchronized void upNActPoint(int n) {
         this.nActPoint += n;
         if (this.nActPoint <= 0) {
@@ -620,6 +632,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.xu = red.getInt("xu");
                     nj.xuBox = red.getInt("xuBox");
                     nj.yen = red.getInt("yen");
+                    nj.ticketYen = red.getInt("ticketYen");
+                    nj.ticketXu = red.getInt("ticketXu");
                     nj.maxluggage = red.getInt("maxluggage");
                     if (nj.maxluggage > Manager.MAX_LUGGAGE) {
                         nj.maxluggage = Manager.MAX_LUGGAGE;
@@ -794,6 +808,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     + this.expdown + ",`pk`=" + this.pk + ",`xu`=" + this.xu + ",`yen`=" + this.yen + ",`maxluggage`="
                     + this.maxluggage + ",`levelBag`=" + this.levelBag + ",`site`='" + jarr.toJSONString()
                     + "',`friend`='" + friends + "'";
+            sqlSET += ", `ticketXu`=" + this.ticketXu + "";
+            sqlSET += ", `ticketYen`=" + this.ticketYen + "";
             jarr.clear();
             for (final Skill skill : this.getSkills()) {
                 jarr.add(SkillData.ObjectSkill(skill));

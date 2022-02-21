@@ -2001,6 +2001,11 @@ public class MenuController {
 
                             break;
                         }
+                        case 6: {
+                            p.typemenu = 24_6;
+                            doMenuArray(p, new String[] { "Ký gửi Yên", "Ký gửi Xu" });
+                            break;
+                        }
                     }
                     break;
                 }
@@ -2181,6 +2186,23 @@ public class MenuController {
                             }
                             break;
                     }
+                    break;
+                }
+                case 24_6: {
+                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                            "Bạn đang có " + p.nj.ticketXu + " vé xu và " + p.nj.ticketYen
+                                    + " vé yên. Mỗi vé có thể quy đổi tương đương 100.000.000 yên/xu.");
+                    p.typemenu = 24_6_0 + menuId;
+                    String currency = menuId == 0 ? "Yên" : "Xu";
+                    doMenuArray(p, new String[] { "Gửi " + currency, "Rút " + currency });
+                    break;
+                }
+                case 24_6_0: {
+                    this.sendWrite(p, (short) (600 + menuId), "Nhập số lượng vé yên");
+                    break;
+                }
+                case 24_6_1: {
+                    this.sendWrite(p, (short) (610 + menuId), "Nhập số lượng vé xu");
                     break;
                 }
                 case 30_4: {
@@ -2383,7 +2405,7 @@ public class MenuController {
         }
         if (idnpc == 24 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
-                    "Mã quà tặng", "Tặng lượng" });
+                    "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên" });
         } else if (idnpc == 30 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
                     "Tài Xỉu" });
