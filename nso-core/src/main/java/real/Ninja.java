@@ -1232,7 +1232,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 this.addItemBag(true, i);
 
                 // update dv point
-                this.upDVPoints(util.nextInt(5, 10), task.nvdvType());
+                this.upDVPoints(util.nextInt(2, 4), task.nvdvType());
 
                 if (this.nvdvCount % 10 == 0) {
                     this.upNActPoint(3);

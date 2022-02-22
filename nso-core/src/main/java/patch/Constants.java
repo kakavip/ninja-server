@@ -24,4 +24,11 @@ public class Constants {
 
     public static final int EFFECT_TANG_HINH_ID = 15;
     public static final int EFFECT_AN_THAN_ID = 16;
+
+    public static final int BOSS_TU_HA_MA_THAN_ID = 223;
+    public static final int BOSS_MY_HAU_TUONG_ID = 209;
+    public static final int BOSS_MY_HAU_VUONG_ID = 210;
+    public static final int BOSS_LAO_DAI_ID = 198;
+    public static final int BOSS_LAO_TAM_ID = 199;
+    public static final int BOSS_LAO_NHI_ID = 200;
 }

@@ -414,6 +414,7 @@ class MobAdmin(admin.ModelAdmin):
         "img_4",
     ]
     search_fields = ["name"]
+    list_filter = ["type"]
     list_display_links = ["id", "name"]
     empty_display_value = "--empty--"
     fields = [

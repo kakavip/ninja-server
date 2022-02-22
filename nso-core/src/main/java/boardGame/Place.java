@@ -2246,12 +2246,7 @@ public class Place {
         if (dame > 0) {
             curMob.Fight(p.session.id, dame);
         }
-        int defensePercent = 10 * curMob.lvboss;
-        if (curMob.isIsboss()) {
-            defensePercent = 50;
-        }
-
-        int remainDefensePercent = 100 - defensePercent;
+        int remainDefensePercent = 100 - curMob.getDefensePercent();
         if (!curMob.isFire) {
             if (body.percentFire2() * remainDefensePercent / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                 this.FireMobMessage(curMob.id, 0);
@@ -3335,7 +3330,8 @@ public class Place {
                                 if (miss > 7500) {
                                     miss = 7500;
                                 }
-                                if (miss > util.nextInt(10000)) {
+
+                                if (miss * (100 - mob.getDefensePercent()) * 1.0 / 100 > util.nextInt(10000)) {
                                     dame = 0;
                                 }
                                 int mpdown = 0;
@@ -3348,6 +3344,26 @@ public class Place {
                                     }
                                 }
                                 dame = PERCENT_DAME_BOSS * dame / 100;
+
+                                if (mob.templates.id == Constants.BOSS_TU_HA_MA_THAN_ID && util.nextInt(0, 3) == 0) {
+                                    switch (util.nextInt(4)) {
+                                        case 0:
+                                            FireNinjaMessage(user.nj.get().id, 2);
+                                            break;
+                                        case 1:
+                                            IceNinjaMessage(user.nj.get().id, 3);
+                                            break;
+                                        case 2:
+                                            WindNinjaMessage(user.nj.get().id, 3);
+                                            break;
+                                        default: {
+                                            final int maxDame = (int) user.nj.get().dameMax();
+                                            user.nj.get().upHP(-util.nextInt(maxDame * 20 / 100, maxDame * 30 / 100));
+                                            MessageSubCommand.sendHP(user.nj.get(), this.getUsers());
+                                            break;
+                                        }
+                                    }
+                                }
 
                                 if (mob.templates.id == 72) {
                                     // Fire ninja

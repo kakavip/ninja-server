@@ -173,6 +173,7 @@ public class Manager {
             MAX_LEVEL_RECEIVE_LUONG_COEF = Integer.parseInt(properties.getProperty("max-level-receive-luong-coef"));
 
             TIME_REFRESH_MOB = 1000 * Long.parseLong(properties.getProperty("time-refresh-mob"));
+            TIME_REFRESH_BOSS = 1000 * Long.parseLong(properties.getProperty("time-refresh-boss"));
             MIN_DA_LV = Byte.parseByte(properties.getProperty("min-da-lv"));
             MAX_DA_LV = Byte.parseByte(properties.getProperty("max-da-lv"));
             N_YEN = Byte.parseByte(properties.getProperty("n-yen"));

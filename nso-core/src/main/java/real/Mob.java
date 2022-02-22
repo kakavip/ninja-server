@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
 import io.Session;
 import lombok.SneakyThrows;
 import lombok.val;
+import patch.Constants;
+
 import org.jetbrains.annotations.NotNull;
 import candybattle.CandyBattle;
 import server.Service;
@@ -147,9 +149,16 @@ public class Mob {
                 this.timeRefresh = System.currentTimeMillis() + TIME_REFRESH_MOB;
             }
             if (this.isboss) {
-                if (this.templates.id != 198 && this.templates.id != 199 && this.templates.id != 200) {
-                    this.isRefresh = false;
-                    this.timeRefresh = -1L;
+                if (this.templates.id != Constants.BOSS_LAO_DAI_ID && this.templates.id != Constants.BOSS_LAO_TAM_ID
+                        && this.templates.id != Constants.BOSS_LAO_NHI_ID) {
+                    if (this.templates.id == Constants.BOSS_MY_HAU_TUONG_ID
+                            || this.templates.id == Constants.BOSS_MY_HAU_VUONG_ID
+                            || this.templates.id == Constants.BOSS_TU_HA_MA_THAN_ID) {
+                        this.timeRefresh = System.currentTimeMillis() + TIME_REFRESH_BOSS;
+                    } else {
+                        this.isRefresh = false;
+                        this.timeRefresh = -1L;
+                    }
                 } else {
                     this.timeRefresh = 10000L;
                 }
@@ -221,6 +230,14 @@ public class Mob {
 
         // update item.
         this.updateBossItemDrop();
+    }
+
+    public int getDefensePercent() {
+        if (this.isIsboss()) {
+            return 80;
+        } else {
+            return 20 * this.lvboss;
+        }
     }
 
     private void updateBossItemDrop() {
