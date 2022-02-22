@@ -25,14 +25,6 @@ import static real.ItemData.*;
 public class Body implements ISoloer {
     public static short PERCENT_DAME_PEOPLE;
 
-    public static short NCLASS_NONE = 0;
-    public static short NCLASS_KIEM = 1;
-    public static short NCLASS_TIEU = 2;
-    public static short NCLASS_KUNAI = 3;
-    public static short NCLASS_CUNG = 4;
-    public static short NCLASS_DAO = 5;
-    public static short NCLASS_QUAT = 6;
-
     public int id;
     public byte head;
     public int typeSolo;
@@ -1379,7 +1371,7 @@ public class Body implements ISoloer {
             return false;
         }
         int itemNClass = ItemDataId(this.ItemBody[1].id).nclass;
-        if (itemNClass == Body.NCLASS_KIEM && this.nclass == Body.NCLASS_NONE) {
+        if (itemNClass == Constants.KIEM && this.nclass == Constants.CHUA_VAO_LOP) {
             return true;
         }
         if (itemNClass != this.nclass) {

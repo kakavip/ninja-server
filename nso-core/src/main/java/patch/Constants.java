@@ -10,7 +10,6 @@ public class Constants {
     public static byte PK_DEN = 5;
     public static byte PK_PHE3 = 6;
 
-
     public static byte CHUA_VAO_LOP = 0;
     public static byte KIEM = 1;
     public static byte TIEU = 2;
@@ -18,7 +17,11 @@ public class Constants {
     public static byte CUNG = 4;
     public static byte DAO = 5;
     public static byte QUAT = 6;
+
     public static final int TRUNG_HAI_MA_ID = 601;
     public static final int TRUNG_DI_LONG_ID = 596;
     public static final byte TOC_TRUONG = (byte) 4;
+
+    public static final int EFFECT_TANG_HINH_ID = 15;
+    public static final int EFFECT_AN_THAN_ID = 16;
 }

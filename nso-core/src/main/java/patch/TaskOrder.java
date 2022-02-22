@@ -169,21 +169,6 @@ public class TaskOrder implements Serializable, Cloneable {
     public synchronized static TaskOrder createNvdvTask() {
         int randKillId = -1 - util.nextInt(10);
 
-        int luck = util.nextInt(100);
-        for (int i = 4; i > 0; i--) {
-            luck -= i * 10;
-            if (luck <= 0) {
-                int index = i;
-                if (i <= 1) {
-                    index = util.nextInt(0, 1);
-                }
-
-                int lvNv = 4 - index;
-                randKillId = -1 - util.nextInt(lvNv * 2, lvNv * 2 + 1);
-                break;
-            }
-        }
-
         int maxCount = 0;
         if (randKillId == TaskOrder.BU_NHIN_KILL_ID || randKillId == TaskOrder.NORMAL_MOB_KILL_ID) {
             maxCount = util.nextInt(25, 30);

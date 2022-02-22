@@ -1793,6 +1793,11 @@ public class Place {
             return false;
         }
 
+        if (body.isIce || body.isWind) {
+            util.Debug("Choáng hoặc đóng băng");
+            return false;
+        }
+
         return true;
     }
 
@@ -1811,8 +1816,8 @@ public class Place {
             return;
         }
 
-        p.removeEffect(15);
-        p.removeEffect(16);
+        p.removeEffect(Constants.EFFECT_TANG_HINH_ID);
+        p.removeEffect(Constants.EFFECT_AN_THAN_ID);
 
         final int mobId = m.reader().readUnsignedByte();
         m.cleanup();
@@ -2440,7 +2445,7 @@ public class Place {
 
         short[] arid;
         if (this.map.isLangCo()) {
-            arid = util.nextInt(100) < MAX_PERCENT / 2 ? LANG_CO_ITEM_IDS : EMPTY;
+            arid = util.nextInt(100) < MAX_PERCENT ? LANG_CO_ITEM_IDS : EMPTY;
         } else if (this.map.VDMQ()) {
             arid = (body.getEffId(41) == null && body.getEffId(40) == null)
                     || util.nextInt(100) >= MAX_PERCENT ? EMPTY
@@ -2490,7 +2495,7 @@ public class Place {
                     final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
                     if (im != null) {
                         int quantity = 1;
-                        if (curMob.lvboss == 0 && !this.map.isLangCo() && curMob.level <= 140) {
+                        if (curMob.lvboss == 0 && !this.map.isLangCo() && !this.map.VDMQ()) {
                             im.item.setLock(true);
                         }
                         if (im.item.id == 455 || im.item.id == 456) {
@@ -2724,7 +2729,7 @@ public class Place {
                 return;
             }
 
-            if (canAttackNinja(body, other)) {
+            if (canAttackNinja(body, other) && canAttack(body)) {
                 if (body.getCSkill() == -1 && body.getSkills().size() > 0) {
                     body.setCSkill(body.getSkills().get(0).id);
                 }
@@ -2746,18 +2751,12 @@ public class Place {
 
                 final int rang = Integer.max(temp.dx, temp.dy) + 30;
 
-                if (skill.coolDown > System.currentTimeMillis() || Math.abs(body.x - other.get().x) > rang
+                if (Math.abs(body.x - other.get().x) > rang
                         || Math.abs(body.y - other.get().y) > rang) {
                     return;
                 }
 
-                if (body.isIce || body.isWind) {
-                    util.Debug("Choáng hoặc đóng băng");
-                    return;
-                }
-
                 body.upMP(-temp.manaUse);
-                skill.coolDown = System.currentTimeMillis() + temp.coolDown;
                 if (skill.id == 24) {
                     other.p.setEffect(18, 0, body.getPramSkill(55) * 1000, 0);
                     return;
@@ -4037,7 +4036,7 @@ public class Place {
             return;
         }
         for (Effect eff : p.nj.get().getVeff()) {
-            if (System.currentTimeMillis() >= eff.timeRemove) {
+            if (eff.isExpired()) {
                 p.removeEffect(eff.template.id);
 
             } else {

@@ -61,7 +61,7 @@ public class User extends Actor implements SendMessage {
     private long lastTimeUseItem = System.currentTimeMillis();
     Server server;
 
-    public boolean nhanQua = false;
+    public boolean nhanQua;
     private int clanTerritoryId;
 
     public enum TypeTBLOption {
@@ -94,6 +94,7 @@ public class User extends Actor implements SendMessage {
         this.setNj(null);
         this.passold = "";
         this.passnew = "";
+        this.nhanQua = false;
         this.setClanTerritoryId(-1);
         this.server = Server.getInstance();
 
@@ -2486,9 +2487,13 @@ public class User extends Actor implements SendMessage {
     }
 
     public void changePassword() {
-        if (!CheckString(this.passnew + this.passold, "^[a-zA-Z0-9]+$") || this.passnew.length() < 1
+        if (!CheckString(this.passnew + this.passold, "^[a-z0-9]+$") || this.passnew.length() < 8
                 || this.passnew.length() > 30) {
-            this.session.sendMessageLog("Mật khẩu chỉ đồng ý các ký tự a-z,0-9 và chiều dài từ 1 đến 30 ký tự");
+            this.session.sendMessageLog("Mật khẩu chỉ đồng ý các ký tự a-z,0-9 và chiều dài từ 8 đến 30 ký tự");
+            return;
+        }
+        if (CheckString(this.passnew, "^[a-z]+$") || CheckString(this.passnew, "^[0-9]+$")) {
+            this.session.sendMessageLog("Mật khẩu không an toàn vui lòng nhập cả chữ thường và số.");
             return;
         }
         try {
@@ -2917,7 +2922,7 @@ public class User extends Actor implements SendMessage {
             m.writer().writeByte(-101);
             m.writer().writeByte(eff.template.id);
             m.writer().writeInt(eff.timeStart);
-            m.writer().writeInt((int) (eff.timeRemove - System.currentTimeMillis()));
+            m.writer().writeInt((int) (eff.getRemainingTimeInSecond() * Effect.A_SECOND));
             m.writer().writeShort(eff.param);
             if (eff.template.type == 2 || eff.template.type == 3 || eff.template.type == 14) {
                 m.writer().writeShort(this.nj.get().x);
