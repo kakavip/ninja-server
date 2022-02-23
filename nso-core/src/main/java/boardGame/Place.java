@@ -1894,7 +1894,7 @@ public class Place {
             byte n = 1;
             for (int i = 0; i < size; ++i) {
                 final Mob mob2 = this.getMob(m.reader().readUnsignedByte());
-                if (!mob2.isDie) {
+                if (mob2 != null && !mob2.isDie) {
                     if (mob.id != mob2.id) {
                         if (data.maxFight <= n) {
                             break;
