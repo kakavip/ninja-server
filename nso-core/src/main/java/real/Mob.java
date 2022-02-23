@@ -153,14 +153,8 @@ public class Mob {
             if (this.isboss) {
                 if (this.templates.id != Constants.BOSS_LAO_DAI_ID && this.templates.id != Constants.BOSS_LAO_TAM_ID
                         && this.templates.id != Constants.BOSS_LAO_NHI_ID) {
-                    if (this.templates.id == Constants.BOSS_MY_HAU_TUONG_ID
-                            || this.templates.id == Constants.BOSS_MY_HAU_VUONG_ID
-                            || this.templates.id == Constants.BOSS_TU_HA_MA_THAN_ID) {
-                        this.timeRefresh = System.currentTimeMillis() + TIME_REFRESH_BOSS;
-                    } else {
-                        this.isRefresh = false;
-                        this.timeRefresh = -1L;
-                    }
+                    this.isRefresh = false;
+                    this.timeRefresh = -1L;
                 } else {
                     this.timeRefresh = 10000L;
                 }
@@ -236,9 +230,9 @@ public class Mob {
 
     public int getDefensePercent() {
         if (this.isIsboss()) {
-            return 80;
+            return 50;
         } else {
-            return 20 * this.lvboss;
+            return 10 * this.lvboss;
         }
     }
 
@@ -262,6 +256,8 @@ public class Mob {
                 this.templates.arrIdItem = BOSS_ITEM_LV99;
             } else if (this.level == 110) {
                 this.templates.arrIdItem = BOSS_ITEM_LV110;
+            } else if (this.level == 150) {
+                this.templates.arrIdItem = BOSS_ITEM_LV150;
             } else {
                 this.templates.arrIdItem = BOSS_DEFAULT_ITEM;
             }

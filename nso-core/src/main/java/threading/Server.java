@@ -458,4 +458,22 @@ public class Server {
     public static Map getMapById(int i) {
         return maps[i];
     }
+
+    public static boolean checkAllBossVIPIsDie() {
+        for (int i = 0; i < Server.endMaps.length; i++) {
+            Map map = Server.getMapById(Server.endMaps[i]);
+            if (map.hasBossVIPIsLive()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void refreshAllBossVIPTimeout() {
+        for (int i = 0; i < Server.endMaps.length; i++) {
+            Map map = Server.getMapById(Server.endMaps[i]);
+            map.refreshBossVIPTimeout();
+        }
+    }
 }

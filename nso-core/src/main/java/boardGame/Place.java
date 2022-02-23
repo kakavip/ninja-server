@@ -2128,9 +2128,9 @@ public class Place {
 
             if (map.id == 90) {
 
-                if (p.nj.getEffId(23) == null) {
+                if (p.nj.getEffId(Constants.EFFECT_BI_DUOC_ID) == null) {
                     curMob.updateHP(0);
-                    p.sendYellowMessage("Bạn không thể nhìn rõ Boss đi kiếm bông hoa ăn để khai nhãn");
+                    p.sendYellowMessage("Bạn không thể nhìn rõ Boss. Hãy đi kiếm lam thảo dược để khai nhãn");
                     return;
 
                 } else {
@@ -2149,7 +2149,12 @@ public class Place {
             }
 
         } else {
-            curMob.updateHP(-dame);
+            if (this.map.isEndOfSchoolMap && p.nj.getEffId(Constants.EFFECT_BI_DUOC_ID) == null && curMob.isIsboss()) {
+                curMob.updateHP(0);
+                p.sendYellowMessage("Bạn không thể nhìn rõ Boss. Hãy đi mua lam thảo dược tại npc ghoso để khai nhãn");
+            } else {
+                curMob.updateHP(-dame);
+            }
         }
 
         if (curMob.isDie) {
@@ -2373,6 +2378,12 @@ public class Place {
             }
             leaveItemLogic(body, curMob, p, master);
 
+            if (curMob.isIsboss() && this.map.isEndOfSchoolMap && Server.checkAllBossVIPIsDie()) {
+                Server.refreshAllBossVIPTimeout();
+                Manager.chatKTG(
+                        "Server: 3 thần thú cai quản map cuối của các trường đã bị hạ gục và sẽ xuất hiện lại sau 10 phút.");
+            }
+
             if (this.map.cave != null && this.map.getXHD() < 9) {
                 curMob.isRefresh = false;
                 if (this.getMobs().size() == this.numMobDie) {
@@ -2456,7 +2467,7 @@ public class Place {
         if (map.isLdgtMap()
                 && curMob.templates.id == 81) {
             // Lam thach thao
-            if (40 >= util.nextInt(1, 100)) {
+            if (10 >= util.nextInt(1, 100)) {
                 final ItemMap itemMap = LeaveItem((short) 261, p.nj.x, p.nj.y);
                 itemMap.item.expires = util.TimeMinutes(30);
                 itemMap.master = master;
@@ -2513,6 +2524,14 @@ public class Place {
             if (this.map.cave == null) {
                 Manager.chatKTG(body.c.name + " đã tiêu diệt " + curMob.templates.name);
                 canDropBossLuong = true;
+
+                // kill all normal mob
+                if (this.map.isEndOfSchoolMap) {
+                    for (short k2 = 0; k2 < this.getMobs().size(); k2++) {
+                        this.getMobs().get(k2).updateHP(-this.getMobs().get(k2).hpmax);
+                        Service.setHPMob(p.nj, this.getMobs().get(k2).id, 0);
+                    }
+                }
             }
 
             if (this.map.cave != null && this.map.getXHD() == 9
@@ -2535,12 +2554,21 @@ public class Place {
 
             if (canDropBossLuong) {
                 // up luong
-                val luong = Math.min(curMob.level, Manager.MAX_LEVEL_RECEIVE_LUONG_COEF)
-                        * (Manager.LUONG_COEF * 0.25) * util.nextInt(90, 100) / 100;
+                long luong = (long) (Math.min(curMob.level, Manager.MAX_LEVEL_RECEIVE_LUONG_COEF)
+                        * (Manager.LUONG_COEF * 0.25) * util.nextInt(90, 100) / 100);
+
+                if (this.map.cave == null) {
+                    if (this.map.isEndOfSchoolMap) {
+                        luong *= 2.5;
+                    } else {
+                        luong *= 1.5;
+                    }
+
+                }
                 p.upluongMessage((long) luong);
             }
             if (this.map.cave != null && this.map.getXHD() == 9 && !canDropBossLuong) {
-                p.upluongMessage(10L);
+                p.upluongMessage(50L);
             }
 
             // drop item

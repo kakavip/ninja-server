@@ -87,6 +87,7 @@ public class Manager {
     public static short[] BOSS_ITEM_LV90;
     public static short[] BOSS_ITEM_LV100;
     public static short[] BOSS_ITEM_LV110;
+    public static short[] BOSS_ITEM_LV150;
     public static short[] BOSS_LC_ITEM;
     public static short[] BOSS_DEFAULT_ITEM;
     public static byte PERCENT_DAME_BOSS;
@@ -190,24 +191,16 @@ public class Manager {
 
             BOSS_WAIT_TIME_UNIT = Integer.parseInt(properties.getProperty("boss-wait-time-unit"));
 
-            BOSS_ITEM_LV45 = concatArray(parseShortArray(properties.getProperty("boss-item-lv45")),
-                    ItemData.getItemIdByLevel(50, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV55 = concatArray(parseShortArray(properties.getProperty("boss-item-lv55")),
-                    ItemData.getItemIdByLevel(60, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV60 = concatArray(parseShortArray(properties.getProperty("boss-item-lv60")),
-                    ItemData.getItemIdByLevel(70, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV65 = concatArray(parseShortArray(properties.getProperty("boss-item-lv65")),
-                    ItemData.getItemIdByLevel(70, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV75 = concatArray(parseShortArray(properties.getProperty("boss-item-lv75")),
-                    ItemData.getItemIdByLevel(80, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV99 = concatArray(parseShortArray(properties.getProperty("boss-item-lv99")),
-                    ItemData.getItemIdByLevel(80, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV90 = concatArray(parseShortArray(properties.getProperty("boss-item-lv90")),
-                    ItemData.getItemIdByLevel(100, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV100 = concatArray(parseShortArray(properties.getProperty("boss-item-lv100")),
-                    ItemData.getItemIdByLevel(100, (byte) 1, (byte) 2));
-            BOSS_ITEM_LV110 = concatArray(parseShortArray(properties.getProperty("boss-item-lv110")),
-                    ItemData.getItemIdByLevel(100, (byte) 1, (byte) 2));
+            BOSS_ITEM_LV45 = parseShortArray(properties.getProperty("boss-item-lv45"));
+            BOSS_ITEM_LV55 = parseShortArray(properties.getProperty("boss-item-lv55"));
+            BOSS_ITEM_LV60 = parseShortArray(properties.getProperty("boss-item-lv60"));
+            BOSS_ITEM_LV65 = parseShortArray(properties.getProperty("boss-item-lv65"));
+            BOSS_ITEM_LV75 = parseShortArray(properties.getProperty("boss-item-lv75"));
+            BOSS_ITEM_LV99 = parseShortArray(properties.getProperty("boss-item-lv99"));
+            BOSS_ITEM_LV90 = parseShortArray(properties.getProperty("boss-item-lv90"));
+            BOSS_ITEM_LV100 = parseShortArray(properties.getProperty("boss-item-lv100"));
+            BOSS_ITEM_LV110 = parseShortArray(properties.getProperty("boss-item-lv110"));
+            BOSS_ITEM_LV150 = parseShortArray(properties.getProperty("boss-item-lv150"));
             BOSS_DEFAULT_ITEM = parseShortArray(properties.getProperty("boss-default-item"));
 
             BOSS_LC_ITEM = parseShortArray(properties.getProperty("boss-item-lc"));

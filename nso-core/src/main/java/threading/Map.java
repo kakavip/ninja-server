@@ -22,6 +22,7 @@ public class Map extends Thread {
     public long timeMap;
     protected boolean runing;
     public volatile long lastTimeActive;
+    public boolean isEndOfSchoolMap;
 
     @NotNull
     public static final int[] arrLang;
@@ -40,6 +41,8 @@ public class Map extends Thread {
     @NotNull
     // 0: la id, 1: level
     private int[] taThu = new int[] { -1, -1 };
+
+    private static int AREA_BOSS_VIP = 0;
 
     protected Map() {
     }
@@ -74,6 +77,14 @@ public class Map extends Thread {
             }
         }
         setName(template.name);
+
+        this.isEndOfSchoolMap = false;
+        for (int i = 0; i < Server.endMaps.length; i++) {
+            if (this.id == Server.endMaps[i]) {
+                this.isEndOfSchoolMap = true;
+                break;
+            }
+        }
 
         this.initMob();
         this.runing = true;
@@ -168,12 +179,29 @@ public class Map extends Thread {
             }
         }
 
-        for (int i = 0; i < Server.endMaps.length; i++) {
-            if (this.id == Server.endMaps[i]) {
-                this.refreshBoss(0);
-                break;
+        refreshBossVIP();
+    }
+
+    public void refreshBossVIP() {
+        if (this.isEndOfSchoolMap) {
+            this.refreshBoss(Map.AREA_BOSS_VIP);
+        }
+    }
+
+    public void refreshBossVIPTimeout() {
+        if (!this.isEndOfSchoolMap) {
+            return;
+        }
+
+        final Place place = this.area[Map.AREA_BOSS_VIP];
+        for (short j = 0; j < place.getMobs().size(); ++j) {
+            final Mob mob = place.getMobs().get(j);
+            if (mob.status == 0 && mob.isDie && mob.isIsboss()) {
+                mob.setTimeRefresh(System.currentTimeMillis() + Manager.TIME_REFRESH_BOSS);
+                mob.isRefresh = true;
             }
         }
+
     }
 
     public Integer getMobRandomMobId() {
@@ -412,5 +440,19 @@ public class Map extends Thread {
             return taThu[0];
         }
         return -1;
+    }
+
+    public boolean hasBossVIPIsLive() {
+        if (this.isEndOfSchoolMap) {
+            final Place place = this.area[Map.AREA_BOSS_VIP];
+            for (short j = 0; j < place.getMobs().size(); ++j) {
+                final Mob mob = place.getMobs().get(j);
+                if (mob.status == 0 && mob.isDie && mob.isIsboss()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

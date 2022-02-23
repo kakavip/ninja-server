@@ -14,6 +14,7 @@ import server.MenuController;
 import tasks.TaskHandle;
 import tasks.Text;
 import threading.Message;
+import patch.Constants;
 import patch.EventItem;
 import server.GameScr;
 import server.util;
@@ -1139,7 +1140,7 @@ public class useItem {
             }
             case 261: {
                 // Dung linh dan danh boss
-                p.setEffect(23, 0, _10_MINS, 0);
+                p.setEffect(Constants.EFFECT_BI_DUOC_ID, 0, _10_MINS, 0);
                 p.nj.removeItemBag(index, 1);
                 break;
             }
