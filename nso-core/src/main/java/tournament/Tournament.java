@@ -13,6 +13,7 @@ import server.SQLManager;
 import server.util;
 import threading.Map;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -102,6 +103,13 @@ public abstract class Tournament {
                         norm.p.sendYellowMessage(
                                 "Bạn đã chiến thắng " + ai.name + " và tranh được hạng " + aiData.getRanked());
                         // Cuop rank
+                        if (aiData.getRanked() == 1) {
+                            try {
+                                this.notifyKTG(norm.name);
+                            } catch (Exception e) {
+                            }
+                        }
+
                         final Integer temp = aiData.getRanked();
                         aiData.setRanked(normData.getRanked());
                         normData.setRanked(temp);
@@ -283,6 +291,8 @@ public abstract class Tournament {
     }
 
     public abstract int[][] getRewardItems();
+
+    public abstract void notifyKTG(String name) throws IOException;
 
     public boolean checkBusy(String ninjaName) {
         synchronized (this.participants) {

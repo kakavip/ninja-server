@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.jetbrains.annotations.NotNull;
 import patch.Mapper;
 import real.Ninja;
+import threading.Manager;
 import threading.Server;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -49,4 +51,8 @@ public class KageTournament extends Tournament {
         return KAGE_REWARDS;
     }
 
+    @Override
+    public void notifyKTG(String name) throws IOException {
+        Manager.chatKTG("Người chơi " + name + " đã chiến thắng và giành hạng 1 thiên bảng.");
+    }
 }
