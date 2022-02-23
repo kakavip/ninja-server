@@ -1894,7 +1894,7 @@ public class Place {
             byte n = 1;
             for (int i = 0; i < size; ++i) {
                 final Mob mob2 = this.getMob(m.reader().readUnsignedByte());
-                if (mob2 != null && !mob2.isDie) {
+                if (!mob2.isDie) {
                     if (mob.id != mob2.id) {
                         if (data.maxFight <= n) {
                             break;
@@ -2088,7 +2088,7 @@ public class Place {
         if (fatal > 800) {
             fatal = 800;
         }
-        final boolean isfatal = fatal > util.nextInt(1, 1000);
+        final boolean isfatal = fatal * (100 - curMob.getDefensePercent()) * 1.0 / 100 > util.nextInt(1, 1000);
         if (isfatal) {
             dame *= 2;
             dame = (int) (dame * (100 + body.FantalDamePercent()) / 100);
@@ -3032,6 +3032,8 @@ public class Place {
             if (mob == null) {
                 return;
             }
+
+            long reduceFireTime = mob.getReduceFireTime();
             switch (type) {
                 case -1: {
                     mob.isFire = false;
@@ -3039,12 +3041,12 @@ public class Place {
                 }
                 case 0: {
                     mob.isFire = true;
-                    mob.timeFire = System.currentTimeMillis() + 3000L;
+                    mob.timeFire = System.currentTimeMillis() + 3000L - reduceFireTime;
                     break;
                 }
                 case 1: {
                     mob.isFire = true;
-                    mob.timeFire = System.currentTimeMillis() + 4000L;
+                    mob.timeFire = System.currentTimeMillis() + 4000L - reduceFireTime;
                     break;
                 }
             }
@@ -3065,6 +3067,8 @@ public class Place {
             if (mob == null) {
                 return;
             }
+
+            long reduceIceTime = mob.getReduceIceTime();
             switch (type) {
                 case -1: {
                     mob.isIce = false;
@@ -3072,12 +3076,12 @@ public class Place {
                 }
                 case 0: {
                     mob.isIce = true;
-                    mob.timeIce = System.currentTimeMillis() + 2500L;
+                    mob.timeIce = System.currentTimeMillis() + 2500L - reduceIceTime;
                     break;
                 }
                 case 1: {
                     mob.isIce = true;
-                    mob.timeIce = System.currentTimeMillis() + 3000L;
+                    mob.timeIce = System.currentTimeMillis() + 3000L - reduceIceTime;
                     break;
                 }
 
@@ -3099,6 +3103,8 @@ public class Place {
             if (mob == null) {
                 return;
             }
+
+            long reduceWindTime = mob.getReduceWindTime();
             switch (type) {
                 case -1: {
                     mob.isWind = false;
@@ -3106,12 +3112,12 @@ public class Place {
                 }
                 case 0: {
                     mob.isWind = true;
-                    mob.timeWind = System.currentTimeMillis() + 2000L;
+                    mob.timeWind = System.currentTimeMillis() + 2000L - reduceWindTime;
                     break;
                 }
                 case 1: {
                     mob.isWind = true;
-                    mob.timeWind = System.currentTimeMillis() + 2000L;
+                    mob.timeWind = System.currentTimeMillis() + 2000L - reduceWindTime;
                     break;
                 }
             }
@@ -3406,7 +3412,8 @@ public class Place {
                                 }
 
                                 if (!mob.isIce && user.nj.get().nclass == KUNAI) {
-                                    if (user.nj.get().percentIceKunai() >= util.nextInt(1, PERCENT_SKILL_MAX)) {
+                                    if (user.nj.get().percentIceKunai() * (100 - mob.getDefensePercent()) * 1.0
+                                            / 100 >= util.nextInt(1, PERCENT_SKILL_MAX)) {
                                         IceMobMessage(mob.id, 0);
                                     }
                                 }

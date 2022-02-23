@@ -10,6 +10,7 @@ import patch.Constants;
 import org.jetbrains.annotations.NotNull;
 import candybattle.CandyBattle;
 import server.Service;
+import server.util;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -132,7 +133,8 @@ public class Mob {
 
     public void updateHP(final int num) {
         this.attackCount.incrementAndGet();
-        this.hp += num;
+        this.hp = util.debug ? 0 : this.hp + num;
+
         if (this.hp <= 0) {
 
             if (this.templates.id == CandyBattle.GIO_KEO_TRANG_ID
@@ -265,6 +267,29 @@ public class Mob {
             }
         }
 
+    }
+
+    public long getReduceIceTime() {
+        if (this.isIsboss()) {
+            return 5 * 500L;
+        }
+
+        return 500L * this.lvboss;
+    }
+
+    public long getReduceWindTime() {
+        if (this.isIsboss()) {
+            return 5 * 300L;
+        }
+
+        return 300L * this.lvboss;
+    }
+
+    public long getReduceFireTime() {
+        if (this.isIsboss()) {
+            return 5 * 600L;
+        }
+        return 600L * this.lvboss;
     }
 
     @SneakyThrows

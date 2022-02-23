@@ -62,6 +62,7 @@ public class Server {
     private static final short[] mapBoss55;
     private static final short[] mapBoss65;
     private static final short[] mapBoss75;
+    public static final short[] endMaps;
 
     public static Runnable updateRefreshBoss;
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -443,6 +444,7 @@ public class Server {
         mapBoss65 = new short[] { 24, 41, 45, 59 };
         mapBoss75 = new short[] { 18, 36, 54 };
         mapBossLC = new short[] { 134, 135, 136, 137 };
+        endMaps = new short[] { 37, 55, 58 };
     }
 
     public Map[] getMaps() {

@@ -133,7 +133,7 @@ public class Map extends Thread {
                 m.lvboss = this.template.arrLevelboss[i];
                 if (m.lvboss == 3) {
                     if (j % 5 == 0) {
-                        final int n = m.hpmax * 1000;
+                        final int n = m.hpmax * 200;
                         m.hpmax = n;
                         m.hp = n;
                         this.taThu[0] = m.templates.id;
@@ -159,14 +159,19 @@ public class Map extends Thread {
                 }
 
                 m.setIsboss(this.template.arrisboss[i]);
-                if (!m.isIsboss() || j == 0) {
-                    this.area[j].getMobs().add(m);
-                }
+                this.area[j].getMobs().add(m);
 
                 if (!m.isIsboss()) {
                     this.levelToMobId.put(m.level, m.templates.id);
                 }
                 ++k;
+            }
+        }
+
+        for (int i = 0; i < Server.endMaps.length; i++) {
+            if (this.id == Server.endMaps[i]) {
+                this.refreshBoss(0);
+                break;
             }
         }
     }
