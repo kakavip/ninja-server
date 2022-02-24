@@ -672,13 +672,18 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
                     if (jar != null) {
                         for (byte j = 0; j < jar.size(); ++j) {
-                            final JSONObject job2 = (JSONObject) jar.get((int) j);
-                            final byte index = Byte.parseByte(job2.get((Object) "index").toString());
-                            Item item = ItemData.parseItem(jar.get((int) j).toString());
-                            if (item == null || item.quantity <= 0) {
-                                item = null;
+                            try {
+
+                                final JSONObject job2 = (JSONObject) jar.get((int) j);
+                                final byte index = Byte.parseByte(job2.get((Object) "index").toString());
+                                Item item = ItemData.parseItem(jar.get((int) j).toString());
+                                if (item == null || item.quantity <= 0) {
+                                    item = null;
+                                }
+                                nj.ItemBody[index] = item;
+                            } catch (Exception e) {
+
                             }
-                            nj.ItemBody[index] = item;
                         }
                     }
                     nj.ItemMounts = new Item[5];
