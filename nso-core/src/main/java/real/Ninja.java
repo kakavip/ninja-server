@@ -1233,8 +1233,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 int ddvN = task.nvdvType() / 2 + n;
                 int ddvId = 695 + ddvN;
                 int nDdv = util.nextInt(10, 15) - task.nvdvType();
-                if (ddvId > 694) {
-                    ddvId = 694;
+                if (ddvId > 704) {
+                    ddvId = 704;
+                }
+                if (ddvId < 695) {
+                    ddvId = 695;
                 }
 
                 Item i = ItemData.itemDefault(ddvId);
