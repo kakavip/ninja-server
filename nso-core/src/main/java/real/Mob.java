@@ -56,6 +56,7 @@ public class Mob {
     private long timeRefresh;
     public long timeFight;
     public MobData templates;
+    private Place crtPlace;
 
     private short[] arrItemIds;
 
@@ -75,6 +76,7 @@ public class Mob {
         this.xpup = 100000L;
         this.isDie = false;
         this.nFight = new HashMap<>();
+        this.crtPlace = null;
 
         this.setArrItemIds();
     }
@@ -230,9 +232,13 @@ public class Mob {
 
     public int getDefensePercent() {
         if (this.isIsboss()) {
-            return 50;
+            if (this.crtPlace != null && this.crtPlace.map.isEndOfSchoolMap) {
+                return 50;
+            } else {
+                return 30;
+            }
         } else {
-            return 10 * this.lvboss;
+            return 5 * this.lvboss;
         }
     }
 
@@ -290,6 +296,10 @@ public class Mob {
 
     @SneakyThrows
     public void update(final @NotNull Place place) {
+        if (this.crtPlace == null) {
+            this.crtPlace = place;
+        }
+
         if (isThieuDot
                 && masterThieuDot != null) {
             final Effect effId = masterThieuDot.getEffId(THIEU_DOT_ID);
