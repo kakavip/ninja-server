@@ -573,7 +573,7 @@ public class MenuController {
                                 }
                                 // Nhan nhiem vu
                                 if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] == null) {
-                                    if (p.nj.nvdvCount < 50) {
+                                    if (p.nj.nvdvCount < TaskOrder.MAX_NVDV_PER_DAY) {
                                         TaskOrder task = createNvdvTask();
                                         if (task != null) {
                                             p.nj.addTaskOrder(task);
@@ -593,10 +593,14 @@ public class MenuController {
                                 }
                                 break;
                             case 1:
-                                // Tra nhiem vu
-                                if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_DANH_VONG)) {
-                                    p.nj.getPlace().chatNPC(p, (short) npcId,
-                                            "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
+                                if (!(matItem != null && matItem.getUpgrade() != 0)) {
+                                    p.sendYellowMessage("Hãy sử dụng Nguyệt Nhãn để để nhận phần thưởng tương ứng.");
+                                } else {
+                                    // Tra nhiem vu
+                                    if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_DANH_VONG)) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
+                                    }
                                 }
                                 break;
                             case 2:
@@ -610,7 +614,26 @@ public class MenuController {
                                 break;
                             case 3:
                                 // Nhan mat
-                                p.nj.getPlace().chatNPC(p, (short) npcId, "Chức năng này đang cập nhật nhé");
+                                if (p.nj.get().getLevel() < 50) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Yêu cầu trình độ cấp 50 để nhận mắt. Hãy chăm chỉ luyện tập nhé.");
+                                    break;
+                                }
+                                if (!this.checkToGetOrUpgradeEye(p, 1)) {
+                                    break;
+                                }
+                                if (p.nj.wasReceivedEye) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId, "Con đã nhận mắt rồi.");
+                                    break;
+                                }
+
+                                Item it = ItemData.itemDefault(685);
+                                it.setLock(true);
+
+                                if (p.nj.addItemBag(false, it)) {
+                                    p.nj.wasReceivedEye = true;
+                                }
+
                                 break;
                             case 4:
                                 // Nang mat thuong
@@ -636,7 +659,8 @@ public class MenuController {
                                 if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] != null) {
                                     TaskOrder task = p.nj.getTasks()[NHIEM_VU_DANH_VONG];
 
-                                    s += "Thông tin nhiệm vụ danh vọng (" + p.nj.nvdvCount + "/50) : \n";
+                                    s += "Thông tin nhiệm vụ danh vọng (" + p.nj.nvdvCount + "/"
+                                            + TaskOrder.MAX_NVDV_PER_DAY + ") : \n";
                                     s += task.nvdvText() + "\n";
                                     s += "\n";
                                     s += "--------------------------------\n";
@@ -1256,7 +1280,8 @@ public class MenuController {
                             switch (optionId) {
                                 case 0: {
                                     // Nhiem vu hang ngay
-                                    if (p.nj.getTasks()[NHIEM_VU_HANG_NGAY] == null && p.nj.nvhnCount < 20) {
+                                    if (p.nj.getTasks()[NHIEM_VU_HANG_NGAY] == null
+                                            && p.nj.nvhnCount < TaskOrder.MAX_NVHN_PER_DAY) {
                                         val task = createTask(p.nj.getLevel());
                                         if (task != null) {
                                             p.nj.addTaskOrder(task);
@@ -1264,7 +1289,7 @@ public class MenuController {
                                             p.nj.getPlace().chatNPC(p, (short) 25,
                                                     "Nhiệm vụ lần này có chút trục trặc chắc con không làm được rồi ahihi");
                                         }
-                                    } else if (p.nj.nvhnCount >= 20) {
+                                    } else if (p.nj.nvhnCount >= TaskOrder.MAX_NVHN_PER_DAY) {
                                         p.nj.getPlace().chatNPC(p, (short) 25,
                                                 "Nhiệm vụ hôm nay con đã làm hết quay lại vào ngày hôm sau");
                                     } else {
@@ -2280,15 +2305,15 @@ public class MenuController {
     public static java.util.Map<Byte, int[]> nangCapMat = new TreeMap<>();
 
     static {
-        nangCapMat.put((byte) 1, new int[] { 500, 2_000_000, 80, 200, 100 });
-        nangCapMat.put((byte) 2, new int[] { 400, 3_000_000, 75, 300, 85 });
-        nangCapMat.put((byte) 3, new int[] { 300, 5_000_000, 65, 500, 75 });
-        nangCapMat.put((byte) 4, new int[] { 250, 7_500_000, 55, 700, 65 });
-        nangCapMat.put((byte) 5, new int[] { 200, 8_500_000, 45, 900, 55 });
-        nangCapMat.put((byte) 6, new int[] { 175, 10_000_000, 30, 1000, 45 });
-        nangCapMat.put((byte) 7, new int[] { 150, 12_000_000, 25, 1200, 30 });
-        nangCapMat.put((byte) 8, new int[] { 100, 15_000_000, 20, 1200, 25 });
-        nangCapMat.put((byte) 9, new int[] { 50, 20_000_000, 15, 1500, 20 });
+        nangCapMat.put((byte) 1, new int[] { 500, 2_000_000, 80, 1000, 100 });
+        nangCapMat.put((byte) 2, new int[] { 400, 3_000_000, 75, 1500, 85 });
+        nangCapMat.put((byte) 3, new int[] { 300, 5_000_000, 65, 2500, 75 });
+        nangCapMat.put((byte) 4, new int[] { 250, 7_500_000, 55, 3500, 65 });
+        nangCapMat.put((byte) 5, new int[] { 200, 8_500_000, 45, 4500, 55 });
+        nangCapMat.put((byte) 6, new int[] { 175, 10_000_000, 30, 5000, 45 });
+        nangCapMat.put((byte) 7, new int[] { 150, 12_000_000, 25, 6000, 30 });
+        nangCapMat.put((byte) 8, new int[] { 125, 15_000_000, 20, 6000, 25 });
+        nangCapMat.put((byte) 9, new int[] { 100, 20_000_000, 15, 7500, 20 });
     }
 
     private void luyenBiKip(User p) throws IOException {
@@ -2324,19 +2349,27 @@ public class MenuController {
         p.sendInfo(false);
     }
 
+    private boolean checkToGetOrUpgradeEye(User p, final int upgrade) {
+        int minDVPoint = 100 * upgrade;
+        for (int i = 0; i < p.nj.DVPoints.length; i++) {
+            if (p.nj.DVPoints[i] < minDVPoint) {
+                p.sendYellowMessage(
+                        "Tất cả điểm danh vọng cần đạt " + minDVPoint + " để có thể nhận hoặc nâng cấp Nguyệt Nhãn.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private void nangMat(User p, Item item, boolean vip) throws IOException {
 
         if (item.id < 694) {
             int toneCount = (int) Arrays.stream(p.nj.ItemBag).filter(i -> i != null && i.id == item.id + 11)
                     .map(i -> i.quantity).reduce(0, Integer::sum);
             if (toneCount >= nangCapMat.get(item.getUpgrade())[0]) {
-                int minDVPoint = 100 * item.getUpgrade();
-                for (int i = 0; i < p.nj.DVPoints.length; i++) {
-                    if (p.nj.DVPoints[i] < minDVPoint) {
-                        p.sendYellowMessage(
-                                "Tất cả điểm danh vọng cần đạt " + minDVPoint + " để có thể nâng cấp Nguyệt Nhãn.");
-                        return;
-                    }
+                if (!this.checkToGetOrUpgradeEye(p, item.getUpgrade() + 1)) {
+                    return;
                 }
 
                 if (vip && nangCapMat.get(item.getUpgrade())[3] > p.luong) {

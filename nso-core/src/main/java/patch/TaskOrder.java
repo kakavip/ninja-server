@@ -31,6 +31,9 @@ public class TaskOrder implements Serializable, Cloneable {
     public static int LAT_HINH_KILL_ID = -9;
     public static int VXMM_VIP_KILL_ID = -10;
 
+    public static int MAX_NVDV_PER_DAY = 30;
+    public static int MAX_NVHN_PER_DAY = 20;
+
     private int count;
     private int maxCount;
     private int taskId;

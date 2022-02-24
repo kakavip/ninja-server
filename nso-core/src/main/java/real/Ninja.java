@@ -94,6 +94,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public long bousouhayate;
     public int typemenu;
     public int typebet;
+    public boolean wasReceivedEye = false;
 
     @Nullable
     public CandyBattle candyBattle;
@@ -634,6 +635,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.yen = red.getInt("yen");
                     nj.ticketYen = red.getInt("ticketYen");
                     nj.ticketXu = red.getInt("ticketXu");
+                    nj.wasReceivedEye = red.getInt("receivedEye") == 1;
+
                     nj.maxluggage = red.getInt("maxluggage");
                     if (nj.maxluggage > Manager.MAX_LUGGAGE) {
                         nj.maxluggage = Manager.MAX_LUGGAGE;
@@ -891,6 +894,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             sqlSET = sqlSET + ",`tiemnangso`=" + this.getTiemNangSo() + "";
             sqlSET = sqlSET + ",`kynangso`=" + this.getKyNangSo() + "";
 
+            sqlSET = sqlSET + ", `receivedEye`=" + (wasReceivedEye ? 1 : 0) + "";
             sqlSET = sqlSET + ", `nvhncount`=" + nvhnCount + "";
             sqlSET = sqlSET + ", `tathucount`=" + taThuCount + "";
             sqlSET = sqlSET + ", `nvdvcount`=" + nvdvCount + "";
@@ -1223,16 +1227,22 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 i.quantity = this.get().getLevel() >= 60 ? 5 : 2;
                 this.addItemBag(true, i);
             } else if (task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
-                int ddvN = task.nvdvType() / 2;
+                final Item matItem = this.get().ItemBody[14];
+                int n = Math.max(Math.min(matItem.getUpgrade(), 9), 4) - 4;
+
+                int ddvN = task.nvdvType() / 2 + n;
                 int ddvId = 695 + ddvN;
-                int nDdv = util.nextInt(10, 15) - ddvN * 2;
+                int nDdv = util.nextInt(10, 15) - task.nvdvType();
+                if (ddvId > 694) {
+                    ddvId = 694;
+                }
 
                 Item i = ItemData.itemDefault(ddvId);
                 i.quantity = nDdv;
                 this.addItemBag(true, i);
 
                 // update dv point
-                this.upDVPoints(util.nextInt(2, 4), task.nvdvType());
+                this.upDVPoints(util.nextInt(1, 3), task.nvdvType());
 
                 if (this.nvdvCount % 10 == 0) {
                     this.upNActPoint(3);

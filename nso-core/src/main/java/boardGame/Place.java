@@ -2559,7 +2559,7 @@ public class Place {
 
                 if (this.map.cave == null) {
                     if (this.map.isEndOfSchoolMap) {
-                        luong *= 2.5;
+                        luong *= 2;
                     } else {
                         luong *= 1.5;
                     }
@@ -2568,7 +2568,7 @@ public class Place {
                 p.upluongMessage((long) luong);
             }
             if (this.map.cave != null && this.map.getXHD() == 9 && !canDropBossLuong) {
-                p.upluongMessage(50L);
+                p.upluongMessage(20L);
             }
 
             // drop item
