@@ -563,6 +563,9 @@ public class MenuController {
                             return;
                         }
 
+                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                "Lưu ý nên sử dụng Nguyệt Nhãn khi nhận nhiệm vụ để có thể nhận quà tương xứng.");
+
                         final Item matItem = p.nj.get().ItemBody[14];
                         switch (optionId) {
                             case 0:
@@ -573,34 +576,41 @@ public class MenuController {
                                 }
                                 // Nhan nhiem vu
                                 if (p.nj.getTasks()[NHIEM_VU_DANH_VONG] == null) {
-                                    if (p.nj.nvdvCount < TaskOrder.MAX_NVDV_PER_DAY) {
-                                        TaskOrder task = createNvdvTask();
-                                        if (task != null) {
-                                            p.nj.addTaskOrder(task);
-                                            p.nj.getPlace().chatNPC(p, (short) npcId,
-                                                    "Nhận nhiệm vụ thành công.");
+                                    if (matItem != null && matItem.id == 694) {
+                                        p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                "Con đã có Sukaigan rồi nên không thể làm nhiệm vụ danh vọng nữa.");
+                                    } else {
+                                        if (p.nj.nvdvCount < TaskOrder.MAX_NVDV_PER_DAY) {
+                                            TaskOrder task = createNvdvTask();
+                                            if (matItem != null) {
+                                                task.setNvdvLevel(matItem.getUpgrade());
+                                            }
+                                            if (task != null) {
+                                                p.nj.addTaskOrder(task);
+                                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                        "Nhận nhiệm vụ thành công.");
+                                            } else {
+                                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                                        "Nhiệm vụ lần này có chút trục trặc chắc con không làm được rồi ahihi");
+                                            }
                                         } else {
                                             p.nj.getPlace().chatNPC(p, (short) npcId,
-                                                    "Nhiệm vụ lần này có chút trục trặc chắc con không làm được rồi ahihi");
+                                                    "Nhiệm vụ hôm nay con đã làm hết quay lại vào ngày hôm sau");
                                         }
-                                    } else {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId,
-                                                "Nhiệm vụ hôm nay con đã làm hết quay lại vào ngày hôm sau");
                                     }
+
                                 } else {
                                     p.nj.getPlace().chatNPC(p, (short) npcId,
                                             "Hãy hoàn thành nhiệm vụ hiện tại để nhận nhiệm vụ mới.");
                                 }
                                 break;
                             case 1:
-                                if (!(matItem != null && matItem.getUpgrade() != 0)) {
-                                    p.sendYellowMessage("Hãy sử dụng Nguyệt Nhãn để để nhận phần thưởng tương ứng.");
-                                } else {
-                                    // Tra nhiem vu
-                                    if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_DANH_VONG)) {
-                                        p.nj.getPlace().chatNPC(p, (short) npcId,
-                                                "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
-                                    }
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Hãy sử dụng Nguyệt Nhãn để để nhận phần thưởng tương xứng.");
+                                // Tra nhiem vu
+                                if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_DANH_VONG)) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Hãy hoàn thành nhiệm vụ để được nhận thưởng");
                                 }
                                 break;
                             case 2:

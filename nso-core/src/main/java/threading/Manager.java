@@ -27,6 +27,7 @@ import org.json.simple.JSONArray;
 import static real.ItemData.*;
 import static real.ItemData.getListItemByMaxLevel;
 import static server.GameScr.LAT_HINH_ID;
+import static server.GameScr.LAT_HINH_RARE_IDS;
 import static server.util.concatArray;
 
 @SuppressWarnings("ALL")
@@ -238,6 +239,7 @@ public class Manager {
             User.MIN_TIME_RESET_POINT = Long.parseLong(properties.getProperty("min-time-reset-point"));
             Server.TIME_SLEEP_SHINWA_THREAD = Long.parseLong(properties.getProperty("time-run-shinwa-thread"));
             LAT_HINH_ID = parseShortArray(properties.getProperty("lat-hinh-id"));
+            LAT_HINH_RARE_IDS = parseShortArray(properties.getProperty("lat-hinh-rare-ids"));
 
             MIN_MAX_YEN_RUONG_MAY_MAN = parseIntArray(properties.getProperty("yen-ruong-may-man"));
             MIN_MAX_YEN_RUONG_TINH_SAO = parseIntArray(properties.getProperty("yen-ruong-tinh-sao"));
@@ -256,17 +258,6 @@ public class Manager {
             ITEM_LV_80 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             ITEM_LV_90 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             ITEM_LV_100 = getListItemByMaxLevel(80, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
-            GameScr.LAT_HINH_LV100_ID = util.concatArray(ItemData.ITEM_LV_100, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV90_ID = util.concatArray(ItemData.ITEM_LV_90, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV80_ID = util.concatArray(ItemData.ITEM_LV_80, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV70_ID = util.concatArray(ItemData.ITEM_LV_70, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV60_ID = util.concatArray(ItemData.ITEM_LV_60, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV50_ID = util.concatArray(ItemData.ITEM_LV_50, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV40_ID = util.concatArray(ItemData.ITEM_LV_40, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV30_ID = util.concatArray(ItemData.ITEM_LV_30, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV20_ID = util.concatArray(ItemData.ITEM_LV_20, LAT_HINH_ID);
-            GameScr.LAT_HINH_LV10_ID = util.concatArray(ItemData.ITEM_LV_10, LAT_HINH_ID);
-
         } catch (IOException e) {
             e.printStackTrace();
             Server.getInstance().stop();

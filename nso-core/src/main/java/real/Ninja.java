@@ -1232,12 +1232,18 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 i.quantity = this.get().getLevel() >= 60 ? 5 : 2;
                 this.addItemBag(true, i);
             } else if (task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
-                final Item matItem = this.get().ItemBody[14];
-                int n = Math.max(Math.min(matItem.getUpgrade(), 9), 4) - 4;
+                int ddvN = task.nvdvType() / 2;
+                if (task.getNvdvLevel() != 0) {
+                    if (task.getNvdvLevel() >= 7) {
+                        ddvN = Math.min(task.getNvdvLevel(), 10);
+                    } else {
+                        int n = Math.max(Math.min(task.getNvdvLevel() - 1, 9), 4) - 4;
+                        ddvN += n;
+                    }
+                }
 
-                int ddvN = task.nvdvType() / 2 + n;
+                int nDdv = task.getNvdvLevel() >= 7 ? util.nextInt(2) : util.nextInt(10, 13) - task.nvdvType();
                 int ddvId = 695 + ddvN;
-                int nDdv = util.nextInt(10, 13) - task.nvdvType();
                 if (ddvId > 704) {
                     ddvId = 704;
                 }

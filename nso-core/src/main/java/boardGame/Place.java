@@ -2571,17 +2571,13 @@ public class Place {
             int nItemBoss = N_ITEM_BOSS;
             if (this.map.cave != null && this.map.getXHD() == 9 && !canDropBossLuong) {
                 p.upluongMessage(20L);
-                nItemBoss /= 3;
+                nItemBoss /= 4;
             }
 
             // drop item
             for (int i = 0; i < nItemBoss; i++) {
-                short itemId;
-                if (this.map.isLangCo()) {
-                    itemId = BOSS_LC_ITEM[util.nextInt(0, BOSS_LC_ITEM.length - 1)];
-                } else {
-                    itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
-                }
+                short itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
+
                 ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
                 if (im != null) {
                     if (im.item.id == 12) {
@@ -2771,7 +2767,11 @@ public class Place {
                 final SkillTemplates temp = other.getCSkillTemplate();
 
                 if (body.mp < temp.manaUse) {
-                    MessageSubCommand.sendMP((Ninja) body);
+                    if (body instanceof CloneChar) {
+                        MessageSubCommand.sendMP(((CloneChar) body).chuThan);
+                    } else {
+                        MessageSubCommand.sendMP((Ninja) body);
+                    }
                     return;
                 }
 

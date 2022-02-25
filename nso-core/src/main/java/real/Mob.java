@@ -249,29 +249,45 @@ public class Mob {
     }
 
     private void updateBossItemDrop() {
-        if (this.isboss && (this.templates.arrIdItem == null || this.templates.arrIdItem.length == 0)) {
-            if (this.level == 45) {
-                this.templates.arrIdItem = BOSS_ITEM_LV45;
-            } else if (this.level == 55) {
-                this.templates.arrIdItem = BOSS_ITEM_LV55;
-            } else if (this.level == 60) {
-                this.templates.arrIdItem = BOSS_ITEM_LV60;
-            } else if (this.level == 65) {
-                this.templates.arrIdItem = BOSS_ITEM_LV65;
-            } else if (this.level == 75) {
-                this.templates.arrIdItem = BOSS_ITEM_LV75;
-            } else if (this.level == 90) {
-                this.templates.arrIdItem = BOSS_ITEM_LV90;
-            } else if (this.level == 100) {
-                this.templates.arrIdItem = BOSS_ITEM_LV100;
-            } else if (this.level == 99) {
-                this.templates.arrIdItem = BOSS_ITEM_LV99;
-            } else if (this.level == 110) {
-                this.templates.arrIdItem = BOSS_ITEM_LV110;
-            } else if (this.level == 150) {
-                this.templates.arrIdItem = BOSS_ITEM_LV150;
+        if (this.isboss) {
+            if (this.crtPlace != null && this.crtPlace.map.isLangCo()) {
+                this.templates.arrIdItem = BOSS_LC_ITEM;
             } else {
-                this.templates.arrIdItem = BOSS_DEFAULT_ITEM;
+                switch (this.level) {
+                    case 45:
+                        this.templates.arrIdItem = BOSS_ITEM_LV45;
+                        break;
+                    case 55:
+                        this.templates.arrIdItem = BOSS_ITEM_LV55;
+                        break;
+                    case 60:
+                        this.templates.arrIdItem = BOSS_ITEM_LV60;
+                        break;
+                    case 65:
+                        this.templates.arrIdItem = BOSS_ITEM_LV65;
+                        break;
+                    case 75:
+                        this.templates.arrIdItem = BOSS_ITEM_LV75;
+                        break;
+                    case 90:
+                        this.templates.arrIdItem = BOSS_ITEM_LV90;
+                        break;
+                    case 99:
+                        this.templates.arrIdItem = BOSS_ITEM_LV99;
+                        break;
+                    case 100:
+                        this.templates.arrIdItem = BOSS_ITEM_LV100;
+                        break;
+                    case 110:
+                        this.templates.arrIdItem = BOSS_ITEM_LV110;
+                        break;
+                    case 150:
+                        this.templates.arrIdItem = BOSS_ITEM_LV150;
+                        break;
+                    default:
+                        this.templates.arrIdItem = BOSS_DEFAULT_ITEM;
+                        break;
+                }
             }
         }
 
@@ -304,6 +320,8 @@ public class Mob {
     public void update(final @NotNull Place place) {
         if (this.crtPlace == null) {
             this.crtPlace = place;
+
+            this.updateBossItemDrop();
         }
 
         if (isThieuDot

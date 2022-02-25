@@ -35,17 +35,7 @@ public class GameScr {
     public static final int[] goldUps;
     public static final int[] maxPercents;
     public static short[] LAT_HINH_ID;
-
-    public static short[] LAT_HINH_LV10_ID;
-    public static short[] LAT_HINH_LV20_ID;
-    public static short[] LAT_HINH_LV30_ID;
-    public static short[] LAT_HINH_LV40_ID;
-    public static short[] LAT_HINH_LV50_ID;
-    public static short[] LAT_HINH_LV60_ID;
-    public static short[] LAT_HINH_LV70_ID;
-    public static short[] LAT_HINH_LV80_ID;
-    public static short[] LAT_HINH_LV90_ID;
-    public static short[] LAT_HINH_LV100_ID;
+    public static short[] LAT_HINH_RARE_IDS;
 
     public static int[] ArryenLuck;
     private static final byte[] ArrdayLuck;
@@ -986,39 +976,20 @@ public class GameScr {
         p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.LAT_HINH_KILL_ID);
 
         short[] itemIds = LAT_HINH_ID;
-        // int MAX_LEVEL = p.nj.getLevel() - p.nj.getLevel() % 10 + 10;
-        // if (MAX_LEVEL >= 100) {
-        // MAX_LEVEL = 100;
-        // }
 
-        // if (MAX_LEVEL == 100) {
-        // itemIds = LAT_HINH_LV100_ID;
-        // } else if (MAX_LEVEL == 90) {
-        // itemIds = LAT_HINH_LV90_ID;
-        // } else if (MAX_LEVEL == 80) {
-        // itemIds = LAT_HINH_LV80_ID;
-        // } else if (MAX_LEVEL == 70) {
-        // itemIds = LAT_HINH_LV70_ID;
-        // } else if (MAX_LEVEL == 60) {
-        // itemIds = LAT_HINH_LV60_ID;
-        // } else if (MAX_LEVEL == 50) {
-        // itemIds = LAT_HINH_LV50_ID;
-        // } else if (MAX_LEVEL == 40) {
-        // itemIds = LAT_HINH_LV40_ID;
-        // } else if (MAX_LEVEL == 30) {
-        // itemIds = LAT_HINH_LV30_ID;
-        // } else if (MAX_LEVEL == 20) {
-        // itemIds = LAT_HINH_LV20_ID;
-        // } else if (MAX_LEVEL == 10) {
-        // itemIds = LAT_HINH_LV10_ID;
-        // } else {
-        // itemIds = LAT_HINH_ID;
-        // }
+        boolean hasRareItem = false;
+        short[] randLatHinhIds = new short[9];
+        for (byte i = 0; i < 9; i++) {
+            if (!hasRareItem && util.nextInt(100) < 1) {
+                randLatHinhIds[i] = LAT_HINH_RARE_IDS[util.nextInt(LAT_HINH_RARE_IDS.length)];
+                hasRareItem = true;
+            } else {
+                randLatHinhIds[i] = itemIds[util.nextInt(itemIds.length - 1)];
+            }
+        }
 
-        final short id = itemIds[util.nextInt(itemIds.length - 1)];
-        /**
-         *
-         */
+        final short id = randLatHinhIds[index];
+
         p.nj.removeItemBags(340, 1);
         ItemData data = ItemData.ItemDataId(id);
 
@@ -1049,16 +1020,12 @@ public class GameScr {
             p.nj.upyenMessage(item.quantity);
             p.sendYellowMessage("Bạn nhận được " + item.quantity + " yên");
         }
+
         m = new Message(-28);
         m.writer().writeByte(-72);
         for (byte i = 0; i < 9; ++i) {
-            if (i == index) {
-                m.writer().writeShort(id);
-            } else {
-                m.writer().writeShort(itemIds[util.nextInt(itemIds.length - 1)]);
-            }
+            m.writer().writeShort(randLatHinhIds[i]);
         }
-
         m.writer().flush();
         p.sendMessage(m);
         m.cleanup();

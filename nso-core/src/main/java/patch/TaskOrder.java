@@ -38,6 +38,8 @@ public class TaskOrder implements Serializable, Cloneable {
     private int maxCount;
     private int taskId;
 
+    private int nvdvLevel = 0;
+
     private int killId;
     private int mapId;
 
@@ -62,6 +64,14 @@ public class TaskOrder implements Serializable, Cloneable {
 
     public TaskOrder() {
 
+    }
+
+    public void setNvdvLevel(int level) {
+        this.nvdvLevel = level;
+    }
+
+    public int getNvdvLevel() {
+        return this.nvdvLevel;
     }
 
     public String getName() {
