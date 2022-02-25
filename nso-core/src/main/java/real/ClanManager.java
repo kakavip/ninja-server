@@ -31,7 +31,7 @@ import static clan.ClanThanThu.*;
 import static patch.Constants.TOC_TRUONG;
 
 public class ClanManager {
-    public static final int LUONG_CREATE_CLAN = 1_500;
+    public static final int LUONG_CREATE_CLAN = 15_000;
 
     public int id;
 

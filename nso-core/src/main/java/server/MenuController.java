@@ -249,11 +249,11 @@ public class MenuController {
                                 }
 
                             } else if (optionId == 3) {
-                                server.manager.sendTB(p, "Hướng Dẫn", "Lập gia tộc bạn cần có 1.500 lượng."
+                                server.manager.sendTB(p, "Hướng Dẫn", "Lập gia tộc bạn cần có 15.000 lượng."
                                         + "\n\nVào thứ 2 hàng tuần gia tộc phải trả một mức phí tùy theo cấp độ của gia tộc để duy trì gia tộc."
                                         + "\n\nMức nợ ngân quỹ tối đa của mỗi gia tộc = 3 lần số phí duy trì gia tộc. Nếu số nợ ngân quỹ lớn hơn 3 lần số phí duy trì thì gia tộc số bị giải tán."
-                                        + "\n\nPhí trục xuất thành viên:\n- Thành viên thường: 10.000 xu.\n- Ưu tú: 20.000 xu.\n- Trưởng lão: 50.000 xu.\n- Tộc phó: 100.000 xu."
-                                        + "\n\nPhí tự ý rời gia tộc:\n- Thành viên thường: 10.000 xu.\n- Ưu tú: 20.000 xu.\n- Trưởng lão: 50.000 xu.\n- Tộc phó: 100.000 xu.");
+                                        + "\n\nPhí trục xuất thành viên:\n- Thành viên thường: 100.000 xu.\n- Ưu tú: 200.000 xu.\n- Trưởng lão: 500.000 xu.\n- Tộc phó: 1000.000 xu."
+                                        + "\n\nPhí tự ý rời gia tộc:\n- Thành viên thường: 100.000 xu.\n- Ưu tú: 200.000 xu.\n- Trưởng lão: 500.000 xu.\n- Tộc phó: 1.000.000 xu.");
                                 break;
                             }
                             break label;
