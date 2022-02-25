@@ -1237,7 +1237,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
                 int ddvN = task.nvdvType() / 2 + n;
                 int ddvId = 695 + ddvN;
-                int nDdv = util.nextInt(10, 15) - task.nvdvType();
+                int nDdv = util.nextInt(10, 13) - task.nvdvType();
                 if (ddvId > 704) {
                     ddvId = 704;
                 }
@@ -1250,7 +1250,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 this.addItemBag(true, i);
 
                 // update dv point
-                this.upDVPoints(util.nextInt(1, 3), task.nvdvType());
+                this.upDVPoints(util.nextInt(2, 4), task.nvdvType());
 
                 if (this.nvdvCount % 10 == 0) {
                     this.upNActPoint(3);

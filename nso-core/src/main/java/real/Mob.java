@@ -232,8 +232,14 @@ public class Mob {
 
     public int getDefensePercent() {
         if (this.isIsboss()) {
-            if (this.crtPlace != null && this.crtPlace.map.isEndOfSchoolMap) {
-                return 50;
+            if (this.crtPlace != null) {
+                if (this.crtPlace.map.isEndOfSchoolMap) {
+                    return 70;
+                } else if (this.crtPlace.map.isLangCo()) {
+                    return 50;
+                } else {
+                    return 30;
+                }
             } else {
                 return 30;
             }

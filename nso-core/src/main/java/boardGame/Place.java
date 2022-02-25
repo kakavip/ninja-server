@@ -2567,12 +2567,15 @@ public class Place {
                 }
                 p.upluongMessage((long) luong);
             }
+
+            int nItemBoss = N_ITEM_BOSS;
             if (this.map.cave != null && this.map.getXHD() == 9 && !canDropBossLuong) {
                 p.upluongMessage(20L);
+                nItemBoss /= 3;
             }
 
             // drop item
-            for (int i = 0; i < N_ITEM_BOSS; i++) {
+            for (int i = 0; i < nItemBoss; i++) {
                 short itemId;
                 if (this.map.isLangCo()) {
                     itemId = BOSS_LC_ITEM[util.nextInt(0, BOSS_LC_ITEM.length - 1)];
