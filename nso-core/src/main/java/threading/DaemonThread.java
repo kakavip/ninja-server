@@ -12,6 +12,7 @@ import real.ClanManager;
 import real.Item;
 import real.ItemData;
 import real.PlayerManager;
+import real.User;
 import server.util;
 
 import java.io.IOException;
@@ -78,6 +79,7 @@ public class DaemonThread extends Thread {
 
         while (this.isRunning) {
             try {
+                rewardTopTournament();
                 flushAndControlConnectUser();
                 flushClanData();
                 flushTournamentData();
@@ -95,7 +97,6 @@ public class DaemonThread extends Thread {
 
                     Tournament.lastTimeReward = System.currentTimeMillis();
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -130,6 +131,26 @@ public class DaemonThread extends Thread {
                 }
             } catch (Exception e) {
 
+            }
+        }
+    }
+
+    private void rewardTopTournament() {
+        for (Session conn : playerManager.conns) {
+            try {
+                if (conn != null && conn.user != null) {
+                    User p = conn.user;
+
+                    if (KageTournament.gi().rewardNinja(p.nj)) {
+                        p.session.sendMessageLog(
+                                "Bạn vừa nhận được phần thưởng khi nằm trong top Thiên Bảng ngày hôm qua.");
+                    }
+                    if (GeninTournament.gi().rewardNinja(p.nj)) {
+                        p.session.sendMessageLog(
+                                "Bạn vừa nhận được phần thưởng khi nằm trong top Địa Bảng ngày hôm qua.");
+                    }
+                }
+            } catch (Exception e) {
             }
         }
     }

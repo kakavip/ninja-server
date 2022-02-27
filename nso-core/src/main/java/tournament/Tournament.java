@@ -376,37 +376,52 @@ public abstract class Tournament {
 
     public void rewardNinja() {
         loadTournamentFromDb();
-        val rewards = getRewardItems();
         synchronized (this.participants) {
             for (User participant : this.participants) {
-                val rank = participant.nj.getTournamentData().getRanked();
+                int rank = participant.nj.getTournamentData().getRanked();
                 if (rank >= 1 && rank <= 10) {
                     final Ninja ninja = PlayerManager.getInstance().getNinja(participant.nj.name);
                     if (ninja != null) {
                         participant.nj = ninja;
+                        ninja.setTournamentRank(this, rank);
+                    } else {
+                        Ninja.setTournamentRankInDB(this, participant.nj.name, rank);
                     }
-                    for (int[] reward : rewards) {
-                        val nullbag = participant.nj.getAvailableBag();
-                        if (reward[0] == 12) {
-                            participant.nj.upyenMessage((long) (11 - rank) * reward[1]);
-                            continue;
-                        }
-                        if (nullbag == 0) {
-                            continue;
-                        }
-                        val item = ItemData.itemDefault(reward[0]);
-                        item.quantity = (11 - rank) * reward[1];
-                        if (item.getData().type == 26) {
-                            participant.nj.addItemBag(false, item);
-                        } else {
-                            participant.nj.addItemBag(true, item);
-                        }
-
-                    }
-                    participant.nj.flush();
                 }
             }
         }
+    }
+
+    public boolean rewardNinja(Ninja nj) {
+        int[][] rewards = this.getRewardItems();
+
+        byte nullbag = nj.getAvailableBag();
+        if (nullbag < rewards.length) {
+            return false;
+        }
+
+        int rank = nj.getTournamentRank(this);
+        if (!(rank >= 1 && rank <= 10)) {
+            return false;
+        }
+        for (int[] reward : rewards) {
+            if (reward[0] == 12) {
+                nj.upyenMessage((long) (11 - rank) * reward[1]);
+                break;
+            }
+
+            Item item = ItemData.itemDefault(reward[0]);
+            item.quantity = (11 - rank) * reward[1];
+            if (item.getData().type == 26) {
+                nj.addItemBag(false, item);
+            } else {
+                nj.addItemBag(true, item);
+            }
+        }
+
+        nj.resetTournamentRank(this);
+        return true;
+
     }
 
     @SneakyThrows

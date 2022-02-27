@@ -15,6 +15,8 @@ import battle.ClanBattle;
 import candybattle.CandyBattle;
 import interfaces.IGlobalBattler;
 import interfaces.TeamBattle;
+import tournament.KageTournament;
+import tournament.Tournament;
 import tournament.TournamentData;
 import server.SQLManager;
 import server.Service;
@@ -95,6 +97,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public int typemenu;
     public int typebet;
     public boolean wasReceivedEye = false;
+
+    private int rewardThienBang = 0;
+    private int rewardDiaBang = 0;
 
     @Nullable
     public CandyBattle candyBattle;
@@ -636,6 +641,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.ticketYen = red.getInt("ticketYen");
                     nj.ticketXu = red.getInt("ticketXu");
                     nj.wasReceivedEye = red.getInt("receivedEye") == 1;
+                    nj.rewardThienBang = red.getInt("rewardThienBang");
+                    nj.rewardDiaBang = red.getInt("rewardDiaBang");
 
                     nj.maxluggage = red.getInt("maxluggage");
                     if (nj.maxluggage > Manager.MAX_LUGGAGE) {
@@ -900,6 +907,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             sqlSET = sqlSET + ",`kynangso`=" + this.getKyNangSo() + "";
 
             sqlSET = sqlSET + ", `receivedEye`=" + (wasReceivedEye ? 1 : 0) + "";
+            sqlSET = sqlSET + ", `rewardThienBang`=" + rewardThienBang + "";
+            sqlSET = sqlSET + ", `rewardDiaBang`=" + rewardDiaBang + "";
             sqlSET = sqlSET + ", `nvhncount`=" + nvhnCount + "";
             sqlSET = sqlSET + ", `tathucount`=" + taThuCount + "";
             sqlSET = sqlSET + ", `nvdvcount`=" + nvdvCount + "";
@@ -1237,7 +1246,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     if (task.getNvdvLevel() >= 7) {
                         ddvN = Math.min(task.getNvdvLevel(), 10);
                     } else {
-                        int n = Math.max(Math.min(task.getNvdvLevel() - 1, 9), 4) - 4;
+                        int n = Math.max(Math.min(task.getNvdvLevel(), 9), 4) - 4;
                         ddvN += n;
                     }
                 }
@@ -1256,7 +1265,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 this.addItemBag(true, i);
 
                 // update dv point
-                this.upDVPoints(util.nextInt(2, 4), task.nvdvType());
+                this.upDVPoints(util.nextInt(5, 7), task.nvdvType());
 
                 if (this.nvdvCount % 10 == 0) {
                     this.upNActPoint(3);
@@ -1344,6 +1353,58 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
     public void setMapid(int mapid) {
         this.mapid = mapid;
+    }
+
+    public int getRewardThienBang() {
+        return this.rewardThienBang;
+    }
+
+    public void setRewardThienBang(int tb) {
+        this.rewardThienBang = tb;
+    }
+
+    public int getRewardDiaBang() {
+        return this.rewardDiaBang;
+    }
+
+    public void setRewardDiaBang(int db) {
+        this.rewardDiaBang = db;
+    }
+
+    public int getTournamentRank(Tournament t) {
+        if (t instanceof KageTournament) {
+            return this.getRewardThienBang();
+        } else {
+            return this.getRewardDiaBang();
+        }
+    }
+
+    public void resetTournamentRank(Tournament t) {
+        this.setTournamentRank(t, 0);
+    }
+
+    public void setTournamentRank(Tournament t, int rank) {
+        if (t instanceof KageTournament) {
+            this.setRewardThienBang(rank);
+        } else {
+            this.setRewardDiaBang(rank);
+        }
+    }
+
+    public static void setTournamentRankInDB(Tournament t, String name, int rank) {
+        try {
+            if (t instanceof KageTournament) {
+                SQLManager.executeUpdate("UPDATE `ninja` SET `rewardThienBang`=" + rank + " WHERE `name`='"
+                        + name
+                        + "';");
+            } else {
+                SQLManager.executeUpdate("UPDATE `ninja` SET `rewardDiaBang`=" + rank + " WHERE `name`='"
+                        + name
+                        + "';");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setClanBattle(ClanBattle clanBattle) {
