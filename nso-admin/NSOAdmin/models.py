@@ -150,6 +150,12 @@ class Ninja(Character):
     ticket_xu = models.IntegerField(
         blank=True, null=True, default=0, db_column="ticketXu"
     )
+    reward_thien_bang = models.IntegerField(
+        blank=True, null=True, default=0, db_column="rewardThienBang"
+    )
+    reward_dia_bang = models.IntegerField(
+        blank=True, null=True, default=0, db_column="rewardDiaBang"
+    )
 
     class Meta:
         db_table = "ninja"

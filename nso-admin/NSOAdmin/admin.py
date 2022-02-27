@@ -47,10 +47,10 @@ class PlayerAdmin(admin.ModelAdmin):
     fields = [
         "username",
         "password",
-        "luong",
+        # "luong",
         "ninja",
         "status",
-        "ticket_gold",
+        # "ticket_gold",
         "nhan_qua",
     ]
     search_fields = ["username", "password", "ninja"]
@@ -129,6 +129,8 @@ class NinjaAdmin(CharacterAdmin):
         "dv_points",
         "ticket_xu",
         "ticket_yen",
+        "reward_thien_bang",
+        "reward_dia_bang",
     ]
     fields = CharacterAdmin.fields + [
         "expdown",
@@ -138,6 +140,10 @@ class NinjaAdmin(CharacterAdmin):
         "tathu_count",
         "nvdv_count",
         "dv_points",
+        "ticket_xu",
+        "ticket_yen",
+        "reward_thien_bang",
+        "reward_dia_bang",
     ]
 
 
