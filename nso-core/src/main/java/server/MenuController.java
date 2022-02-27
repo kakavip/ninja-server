@@ -2019,7 +2019,6 @@ public class MenuController {
                             break;
                         }
                         case 4: {
-                            // this.sendWrite(p, (short) 24_4, "Nhập mã");
                             this.sendWrite(p, (short) 53, "Mã quà tặng:");
                             break;
                         }
@@ -2156,7 +2155,6 @@ public class MenuController {
                                         "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                 p.nj.reward70 = 1;
                                 p.upluongMessage(5000);
-                                ;
                                 p.nj.upyenMessage(1000000);
                                 p.nj.upxuMessage(1000000);
 
@@ -2207,7 +2205,7 @@ public class MenuController {
                                 p.nj.getPlace().chatNPC(p, (short) npcId,
                                         "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                 p.nj.reward130 = 1;
-                                p.upluongMessage(2000);
+                                p.upluongMessage(20000);
                                 ;
                                 p.nj.upyenMessage(2000000);
                                 p.nj.upxuMessage(2000000);
