@@ -24911,6 +24911,9 @@ add column `ticketYen` int(11) NOT NULL DEFAULT '0';
 alter table `ninja`
 add column `receivedEye` tinyint(11) NOT NULL DEFAULT '0';
 
+alter table `ninja`
+add column `rewardThienBang` int(11) NOT NULL DEFAULT '0',
+add column `rewardDiaBang` int(11) NOT NULL DEFAULT '0';
 
 
 --

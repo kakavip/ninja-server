@@ -395,7 +395,7 @@ public class useItem {
                             Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, p.nj.getMaxLevel()) * Manager.YEN_COEF
                                     * util.nextInt(90, 100) / 100);
 
-                } else if (luck <= 50) {
+                } else if (luck <= 40) {
                     // up luong
                     int nluong = util.nextInt(p.nj.getMaxLevel() / 10, p.nj.getMaxLevel() / 5);
                     p.upluongMessage(nluong);

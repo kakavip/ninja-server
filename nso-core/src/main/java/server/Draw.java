@@ -117,11 +117,6 @@ public class Draw {
                 }
             }
 
-            case 24_4: {
-                p.cardCode = str;
-                p.cardDCoin();
-                break;
-            }
             case 24_8: {
                 p.nameUS = str;
                 Ninja user_gift_gold = PlayerManager.getInstance().getNinja(p.nameUS);

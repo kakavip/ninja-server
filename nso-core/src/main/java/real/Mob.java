@@ -295,25 +295,23 @@ public class Mob {
 
     public long getReduceIceTime() {
         if (this.isIsboss()) {
-            return 5 * 500L;
+            return 10 * 250L;
         }
-
-        return 500L * this.lvboss;
+        return this.lvboss * 250L;
     }
 
     public long getReduceWindTime() {
         if (this.isIsboss()) {
-            return 5 * 300L;
+            return 10 * 150L;
         }
-
-        return 300L * this.lvboss;
+        return this.lvboss * 150L;
     }
 
     public long getReduceFireTime() {
         if (this.isIsboss()) {
-            return 5 * 600L;
+            return 10 * 300L;
         }
-        return 600L * this.lvboss;
+        return this.lvboss * 300L;
     }
 
     @SneakyThrows

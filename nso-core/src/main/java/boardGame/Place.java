@@ -2493,27 +2493,24 @@ public class Place {
                     && (this.map.isLangCo() || canDropItem || (body.getLevel() > 110
                             && curMob.level >= 100))) {
 
-                if (arid[randomIndex] == 12) {
-                    p.nj.upyenMessage(
-                            Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, curMob.level) * Manager.YEN_COEF
-                                    * util.nextInt(90, 100) / 100);
-                } else {
-                    final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
-                    if (im != null) {
-                        int quantity = 1;
-                        if (curMob.lvboss == 0 && !this.map.isLangCo() && !this.map.VDMQ()) {
-                            im.item.setLock(true);
-                        }
-                        if (im.item.id == 455 || im.item.id == 456) {
-                            im.item.isExpires = true;
-                            im.item.expires = util.TimeDay(7);
-                        } else if (im.item.id == 545) {
-                            im.item.isExpires = true;
-                            im.item.expires = util.TimeDay(1);
-                        }
-                        im.item.quantity = quantity;
-                        im.master = master;
+                final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
+                if (im != null) {
+                    int quantity = 1;
+                    if (curMob.lvboss == 0 && !this.map.isLangCo() && !this.map.VDMQ()) {
+                        im.item.setLock(true);
                     }
+                    if (im.item.id == 455 || im.item.id == 456) {
+                        im.item.isExpires = true;
+                        im.item.expires = util.TimeDay(7);
+                    } else if (im.item.id == 545) {
+                        im.item.isExpires = true;
+                        im.item.expires = util.TimeDay(1);
+                    } else if (im.item.id == 12) {
+                        quantity = (int) (Math.min(Manager.MAX_LEVEL_RECEIVE_YEN_COEF, curMob.level) * Manager.YEN_COEF
+                                * util.nextInt(90, 100) / 100);
+                    }
+                    im.item.quantity = quantity;
+                    im.master = master;
                 }
             }
         }
