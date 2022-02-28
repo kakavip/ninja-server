@@ -491,7 +491,7 @@ public class Controller implements ISessionHandler {
                     val item = p.nj.ItemBag[indexUI];
 
                     // int FEE = 50_000;
-                    int FEE_GOLD = 10;
+                    int FEE_GOLD = 25;
                     if (item != null && p.luong >= FEE_GOLD) {
                         if (item.isExpires)
                             return;
