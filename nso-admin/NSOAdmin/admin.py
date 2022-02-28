@@ -40,7 +40,7 @@ class PlayerAdmin(admin.ModelAdmin):
         "ticket_gold",
         "password",
         "joined_time",
-        "nhan_qua",
+        "nhan_qua","ip"
     ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
@@ -53,7 +53,7 @@ class PlayerAdmin(admin.ModelAdmin):
         # "ticket_gold",
         "nhan_qua",
     ]
-    search_fields = ["username", "password", "ninja"]
+    search_fields = ["username", "password", "ninja", "ip"]
     list_filter = ["status", "nhan_qua", "lock"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
 

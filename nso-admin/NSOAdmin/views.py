@@ -82,11 +82,15 @@ def register(request):
             num_regis: int = cache.get_or_set(client_ip, 0, timeout=86400 * 365)
 
             status: str = "wait"
-            if num_regis >= 3:
+            if num_regis >= 2:
                 status = "block"
 
             Player.objects.create(
-                username=username, password=password, luong=1000, status=status
+                username=username,
+                password=password,
+                luong=1000,
+                status=status,
+                ip=client_ip,
             )
             cache.incr(client_ip)
         else:

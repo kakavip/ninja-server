@@ -42,6 +42,7 @@ class Player(models.Model):
     )
 
     lock = models.BooleanField(default=False)
+    ip = models.CharField(blank=True, null=True)
 
     class Meta:
         db_table = "player"
