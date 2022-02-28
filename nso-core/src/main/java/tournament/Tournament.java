@@ -407,7 +407,7 @@ public abstract class Tournament {
         for (int[] reward : rewards) {
             if (reward[0] == 12) {
                 nj.upyenMessage((long) (11 - rank) * reward[1]);
-                break;
+                continue;
             }
 
             Item item = ItemData.itemDefault(reward[0]);

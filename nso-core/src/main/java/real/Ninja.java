@@ -1251,7 +1251,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     }
                 }
 
-                int nDdv = task.getNvdvLevel() >= 7 ? util.nextInt(2) : util.nextInt(10, 13) - task.nvdvType();
+                int nDdv = task.getNvdvLevel() >= 7 ? util.nextInt(2) + 1 : util.nextInt(10, 13) - task.nvdvType();
                 int ddvId = 695 + ddvN;
                 if (ddvId > 704) {
                     ddvId = 704;

@@ -25610,6 +25610,8 @@ CREATE TABLE `player` (
 
 alter table `player`
 add column `nhanQua` tinyint(11) NOT NULL DEFAULT '0';
+alter table `player`
+add column `ip` char(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL;
 --
 -- Dumping data for table `player`
 --
