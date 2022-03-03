@@ -42,7 +42,7 @@ public class Map extends Thread {
     // 0: la id, 1: level
     private int[] taThu = new int[] { -1, -1 };
 
-    private static int AREA_BOSS_VIP = 0;
+    private static int AREA_BOSS_VIP = 17;
 
     protected Map() {
     }

@@ -108,7 +108,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss75[util.nextInt(Server.mapBoss75.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(17));
+                            map.refreshBoss(util.nextInt(1, 17));
                             textchat = textchat + " " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -116,7 +116,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss65[util.nextInt(Server.mapBoss65.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(17));
+                            map.refreshBoss(util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -124,7 +124,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss55[util.nextInt(Server.mapBoss55.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(17));
+                            map.refreshBoss(util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -132,7 +132,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss45[util.nextInt(Server.mapBoss45.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(17));
+                            map.refreshBoss(util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -140,7 +140,7 @@ public class Server {
                     for (byte k = 0; k < Server.mapBossVDMQ.length; ++k) {
                         final Map map = Manager.getMapid(Server.mapBossVDMQ[k]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(17));
+                            map.refreshBoss(util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -149,7 +149,7 @@ public class Server {
                     for (short i : mapBossLC) {
                         val map = Manager.getMapid(i);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(3));
+                            map.refreshBoss(util.nextInt(1, 3));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
