@@ -32,6 +32,8 @@ public class RotationLuck extends Thread {
     protected String currency;
     private ArrayList<Integer> sucsacs;
 
+    private String oldWinName;
+
     public RotationLuck(final String title, final byte type, final short time, final int min, final int max,
             final int maxtotal, String currency) {
 
@@ -55,6 +57,7 @@ public class RotationLuck extends Thread {
         this.max = max;
         this.maxTotal = maxtotal;
         this.currency = currency;
+        this.oldWinName = "";
 
     }
 
@@ -194,9 +197,10 @@ public class RotationLuck extends Thread {
                     break;
                 }
             }
-            if (p == null) {
+            while (p == null || p.name.equals(this.oldWinName)) {
                 p = this.players.get(util.nextInt(this.players.size()));
             }
+            this.oldWinName = p.name; // reset old win name
 
             long amountWin = this.total;
             if (this.numPlayers > 1) {
