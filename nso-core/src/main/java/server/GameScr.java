@@ -1514,7 +1514,6 @@ public class GameScr {
             mainItem.option.get(i).param += exp;
             int nextUpgrade = util.debug ? 10 : getNextUpgrade(mainItem.option.get(i).param);
 
-            mainItem.setLock(true);
             upgradeNgoc(mainItem, oldUpGrad, nextUpgrade);
             mainItem.setUpgrade((byte) nextUpgrade);
             val m2 = new Message(-144);
