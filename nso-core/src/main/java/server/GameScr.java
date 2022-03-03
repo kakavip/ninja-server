@@ -169,6 +169,7 @@ public class GameScr {
         final int id = m.reader().readInt();
         m.cleanup();
 
+        util.Debug(" Icon id:  " + id);
         final ByteArrayOutputStream a = loadFile("res/icon/" + p.session.zoomLevel + "/" + id + ".png");
         if (a != null) {
             final byte[] ab = a.toByteArray();
@@ -476,9 +477,10 @@ public class GameScr {
                 final Item item = sell.clone();
                 item.quantity = num;
                 for (short i = 0; i < item.option.size(); ++i) {
-                    item.option.get(i).param = util.nextInt(
-                            item.getOptionShopMin(item.option.get(i).id, item.option.get(i).param),
-                            item.option.get(i).param);
+                    item.option.get(i).param = util.debug ? item.option.get(i).param
+                            : util.nextInt(
+                                    item.getOptionShopMin(item.option.get(i).id, item.option.get(i).param),
+                                    item.option.get(i).param);
                 }
                 if (sell.id == TRUNG_HAI_MA_ID || sell.id == Constants.TRUNG_DI_LONG_ID) {
                     item.isExpires = true;
@@ -540,7 +542,8 @@ public class GameScr {
                 item.sale = sell.sale;
                 for (final Option Option : sell.option) {
                     final int idOp = Option.id;
-                    final int par = util.nextInt(item.getOptionShopMin(idOp, Option.param), Option.param);
+                    final int par = util.debug ? Option.param
+                            : util.nextInt(item.getOptionShopMin(idOp, Option.param), Option.param);
                     final Option option = new Option(idOp, par);
                     item.option.add(option);
                 }
