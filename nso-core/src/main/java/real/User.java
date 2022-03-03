@@ -2489,7 +2489,7 @@ public class User extends Actor implements SendMessage {
     }
 
     public void changePassword() {
-        if (!CheckString(this.passnew + this.passold, "^[a-z0-9]+$") || this.passnew.length() < 8
+        if (this.passnew.length() < 8
                 || this.passnew.length() > 30) {
             this.session.sendMessageLog("Mật khẩu chỉ đồng ý các ký tự a-z,0-9 và chiều dài từ 8 đến 30 ký tự");
             return;
