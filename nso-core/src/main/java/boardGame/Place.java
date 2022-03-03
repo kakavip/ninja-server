@@ -2103,7 +2103,7 @@ public class Place {
         if (p.nj.isNhanban) {
             dame = dame * p.nj.clone.percendame / 100;
         }
-        int xpnew = dame / 50 * body.getLevel();
+        int xpnew = (Math.max(dame, 1000) / 50) * body.getLevel();
         if (body.getEffType((byte) 18) != null) {
             xpnew *= body.getEffType((byte) 18).param;
         }
