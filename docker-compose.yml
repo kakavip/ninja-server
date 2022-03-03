@@ -82,13 +82,13 @@ services:
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
     volumes:
       - local_mysql_data:/var/lib/mysql
+      - ./mysql/backups:/backups
+      - ./mysql/restores:/restores
     environment:
       MYSQL_ROOT_PASSWORD: 12345678
       MYSQL_USER: root
       MYSQL_DATABASE: nja
-    volumes:
-      - ./mysql/backups:/backups
-      - ./mysql/restores:/restores
+      
 
   php_myadmin:
     image: phpmyadmin/phpmyadmin
