@@ -46,6 +46,34 @@ public class MenuController {
         this.server = Server.getInstance();
     }
 
+    public void showShinwaItems(User p, int optionId, String searchName) throws IOException {
+        final List<ItemShinwa> itemShinwas = items.get((int) optionId);
+        Message mess = new Message(103);
+        mess.writer().writeByte(optionId);
+        if (itemShinwas != null) {
+            ItemShinwa[] filteredItemShinwas = itemShinwas.stream()
+                    .filter(item -> searchName == null || item.item.getData().name.startsWith(searchName))
+                    .toArray(ItemShinwa[]::new);
+
+            mess.writer().writeInt(filteredItemShinwas.length);
+            for (int i = 0; i < filteredItemShinwas.length; i++) {
+                ItemShinwa item = filteredItemShinwas[i];
+                val itemStands = item.getItemStand();
+                mess.writer().writeInt(itemStands.getItemId());
+                mess.writer().writeInt(itemStands.getTimeEnd());
+                mess.writer().writeShort(itemStands.getQuantity());
+                mess.writer().writeUTF(itemStands.getSeller());
+                mess.writer().writeInt(itemStands.getPrice());
+                mess.writer().writeShort(itemStands.getItemTemplate());
+            }
+        } else {
+            mess.writer().writeInt(0);
+        }
+        mess.writer().flush();
+        p.sendMessage(mess);
+        mess.cleanup();
+    }
+
     public void sendMenu(final User p, final Message m) throws IOException {
         final byte npcId = m.reader().readByte();
         byte menuId = m.reader().readByte();
@@ -744,6 +772,10 @@ public class MenuController {
                             break;
                         }
                         case 3: {
+                            if (p.nj.isNhanban) {
+                                p.session.sendMessageLog("Chức năng này không dành cho phân thân");
+                                return;
+                            }
                             switch (optionId) {
                                 case 0: {
                                     // Đăng kí thien dia bang
@@ -776,7 +808,8 @@ public class MenuController {
                                                 .getChallenges(p);
                                         Service.sendChallenges(tournaments, p);
                                     } catch (Exception e) {
-
+                                        p.nj.getPlace().chatNPC(p, (short) 4,
+                                                "Bạn cần đăng kí trước khi muốn chinh phục.");
                                     }
 
                                     break;
@@ -1917,26 +1950,17 @@ public class MenuController {
                     // Shinwa
                     switch (menuId) {
                         case 0: {
-                            final List<ItemShinwa> itemShinwas = items.get((int) optionId);
-                            Message mess = new Message(103);
-                            mess.writer().writeByte(optionId);
-                            if (itemShinwas != null) {
-                                mess.writer().writeInt(itemShinwas.size());
-                                for (ItemShinwa item : itemShinwas) {
-                                    val itemStands = item.getItemStand();
-                                    mess.writer().writeInt(itemStands.getItemId());
-                                    mess.writer().writeInt(itemStands.getTimeEnd());
-                                    mess.writer().writeShort(itemStands.getQuantity());
-                                    mess.writer().writeUTF(itemStands.getSeller());
-                                    mess.writer().writeInt(itemStands.getPrice());
-                                    mess.writer().writeShort(itemStands.getItemTemplate());
-                                }
+                            if (optionId >= 0 && optionId <= 11) {
+                                this.showShinwaItems(p, optionId, null);
                             } else {
-                                mess.writer().writeInt(0);
+                                String[] itemShinwaTypes = new String[] {
+                                        "Đá", "Nón", "Vũ khí", "Áo", "Dây chuyền", "Găng tay", "Nhẫn", "Quần",
+                                        "Ngọc bội", "Giày",
+                                        "Bùa", "Linh tinh" };
+                                p.typemenu = 28_0;
+                                this.doMenuArray(p, itemShinwaTypes);
                             }
-                            mess.writer().flush();
-                            p.sendMessage(mess);
-                            mess.cleanup();
+
                             break;
                         }
                         case 1: {
@@ -1964,7 +1988,15 @@ public class MenuController {
 
                             break;
                         }
+                        case 3: {
+                            this.sendWrite(p, (short) 28_3, "Nhập tên vật phẩm");
+                            break;
+                        }
                     }
+                    break;
+                }
+                case 28_0: {
+                    this.showShinwaItems(p, menuId, null);
                     break;
                 }
                 case 27: {
@@ -2450,6 +2482,8 @@ public class MenuController {
         } else if (idnpc == 30 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
                     "Tài Xỉu" });
+        } else if (idnpc == 28 && p.nj.getLevel() > 1) {
+            this.doMenuArray(p, new String[] { "Gian hàng", "Bán vật phẩm", "Nhận lại vật phẩm", "Tìm kiếm vật phẩm" });
         } else if (idnpc == 32 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Gia tộc chiến", "Tinh luyện", "Bí kíp" });
         } else if (idnpc == 0 && (p.nj.getPlace().map.isGtcMap() ||

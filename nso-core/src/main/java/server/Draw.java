@@ -152,6 +152,11 @@ public class Draw {
                     break;
                 }
             }
+            case 28_3: {
+                // 11 for linh tinh
+                Draw.server.menu.showShinwaItems(p, 11, str);
+                break;
+            }
             case 50: {
                 ClanManager.createClan(p, str);
                 break;
