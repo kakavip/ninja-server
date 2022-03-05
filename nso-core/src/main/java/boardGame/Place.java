@@ -1256,7 +1256,7 @@ public class Place {
                                 Service.showWait("Nhặt Vật phẩm", ninja);
                                 Thread.sleep(2000L);
                                 Service.endWait(ninja);
-                                if (lastHp != ninja.getMaxHP()) {
+                                if (lastHp > ninja.hp) {
                                     canPickItem = false;
                                 }
                             }
