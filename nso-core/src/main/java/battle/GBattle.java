@@ -51,12 +51,10 @@ public class GBattle implements IBattle {
         hacGiaPoint = 0;
     }
 
-
     @Override
     public void tick() {
         tick = System.currentTimeMillis();
     }
-
 
     @Override
     public boolean isExpired() {
@@ -75,6 +73,7 @@ public class GBattle implements IBattle {
 
     /**
      * Must call tick method in set state
+     * 
      * @param state
      */
     public void setState(byte state) {
@@ -140,11 +139,11 @@ public class GBattle implements IBattle {
     @Override
     public @NotNull short @NotNull [] getRewards(@NotNull IGlobalBattler battle) {
         try {
-            if ((battle.getPhe() != Constants.PK_TRANG && battle.getPhe() != Constants.PK_DEN) || battle.getPoint() < 1000) {
+            if ((battle.getPhe() != Constants.PK_TRANG && battle.getPhe() != Constants.PK_DEN)
+                    || battle.getPoint() < 1000) {
                 return new short[0];
             } else {
                 if (battle.getPoint() >= 1000) {
-
                     return generateRewards(10);
                 } else if (battle.getPoint() >= 2000) {
                     return generateRewards(15);
@@ -161,7 +160,6 @@ public class GBattle implements IBattle {
         }
         return new short[0];
     }
-
 
     @Override
     public void reset() {
@@ -185,7 +183,8 @@ public class GBattle implements IBattle {
 
     @Override
     public @NotNull String getResult(final @NotNull IGlobalBattler nj) {
-        if (nj == null) return "";
+        if (nj == null)
+            return "";
         hacGiaPoint = calculatePoint(hacgia);
 
         bachGiaPoint = calculatePoint(bachgia);
@@ -199,8 +198,7 @@ public class GBattle implements IBattle {
             builder.append("Hai phe hoà nhau");
         }
 
-        builder.append("\n").
-                append("Bạch Giả: ")
+        builder.append("\n").append("Bạch Giả: ")
                 .append(bachGiaPoint)
                 .append("\n")
                 .append("Hắc giả: ")
@@ -267,7 +265,6 @@ public class GBattle implements IBattle {
     public long getTimeInSeconds() {
         return (this.duration - (System.currentTimeMillis() - tick)) / 1000;
     }
-
 
     @SneakyThrows
     @Override
@@ -339,13 +336,12 @@ public class GBattle implements IBattle {
     protected int calculatePoint(@NotNull List<@Nullable IGlobalBattler> phe) {
         int sum = 0;
         for (IGlobalBattler iGlobalBattler : phe) {
-            if (iGlobalBattler == null) continue;
+            if (iGlobalBattler == null)
+                continue;
             sum += iGlobalBattler.getPoint();
         }
         return sum;
     }
-
-
 
     @Override
     public void update(Ninja nj) {
@@ -376,7 +372,6 @@ public class GBattle implements IBattle {
 
     }
 
-
     @Override
     public void close() {
         try {
@@ -396,7 +391,6 @@ public class GBattle implements IBattle {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         this.setState(INITIAL_STATE);
     }

@@ -64,6 +64,8 @@ public class Server {
     private static final short[] mapBoss75;
     public static final short[] endMaps;
 
+    public static Runnable notifyHourlyTips;
+
     public static Runnable updateRefreshBoss;
     public static ExecutorService executorService = Executors.newFixedThreadPool(5);
     public static ClanTerritoryManager clanTerritoryManager = new ClanTerritoryManager();
@@ -71,6 +73,16 @@ public class Server {
     public static Tournament geninTournament;
     public static java.util.Map<String, Resource> resource;
     public DaemonThread daemonThread;
+
+    public static String[] HOURLY_TIPS = new String[] {
+            "Nạp lượng tỷ lệ 1:2 (10k vnd = 20k lượng) vui lòng liên hệ admin.",
+            "Chiến trường sẽ bắt đầu mở vào 16h và 21h.",
+            "Nhận quà tân thủ tại NPC Vua Hùng.",
+            "Cởi thú cưỡi và pet sau khi đánh Boss để nhặt rìu khi làm nhiệm vụ nhặt rìu.",
+            "Kiếm lượng bằng cách làm nvhn, nvct, săn TA/TL/Boss hoặc dùng Phúc nang nhẫn giả.",
+            "Tử Hạ Ma Thần sẽ xuất hiện tại khu 17 ở map cuối của các trường.",
+            "Thần thú sẽ xuất hiện vào khung giờ lẻ. Hãy theo dõi để săn và nhận được nhiều vật phẩm ý nghĩa."
+    };
 
     @NotNull
     public static CandyBattleManager candyBattleManager;
@@ -108,7 +120,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss75[util.nextInt(Server.mapBoss75.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(1, 17));
+                            map.refreshBoss(util.debug ? 0 : util.nextInt(1, 17));
                             textchat = textchat + " " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -116,7 +128,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss65[util.nextInt(Server.mapBoss65.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(1, 17));
+                            map.refreshBoss(util.debug ? 0 : util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -124,7 +136,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss55[util.nextInt(Server.mapBoss55.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(1, 17));
+                            map.refreshBoss(util.debug ? 0 : util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -132,7 +144,7 @@ public class Server {
                     for (byte k = 0; k < util.nextInt(Server.MAX_BOSS); ++k) {
                         final Map map = Manager.getMapid(Server.mapBoss45[util.nextInt(Server.mapBoss45.length)]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(1, 17));
+                            map.refreshBoss(util.debug ? 0 : util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -140,7 +152,7 @@ public class Server {
                     for (byte k = 0; k < Server.mapBossVDMQ.length; ++k) {
                         final Map map = Manager.getMapid(Server.mapBossVDMQ[k]);
                         if (map != null) {
-                            map.refreshBoss(util.nextInt(1, 17));
+                            map.refreshBoss(util.debug ? 0 : util.nextInt(1, 17));
                             textchat = textchat + ", " + map.template.name;
                             Server.isRefreshBoss = true;
                         }
@@ -184,6 +196,16 @@ public class Server {
             }
         };
 
+        notifyHourlyTips = () -> {
+            final Calendar rightNow = Calendar.getInstance();
+            final short minutes = (short) rightNow.get(12);
+
+            if (minutes % 60 == 0) {
+                Manager.serverChat("Tips", HOURLY_TIPS[util.nextInt(HOURLY_TIPS.length)]);
+            }
+
+        };
+
         clanTerritoryManager.start();
 
         initSentry();
@@ -214,6 +236,7 @@ public class Server {
             BXHManager.init();
             instance.daemonThread.addRunner(Server.updateRefreshBoss);
             instance.daemonThread.addRunner(Server.updateBattle);
+            instance.daemonThread.addRunner(Server.notifyHourlyTips);
         }
         return Server.instance;
     }
@@ -438,7 +461,7 @@ public class Server {
         Server.instance = null;
         Server.start = false;
         isRefreshBoss = false;
-        mapBossVDMQ = new short[] { 141, 142, 143 };
+        mapBossVDMQ = new short[] { 141, 142, 143, 146, 147 };
         mapBoss45 = new short[] { 14, 15, 16, 34, 35, 52, 68 };
         mapBoss55 = new short[] { 44, 67 };
         mapBoss65 = new short[] { 24, 41, 45, 59 };
