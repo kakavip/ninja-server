@@ -281,6 +281,12 @@ public class Mob {
                     case 110:
                         this.templates.arrIdItem = BOSS_ITEM_LV110;
                         break;
+                    case 130:
+                        this.templates.arrIdItem = BOSS_ITEM_LV130;
+                        break;
+                    case 140:
+                        this.templates.arrIdItem = BOSS_ITEM_LV140;
+                        break;
                     case 150:
                         this.templates.arrIdItem = BOSS_ITEM_LV150;
                         break;

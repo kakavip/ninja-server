@@ -2,6 +2,8 @@ package server;
 
 import real.Ninja;
 import real.ClanManager;
+import real.Item;
+import real.ItemData;
 import real.PlayerManager;
 import java.io.IOException;
 
@@ -284,28 +286,85 @@ public class Draw {
             }
 
             default: {
-                if (menuId >= MenuController.MIN_EVENT_MENU_ID
-                        && menuId <= MenuController.MIN_EVENT_MENU_ID + EventItem.entrys.length) {
-                    int index = menuId - MenuController.MIN_EVENT_MENU_ID;
+                if (menuId >= MenuController.MIN_EVENT_MENU_ID && menuId <= 2 * MenuController.MIN_EVENT_MENU_ID) {
+                    if (menuId <= MenuController.MIN_EVENT_MENU_ID + EventItem.entrys.length) {
+                        // create vpsk with more quantities
+                        int index = menuId - MenuController.MIN_EVENT_MENU_ID;
 
-                    try {
-                        int quantity = Integer.parseInt(str);
-                        if (quantity > 5000 || quantity <= 0) {
-                            p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 5000.");
+                        try {
+                            int quantity = Integer.parseInt(str);
+                            if (quantity > 5000 || quantity <= 0) {
+                                p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 5000.");
+                                break;
+                            }
+
+                            EventItem entry = EventItem.entrys[index];
+                            MenuController.lamSuKien(p, entry, quantity);
+                        } catch (NumberFormatException ex) {
+                            p.session.sendMessageLog("Sai định dạng.");
                             break;
                         }
+                    } else {
+                        // give gift item
+                        int itemId = menuId - MenuController.MIN_EVENT_MENU_ID;
 
-                        EventItem entry = EventItem.entrys[index];
-                        MenuController.lamSuKien(p, entry, quantity);
-                    } catch (NumberFormatException ex) {
-                        p.session.sendMessageLog("Sai định dạng.");
+                        String partnerName = str;
+                        Ninja user_gift = PlayerManager.getInstance().getNinja(partnerName);
+                        if (user_gift == null) {
+                            p.session.sendMessageLog("Người chơi không có online. Không thể nhận quà.");
+                            break;
+                        }
+                        if (user_gift.gender != 0) {
+                            p.session.sendMessageLog("Bạn chỉ có thể tặng cho nhân vật nữ.");
+                            break;
+                        }
+                        if (user_gift.getAvailableBag() <= 0) {
+                            p.session.sendMessageLog("Hành trang đối phương không đủ chỗ trống.");
+                        }
+
+                        EventItem entry = EventItem.getEventItemFromOutputItemId(itemId);
+                        p.updateExp(entry.getOutput().getExp(), false);
+                        user_gift.p.updateExp(entry.getOutput().getExp(), false);
+
+                        final short[] arId = entry.getOutput().getIdItems();
+                        final short idI = arId[util.nextInt(arId.length)];
+                        if (idI != -1) {
+                            randomItem(p, false, idI);
+                            randomItem(user_gift.p, false, idI);
+                        }
+
+                        p.nj.removeItemBags(itemId, 1);
                         break;
                     }
+
                 }
 
                 break;
             }
         }
+    }
+
+    private static boolean randomItem(User p, boolean isLock, short itemId) {
+        Item itemup = ItemData.itemDefault(itemId);
+        if (itemup == null) {
+            return true;
+        }
+
+        if (itemup.isPrecious()) {
+            if (!util.percent(100, itemup.getPercentAppear())) {
+                itemup = Item.defaultRandomItem();
+            }
+
+            if ((itemup.id == 385) && !util.percent(100, itemup.getPercentAppear())) {
+                itemup = Item.defaultRandomItem();
+            }
+
+        }
+
+        itemup.setLock(isLock);
+
+        p.nj.addItemBag(true, itemup);
+        return false;
     }
 
     static {

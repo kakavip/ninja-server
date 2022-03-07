@@ -15,9 +15,9 @@ public class Recipe implements Serializable {
 
     private int id;
     private int count;
+    private boolean canDrop = true;
 
     public Recipe() {
-
     }
 
     @NotNull
@@ -26,6 +26,7 @@ public class Recipe implements Serializable {
         item.quantity = count;
         return item;
     }
+
     @NotNull
     public ItemData getItemData() {
         return ItemData.ItemDataId(id);

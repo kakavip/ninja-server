@@ -34,6 +34,8 @@ import static tasks.TaskList.taskTemplates;
 
 @SuppressWarnings("ALL")
 public class Ninja extends Body implements TeamBattle, IGlobalBattler {
+    public static byte GENDER_MAN = 0;
+    public static byte GENDER_WOMAN = 1;
 
     private byte taskId;
     public byte gender;

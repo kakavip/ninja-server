@@ -1326,31 +1326,22 @@ public class useItem {
                         return;
                     }
 
-                    EventItem[] entrys = EventItem.entrys;
-                    EventItem entry = null;
-                    for (int i = 0; i < entrys.length; i++) {
-                        entry = entrys[i];
-
-                        if (entry == null) {
-                            continue;
-                        }
-                        if (entry.getOutput().getId() == item.id) {
-                            break;
-                        }
-                    }
-
+                    EventItem entry = EventItem.getEventItemFromOutputItemId(item.id);
                     if (entry == null) {
                         p.sendYellowMessage("Sự kiện này đã kết thúc không còn sử dụng được vật phẩm này nữa");
                         return;
                     }
 
-                    if (util.nextInt(10) < 3) {
-                        p.updateExp(entry.getOutput().getExp(), false);
+                    if (EventItem.isEventGiftUserItem(item.id)) {
+                        server.menu.sendWrite(p, (short) (MenuController.MIN_EVENT_MENU_ID + item.id),
+                                "Nhập tên người muốn tặng");
                     } else {
-                        final short[] arId = entry.getOutput().getIdItems();
-                        final short idI = arId[util.nextInt(arId.length)];
-                        if (randomItem(p, item.isLock(), idI)) {
-                            return;
+                        if (util.nextInt(10) < 3) {
+                            p.updateExp(entry.getOutput().getExp(), false);
+                        } else {
+                            final short[] arId = entry.getOutput().getIdItems();
+                            final short idI = arId[util.nextInt(arId.length)];
+                            randomItem(p, item.isLock(), idI);
                         }
                         p.nj.removeItemBag(index, 1);
                     }

@@ -88,6 +88,8 @@ public class Manager {
     public static short[] BOSS_ITEM_LV90;
     public static short[] BOSS_ITEM_LV100;
     public static short[] BOSS_ITEM_LV110;
+    public static short[] BOSS_ITEM_LV130;
+    public static short[] BOSS_ITEM_LV140;
     public static short[] BOSS_ITEM_LV150;
     public static short[] BOSS_LC_ITEM;
     public static short[] BOSS_DEFAULT_ITEM;
@@ -201,6 +203,8 @@ public class Manager {
             BOSS_ITEM_LV90 = parseShortArray(properties.getProperty("boss-item-lv90"));
             BOSS_ITEM_LV100 = parseShortArray(properties.getProperty("boss-item-lv100"));
             BOSS_ITEM_LV110 = parseShortArray(properties.getProperty("boss-item-lv110"));
+            BOSS_ITEM_LV130 = parseShortArray(properties.getProperty("boss-item-lv130"));
+            BOSS_ITEM_LV140 = parseShortArray(properties.getProperty("boss-item-lv140"));
             BOSS_ITEM_LV150 = parseShortArray(properties.getProperty("boss-item-lv150"));
             BOSS_DEFAULT_ITEM = parseShortArray(properties.getProperty("boss-default-item"));
 
