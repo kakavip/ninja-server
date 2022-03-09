@@ -24914,6 +24914,8 @@ add column `receivedEye` tinyint(11) NOT NULL DEFAULT '0';
 alter table `ninja`
 add column `rewardThienBang` int(11) NOT NULL DEFAULT '0',
 add column `rewardDiaBang` int(11) NOT NULL DEFAULT '0';
+alter table `ninja`
+add column `eventData` varchar(1500) DEFAULT NULL;
 
 
 --
@@ -25611,7 +25613,7 @@ CREATE TABLE `player` (
 alter table `player`
 add column `nhanQua` tinyint(11) NOT NULL DEFAULT '0';
 alter table `player`
-add column `ip` char(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL;
+add column `ip` char(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL;
 --
 -- Dumping data for table `player`
 --

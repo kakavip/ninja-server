@@ -13,6 +13,7 @@ import patch.*;
 import battle.BattleData;
 import battle.ClanBattle;
 import candybattle.CandyBattle;
+import event.EventData;
 import interfaces.IGlobalBattler;
 import interfaces.TeamBattle;
 import tournament.KageTournament;
@@ -129,6 +130,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     private TournamentData tournamentData;
     @Nullable
     public BattleData battleData;
+    @Nullable
+    public EventData eventData;
     @NotNull
     private TaskOrder[] tasks = new TaskOrder[3];
     @Nullable
@@ -739,6 +742,12 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     } catch (Exception e) {
                         nj.battleData = new BattleData();
                     }
+
+                    try {
+                        nj.eventData = Mapper.converter.readValue(red.getString("eventData"), EventData.class);
+                    } catch (Exception e) {
+                        nj.eventData = new EventData();
+                    }
                     // get diem nhiem vu danh vong.
                     jarr2 = (JSONArray) JSONValue.parse(red.getString("DVPoints"));
                     nj.DVPoints = new int[jarr2.size()];
@@ -919,6 +928,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             sqlSET = sqlSET + ", `taskIndex`=" + getTaskIndex() + "";
             sqlSET = sqlSET + ", `taskCount`=" + taskCount + "";
             sqlSET = sqlSET + ", `chientruong`='" + Mapper.converter.writeValueAsString(battleData) + "'";
+            sqlSET = sqlSET + ", `eventData`='" + Mapper.converter.writeValueAsString(eventData) + "'";
             SQLManager.executeUpdate("UPDATE `ninja` SET " + sqlSET + " WHERE `id`=" + this.id + " LIMIT 1;");
             jarr.clear();
 
@@ -1158,6 +1168,19 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             ds.flush();
             sendMessage(m);
             m.cleanup();
+        }
+    }
+
+    public void updateEventData(int eventItemId, int point) {
+        for (int i = 0; i < EventItem.entrys.length; i++) {
+            if (EventItem.entrys[i].getOutput().getId() == eventItemId) {
+                String eventKey = "a" + eventItemId;
+
+                int newPoint = this.eventData.getAnnual().getOrDefault(eventKey, 0) + point;
+                this.eventData.getAnnual().put(eventKey, newPoint);
+
+                break;
+            }
         }
     }
 

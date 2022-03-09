@@ -234,6 +234,7 @@ public class Server {
             }
             instance.daemonThread = new DaemonThread();
             BXHManager.init();
+            TopEventManager.init();
             instance.daemonThread.addRunner(Server.updateRefreshBoss);
             instance.daemonThread.addRunner(Server.updateBattle);
             instance.daemonThread.addRunner(Server.notifyHourlyTips);

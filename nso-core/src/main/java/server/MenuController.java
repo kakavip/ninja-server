@@ -2275,6 +2275,13 @@ public class MenuController {
                     this.server.manager.rotationluck[2].luckMessage(p);
                     break;
                 }
+                case 33_0: {
+                    EventItem entry = EventItem.entrys[menuId];
+                    this.server.manager.sendTB(p, "Top dùng " + entry.getOutput().getItemData().name,
+                            TopEventManager.getStringTXH(entry.getOutput().getId()));
+                    break;
+                }
+
                 case 36_4_0: {
                     if (p.luong < 10_000) {
                         p.sendYellowMessage("Con cần có đủ 10.000 lượng để chuyển phái.");
@@ -2465,15 +2472,16 @@ public class MenuController {
 
         if (idnpc == 33 && server.manager.EVENT != 0) {
 
-            val itemNames = new String[EventItem.entrys.length + 1];
+            val itemNames = new String[EventItem.entrys.length + 2];
 
-            for (int i = 0; i < itemNames.length - 1; i++) {
+            for (int i = 0; i < itemNames.length - 2; i++) {
                 itemNames[i] = "Làm " + EventItem.entrys[i].getOutput().getItemData().name;
             }
-
             itemNames[EventItem.entrys.length] = "Hướng dẫn";
+            itemNames[EventItem.entrys.length + 1] = "Top sự kiện";
+
             createMenu(33, itemNames,
-                    "Sự kiện tết nguyên đán đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bánh để nhận được những vật phẩm vô cùng độc đáo...",
+                    "Sự kiện 8/3 đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bó hoa để tặng những người mình yêu thương...",
                     p);
         }
         if (idnpc == 24 && p.nj.getLevel() > 1) {
@@ -2625,36 +2633,47 @@ public class MenuController {
                     this.sendWrite(p, (short) (MIN_EVENT_MENU_ID + index), "Nhập số lượng");
                 }
             } else {
-                String huongDan = "";
-                for (EventItem entry : EventItem.entrys) {
-                    String s = "";
-                    Recipe[] inputs = entry.getInputs();
-                    for (int i = 0, inputsLength = inputs.length; i < inputsLength; i++) {
-                        Recipe input = inputs[i];
-                        val data = input.getItem().getData();
-                        s += input.getCount() + " " + data.name;
-                        if (inputsLength != inputs.length - 1) {
-                            s += ",";
+                if (index == EventItem.entrys.length) {
+                    String huongDan = "";
+                    for (EventItem entry : EventItem.entrys) {
+                        String s = "";
+                        Recipe[] inputs = entry.getInputs();
+                        for (int i = 0, inputsLength = inputs.length; i < inputsLength; i++) {
+                            Recipe input = inputs[i];
+                            val data = input.getItem().getData();
+                            s += input.getCount() + " " + data.name;
+                            if (inputsLength != inputs.length - 1) {
+                                s += ",";
+                            }
+
+                        }
+                        huongDan += "Để làm " + entry.getOutput().getItem().getData().name + " cần\n\t" + s;
+                        if (entry.getCoin() > 0) {
+                            huongDan += ", " + entry.getCoin() + " xu";
                         }
 
-                    }
-                    huongDan += "Để làm " + entry.getOutput().getItem().getData().name + " cần\n\t" + s;
-                    if (entry.getCoin() > 0) {
-                        huongDan += ", " + entry.getCoin() + " xu";
+                        if (entry.getCoinLock() > 0) {
+                            huongDan += ", " + entry.getCoinLock() + " yên";
+                        }
+
+                        if (entry.getGold() > 0) {
+                            huongDan += ", " + entry.getGold() + " lượng";
+                        }
+                        huongDan += "\n";
+
                     }
 
-                    if (entry.getCoinLock() > 0) {
-                        huongDan += ", " + entry.getCoinLock() + " yên";
+                    Service.sendThongBao(p.nj, huongDan);
+                } else {
+                    // Top su kien
+                    val itemNames = new String[EventItem.entrys.length];
+                    for (int i = 0; i < itemNames.length; i++) {
+                        itemNames[i] = "Top dùng " + EventItem.entrys[i].getOutput().getItemData().name;
                     }
 
-                    if (entry.getGold() > 0) {
-                        huongDan += ", " + entry.getGold() + " lượng";
-                    }
-                    huongDan += "\n";
-
+                    p.typemenu = 33_0;
+                    doMenuArray(p, itemNames);
                 }
-
-                Service.sendThongBao(p.nj, huongDan);
             }
 
         } else if (idNpc == 32 && p.nj.getPlace().map.isGtcMap()) {

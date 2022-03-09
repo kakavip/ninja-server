@@ -55,6 +55,7 @@ public class User extends Actor implements SendMessage {
     public String nameUS;
     public String diamond_send;
     public String cardCode;
+    public String nameUG;
 
     private ClanTerritoryData clanTerritoryData;
 
@@ -2704,13 +2705,13 @@ public class User extends Actor implements SendMessage {
                             userEntered = JSONValue.toJSONString(jsonObject);
                             times += 1;
 
-                            if (xu != 0 && xu > 0) {
+                            if (xu != 0) {
                                 nj.upxuMessage(xu);
                             }
-                            if (yen != 0 && yen > 0) {
+                            if (yen != 0) {
                                 nj.upyenMessage(yen);
                             }
-                            if (luong != 0 && luong > 0) {
+                            if (luong != 0) {
                                 upluongMessage(luong);
                             }
                             if (itemId != -1 && itemQuantity > 0) {

@@ -13,6 +13,7 @@ import real.Item;
 import real.ItemData;
 import real.PlayerManager;
 import real.User;
+import server.TopEventManager;
 import server.util;
 
 import java.io.IOException;
@@ -96,6 +97,10 @@ public class DaemonThread extends Thread {
                     KageTournament.gi().reset();
 
                     Tournament.lastTimeReward = System.currentTimeMillis();
+                }
+
+                if (minute % 30 == 0) {
+                    TopEventManager.reload();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
