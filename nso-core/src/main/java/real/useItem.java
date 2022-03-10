@@ -1308,6 +1308,7 @@ public class useItem {
             case 705: {
                 p.nj.nvdvCount -= 1;
                 p.sendYellowMessage("Số lần làm nhiệmm vụ danh vọng của bạn là: " + p.nj.nvdvCount);
+                p.nj.removeItemBag(index, 1);
                 break;
             }
 
