@@ -1286,6 +1286,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 }
 
                 Item i = ItemData.itemDefault(ddvId);
+                if (ddvId >= 702) {
+                    i.setLock(true);
+                }
                 i.quantity = nDdv;
                 this.addItemBag(true, i);
 
