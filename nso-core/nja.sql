@@ -24917,6 +24917,17 @@ add column `rewardDiaBang` int(11) NOT NULL DEFAULT '0';
 alter table `ninja`
 add column `eventData` varchar(1500) DEFAULT NULL;
 
+alter table `ninja`
+add column `fashion` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]';
+alter table `clone_ninja`
+add column `fashion` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]';
+
+alter table `ninja`
+add column `caiTrang` smallint(6) NOT NULL DEFAULT '0',
+add column `ItemCaiTrang` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
+add column `ItemBST` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]';
+
+
 
 --
 -- Dumping data for table `ninja`
