@@ -319,7 +319,6 @@ public class Session extends Thread {
             this.user = p;
             this.login = true;
             Server.getInstance().manager.getPackMessage(p);
-            p.selectNhanVat(null);
         }
     }
 
