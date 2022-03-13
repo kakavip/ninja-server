@@ -27,6 +27,7 @@ public class Body implements ISoloer {
 
     public int id;
     public byte head;
+    public byte caiTrang;
     public int typeSolo;
     public long delayEffect2;
     protected byte speed;
@@ -48,6 +49,17 @@ public class Body implements ISoloer {
     public volatile short y;
     public volatile int hp;
     public int mp;
+
+    public short ID_Body = -1;
+    public short ID_PP = -1;
+    public short ID_HAIR = -1;
+    public short ID_LEG = -1;
+    public short ID_HORSE = -1;
+    public short ID_NAME = -1;
+    public short ID_RANK = -1;
+    public short ID_MAT_NA = -1;
+    public short ID_Bien_Hinh = -1;
+    public short ID_WEA_PONE = -1;
 
     @NotNull
     public Ninja c;
@@ -100,6 +112,7 @@ public class Body implements ISoloer {
 
         this.id = 0;
         this.head = -1;
+        this.caiTrang = -1;
         this.speed = 4;
         this.nclass = 0;
         this.setExp(1L);
@@ -117,7 +130,7 @@ public class Body implements ISoloer {
         this.KSkill = null;
         this.OSkill = null;
         this.setCSkill(-1);
-        this.ItemBody = new Item[16];
+        this.ItemBody = new Item[32];
         this.ItemMounts = null;
         this.CSkilldelay = 0L;
         this.mobMe = null;
@@ -150,6 +163,9 @@ public class Body implements ISoloer {
     }
 
     public short partHead() {
+        if (this.caiTrang != -1) {
+            return ItemDataId(this.c.ItemCaiTrang[this.caiTrang].id).part;
+        }
 
         if (this.ItemBody[11] == null) {
             return this.c.head;
@@ -177,11 +193,8 @@ public class Body implements ISoloer {
     }
 
     public short partBody() {
-        if (this.partHead() == 258) {
-            return 259;
-        }
-        if (this.partHead() == 264) {
-            return 265;
+        if (ItemData.isPartHead(this.partHead())) {
+            return (short) (this.partHead() + 1);
         }
         if (this.ItemBody[2] != null) {
             if ((ItemBody[2].id == 795 || ItemBody[2].id == 796)) {
@@ -193,12 +206,8 @@ public class Body implements ISoloer {
     }
 
     public short partLeg() {
-
-        if (this.partHead() == 258) {
-            return 260;
-        }
-        if (this.partHead() == 264) {
-            return 266;
+        if (ItemData.isPartHead(this.partHead())) {
+            return (short) (this.partHead() + 2);
         }
         if (this.ItemBody[6] != null) {
 
@@ -676,6 +685,14 @@ public class Body implements ISoloer {
                     if (option.id == id) {
                         param += option.param;
                     }
+                }
+            }
+        }
+
+        if (this.caiTrang != -1 && this.isHuman) {
+            for (Option option : this.c.ItemCaiTrang[this.caiTrang].option) {
+                if (option.id == id) {
+                    param += option.param;
                 }
             }
         }

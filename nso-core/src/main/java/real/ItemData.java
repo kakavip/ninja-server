@@ -26,6 +26,8 @@ import static threading.Manager.MAX_DA_LV;;
 
 public class ItemData {
 
+    public static final int[] CHECK_PART_HEAD = new int[] { 226, 223, 258, 264, 267 };
+
     public static final Option VU_KHI_OPTION = new Option(106, 0);
     public static final Option TRANG_BI_OPTION = new Option(107, 0);
     public static final Option TRANG_SUC_OPTION = new Option(108, 0);
@@ -967,5 +969,184 @@ public class ItemData {
 
     public boolean isItemNhiemVu() {
         return type == 25 || type == 23 || type == 24;
+    }
+
+    public static boolean isPartHead(int id) {
+        for (int entry : ItemData.CHECK_PART_HEAD) {
+            if (entry == id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static final int[] check_id = new int[] { 73, 102, 103, 105, 114, 115, 116, 117, 118, 119, 120, 121, 124,
+            125, 126 };
+    public static short[] idNewItems = new short[] { 798, 801, 802, 803, 795, 796, 804, 805, 799, 800, 813, 814, 815,
+            816, 817, 825, 826, 828, 840, 841, 842 };
+    public static short[][] idNewItemMounts = new short[][] {
+            new short[] { 798, 801, 802, 803, 828, 842 },
+            new short[] { 36, 47, 48, 49, 63, 72 },
+    };
+    public static short[][] idNewItemCaiTrang = new short[][] {
+            new short[] { 795, 796, 804, 805, 840, 841 },
+            new short[] { 37, 40, 55, 58, 66, 69 },
+            new short[] { 38, 41, 56, 59, 67, 70 },
+            new short[] { 39, 42, 57, 60, 68, 71 }
+    };
+    public static short[][] idNewItemWP = new short[][] {
+            new short[] { 799, 800 },
+            new short[] { 44, 46 },
+    };
+    public static short[][] idNewItemMatNa = new short[][] {
+            new short[] { 813, 814, 815, 816, 817 },
+            new short[] { 50, 51, 52, 53, 54 },
+    };
+    public static short[][] idNewItemYoroi = new short[][] {
+            new short[] { 797 },
+            new short[] { 43 },
+    };
+    public static short[][] idNewItemBienHinh = new short[][] {
+            new short[] { 825, 826 },
+            new short[] { 61, 62 },
+    };
+
+    public static boolean checkIdNewItems(int id) {
+        for (int i = 0; i < ItemData.idNewItems.length; i++) {
+            if (id == ItemData.idNewItems[i]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isIdNewMounts(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemMounts[0].length; i++) {
+            if (id == ItemData.idNewItemMounts[0][i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isIdNewCaiTrang(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemCaiTrang[0].length; i++) {
+            if (id == ItemData.idNewItemCaiTrang[0][i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int checkIdNewWP(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemWP[0].length; i++) {
+            if (id == ItemData.idNewItemWP[0][i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkIdNewMatNa(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemMatNa[0].length; i++) {
+            if (id == ItemData.idNewItemMatNa[0][i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkIdNewMounts(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemMounts[0].length; i++) {
+            if (id == ItemData.idNewItemMounts[0][i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkIdNewBienHinh(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemBienHinh[0].length; i++) {
+            if (id == ItemData.idNewItemBienHinh[0][i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkIdNewCaiTrang(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemCaiTrang[0].length; i++) {
+            if (id == ItemData.idNewItemCaiTrang[0][i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkIdNewYoroi(int id) {
+        int i;
+        for (i = 0; i < ItemData.idNewItemYoroi[0].length; i++) {
+            if (id == ItemData.idNewItemYoroi[0][i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int checkIdJiraiNam(int id) {
+        switch (id) {
+            case 0:
+                return 746;
+            case 1:
+                return 747;
+            case 2:
+                return 712;
+            case 3:
+                return 713;
+            case 4:
+                return 748;
+            case 5:
+                return 752;
+            case 6:
+                return 751;
+            case 7:
+                return 750;
+            case 8:
+                return 749;
+        }
+        return -1;
+    }
+
+    public static int checkIdJiraiNu(int id) {
+        switch (id) {
+            case 0:
+                return 753;
+            case 1:
+                return 754;
+            case 2:
+                return 715;
+            case 3:
+                return 716;
+            case 4:
+                return 755;
+            case 5:
+                return 759;
+            case 6:
+                return 758;
+            case 7:
+                return 757;
+            case 8:
+                return 756;
+        }
+        return -1;
     }
 }

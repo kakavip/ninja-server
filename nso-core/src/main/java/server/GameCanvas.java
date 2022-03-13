@@ -34,11 +34,14 @@ public class GameCanvas {
         }
     }
 
-    public static void addEffect(final Session conn, final byte b, final int vId, final short id, final int timelive, final int miliSecondWait) {
-        if (conn == null) return;
+    public static void addEffect(final Session conn, final byte b, final int vId, final short id, final int timelive,
+            final int miliSecondWait) {
+        if (conn == null)
+            return;
 
         Message msg = null;
-        boolean isHead = (id >= 12 && id <= 20) || id == 37 || id == 58 || (id>=50 && id<=55) || id == 45 || id == 40;
+        boolean isHead = (id >= 12 && id <= 20) || id == 37 || id == 58 || (id >= 50 && id <= 55) || id == 45
+                || id == 40;
         try {
             msg = new Message(125);
             msg.writer().writeByte(0);
@@ -67,14 +70,17 @@ public class GameCanvas {
         Message msg = null;
         try {
             util.Debug("Lấy ảnh " + id);
-            final byte[] ab = GameScr.loadFile("res/Effect/x" + session.zoomLevel + "/ImgEffect/ImgEffect " + id + ".png").toByteArray();
-            msg = new Message(125);
-            msg.writer().writeByte(1);
-            msg.writer().writeByte(id);
-            msg.writer().writeInt(ab.length);
-            msg.writer().write(ab);
-            msg.writer().flush();
-            session.sendMessage(msg);
+            final byte[] ab = GameScr
+                    .loadFile("res/Effect/x" + session.zoomLevel + "/ImgEffect/ImgEffect " + id + ".png").toByteArray();
+            if (ab != null) {
+                msg = new Message(125);
+                msg.writer().writeByte(1);
+                msg.writer().writeByte(id);
+                msg.writer().writeInt(ab.length);
+                msg.writer().write(ab);
+                msg.writer().flush();
+                session.sendMessage(msg);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -88,6 +94,41 @@ public class GameCanvas {
         Message msg = null;
         try {
             final byte[] ab = GameScr.loadFile("res/Effect/x" + session.zoomLevel + "/DataEffect/" + id).toByteArray();
+            if (ab != null) {
+                if (id == 21) {
+                    ab[6] = 127;
+                    ab[8] = 127;
+                    ab[9] = 127;
+                    ab[11] = 127;
+                    ab[12] = 127;
+                    ab[13] = 127;
+                    ab[14] = 127;
+                    ab[18] = 127;
+                    ab[19] = 127;
+                    ab[22] = 127;
+                    ab[23] = 127;
+                    ab[24] = 127;
+                    ab[29] = -60;
+                    ab[31] = 70;
+                    ab[37] = -60;
+                    ab[39] = 70;
+                    ab[45] = -60;
+                    ab[47] = 70;
+                    ab[53] = -60;
+                    ab[55] = 70;
+                    ab[59] = 127;
+
+                    msg = new Message(125);
+                    msg.writer().write(ab);
+                    msg.writer().flush();
+                    session.sendMessage(msg);
+                } else {
+                    msg = new Message(125);
+                    msg.writer().write(ab);
+                    msg.writer().flush();
+                    session.sendMessage(msg);
+                }
+            }
             msg = new Message(125);
             msg.writer().write(ab);
             msg.writer().flush();

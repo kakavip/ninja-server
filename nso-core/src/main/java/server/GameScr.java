@@ -259,7 +259,9 @@ public class GameScr {
                 break;
             }
             case 4: {
-                arrItem = p.nj.ItemBox;
+                if (p.menuCaiTrang == 0) {
+                    arrItem = p.nj.ItemBox;
+                }
                 break;
             }
             case 6: {

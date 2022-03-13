@@ -11,6 +11,7 @@ import lombok.val;
 import clan.ClanThanThu;
 import server.GameCanvas;
 import server.MenuController;
+import server.Service;
 import tasks.TaskHandle;
 import tasks.Text;
 import threading.Message;
@@ -74,7 +75,17 @@ public class useItem {
         }
         if (ItemData.isTypeBody(item.id)) {
             item.setLock(true);
-            final Item itemb = p.nj.get().ItemBody[data.type];
+            Item itemb = null;
+
+            if (ItemData.isIdNewCaiTrang(item.id) ||
+                    ItemData.checkIdNewWP(item.id) != -1 || ItemData.checkIdNewMatNa(item.id) != -1
+                    || ItemData.checkIdNewBienHinh(item.id) != -1) {
+                itemb = p.nj.get().ItemBody[data.type + 16];
+                p.nj.get().ItemBody[data.type + 16] = item;
+            } else {
+                itemb = p.nj.get().ItemBody[data.type];
+                p.nj.get().ItemBody[data.type] = item;
+            }
             p.nj.ItemBag[index] = itemb;
 
             // change yoroi
@@ -90,8 +101,6 @@ public class useItem {
                 }
 
                 p.nj.get().ItemBody[data.type] = newItem;
-            } else {
-                p.nj.get().ItemBody[data.type] = item;
             }
 
             if (data.type == 10) {
@@ -162,6 +171,10 @@ public class useItem {
                     p.mobMeMessage(229, (byte) 1);
                     break;
                 }
+                case 744: {
+                    p.mobMeMessage(229, (byte) 1);
+                    break;
+                }
                 case 772: {
                     p.setEffect(42, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(58));
                     p.mobMeMessage(234, (byte) 1);
@@ -176,6 +189,50 @@ public class useItem {
                     p.mobMeMessage(235, (byte) 1);
                     break;
                 }
+                case 830: {
+                    p.mobMeMessage(201, (byte) 1);
+                    break;
+                }
+                case 831: {
+                    p.mobMeMessage(115, (byte) 1);
+                    break;
+                }
+                case 832: {
+                    p.mobMeMessage(140, (byte) 1);
+                    break;
+                }
+                case 833: {
+                    p.mobMeMessage(163, (byte) 1);
+                    break;
+                }
+                case 834: {
+                    p.mobMeMessage(220, (byte) 1);
+                    break;
+                }
+                case 835: {
+                    p.mobMeMessage(223, (byte) 1);
+                    break;
+                }
+                case 836: {
+                    p.mobMeMessage(224, (byte) 1);
+                    break;
+                }
+                case 837: {
+                    p.mobMeMessage(223, (byte) 1);
+                    break;
+                }
+                case 838: {
+                    p.mobMeMessage(220, (byte) 1);
+                    break;
+                }
+                case 843: {
+                    p.mobMeMessage(0, (byte) 74);
+                    break;
+                }
+                // case 843: {
+                // p.mobMeMessage(228, (byte) 1);
+                // break;
+                // }
             }
         } else if (ItemData.isTypeMounts(item.id)) {
             final byte idM = (byte) (data.type - 29);
@@ -221,6 +278,30 @@ public class useItem {
                         final Option option2 = new Option(idOp, par);
                         item.option.add(option2);
                     }
+                }
+
+                if (p.nj.clone != null && p.nj.isNhanban) {
+                    if (item.id == 801) {
+
+                        p.nj.clone.ID_HORSE = 47;
+                    }
+                    if (item.id == 802) {
+                        p.nj.clone.ID_HORSE = 48;
+                    }
+                    if (item.id == 803) {
+                        p.nj.clone.ID_HORSE = 49;
+                    }
+                    if (item.id == 798) {
+                        p.nj.clone.ID_HORSE = 36;
+                    }
+                    if (item.id == 828) {
+                        p.nj.clone.ID_HORSE = 63;
+                    }
+                    if (item.id == 842) {
+                        p.nj.clone.ID_HORSE = 72;
+                    }
+
+                    Service.CharViewInfo(p, false);
                 }
             } else if (p.nj.get().ItemMounts[4] == null) {
                 p.session.sendMessageLog("Bạn cần có thú cưới để sử dụng");
@@ -1271,7 +1352,7 @@ public class useItem {
 
                     if (coMoi) {
                         if (util.percent(100, 30)) {
-                            val random = new int[] { 599, 600 }[util.nextInt(2)];
+                            int random = new int[] { 599, 600 }[util.nextInt(2)];
                             int quantity = util.nextInt(0, 5);
                             final Item item1 = ItemData.itemDefault(random);
                             item1.quantity = quantity;
@@ -1309,6 +1390,53 @@ public class useItem {
                 p.nj.nvdvCount -= 1;
                 p.sendYellowMessage("Số lần làm nhiệmm vụ danh vọng của bạn là: " + p.nj.nvdvCount);
                 p.nj.removeItemBag(index, 1);
+                break;
+            }
+
+            // Mảnh jirai
+            case 733:
+            case 734:
+            case 735:
+            case 736:
+            case 737:
+            case 738:
+            case 739:
+            case 740:
+            case 741: {
+                if (p.nj.isNhanban) {
+                    p.sendYellowMessage("Chức năng này không dành cho phân thân!");
+                    return;
+                }
+                if (p.nj.gender == 0) {
+                    p.sendYellowMessage("Giới tính không phù hợp.");
+                    return;
+                }
+                int checkID = item.id - 733;
+                if (p.nj.ItemBST[checkID] == null) {
+                    if (p.nj.quantityItemyTotal(item.id) < 100) {
+                        p.sendYellowMessage("Bạn không đủ mảnh để ghép.");
+                        return;
+                    }
+                    p.nj.removeItemBag(p.nj.getIndexBagid(item.id, true), 100);
+                    p.nj.ItemBST[checkID] = ItemData.itemDefault(ItemData.checkIdJiraiNam(checkID));
+                    p.nj.ItemBST[checkID].setUpgrade(1);
+                    p.nj.ItemBST[checkID].setLock(true);
+                    p.sendYellowMessage(ItemData.ItemDataId(p.nj.ItemBST[checkID].id).name
+                            + " đã được thêm vào bộ sưu tập.");
+                } else {
+                    if (p.nj.ItemBST[checkID].getUpgrade() >= 16) {
+                        p.sendYellowMessage("Bộ sưu tập này đã đạt điểm tối đa, không thể nâng cấp thêm.");
+                        return;
+                    }
+                    if (p.nj.quantityItemyTotal(item.id) < (p.nj.ItemBST[checkID].getUpgrade() + 1) * 100) {
+                        p.sendYellowMessage("Bạn không đủ mảnh để nâng cấp.");
+                        return;
+                    }
+                    p.nj.ItemBST[checkID].setUpgrade(p.nj.ItemBST[checkID].getUpgrade() + 1);
+                    p.nj.removeItemBag(p.nj.getIndexBagid(item.id, true), p.nj.ItemBST[checkID].getUpgrade() * 100);
+                    p.sendYellowMessage(
+                            ItemData.ItemDataId(p.nj.ItemBST[checkID].id).name + " đã được nâng cấp.");
+                }
                 break;
             }
 
@@ -1352,6 +1480,28 @@ public class useItem {
                 break;
             }
         }
+
+        if (ItemData.checkIdNewItems(item.id)) {
+            if (ItemData.checkIdNewWP(item.id) != -1) {
+                p.nj.get().ID_WEA_PONE = ItemData.idNewItemWP[1][ItemData.checkIdNewWP(item.id)];
+            } else if (ItemData.checkIdNewMatNa(item.id) != -1) {
+                p.nj.get().ID_MAT_NA = ItemData.idNewItemMatNa[1][ItemData.checkIdNewMatNa(item.id)];
+            } else if (ItemData.checkIdNewMounts(item.id) != -1) {
+                p.nj.get().ID_HORSE = ItemData.idNewItemMounts[1][ItemData.checkIdNewMounts(item.id)];
+            } else if (ItemData.checkIdNewBienHinh(item.id) != -1) {
+                p.nj.get().ID_Bien_Hinh = ItemData.idNewItemBienHinh[1][ItemData
+                        .checkIdNewBienHinh(item.id)];
+            } else if (ItemData.checkIdNewCaiTrang(item.id) != -1) {
+                p.nj.get().ID_HAIR = ItemData.idNewItemCaiTrang[1][ItemData.checkIdNewCaiTrang(item.id)];
+                p.nj.get().ID_Body = ItemData.idNewItemCaiTrang[2][ItemData.checkIdNewCaiTrang(item.id)];
+                p.nj.get().ID_LEG = ItemData.idNewItemCaiTrang[3][ItemData.checkIdNewCaiTrang(item.id)];
+            }
+            p.sendInfoMeNewItem();
+        } else if (ItemData.checkIdNewYoroi(item.id) != -1) {
+            p.nj.get().ID_PP = ItemData.idNewItemYoroi[1][ItemData.checkIdNewYoroi(item.id)];
+            p.sendInfoMeNewItem();
+        }
+
         final Message m = new Message(11);
         m.writer().writeByte(index);
         m.writer().writeByte(p.nj.get().speed());
@@ -1370,9 +1520,9 @@ public class useItem {
             }
         }
 
-        if (item.id >= 795) {
-            p.sendInfo(false);
-        }
+        // if (item.id >= 795) {
+        // p.sendInfo(false);
+        // }
 
         TaskHandle.useItemUpdate(p.nj, item.id);
 

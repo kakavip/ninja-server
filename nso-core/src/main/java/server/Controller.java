@@ -264,7 +264,8 @@ public class Controller implements ISessionHandler {
                     }
                     break;
                 }
-                case 41: {
+                case 41:
+                case 74: {
                     if (p != null && p.nj != null && !p.nj.isDie) {
 
                         useSkill.useSkill(p.nj.get(), message.reader().readShort());

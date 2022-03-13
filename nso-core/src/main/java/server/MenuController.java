@@ -833,7 +833,38 @@ public class MenuController {
                 case 5: {
                     switch (menuId) {
                         case 0: {
-                            p.openUI(4);
+                            // p.openUI(4);
+                            switch (optionId) {
+                                case 0: {
+                                    Service.openMenuBox(p);
+                                    break;
+                                }
+                                case 1: {
+                                    Service.openMenuBST(p);
+                                    break;
+                                }
+                                case 2: {
+                                    Service.openMenuCaiTrang(p);
+                                    break;
+                                }
+                                case 3: {
+                                    // Tháo cải trang
+                                    p.nj.caiTrang = -1;
+                                    Message msg = new Message(11);
+                                    msg.writer().writeByte(-1);
+                                    msg.writer().writeByte((int) p.nj.get().speed());
+                                    msg.writer().writeInt((int) p.nj.get().getMaxHP());
+                                    msg.writer().writeInt((int) p.nj.get().getMaxMP());
+                                    msg.writer().writeShort((int) p.nj.get().eff5buffHP());
+                                    msg.writer().writeShort((int) p.nj.get().eff5buffMP());
+                                    msg.writer().flush();
+                                    p.sendMessage(msg);
+                                    msg.cleanup();
+                                    Service.CharViewInfo(p, false);
+                                    p.endLoad(true);
+                                    break;
+                                }
+                            }
                             break;
                         }
                         case 1: {

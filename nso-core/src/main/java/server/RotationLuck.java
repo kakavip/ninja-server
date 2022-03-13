@@ -197,11 +197,10 @@ public class RotationLuck extends Thread {
                     break;
                 }
             }
-            while (p == null || p.name.equals(this.oldWinName)) {
+            while (p == null || p.name.equals(this.oldWinName) && this.players.size() > 5) {
                 p = this.players.get(util.nextInt(this.players.size()));
             }
             this.oldWinName = p.name; // reset old win name
-
             long amountWin = this.total;
             if (this.numPlayers > 1) {
                 amountWin = amountWin * 95L / 100L;

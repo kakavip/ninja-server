@@ -6,6 +6,8 @@ import lombok.val;
 import patch.*;
 import battle.ClanBattleData;
 import battle.GBattle;
+import cache.ItemCache;
+import cache.ItemOptionCache;
 import clan.ClanThanThu;
 import real.*;
 
@@ -15,6 +17,7 @@ import server.*;
 import real.User;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.ResultSet;
 
 import org.json.simple.JSONObject;
 
@@ -32,6 +35,9 @@ import static server.util.concatArray;
 
 @SuppressWarnings("ALL")
 public class Manager {
+
+    public static ItemCache[] itemCaches;
+    public static ItemOptionCache[] itemOptionCaches;
 
     public static int TIME_MAINTAIN = 5;
     public static int BOSS_WAIT_TIME_UNIT;
@@ -56,10 +62,10 @@ public class Manager {
     public static String mysql_database;
     public static String mysql_user;
     public static String mysql_pass;
-    private byte vsData;
-    private byte vsMap;
-    private byte vsSkill;
-    private byte vsItem;
+    public static byte vsData;
+    public static byte vsMap;
+    public static byte vsSkill;
+    public static byte vsItem;
     public byte[][] tasks;
     private byte[][] maptasks;
     static Server server;
@@ -146,6 +152,7 @@ public class Manager {
                     2_000_000_000);
             this.rotationluck[2].start();
         }
+        this.loadCache();
         this.loadProperties();
         this.loadDataBase();
     }
@@ -406,6 +413,62 @@ public class Manager {
         MAX_SOCKET_PER_CLIENT = Short.parseShort(configMap.get("max-Socket-Per-Client"));
         SQLManager.create(mysql_host, mysql_port, mysql_database, mysql_user, mysql_pass);
 
+    }
+
+    private void loadCache() {
+        System.out.println("Load ItemOptionCache..");
+        try {
+            SQLManager.executeQuery("SELECT * FROM `optionitem`;", (res) -> {
+                if (res.last()) {
+                    itemOptionCaches = new ItemOptionCache[res.getRow()];
+                    res.beforeFirst();
+                }
+                int i = 0;
+                while (res.next()) {
+                    final ItemOptionCache iotemplate = new ItemOptionCache();
+                    iotemplate.id = res.getInt("id");
+                    iotemplate.name = res.getString("name");
+                    iotemplate.type = res.getByte("type");
+                    itemOptionCaches[i] = iotemplate;
+                    ++i;
+                }
+                res.close();
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        System.out.println("Load itemCache..");
+        try {
+            SQLManager.executeQuery("SELECT * FROM `item`;", (res) -> {
+                if (res.last()) {
+                    itemCaches = new ItemCache[res.getRow()];
+                    res.beforeFirst();
+                }
+                int i = 0;
+                while (res.next()) {
+                    final ItemCache itemCache = new ItemCache();
+                    itemCache.id = res.getShort("id");
+                    itemCache.type = res.getByte("type");
+                    itemCache.gender = res.getByte("gender");
+                    itemCache.name = res.getString("name");
+                    itemCache.description = res.getString("description");
+                    itemCache.level = res.getInt("level");
+                    itemCache.iconID = res.getShort("iconID");
+                    itemCache.part = res.getShort("part");
+                    itemCache.isUpToUp = res.getBoolean("uptoup");
+                    itemCaches[i] = itemCache;
+                    ++i;
+                }
+                res.close();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+        Service.createCacheItem();
     }
 
     public void loadDataBase() {
@@ -793,9 +856,11 @@ public class Manager {
         m.writer().writeByte(this.vsMap);
         m.writer().writeByte(this.vsSkill);
         m.writer().writeByte(this.vsItem);
-        m.writer().writeByte(0);
-        m.writer().writeByte(0);
-        m.writer().writeByte(0);
+        m.writer().write(cache[5].toByteArray());
+        // m.writer().writeByte(0);
+        // m.writer().writeByte(0);
+        // m.writer().writeByte(0);
+
         m.writer().flush();
         p.sendMessage(m);
         m.cleanup();
@@ -962,15 +1027,16 @@ public class Manager {
         Manager.server.setMaps(null);
     }
 
-    public static ByteArrayOutputStream[] cache = new ByteArrayOutputStream[5];
+    public static ByteArrayOutputStream[] cache = new ByteArrayOutputStream[6];
 
     static {
         Manager.server = Server.getInstance();
         cache[0] = GameScr.loadFile("res/cache/data.bin");
         cache[1] = GameScr.loadFile("res/cache/map");
         cache[2] = GameScr.loadFile("res/cache/skill");
-        cache[3] = GameScr.loadFile("res/cache/item");
+        // cache[3] = GameScr.loadFile("res/cache/item");
         cache[4] = GameScr.loadFile("res/cache/skillnhanban");
+        cache[5] = GameScr.loadFile("res/cache/request");
     }
 
     public void sendMap(final User p) throws IOException {
@@ -993,6 +1059,9 @@ public class Manager {
     }
 
     public void sendItem(final User p) throws IOException {
+        if (cache[3] == null) {
+            cache[3] = GameScr.loadFile("cache/item");
+        }
         final Message m = new Message(-28);
         m.writer().writeByte(-119);
         m.writer().write(cache[3].toByteArray());
@@ -1001,5 +1070,4 @@ public class Manager {
         m.cleanup();
 
     }
-
 }

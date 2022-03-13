@@ -65,6 +65,8 @@ public class User extends Actor implements SendMessage {
     public boolean nhanQua;
     private int clanTerritoryId;
 
+    public int menuCaiTrang = 0;
+
     public enum TypeTBLOption {
         NOT_USE(-1),
         $240(240),
@@ -382,10 +384,32 @@ public class User extends Actor implements SendMessage {
         }
         m.writer().writeBoolean(this.nj.isHuman);
         m.writer().writeBoolean(this.nj.isNhanban);
-        m.writer().writeShort(-1);
-        m.writer().writeShort(-1);
-        m.writer().writeShort(-1);
-        m.writer().writeShort(-1);
+        m.writer().writeShort(this.nj.get().partHead());
+        m.writer().writeShort(this.nj.get().Weapon());
+        m.writer().writeShort(this.nj.get().partBody());
+        m.writer().writeShort(this.nj.get().partLeg());
+
+        m.writer().writeShort(this.nj.get().ID_HAIR);
+        m.writer().writeShort(this.nj.get().ID_Body);
+        m.writer().writeShort(this.nj.get().ID_LEG);
+        m.writer().writeShort(this.nj.get().ID_WEA_PONE);
+        m.writer().writeShort(this.nj.get().ID_PP);
+        m.writer().writeShort(this.nj.get().ID_NAME);
+        m.writer().writeShort(this.nj.get().ID_HORSE);
+        m.writer().writeShort(this.nj.get().ID_RANK);
+        m.writer().writeShort(this.nj.get().ID_MAT_NA);
+        m.writer().writeShort(this.nj.get().ID_Bien_Hinh);
+
+        for (int k = 16; k < 32; ++k) {
+            final Item item = this.nj.ItemBody[k];
+            if (item != null) {
+                m.writer().writeShort(item.id);
+                m.writer().writeByte(item.getUpgrade());
+                m.writer().writeByte(item.sys);
+            } else {
+                m.writer().writeShort(-1);
+            }
+        }
 
         m.writer().flush();
         this.sendMessage(m);
@@ -1420,7 +1444,7 @@ public class User extends Actor implements SendMessage {
                                 short body = -1;
                                 short leg = -1;
                                 final JSONArray jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
-                                final Item[] itembody = new Item[16];
+                                final Item[] itembody = new Item[32];
                                 if (jar != null) {
                                     for (byte k = 0; k < jar.size(); ++k) {
                                         final JSONObject job = (JSONObject) jar.get(k);
@@ -1588,7 +1612,7 @@ public class User extends Actor implements SendMessage {
     public static int MAX_USE_ITEM_FAST = 500;
 
     public void useItem(final Message m) throws IOException {
-        val differ = System.currentTimeMillis() - this.lastTimeUseItem;
+        long differ = System.currentTimeMillis() - this.lastTimeUseItem;
         util.Debug(differ + "");
         if (differ < DIFFER_USE_ITEM_TIME) {
             useItemCount++;
@@ -1680,13 +1704,50 @@ public class User extends Actor implements SendMessage {
         final Item itembody = this.nj.get().ItemBody[index];
         this.nj.ItemBag[idItemBag] = itembody;
         this.nj.get().ItemBody[index] = null;
-        if (itembody.id == 569) {
-            this.removeEffect(36);
+        switch (itembody.id) {
+            case 569:
+            case 583: {
+                this.removeEffect(36);
+                break;
+            }
+            case 568: {
+                this.removeEffect(38);
+                break;
+            }
+            case 570: {
+                this.removeEffect(37);
+                break;
+            }
+            case 571: {
+                this.removeEffect(39);
+                break;
+            }
         }
         if (index == 10) {
             this.mobMeMessage(0, (byte) 0);
         }
         moveItemBackToBag(index, idItemBag);
+
+        if (itembody != null) {
+            if (ItemData.isIdNewCaiTrang(itembody.id)) {
+                this.nj.ID_HAIR = -1;
+                this.nj.ID_Body = -1;
+                this.nj.ID_LEG = -1;
+                this.sendInfoMeNewItem();
+            } else if (ItemData.checkIdNewWP(itembody.id) != -1) {
+                this.nj.ID_WEA_PONE = -1;
+                this.sendInfoMeNewItem();
+            } else if (ItemData.checkIdNewMatNa(itembody.id) != -1) {
+                this.nj.ID_MAT_NA = -1;
+                this.sendInfoMeNewItem();
+            } else if (ItemData.checkIdNewYoroi(itembody.id) != -1) {
+                this.nj.ID_PP = -1;
+                this.sendInfoMeNewItem();
+            } else if (ItemData.checkIdNewBienHinh(itembody.id) != -1) {
+                this.nj.ID_Bien_Hinh = -1;
+                this.sendInfoMeNewItem();
+            }
+        }
     }
 
     public void moveItemBackToBag(byte index, int idItemBag) throws IOException {
@@ -1708,34 +1769,157 @@ public class User extends Actor implements SendMessage {
     public void itemBoxToBag(Message m) throws IOException {
         final byte index = m.reader().readByte();
         m.cleanup();
-        final Item item = this.nj.getIndexBox(index);
-        if (item == null) {
-            return;
-        }
-        final ItemData data = ItemData.ItemDataId(item.id);
-        int indexBag = this.nj.getIndexBagid(item.id, item.isLock());
-        if (!item.isExpires && data.isUpToUp && indexBag != -1) {
-            this.nj.ItemBox[index] = null;
-            final Item item2 = this.nj.ItemBag[indexBag];
-            item2.quantity += item.quantity;
-        } else {
-            if (this.nj.getAvailableBag() <= 0) {
-                this.session.sendMessageLog("Rương đồ không đủ chỗ trống");
-                return;
+        Item item = null;
+
+        switch (this.menuCaiTrang) {
+            case 0: {
+                item = this.nj.getIndexBox(index);
+                if (item == null) {
+                    return;
+                }
+                final ItemData data = ItemData.ItemDataId(item.id);
+                int indexBag = this.nj.getIndexBagid(item.id, item.isLock());
+                if (!item.isExpires && data.isUpToUp && indexBag != -1) {
+                    this.nj.ItemBox[index] = null;
+                    final Item item2 = this.nj.ItemBag[indexBag];
+                    item2.quantity += item.quantity;
+                } else {
+                    if (this.nj.getAvailableBag() <= 0) {
+                        this.session.sendMessageLog("Rương đồ không đủ chỗ trống");
+                        return;
+                    }
+                    indexBag = this.nj.getIndexBagNotItem();
+                    this.nj.ItemBox[index] = null;
+                    this.nj.ItemBag[indexBag] = item;
+                }
+                m = new Message(16);
+                m.writer().writeByte(index);
+                m.writer().writeByte(indexBag);
+                m.writer().flush();
+                this.sendMessage(m);
+                m.cleanup();
+
+                break;
             }
-            indexBag = this.nj.getIndexBagNotItem();
-            this.nj.ItemBox[index] = null;
-            this.nj.ItemBag[indexBag] = item;
+            case 1: {
+                item = this.nj.getIndexBST(index);
+                if (this.nj.ItemCaiTrang[10] == null) {
+                    for (int i = 0; i <= 8; i++) {
+                        if (this.nj.ItemBST[i] == null) {
+                            this.sendYellowMessage("Bạn chưa đủ điểm bộ sưu tập để sử dụng.");
+                            return;
+                        }
+                    }
+                    this.nj.ItemCaiTrang[10] = ItemData.itemDefault(this.nj.gender == 1 ? 711 : 714);
+                    this.nj.ItemCaiTrang[10].setUpgrade(1);
+                    this.nj.ItemCaiTrang[10].setLock(true);
+                    this.nj.ItemCaiTrang[10].isExpires = false;
+                    this.nj.ItemCaiTrang[10].expires = -1L;
+                    this.nj.ItemCaiTrang[10].option.add(new Option(100, 5));
+                } else {
+                    if (16 <= this.nj.ItemCaiTrang[10].getUpgrade()) {
+                        this.sendYellowMessage("Cải trang đã đạt cấp tối đa.");
+                        return;
+                    }
+                    int count = 0;
+                    int upgradeTemp = 16;
+                    for (int j = 0; j <= 8; j++) {
+                        if (this.nj.ItemBST[j] == null) {
+                            return;
+                        }
+                        if (upgradeTemp > this.nj.ItemBST[j].getUpgrade()) {
+                            upgradeTemp = this.nj.ItemBST[j].getUpgrade();
+                        }
+                    }
+                    if (upgradeTemp <= this.nj.ItemCaiTrang[10].getUpgrade()) {
+                        this.sendYellowMessage("Bạn chưa đủ điểm bộ sưu tập để nâng cấp cải trang.");
+                        return;
+                    }
+                    int upgradeOld = upgradeTemp - this.nj.ItemCaiTrang[10].getUpgrade();
+                    for (int i = 0; i < upgradeOld; i++) {
+                        this.nj.ItemCaiTrang[10].setUpgrade(this.nj.ItemCaiTrang[10].getUpgrade() + 1);
+                        for (Option op : this.nj.ItemCaiTrang[10].option) {
+                            if (op.id == 100) {
+                                op.param += op.param * 2 / 10;
+                            } else if (op.id == 84 || op.id == 86) {
+                                if (this.nj.ItemCaiTrang[10].getUpgrade() > 5
+                                        && this.nj.ItemCaiTrang[10].getUpgrade() <= 10) {
+                                    op.param += 5;
+                                } else if (this.nj.ItemCaiTrang[10].getUpgrade() > 10
+                                        && this.nj.ItemCaiTrang[10].getUpgrade() <= 15) {
+                                    op.param += 10;
+                                } else {
+                                    op.param += 15;
+                                }
+                            } else {
+                                if (this.nj.ItemCaiTrang[10].getUpgrade() > 5
+                                        && this.nj.ItemCaiTrang[10].getUpgrade() <= 10) {
+                                    op.param += op.param * 1 / 10;
+                                } else if (this.nj.ItemCaiTrang[10].getUpgrade() > 10
+                                        && this.nj.ItemCaiTrang[10].getUpgrade() <= 15) {
+                                    op.param += op.param * 2 / 10;
+                                } else {
+                                    op.param += op.param * 3 / 10;
+                                }
+                            }
+                        }
+                        switch (this.nj.ItemCaiTrang[10].getUpgrade()) {
+                            case 2: {
+                                this.nj.ItemCaiTrang[10].option.add(new Option(0, 500));
+                                this.nj.ItemCaiTrang[10].option.add(new Option(1, 500));
+                                break;
+                            }
+                            case 3: {
+                                this.nj.ItemCaiTrang[10].option.add(new Option(6, 500));
+                                this.nj.ItemCaiTrang[10].option.add(new Option(7, 500));
+                                break;
+                            }
+                            case 4: {
+                                this.nj.ItemCaiTrang[10].option.add(new Option(87, 300));
+                                break;
+                            }
+                            case 5: {
+                                this.nj.ItemCaiTrang[10].option.add(new Option(84, 20));
+                                this.nj.ItemCaiTrang[10].option.add(new Option(86, 20));
+                                break;
+                            }
+                        }
+                    }
+                }
+                Service.openMenuCaiTrang(this);
+                break;
+            }
+
+            case 2: {
+                item = this.nj.getIndexCaiTrang(index);
+                this.nj.caiTrang = index;
+
+                m = new Message(11);
+                m.writer().writeByte(index);
+                m.writer().writeByte(this.nj.get().speed());
+                m.writer().writeInt(this.nj.get().getMaxHP());
+                m.writer().writeInt(this.nj.get().getMaxMP());
+                m.writer().writeShort(this.nj.get().eff5buffHP());
+                m.writer().writeShort(this.nj.get().eff5buffMP());
+                m.writer().flush();
+                this.sendMessage(m);
+                m.cleanup();
+                Service.CharViewInfo(this, false);
+                this.endLoad(true);
+
+                break;
+            }
+
+            default:
+                break;
         }
-        m = new Message(16);
-        m.writer().writeByte(index);
-        m.writer().writeByte(indexBag);
-        m.writer().flush();
-        this.sendMessage(m);
-        m.cleanup();
     }
 
     public void itemBagToBox(Message m) throws IOException {
+        if (this.menuCaiTrang != 0) {
+            return;
+        }
+
         final byte index = m.reader().readByte();
         m.cleanup();
         final Item item = this.nj.getIndexBag(index);
@@ -1874,10 +2058,27 @@ public class User extends Actor implements SendMessage {
                 break;
             }
             case 4: {
-                if (index < 0 || index >= 30) {
-                    return;
+                switch (this.menuCaiTrang) {
+                    case 0: {
+                        if (index < 0 || index >= 30) {
+                            return;
+                        }
+                        item = this.nj.ItemBox[index];
+                        break;
+                    }
+                    case 1: {
+                        if (index >= 0 && index < 9) {
+                            item = this.nj.ItemBST[index];
+                        }
+                        break;
+                    }
+                    case 2: {
+                        if (index >= 0 && index < 18) {
+                            item = this.nj.ItemCaiTrang[index];
+                        }
+                        break;
+                    }
                 }
-                item = this.nj.ItemBox[index];
                 break;
             }
             case 5: {
@@ -2471,6 +2672,7 @@ public class User extends Actor implements SendMessage {
             this.session.sendMessageLog("Cần phải tháo hết trang bị thú cưới ra trước");
             return;
         }
+        int idMount = this.nj.get().ItemMounts[index].id;
         this.nj.ItemBag[indexItemBag] = this.nj.get().ItemMounts[index];
         this.nj.get().ItemMounts[index] = null;
         m = new Message(108);
@@ -2486,6 +2688,11 @@ public class User extends Actor implements SendMessage {
         m.cleanup();
         for (final User user : this.nj.getPlace().getUsers()) {
             this.nj.getPlace().sendMounts(this.nj.get(), user);
+        }
+
+        if (ItemData.isIdNewMounts(idMount)) {
+            this.nj.get().ID_HORSE = -1;
+            this.sendInfoMeNewItem();
         }
     }
 
@@ -3491,6 +3698,28 @@ public class User extends Actor implements SendMessage {
         } else {
             this.mobMeMessage(0, (byte) 0);
         }
+    }
+
+    public void sendInfoMeNewItem() {
+        Service.CharViewInfo(this, false);
+        int i;
+        if (this.nj.getPlace() != null) {
+            for (i = this.nj.getPlace().getUsers().size() - 1; i >= 0; i--) {
+                if (this.nj.getPlace().getUsers().get(i) != null) {
+                    this.nj.getPlace().sendMounts(this.nj.get(), this.nj.getPlace().getUsers().get(i));
+                    if (this.id != this.nj.getPlace().getUsers().get(i).id) {
+                        Service.sendInfoChar(this, this.nj.getPlace().getUsers().get(i));
+                    }
+                }
+            }
+        }
+        // else if(this.c.tdbTileMap != null) {
+        // for (i = this.c.tdbTileMap.players.size() - 1; i >= 0; i--) {
+        // if (this.c.tdbTileMap.players.get(i) != null) {
+        // this.c.tdbTileMap.sendMounts(this.c.get(), this.c.tdbTileMap.players.get(i));
+        // }
+        // }
+        // }
     }
 
     public void toNhanBan() {

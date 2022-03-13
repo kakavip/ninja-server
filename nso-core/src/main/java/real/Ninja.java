@@ -119,6 +119,10 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     @NotNull
     public Item[] ItemBox;
     @NotNull
+    public Item[] ItemBST = null;
+    @NotNull
+    public Item[] ItemCaiTrang = null;
+    @NotNull
     protected List<@NotNull Friend> friend;
     @NotNull
     protected List<@NotNull Byte> tradeIdItem;
@@ -326,6 +330,14 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         return -1;
     }
 
+    public Item getIndexBST(int index) {
+        return index < this.ItemBST.length && index >= 0 ? this.ItemBST[index] : null;
+    }
+
+    public Item getIndexCaiTrang(int index) {
+        return index < this.ItemCaiTrang.length && index >= 0 ? this.ItemCaiTrang[index] : null;
+    }
+
     protected void setXPLoadSkill(final long exp) throws IOException {
         this.get().setExp(exp);
         final Message m = new Message(-30);
@@ -381,6 +393,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     protected void sortBox() throws IOException {
+        if (this.p.menuCaiTrang != 0) {
+            return;
+        }
         for (byte i = 0; i < this.ItemBox.length; ++i) {
             if (this.ItemBox[i] != null && !this.ItemBox[i].isExpires
                     && ItemData.ItemDataId(this.ItemBox[i].id).isUpToUp) {
@@ -680,7 +695,30 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                             nj.ItemBox[index] = item;
                         }
                     }
-                    nj.ItemBody = new Item[16];
+
+                    nj.ItemBST = new Item[9];
+                    jar = (JSONArray) JSONValue.parse(red.getString("ItemBST"));
+                    if (jar != null) {
+                        for (byte j = 0; j < jar.size(); ++j) {
+                            final JSONObject job2 = (JSONObject) jar.get(j);
+                            final byte index = Byte.parseByte(job2.get("index").toString());
+                            nj.ItemBST[index] = ItemData.parseItem(jar.get(j).toString());
+                            job2.clear();
+                        }
+                    }
+
+                    nj.ItemCaiTrang = new Item[18];
+                    jar = (JSONArray) JSONValue.parse(red.getString("ItemCaiTrang"));
+                    if (jar != null) {
+                        for (byte j = 0; j < jar.size(); ++j) {
+                            final JSONObject job2 = (JSONObject) jar.get(j);
+                            final byte index = Byte.parseByte(job2.get("index").toString());
+                            nj.ItemCaiTrang[index] = ItemData.parseItem(jar.get(j).toString());
+                            job2.clear();
+                        }
+                    }
+
+                    nj.ItemBody = new Item[32];
                     jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
                     if (jar != null) {
                         for (byte j = 0; j < jar.size(); ++j) {
@@ -722,6 +760,19 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.mapLTD = Short.parseShort(jar.get(3).toString());
                     nj.mapType = Short.parseShort(jar.get(4).toString());
                     jar = (JSONArray) JSONValue.parse(red.getString("effect"));
+
+                    jar = (JSONArray) JSONValue.parse(red.getString("fashion"));
+                    nj.ID_HAIR = Short.parseShort(jar.get(0).toString());
+                    nj.ID_Body = Short.parseShort(jar.get(1).toString());
+                    nj.ID_LEG = Short.parseShort(jar.get(2).toString());
+                    nj.ID_WEA_PONE = Short.parseShort(jar.get(3).toString());
+                    nj.ID_PP = Short.parseShort(jar.get(4).toString());
+                    nj.ID_NAME = Short.parseShort(jar.get(5).toString());
+                    nj.ID_HORSE = Short.parseShort(jar.get(6).toString());
+                    nj.ID_RANK = Short.parseShort(jar.get(7).toString());
+                    nj.ID_MAT_NA = Short.parseShort(jar.get(8).toString());
+                    nj.ID_Bien_Hinh = Short.parseShort(jar.get(9).toString());
+
                     try {
                         val r = Mapper.converter.readValue(red.getString("tasks"), TaskOrder[].class);
                         nj.setTasks(r);
@@ -891,6 +942,23 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             }
             sqlSET = sqlSET + ",`ItemMounts`='" + jarr.toJSONString() + "'";
             jarr.clear();
+
+            for (byte j = 0; j < this.ItemBST.length; ++j) {
+                if (this.ItemBST[j] != null) {
+                    jarr.add(ItemData.ObjectItem(this.ItemBST[j], j));
+                }
+            }
+            sqlSET = sqlSET + ",`ItemBST`='" + jarr.toJSONString() + "'";
+            jarr.clear();
+
+            for (byte j = 0; j < this.ItemCaiTrang.length; ++j) {
+                if (this.ItemCaiTrang[j] != null) {
+                    jarr.add(ItemData.ObjectItem(this.ItemCaiTrang[j], j));
+                }
+            }
+            sqlSET = sqlSET + ",`ItemCaiTrang`='" + jarr.toJSONString() + "'";
+            jarr.clear();
+
             for (Effect effect : this.getVeff()) {
                 if (Effect.isPermanentEffect(effect)) {
                     jarr.add(effect.toJSONObject());
@@ -916,6 +984,19 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             sqlSET = sqlSET + ",`banghoa`=" + this.getBanghoa() + "";
             sqlSET = sqlSET + ",`tiemnangso`=" + this.getTiemNangSo() + "";
             sqlSET = sqlSET + ",`kynangso`=" + this.getKyNangSo() + "";
+
+            jarr.clear();
+            jarr.add(this.ID_HAIR);
+            jarr.add(this.ID_Body);
+            jarr.add(this.ID_LEG);
+            jarr.add(this.ID_WEA_PONE);
+            jarr.add(this.ID_PP);
+            jarr.add(this.ID_NAME);
+            jarr.add(this.ID_HORSE);
+            jarr.add(this.ID_RANK);
+            jarr.add(this.ID_MAT_NA);
+            jarr.add(this.ID_Bien_Hinh);
+            sqlSET = sqlSET + ",`fashion`='" + jarr.toJSONString() + "'";
 
             sqlSET = sqlSET + ", `receivedEye`=" + (wasReceivedEye ? 1 : 0) + "";
             sqlSET = sqlSET + ", `rewardThienBang`=" + rewardThienBang + "";

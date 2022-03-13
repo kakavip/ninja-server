@@ -22,6 +22,8 @@ RUN mvn package && cp target/NinjaServer.jar NinjaServer.jar
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 
+RUN mkdir cache
+
 # copy config files
 COPY ./black_list_ips.txt ./log/black_list_ips.txt
 COPY ./ninja.conf ./ninja.conf

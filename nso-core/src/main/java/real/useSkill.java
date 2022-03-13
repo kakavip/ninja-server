@@ -12,18 +12,59 @@ public class useSkill {
 
         final Skill skill = body.getSkill(idSkill);
 
-
         if (skill != null && System.currentTimeMillis() > body.CSkilldelay) {
             final SkillData data = SkillData.Templates(idSkill);
             if (data.type != 0) {
                 body.CSkilldelay = System.currentTimeMillis() + 500L;
-                if (data.type == 2) {
-                    useSkillBuff(body, idSkill);
-                } else {
-                    body.setCSkill(idSkill);
+                switch (data.type) {
+                    case 2: {
+                        useSkillBuff(body, idSkill);
+                        break;
+                    }
+                    case 3: {
+                        useSkillMagic(body, idSkill);
+                        break;
+                    }
+                    case 4: {
+                        body.setCSkill(49);
+                        break;
+                    }
+                    default: {
+                        body.setCSkill(idSkill);
+                        break;
+                    }
                 }
             }
         }
+    }
+
+    private static void useSkillMagic(Body body, final int skilltemp) throws IOException {
+        User p = body.c.p;
+
+        final Skill skill = body.getSkill(skilltemp);
+        final SkillTemplates temp = SkillData.Templates(skill.id, skill.point);
+
+        if (body.mp < temp.manaUse) {
+            p.getMp();
+            return;
+        }
+        if (skill.coolDown > System.currentTimeMillis()) {
+            return;
+        }
+        body.upMP(-temp.manaUse);
+        skill.coolDown = System.currentTimeMillis() + temp.coolDown;
+
+        switch (skilltemp) {
+            // skill 25 kiếm
+            case 4: {
+                break;
+            }
+            // skill 25 đao
+            case 40: {
+                break;
+            }
+        }
+
     }
 
     private static void useSkillBuff(Body body, final int skilltemp) throws IOException {
@@ -72,8 +113,10 @@ public class useSkill {
                     for (User p2 : p.nj.getPlace().getUsers()) {
                         if (p2.nj.id != p.nj.id) {
                             final Ninja n = p2.nj;
-                            if (n.party == body.party && Math.abs(body.x - n.x) <= temp.dx && Math.abs(body.y - n.y) <= temp.dy) {
-                                n.p.setEffect(8, 0, 5000, body.getPramSkill(43) + body.getPramSkill(43) * body.getPramSkill(66) / 100);
+                            if (n.party == body.party && Math.abs(body.x - n.x) <= temp.dx
+                                    && Math.abs(body.y - n.y) <= temp.dy) {
+                                n.p.setEffect(8, 0, 5000,
+                                        body.getPramSkill(43) + body.getPramSkill(43) * body.getPramSkill(66) / 100);
                             }
                         }
                     }
@@ -89,7 +132,8 @@ public class useSkill {
                     for (User p2 : p.nj.getPlace().getUsers()) {
                         if (p2.nj.id != p.nj.id) {
                             final Ninja n = p2.nj;
-                            if (n.party == body.party && Math.abs(p.nj.x - n.x) <= temp.dx && Math.abs(p.nj.y - n.y) <= temp.dy) {
+                            if (n.party == body.party && Math.abs(p.nj.x - n.x) <= temp.dx
+                                    && Math.abs(p.nj.y - n.y) <= temp.dy) {
                                 n.p.setEffect(19, 0, 90000, param);
                             }
                         }
@@ -103,7 +147,8 @@ public class useSkill {
                     for (User p2 : p.nj.getPlace().getUsers()) {
                         if (p2.nj.id != p.nj.id) {
                             final Ninja n = p2.nj;
-                            if (n.party == body.party && Math.abs(body.x - n.x) <= temp.dx && Math.abs(body.y - n.y) <= temp.dy) {
+                            if (n.party == body.party && Math.abs(body.x - n.x) <= temp.dx
+                                    && Math.abs(body.y - n.y) <= temp.dy) {
                                 n.p.setEffect(20, 0, body.getPramSkill(54) * 1000, body.getPramSkill(66));
                             }
                         }
@@ -121,26 +166,29 @@ public class useSkill {
             case 70:
             case 71:
             case 72: {
-//                if (p.nj.timeRemoveClone <= System.currentTimeMillis() && p.nj.quantityItemyTotal(545) <= 0) {
-//                    p.sendYellowMessage("Không có đủ " + ItemData.ItemDataId(545).name);
-//                    break;
-//                }
+                // if (p.nj.timeRemoveClone <= System.currentTimeMillis() &&
+                // p.nj.quantityItemyTotal(545) <= 0) {
+                // p.sendYellowMessage("Không có đủ " + ItemData.ItemDataId(545).name);
+                // break;
+                // }
                 p.nj.clone.open(System.currentTimeMillis() + 60000 * p.nj.getPramSkill(68), p.nj.getPramSkill(71));
-//                if (p.nj.quantityItemyTotal(545) > 0) {
-//                    p.nj.removeItemBags(545, 1);
-//                    break;
-//                }
+                // if (p.nj.quantityItemyTotal(545) > 0) {
+                // p.nj.removeItemBags(545, 1);
+                // break;
+                // }
                 break;
             }
             case 22: {
                 // Send bu nhin
-                p.nj.getPlace().addBuNhin(new BuNhin(p.nj.name, p.nj.x, p.nj.y, temp.options.get(0).param * 1000, p.nj.id, p.nj.hp));
+                p.nj.getPlace().addBuNhin(
+                        new BuNhin(p.nj.name, p.nj.x, p.nj.y, temp.options.get(0).param * 1000, p.nj.id, p.nj.hp));
                 break;
             }
         }
     }
 
-    public static void useSkillSupport(final User p, final int skilltemp, final int type, final Ninja n) throws IOException {
+    public static void useSkillSupport(final User p, final int skilltemp, final int type, final Ninja n)
+            throws IOException {
         final Skill skill = p.nj.get().getSkill(skilltemp);
         final SkillTemplates temp = SkillData.Templates(skill.id, skill.point);
         switch (skilltemp) {
@@ -166,7 +214,8 @@ public class useSkill {
                 MessageSubCommand.sendMP(p.nj);
                 return;
             }
-            if (skill.coolDown > System.currentTimeMillis() || Math.abs(p.nj.get().x - nj.x) > temp.dx || Math.abs(p.nj.get().y - nj.y) > temp.dy) {
+            if (skill.coolDown > System.currentTimeMillis() || Math.abs(p.nj.get().x - nj.x) > temp.dx
+                    || Math.abs(p.nj.get().y - nj.y) > temp.dy) {
                 return;
             }
             p.nj.get().upMP(-temp.manaUse);

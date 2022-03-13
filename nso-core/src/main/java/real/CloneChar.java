@@ -32,7 +32,7 @@ public class CloneChar extends Body {
         try {
             this.seNinja(n);
             this.id = -n.id - 100000;
-            this.ItemBody = new Item[16];
+            this.ItemBody = new Item[32];
             this.ItemMounts = new Item[5];
             this.KSkill = new byte[3];
             this.OSkill = new byte[5];
@@ -111,7 +111,7 @@ public class CloneChar extends Body {
                         cl.setExp(red.getLong("exp"));
                         cl.expdown = red.getLong("expdown");
                         cl.pk = red.getByte("pk");
-                        cl.ItemBody = new Item[16];
+                        cl.ItemBody = new Item[32];
                         jar = (JSONArray) JSONValue.parse(red.getString("ItemBody"));
                         if (jar != null) {
                             for (byte j = 0; j < jar.size(); ++j) {
@@ -129,6 +129,18 @@ public class CloneChar extends Body {
                                 cl.ItemMounts[index] = ItemData.parseItem(jar.get(j).toString());
                             }
                         }
+                        jar = (JSONArray) JSONValue.parse(red.getString("fashion"));
+                        cl.ID_HAIR = Short.parseShort(jar.get(0).toString());
+                        cl.ID_Body = Short.parseShort(jar.get(1).toString());
+                        cl.ID_LEG = Short.parseShort(jar.get(2).toString());
+                        cl.ID_WEA_PONE = Short.parseShort(jar.get(3).toString());
+                        cl.ID_PP = Short.parseShort(jar.get(4).toString());
+                        cl.ID_NAME = Short.parseShort(jar.get(5).toString());
+                        cl.ID_HORSE = Short.parseShort(jar.get(6).toString());
+                        cl.ID_RANK = Short.parseShort(jar.get(7).toString());
+                        cl.ID_MAT_NA = Short.parseShort(jar.get(8).toString());
+                        cl.ID_Bien_Hinh = Short.parseShort(jar.get(9).toString());
+
                         jar = (JSONArray) JSONValue.parse(red.getString("effect"));
 
                         try {
@@ -256,6 +268,18 @@ public class CloneChar extends Body {
             }
         }
         sqlSET = sqlSET + ",`effect`='" + jarr.toJSONString() + "'";
+        jarr.clear();
+        jarr.add(this.ID_HAIR);
+        jarr.add(this.ID_Body);
+        jarr.add(this.ID_LEG);
+        jarr.add(this.ID_WEA_PONE);
+        jarr.add(this.ID_PP);
+        jarr.add(this.ID_NAME);
+        jarr.add(this.ID_HORSE);
+        jarr.add(this.ID_RANK);
+        jarr.add(this.ID_MAT_NA);
+        jarr.add(this.ID_Bien_Hinh);
+        sqlSET = sqlSET + ",`fashion`='" + jarr.toJSONString() + "'";
 
         sqlSET = sqlSET + ",`phongloi`=" + this.getPhongLoi() + "";
         sqlSET = sqlSET + ",`banghoa`=" + this.getBanghoa() + "";

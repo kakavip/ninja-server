@@ -7,6 +7,8 @@ import interfaces.SendMessage;
 import tournament.TournamentData;
 import real.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 import real.User;
 import tasks.TaskList;
 import tasks.TaskTemplate;
+import threading.Manager;
 import threading.Message;
 
 public class Service {
@@ -45,7 +48,6 @@ public class Service {
                 msg.cleanup();
         }
     }
-
 
     public static void openUIConfirm(Ninja _char, short npcTemplateId, String chat, String[] menu) {
         Message msg = null;
@@ -109,10 +111,10 @@ public class Service {
         }
     }
 
-
     @SneakyThrows
     public static void batDauTinhGio(SendMessage sendMes, int second) {
-        if (sendMes == null) return;
+        if (sendMes == null)
+            return;
         val message = messageSubCommand2(33);
         message.writer().writeInt(second);
         message.writer().flush();
@@ -121,6 +123,61 @@ public class Service {
 
     }
 
+    public static void sendInfoChar(final User p, final User _p) {
+        Message m = null;
+        try {
+            // m = messageSubCommand((byte)-120);
+            m = new Message((byte) 116);
+            m.writer().writeInt(p.nj.get().id);
+            m.writer().writeUTF(p.nj.clan.clanName);
+            if (!p.nj.clan.clanName.isEmpty()) {
+                m.writer().writeByte(p.nj.clan.typeclan);
+            }
+            m.writer().writeBoolean(false);
+            m.writer().writeByte(p.nj.get().getTypepk());
+            m.writer().writeByte(p.nj.get().nclass);
+            m.writer().writeByte(p.nj.gender);
+            m.writer().writeShort(p.nj.get().partHead());
+            m.writer().writeUTF(p.nj.name);
+            m.writer().writeInt(p.nj.get().hp);
+            m.writer().writeInt(p.nj.get().getMaxHP());
+            m.writer().writeByte(p.nj.get().getLevel());
+            m.writer().writeShort(p.nj.get().Weapon());
+            m.writer().writeShort(p.nj.get().partBody());
+            m.writer().writeShort(p.nj.get().partLeg());
+            m.writer().writeByte(-1);
+            m.writer().writeShort(p.nj.get().x);
+            m.writer().writeShort(p.nj.get().y);
+            m.writer().writeShort(p.nj.get().eff5buffHP());
+            m.writer().writeShort(p.nj.get().eff5buffMP());
+            m.writer().writeByte(0);
+            m.writer().writeBoolean(p.nj.isHuman);
+            m.writer().writeBoolean(p.nj.isNhanban);
+            m.writer().writeShort(p.nj.get().partHead());
+            m.writer().writeShort(p.nj.get().Weapon());
+            m.writer().writeShort(p.nj.get().partBody());
+            m.writer().writeShort(p.nj.get().partLeg());
+
+            m.writer().writeShort(p.nj.get().ID_HAIR);
+            m.writer().writeShort(p.nj.get().ID_Body);
+            m.writer().writeShort(p.nj.get().ID_LEG);
+            m.writer().writeShort(p.nj.get().ID_WEA_PONE);
+            m.writer().writeShort(p.nj.get().ID_PP);
+            m.writer().writeShort(p.nj.get().ID_NAME);
+            m.writer().writeShort(p.nj.get().ID_HORSE);
+            m.writer().writeShort(p.nj.get().ID_RANK);
+            m.writer().writeShort(p.nj.get().ID_MAT_NA);
+            m.writer().writeShort(p.nj.get().ID_Bien_Hinh);
+            m.writer().flush();
+            _p.sendMessage(m);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (m != null) {
+                m.cleanup();
+            }
+        }
+    }
 
     public static void sendclonechar(final User p, final User top) {
         try {
@@ -151,6 +208,16 @@ public class Service {
             m.writer().writeShort(-1);
             m.writer().writeShort(-1);
             m.writer().writeShort(-1);
+            m.writer().writeShort(p.nj.clone.ID_HAIR);
+            m.writer().writeShort(p.nj.clone.ID_Body);
+            m.writer().writeShort(p.nj.clone.ID_LEG);
+            m.writer().writeShort(p.nj.clone.ID_WEA_PONE);
+            m.writer().writeShort(p.nj.clone.ID_PP);
+            m.writer().writeShort(p.nj.clone.ID_NAME);
+            m.writer().writeShort(p.nj.clone.ID_HORSE);
+            m.writer().writeShort(p.nj.clone.ID_RANK);
+            m.writer().writeShort(p.nj.clone.ID_MAT_NA);
+            m.writer().writeShort(p.nj.clone.ID_Bien_Hinh);
             m.writer().flush();
             top.sendMessage(m);
             m.cleanup();
@@ -238,7 +305,8 @@ public class Service {
                 if (item != null) {
                     msg.writer().writeShort(item.id);
                     msg.writer().writeBoolean(item.isLock());
-                    if (ItemData.isTypeBody(item.id) || ItemData.isTypeMounts(item.id) || ItemData.isTypeNgocKham(item.id)) {
+                    if (ItemData.isTypeBody(item.id) || ItemData.isTypeMounts(item.id)
+                            || ItemData.isTypeNgocKham(item.id)) {
                         msg.writer().writeByte(item.getUpgrade());
                     }
                     msg.writer().writeBoolean(item.isExpires);
@@ -263,6 +331,30 @@ public class Service {
             msg.writer().writeShort(c.get().Weapon());
             msg.writer().writeShort(c.get().partBody());
             msg.writer().writeShort(c.get().partLeg());
+
+            msg.writer().writeShort(c.get().ID_HAIR);
+            msg.writer().writeShort(c.get().ID_Body);
+            msg.writer().writeShort(c.get().ID_LEG);
+            msg.writer().writeShort(c.get().ID_WEA_PONE);
+            msg.writer().writeShort(c.get().ID_PP);
+            msg.writer().writeShort(c.get().ID_NAME);
+            msg.writer().writeShort(c.get().ID_HORSE);
+            msg.writer().writeShort(c.get().ID_RANK);
+            msg.writer().writeShort(c.get().ID_MAT_NA);
+            msg.writer().writeShort(c.get().ID_Bien_Hinh);
+
+            for (int k = 16; k < 32; ++k) {
+                final Item item = c.get().ItemBody[k];
+                if (item != null) {
+                    msg.writer().writeShort(item.id);
+                    msg.writer().writeByte(item.getUpgrade());
+                    msg.writer().writeByte(item.sys);
+                } else {
+                    msg.writer().writeShort(-1);
+                }
+
+            }
+
             msg.writer().flush();
             p.sendMessage(msg);
             msg.cleanup();
@@ -300,7 +392,8 @@ public class Service {
         }
     }
 
-    public static void Mobstart(final User p, final int mobid, final int hp, final int dame, final boolean flag, final int levelboss, final int hpmax) {
+    public static void Mobstart(final User p, final int mobid, final int hp, final int dame, final boolean flag,
+            final int levelboss, final int hpmax) {
         Message msg = null;
         try {
             msg = new Message(-1);
@@ -339,7 +432,6 @@ public class Service {
                 msg.cleanup();
         }
     }
-
 
     public static void PlayerAttack(final User p, final Mob[] mob, final Body b) {
         Message msg = null;
@@ -386,7 +478,6 @@ public class Service {
         m.cleanup();
 
     }
-
 
     ///////////////////////////////
     public static void PlayerAttack(Ninja _ninja, int charID, byte skillId, Mob[] arrMob, Ninja[] arrNinja) {
@@ -544,7 +635,6 @@ public class Service {
         }
     }
 
-
     public static void nextTask(Ninja _ninja) {
         Message msg = null;
         try {
@@ -562,7 +652,8 @@ public class Service {
     public static void getTask(Ninja _ninja) {
         Message msg = null;
         try {
-            if (TaskList.taskTemplates.length <= _ninja.getTaskId()) return;
+            if (TaskList.taskTemplates.length <= _ninja.getTaskId())
+                return;
 
             TaskTemplate taskTemplate = TaskList.taskTemplates[_ninja.getTaskId()];
             msg = new Message((byte) 47);
@@ -612,5 +703,156 @@ public class Service {
         for (SendMessage sendMessage : sendMessages) {
             sendMessage.sendMessage(m);
         }
+    }
+
+    public static void createCacheItem() {
+        try {
+            ByteArrayOutputStream bas = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(bas);
+            dos.writeByte(Manager.vsItem);
+            dos.writeByte(Manager.itemOptionCaches.length);
+            for (short i = 0; i < Manager.itemOptionCaches.length; ++i) {
+                dos.writeUTF(Manager.itemOptionCaches[i].name);
+                dos.writeByte(Manager.itemOptionCaches[i].type);
+            }
+            dos.writeShort(Manager.itemCaches.length);
+            for (short j = 0; j < Manager.itemCaches.length; ++j) {
+                dos.writeByte(Manager.itemCaches[j].type);
+                dos.writeByte(Manager.itemCaches[j].gender);
+                dos.writeUTF(Manager.itemCaches[j].name);
+                dos.writeUTF(Manager.itemCaches[j].description);
+                dos.writeByte(Manager.itemCaches[j].level);
+                dos.writeShort(Manager.itemCaches[j].iconID);
+                dos.writeShort(Manager.itemCaches[j].part);
+                dos.writeBoolean(Manager.itemCaches[j].isUpToUp);
+            }
+            byte[] ab = bas.toByteArray();
+            GameScr.saveFile("cache/item", ab);
+            dos.close();
+            bas.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openMenuBox(User p) {
+        Message m = null;
+        try {
+            p.menuCaiTrang = 0;
+            p.openUI(4);
+            m = new Message(31);
+            m.writer().writeInt(p.nj.xuBox);
+            m.writer().writeByte(p.nj.ItemBox.length);
+            for (Item item : p.nj.ItemBox) {
+                if (item != null) {
+                    m.writer().writeShort(item.id);
+                    m.writer().writeBoolean(item.isLock());
+                    if (ItemData.isTypeBody(item.id) || ItemData.isTypeNgocKham(item.id)) {
+                        m.writer().writeByte(item.getUpgrade());
+                    }
+                    m.writer().writeBoolean(item.isExpires);
+                    m.writer().writeShort(item.quantity);
+                } else {
+                    m.writer().writeShort(-1);
+                }
+            }
+            m.writer().flush();
+            p.sendMessage(m);
+            m.cleanup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (m != null) {
+                m.cleanup();
+            }
+        }
+
+    }
+
+    public static void openMenuBST(User p) {
+        Message m = null;
+        try {
+            p.menuCaiTrang = 1;
+            Service.sendTileAction(p, (byte) 4, "Bộ Sưu tập", "Sử dụng");
+            m = new Message(31);
+            m.writer().writeInt(p.nj.xuBox);
+            m.writer().writeByte(p.nj.ItemBST.length);
+            for (Item item : p.nj.ItemBST) {
+                if (item != null) {
+                    m.writer().writeShort(item.id);
+                    m.writer().writeBoolean(item.isLock());
+                    if (ItemData.isTypeBody(item.id) || ItemData.isTypeNgocKham(item.id)) {
+                        m.writer().writeByte(item.getUpgrade());
+                    }
+                    m.writer().writeBoolean(item.isExpires);
+                    m.writer().writeShort(item.quantity);
+                } else {
+                    m.writer().writeShort(-1);
+                }
+            }
+            m.writer().flush();
+            p.sendMessage(m);
+            m.cleanup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (m != null) {
+                m.cleanup();
+            }
+        }
+
+    }
+
+    public static void openMenuCaiTrang(User p) {
+        Message m = null;
+        try {
+            p.menuCaiTrang = 2;
+            Service.sendTileAction(p, (byte) 4, "Cải trang", "Sử dụng");
+            m = new Message(31);
+            m.writer().writeInt(p.nj.xuBox);
+            m.writer().writeByte(p.nj.ItemCaiTrang.length);
+            for (Item itemCT : p.nj.ItemCaiTrang) {
+                if (itemCT != null) {
+                    m.writer().writeShort(itemCT.id);
+                    m.writer().writeBoolean(itemCT.isLock());
+                    if (ItemData.isTypeBody(itemCT.id) || ItemData.isTypeNgocKham(itemCT.id)) {
+                        m.writer().writeByte(itemCT.getUpgrade());
+                    }
+                    m.writer().writeBoolean(itemCT.isExpires);
+                    m.writer().writeShort(itemCT.quantity);
+                } else {
+                    m.writer().writeShort(-1);
+                }
+            }
+            m.writer().flush();
+            p.sendMessage(m);
+            m.cleanup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (m != null) {
+                m.cleanup();
+            }
+        }
+
+    }
+
+    public static void sendTileAction(User p, byte typeUI, String title, String action) {
+        Message m = null;
+        try {
+            m = new Message(30);
+            m.writer().writeByte(typeUI);
+            m.writer().writeUTF(title);
+            m.writer().writeUTF(action);
+            m.writer().flush();
+            p.sendMessage(m);
+        } catch (Exception var3) {
+            var3.printStackTrace();
+        } finally {
+            if (m != null) {
+                m.cleanup();
+            }
+        }
+
     }
 }

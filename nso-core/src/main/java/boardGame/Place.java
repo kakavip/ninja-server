@@ -658,6 +658,7 @@ public class Place {
                 try {
                     if (util.compare_Day(Date.from(Instant.now()), p.nj.newlogin)) {
                         p.nj.upNActPoint(-1);
+                        p.menuCaiTrang = 0;
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
                         p.nj.useCave = 2;
@@ -677,6 +678,7 @@ public class Place {
                     }
                 } catch (Exception e) {
                     try {
+                        p.menuCaiTrang = 0;
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
                         p.nj.useCave = 2;
@@ -1616,6 +1618,18 @@ public class Place {
             m.writer().writeShort(p.nj.get().Weapon());
             m.writer().writeShort(p.nj.get().partBody());
             m.writer().writeShort(p.nj.get().partLeg());
+
+            m.writer().writeShort(p.nj.get().ID_HAIR);
+            m.writer().writeShort(p.nj.get().ID_Body);
+            m.writer().writeShort(p.nj.get().ID_LEG);
+            m.writer().writeShort(p.nj.get().ID_WEA_PONE);
+            m.writer().writeShort(p.nj.get().ID_PP);
+            m.writer().writeShort(p.nj.get().ID_NAME);
+            m.writer().writeShort(p.nj.get().ID_HORSE);
+            m.writer().writeShort(p.nj.get().ID_RANK);
+            m.writer().writeShort(p.nj.get().ID_MAT_NA);
+            m.writer().writeShort(p.nj.get().ID_Bien_Hinh);
+
             m.writer().flush();
             revc.sendMessage(m);
             m.cleanup();
