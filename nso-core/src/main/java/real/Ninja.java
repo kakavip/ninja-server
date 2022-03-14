@@ -760,6 +760,16 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.mapLTD = Short.parseShort(jar.get(3).toString());
                     nj.mapType = Short.parseShort(jar.get(4).toString());
                     jar = (JSONArray) JSONValue.parse(red.getString("effect"));
+                    try {
+                        if (jar != null) {
+                            for (int i = 0; i < jar.size(); i++) {
+                                val effect = Effect.fromJSONObject((JSONObject) jar.get(i));
+                                nj.addEffect(effect);
+                            }
+                        }
+                    } catch (Exception e) {
+
+                    }
 
                     jar = (JSONArray) JSONValue.parse(red.getString("fashion"));
                     nj.ID_HAIR = Short.parseShort(jar.get(0).toString());
@@ -808,17 +818,6 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
                     if (nj.getTasks().length != 3) {
                         nj.setTasks(new TaskOrder[3]);
-                    }
-
-                    try {
-                        if (jar != null) {
-                            for (int i = 0; i < jar.size(); i++) {
-                                val effect = Effect.fromJSONObject((JSONObject) jar.get(i));
-                                nj.addEffect(effect);
-                            }
-                        }
-                    } catch (Exception e) {
-
                     }
 
                     jar = (JSONArray) JSONValue.parse(red.getString("clan"));
