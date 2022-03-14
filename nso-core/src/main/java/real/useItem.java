@@ -105,134 +105,37 @@ public class useItem {
 
             if (data.type == 10) {
                 p.mobMeMessage(0, (byte) 0);
+                p.getMobMe();
             }
             if (itemb != null && itemb.id == 569) {
                 p.removeEffect(36);
             }
 
             switch (item.id) {
-                case 246: {
-                    p.mobMeMessage(70, (byte) 0);
-                    break;
-                }
-                case 419: {
-                    p.mobMeMessage(122, (byte) 0);
-                    break;
-                }
                 case 568: {
                     p.setEffect(38, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(100));
-                    p.mobMeMessage(205, (byte) 0);
                     break;
                 }
                 case 569: {
                     p.setEffect(36, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(99));
-                    p.mobMeMessage(206, (byte) 0);
                     break;
                 }
                 case 570: {
                     p.setEffect(37, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(98));
-                    p.mobMeMessage(207, (byte) 0);
                     break;
                 }
                 case 571: {
                     p.setEffect(39, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(101));
-                    p.mobMeMessage(208, (byte) 0);
-                    break;
-                }
-                case 583: {
-                    p.mobMeMessage(211, (byte) 1);
-                    break;
-                }
-                case 584: {
-                    p.mobMeMessage(212, (byte) 1);
-                    break;
-                }
-                case 585: {
-                    p.mobMeMessage(213, (byte) 1);
-                    break;
-                }
-                case 586: {
-                    p.mobMeMessage(214, (byte) 1);
-                    break;
-                }
-                case 587: {
-                    p.mobMeMessage(215, (byte) 1);
-                    break;
-                }
-                case 588: {
-                    p.mobMeMessage(216, (byte) 1);
-                    break;
-                }
-                case 589: {
-                    p.mobMeMessage(217, (byte) 1);
-                    break;
-                }
-                case 742: {
-                    p.mobMeMessage(229, (byte) 1);
-                    break;
-                }
-                case 744: {
-                    p.mobMeMessage(229, (byte) 1);
                     break;
                 }
                 case 772: {
                     p.setEffect(42, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(58));
-                    p.mobMeMessage(234, (byte) 1);
                     break;
                 }
                 case 773: {
                     p.setEffect(42, 0, (int) (item.expires - System.currentTimeMillis()), p.nj.get().getPramItem(58));
-                    p.mobMeMessage(234, (byte) 1);
                     break;
                 }
-                case 781: {
-                    p.mobMeMessage(235, (byte) 1);
-                    break;
-                }
-                case 830: {
-                    p.mobMeMessage(201, (byte) 1);
-                    break;
-                }
-                case 831: {
-                    p.mobMeMessage(115, (byte) 1);
-                    break;
-                }
-                case 832: {
-                    p.mobMeMessage(140, (byte) 1);
-                    break;
-                }
-                case 833: {
-                    p.mobMeMessage(163, (byte) 1);
-                    break;
-                }
-                case 834: {
-                    p.mobMeMessage(220, (byte) 1);
-                    break;
-                }
-                case 835: {
-                    p.mobMeMessage(223, (byte) 1);
-                    break;
-                }
-                case 836: {
-                    p.mobMeMessage(224, (byte) 1);
-                    break;
-                }
-                case 837: {
-                    p.mobMeMessage(223, (byte) 1);
-                    break;
-                }
-                case 838: {
-                    p.mobMeMessage(220, (byte) 1);
-                    break;
-                }
-                case 843: {
-                    p.mobMeMessage(0, (byte) 74);
-                    break;
-                }
-                // case 843: {
-                // p.mobMeMessage(228, (byte) 1);
-                // break;
-                // }
             }
         } else if (ItemData.isTypeMounts(item.id)) {
             final byte idM = (byte) (data.type - 29);

@@ -3686,8 +3686,60 @@ public class User extends Actor implements SendMessage {
                     this.mobMeMessage(229, (byte) 1);
                     break;
                 }
+                case 744: {
+                    this.mobMeMessage(229, (byte) 1);
+                    break;
+                }
+                case 772: {
+                    this.mobMeMessage(234, (byte) 1);
+                    break;
+                }
+                case 773: {
+                    this.mobMeMessage(234, (byte) 1);
+                    break;
+                }
                 case 781: {
                     this.mobMeMessage(235, (byte) 1);
+                    break;
+                }
+                case 830: {
+                    this.mobMeMessage(201, (byte) 1);
+                    break;
+                }
+                case 831: {
+                    this.mobMeMessage(115, (byte) 1);
+                    break;
+                }
+                case 832: {
+                    this.mobMeMessage(140, (byte) 1);
+                    break;
+                }
+                case 833: {
+                    this.mobMeMessage(163, (byte) 1);
+                    break;
+                }
+                case 834: {
+                    this.mobMeMessage(220, (byte) 1);
+                    break;
+                }
+                case 835: {
+                    this.mobMeMessage(223, (byte) 1);
+                    break;
+                }
+                case 836: {
+                    this.mobMeMessage(224, (byte) 1);
+                    break;
+                }
+                case 837: {
+                    this.mobMeMessage(223, (byte) 1);
+                    break;
+                }
+                case 838: {
+                    this.mobMeMessage(220, (byte) 1);
+                    break;
+                }
+                case 843: {
+                    this.mobMeMessage(0, (byte) 74);
                     break;
                 }
                 default: {
