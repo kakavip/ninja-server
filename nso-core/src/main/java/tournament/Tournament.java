@@ -1,6 +1,8 @@
 package tournament;
 
 import boardGame.Place;
+import io.Session;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -384,6 +386,7 @@ public abstract class Tournament {
                     if (ninja != null) {
                         participant.nj = ninja;
                         ninja.setTournamentRank(this, rank);
+                        ninja.setRewardTournament(true);
                     } else {
                         Ninja.setTournamentRankInDB(this, participant.nj.name, rank);
                     }
@@ -401,7 +404,7 @@ public abstract class Tournament {
         }
 
         int rank = nj.getTournamentRank(this);
-        if (!(rank >= 1 && rank <= 10)) {
+        if (!(rank >= 1 && rank <= 10 && nj.getRewardTournament())) {
             return false;
         }
         for (int[] reward : rewards) {
@@ -419,7 +422,7 @@ public abstract class Tournament {
             }
         }
 
-        nj.resetTournamentRank(this);
+        nj.setRewardTournament(false);
         return true;
 
     }
@@ -437,5 +440,15 @@ public abstract class Tournament {
     public synchronized static void closeAll() {
         KageTournament.gi().close();
         GeninTournament.gi().close();
+    }
+
+    public synchronized static void resetRankedTournament() {
+        Ninja.resetRankedTournamentInDB();
+
+        for (Session conn : PlayerManager.getInstance().conns) {
+            if (conn != null && conn.user != null && conn.user.nj != null) {
+                conn.user.nj.resetRankedTournament();
+            }
+        }
     }
 }

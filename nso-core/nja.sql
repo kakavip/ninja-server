@@ -24927,6 +24927,10 @@ add column `caiTrang` smallint(6) NOT NULL DEFAULT '0',
 add column `ItemCaiTrang` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]',
 add column `ItemBST` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]';
 
+alter table `ninja` 
+CHANGE rewardThienBang rankedKage int(11) NOT NULL DEFAULT '0',
+CHANGE rewardDiaBang rankedGenin int(11) NOT NULL DEFAULT '0',
+add column rewardTournament int(11) NOT NULL DEFAULT '0';
 
 
 --

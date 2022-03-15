@@ -2342,7 +2342,7 @@ public class Place {
             final int master = curMob.sortNinjaFight();
 
             if (!this.map.isLdgtMap()) {
-                boolean isReceivedLuong = util.nextInt(100) <= 7;
+                boolean isReceivedLuong = util.nextInt(100) <= DROP_LUONG_PERCENT;
                 boolean canReceived = false;
                 int luong = (int) (Math.min(curMob.level, MAX_LEVEL_RECEIVE_LUONG_COEF) * LUONG_COEF * 1.0 / 100);
 
@@ -3930,6 +3930,33 @@ public class Place {
             }
         } else {
             p.nj.get().effectFlag = false;
+        }
+
+        switch (p.nj.getRankedTournament()) {
+            case 1: {
+                for (int k = 0; k < this.getUsers().size(); ++k) {
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 35, 1, 1);
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 22, 1, 1);
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 23, 1, 1);
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 24, 1, 1);
+                }
+                break;
+            }
+            case 2: {
+                for (int k = 0; k < this.getUsers().size(); ++k) {
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 22, 1, 1);
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 23, 1, 1);
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 24, 1, 1);
+                }
+                break;
+            }
+            case 3: {
+                for (int k = 0; k < this.getUsers().size(); ++k) {
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 22, 1, 1);
+                    GameCanvas.addEffect(this.getUsers().get(k).session, (byte) 0, p.nj.get().id, (short) 23, 1, 1);
+                }
+                break;
+            }
         }
 
         if (System.currentTimeMillis() > p.nj.delayEffect) {

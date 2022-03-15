@@ -16,6 +16,7 @@ import candybattle.CandyBattle;
 import event.EventData;
 import interfaces.IGlobalBattler;
 import interfaces.TeamBattle;
+import tournament.GeninTournament;
 import tournament.KageTournament;
 import tournament.Tournament;
 import tournament.TournamentData;
@@ -101,8 +102,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public int typebet;
     public boolean wasReceivedEye = false;
 
-    private int rewardThienBang = 0;
-    private int rewardDiaBang = 0;
+    private int rankedKage = 0;
+    private int rankedGenin = 0;
+    private boolean rewardTournament = false;
 
     @Nullable
     public CandyBattle candyBattle;
@@ -661,8 +663,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.ticketYen = red.getInt("ticketYen");
                     nj.ticketXu = red.getInt("ticketXu");
                     nj.wasReceivedEye = red.getInt("receivedEye") == 1;
-                    nj.rewardThienBang = red.getInt("rewardThienBang");
-                    nj.rewardDiaBang = red.getInt("rewardDiaBang");
+                    nj.rankedKage = red.getInt("rankedKage");
+                    nj.rankedGenin = red.getInt("rankedGenin");
+                    nj.rewardTournament = red.getInt("rewardTournament") == 1;
 
                     nj.maxluggage = red.getInt("maxluggage");
                     if (nj.maxluggage > Manager.MAX_LUGGAGE) {
@@ -998,8 +1001,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             sqlSET = sqlSET + ",`fashion`='" + jarr.toJSONString() + "'";
 
             sqlSET = sqlSET + ", `receivedEye`=" + (wasReceivedEye ? 1 : 0) + "";
-            sqlSET = sqlSET + ", `rewardThienBang`=" + rewardThienBang + "";
-            sqlSET = sqlSET + ", `rewardDiaBang`=" + rewardDiaBang + "";
+            sqlSET = sqlSET + ", `rankedKage`=" + rankedKage + "";
+            sqlSET = sqlSET + ", `rankedGenin`=" + rankedGenin + "";
+            sqlSET = sqlSET + ", `rewardTournament`=" + (rewardTournament ? 1 : 0) + "";
             sqlSET = sqlSET + ", `nvhncount`=" + nvhnCount + "";
             sqlSET = sqlSET + ", `tathucount`=" + taThuCount + "";
             sqlSET = sqlSET + ", `nvdvcount`=" + nvdvCount + "";
@@ -1252,6 +1256,9 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     public void updateEventData(int eventItemId, int point) {
+        if (System.currentTimeMillis() >= Manager.EVENT_TOP_END_TIME * 1000L) {
+            return;
+        }
         for (int i = 0; i < EventItem.entrys.length; i++) {
             if (EventItem.entrys[i].getOutput().getId() == eventItemId) {
                 String eventKey = "a" + eventItemId;
@@ -1463,56 +1470,94 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         this.mapid = mapid;
     }
 
-    public int getRewardThienBang() {
-        return this.rewardThienBang;
+    public int getRankedKage() {
+        return this.rankedKage;
     }
 
-    public void setRewardThienBang(int tb) {
-        this.rewardThienBang = tb;
+    public void setRewardKage(int tb) {
+        this.rankedKage = tb;
     }
 
-    public int getRewardDiaBang() {
-        return this.rewardDiaBang;
+    public int getRankedGenin() {
+        return this.rankedGenin;
     }
 
-    public void setRewardDiaBang(int db) {
-        this.rewardDiaBang = db;
+    public void setRewardGenin(int db) {
+        this.rankedGenin = db;
     }
 
     public int getTournamentRank(Tournament t) {
         if (t instanceof KageTournament) {
-            return this.getRewardThienBang();
+            return this.getRankedKage();
         } else {
-            return this.getRewardDiaBang();
+            return this.getRankedGenin();
         }
+    }
+
+    public int getRankedTournament() {
+        if (0 < this.getRankedKage() && this.getRankedKage() <= 10) {
+            return this.getRankedKage();
+        }
+
+        if (0 < this.getRankedGenin() && this.getRankedGenin() <= 10) {
+            return this.getRankedGenin();
+        }
+
+        return 0;
     }
 
     public void resetTournamentRank(Tournament t) {
         this.setTournamentRank(t, 0);
     }
 
+    public void resetRankedTournament() {
+        this.resetTournamentRank(KageTournament.gi());
+        this.resetTournamentRank(GeninTournament.gi());
+    }
+
+    public void setRewardTournament(boolean r) {
+        this.rewardTournament = r;
+    }
+
+    public boolean getRewardTournament() {
+        return this.rewardTournament;
+    }
+
     public void setTournamentRank(Tournament t, int rank) {
         if (t instanceof KageTournament) {
-            this.setRewardThienBang(rank);
+            this.setRewardKage(rank);
         } else {
-            this.setRewardDiaBang(rank);
+            this.setRewardGenin(rank);
         }
     }
 
     public static void setTournamentRankInDB(Tournament t, String name, int rank) {
         try {
             if (t instanceof KageTournament) {
-                SQLManager.executeUpdate("UPDATE `ninja` SET `rewardThienBang`=" + rank + " WHERE `name`='"
-                        + name
-                        + "';");
+                SQLManager
+                        .executeUpdate(
+                                "UPDATE `ninja` SET `rankedKage`=" + rank + ", `rewardTournament`=1 WHERE `name`='"
+                                        + name
+                                        + "';");
             } else {
-                SQLManager.executeUpdate("UPDATE `ninja` SET `rewardDiaBang`=" + rank + " WHERE `name`='"
-                        + name
-                        + "';");
+                SQLManager
+                        .executeUpdate(
+                                "UPDATE `ninja` SET `rankedGenin`=" + rank + ",`rewardTournament`=1 WHERE `name`='"
+                                        + name
+                                        + "';");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void resetRankedTournamentInDB() {
+        try {
+            SQLManager.executeUpdate("UPDATE `ninja` SET `rankedKage`=0`, `rankedGenin`=0 where id is not null");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setClanBattle(ClanBattle clanBattle) {

@@ -99,7 +99,7 @@ public class DaemonThread extends Thread {
                     Tournament.lastTimeReward = System.currentTimeMillis();
                 }
 
-                if (minute % 30 == 0) {
+                if (minute % 30 == 0 && System.currentTimeMillis() < Manager.EVENT_TOP_END_TIME * 1000L) {
                     TopEventManager.reload();
                 }
             } catch (Exception e) {

@@ -52,8 +52,10 @@ public class Manager {
     public static int MAX_LEVEL_RECEIVE_YEN_COEF;
     public static int LUONG_COEF;
     public static int MAX_LEVEL_RECEIVE_LUONG_COEF;
+    public static int DROP_LUONG_PERCENT;
 
     public static int EVENT_ITEM_DROP_PERCENT;
+    public static long EVENT_TOP_END_TIME;
 
     public int PORT;
     public static String host;
@@ -182,6 +184,7 @@ public class Manager {
             MAX_LEVEL_RECEIVE_YEN_COEF = Integer.parseInt(properties.getProperty("max-level-receive-yen-coef"));
             LUONG_COEF = Integer.parseInt(properties.getProperty("luong-coef"));
             MAX_LEVEL_RECEIVE_LUONG_COEF = Integer.parseInt(properties.getProperty("max-level-receive-luong-coef"));
+            DROP_LUONG_PERCENT = Integer.parseInt(properties.getProperty("drop-luong-percent"));
 
             TIME_REFRESH_MOB = 1000 * Long.parseLong(properties.getProperty("time-refresh-mob"));
             TIME_REFRESH_BOSS = 1000 * Long.parseLong(properties.getProperty("time-refresh-boss"));
@@ -198,6 +201,7 @@ public class Manager {
             MAX_ITEM_QUANTITY = Integer.parseInt(properties.getProperty("max-item-quantity"));
 
             EVENT_ITEM_DROP_PERCENT = Integer.parseInt(properties.getProperty("event-item-drop-percent"));
+            EVENT_TOP_END_TIME = Long.parseLong(properties.getProperty("event-top-end-time"));
 
             BOSS_WAIT_TIME_UNIT = Integer.parseInt(properties.getProperty("boss-wait-time-unit"));
 
@@ -368,26 +372,6 @@ public class Manager {
         this.mysql_pass = System.getenv("DB_PASS");
         this.mysql_database = System.getenv("DB_DATABASE");
 
-        // if (configMap.containsKey("mysql-host")) {
-        // this.mysql_host = configMap.get("mysql-host");
-        // } else {
-        // this.mysql_host = "localhost";
-        // }
-        // if (configMap.containsKey("mysql-user")) {
-        // this.mysql_user = configMap.get("mysql-user");
-        // } else {
-        // this.mysql_user = "root";
-        // }
-        // if (configMap.containsKey("mysql-password")) {
-        // this.mysql_pass = configMap.get("mysql-password");
-        // } else {
-        // this.mysql_pass = "";
-        // }
-        // if (configMap.containsKey("mysql-database")) {
-        // this.mysql_database = configMap.get("mysql-database");
-        // } else {
-        // this.mysql_database = "ninja";
-        // }
         if (configMap.containsKey("version-Data")) {
             this.vsData = Byte.parseByte(configMap.get("version-Data"));
         } else {
