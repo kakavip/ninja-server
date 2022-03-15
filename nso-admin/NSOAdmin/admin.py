@@ -40,7 +40,8 @@ class PlayerAdmin(admin.ModelAdmin):
         "ticket_gold",
         "password",
         "joined_time",
-        "nhan_qua","ip"
+        "nhan_qua",
+        "ip",
     ]
     list_display_links = ["pk", "username"]
     empty_display_value = "--empty--"
@@ -129,8 +130,9 @@ class NinjaAdmin(CharacterAdmin):
         "dv_points",
         "ticket_xu",
         "ticket_yen",
-        "reward_thien_bang",
-        "reward_dia_bang",
+        "ranked_kage",
+        "ranked_genin",
+        "reward_tournament",
     ]
     fields = CharacterAdmin.fields + [
         "expdown",
@@ -142,8 +144,8 @@ class NinjaAdmin(CharacterAdmin):
         "dv_points",
         "ticket_xu",
         "ticket_yen",
-        "reward_thien_bang",
-        "reward_dia_bang",
+        "ranked_kage",
+        "ranked_genin",
     ]
 
 

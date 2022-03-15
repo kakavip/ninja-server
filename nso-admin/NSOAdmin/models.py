@@ -42,7 +42,7 @@ class Player(models.Model):
     )
 
     lock = models.BooleanField(default=False)
-    ip = models.CharField(blank=True, null=True)
+    ip = models.CharField(blank=True, null=True, max_length=200)
 
     class Meta:
         db_table = "player"
@@ -151,11 +151,14 @@ class Ninja(Character):
     ticket_xu = models.IntegerField(
         blank=True, null=True, default=0, db_column="ticketXu"
     )
-    reward_thien_bang = models.IntegerField(
-        blank=True, null=True, default=0, db_column="rewardThienBang"
+    ranked_kage = models.IntegerField(
+        blank=True, null=True, default=0, db_column="rankedKage"
     )
-    reward_dia_bang = models.IntegerField(
-        blank=True, null=True, default=0, db_column="rewardDiaBang"
+    ranked_genin = models.IntegerField(
+        blank=True, null=True, default=0, db_column="rankedGenin"
+    )
+    reward_tournament = models.BooleanField(
+        blank=True, null=True, default=False, db_column="rewardTournament"
     )
 
     class Meta:
