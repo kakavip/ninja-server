@@ -29,6 +29,8 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import battle.ClanBattle;
+
 import static patch.Constants.TOC_TRUONG;
 import static patch.ItemShinwaManager.*;
 import static patch.TaskOrder.*;
@@ -2103,6 +2105,11 @@ public class MenuController {
                             doMenuArray(p, new String[] { "Ký gửi Yên", "Ký gửi Xu" });
                             break;
                         }
+                        case 7: {
+                            p.typemenu = 24_7;
+                            doMenuArray(p, new String[] { "Nạp thẻ", "Nhận lượng CARD/ATM/MOMO", "Lịch sử nạp thẻ" });
+                            break;
+                        }
                     }
                     break;
                 }
@@ -2293,6 +2300,96 @@ public class MenuController {
                     doMenuArray(p, new String[] { "Gửi " + currency, "Rút " + currency });
                     break;
                 }
+                case 24_7: {
+                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                            "Sau khi nhập mã thẻ vui lòng đợi 1 -> 2ph để hệ thống nạp thẻ. Hãy chọn đúng mệnh giá thẻ nếu không muốn bị mất thẻ.");
+                    switch (menuId) {
+                        case 0: {
+                            p.typemenu = 24_7_0;
+                            doMenuArray(p, new String[] { "Viettel", "Mobifone", "Vinaphone" });
+                            break;
+                        }
+                        case 1: {
+                            p.cardDCoin();
+                            break;
+                        }
+                        case 2: {
+                            this.server.manager.sendTB(p, "Lịch sử nạp thẻ",
+                                    p.getCardDCoinHistory());
+                            break;
+                        }
+                    }
+                    break;
+                }
+
+                case 24_7_0: {
+                    boolean hasCard = false;
+
+                    switch (menuId) {
+                        case 0:
+                            p.cardType = "VIETTEL";
+                            hasCard = true;
+                            break;
+                        case 1:
+                            p.cardType = "MOBIFONE";
+                            hasCard = true;
+                            break;
+                        case 2:
+                            p.cardType = "VINAPHONE";
+                            hasCard = true;
+                            break;
+                    }
+
+                    if (hasCard) {
+                        p.typemenu = 24_7_1;
+                        doMenuArray(p, new String[] { "10.000", "20.000", "30.000", "50.000", "100.000", "200.000",
+                                "300.000", "500.000", "1.000.000" });
+                        break;
+                    }
+                    break;
+                }
+
+                case 24_7_1: {
+                    p.cardValue = 0;
+                    switch (menuId) {
+                        case 0:
+                            p.cardValue = 10_000;
+                            break;
+                        case 1:
+                            p.cardValue = 20_000;
+                            break;
+                        case 2:
+                            p.cardValue = 30_000;
+                            break;
+                        case 3:
+                            p.cardValue = 50_000;
+                            break;
+                        case 4:
+                            p.cardValue = 100_000;
+                            break;
+                        case 5:
+                            p.cardValue = 200_000;
+                            break;
+                        case 6:
+                            p.cardValue = 300_000;
+                            break;
+                        case 7:
+                            p.cardValue = 500_000;
+                            break;
+                        case 8:
+                            p.cardValue = 1_000_000;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (p.cardValue > 0) {
+                        this.sendWrite(p, (short) 24_7_0, "Nhập mã thẻ");
+                    }
+
+                    break;
+                }
+
                 case 24_6_0: {
                     this.sendWrite(p, (short) (600 + menuId), "Nhập số lượng vé yên");
                     break;
@@ -2369,7 +2466,7 @@ public class MenuController {
     }
 
     private void sendThongBaoTDB(User p, Tournament tournaments, String type) {
-        val stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(type);
         for (TournamentData tournament : tournaments.getTopTen()) {
             stringBuilder.append(tournament.getRanked())
@@ -2458,7 +2555,7 @@ public class MenuController {
                     p.sendYellowMessage("Không đủ xu để nâng cấp");
                     return;
                 }
-                val succ = util.percent(100, nangCapMat.get(item.getUpgrade())[vip ? 2 : 4]);
+                boolean succ = util.percent(100, nangCapMat.get(item.getUpgrade())[vip ? 2 : 4]);
                 if (succ) {
                     p.nj.get().ItemBody[14] = ItemData.itemDefault(item.id + 1);
 
@@ -2487,7 +2584,7 @@ public class MenuController {
     }
 
     private void enterClanBattle(User p, ClanManager clanManager) {
-        val battle = clanManager.getClanBattle();
+        ClanBattle battle = clanManager.getClanBattle();
         p.nj.setClanBattle(battle);
         if (!clanManager.getClanBattle().enter(p.nj, p.nj.getPhe() == Constants.PK_TRANG ? IBattle.BAO_DANH_GT_BACH
                 : IBattle.BAO_DANH_GT_HAC)) {
@@ -2503,7 +2600,7 @@ public class MenuController {
 
         if (idnpc == 33 && server.manager.EVENT != 0) {
 
-            val itemNames = new String[EventItem.entrys.length + 2];
+            String[] itemNames = new String[EventItem.entrys.length + 2];
 
             for (int i = 0; i < itemNames.length - 2; i++) {
                 itemNames[i] = "Làm " + EventItem.entrys[i].getOutput().getItemData().name;
@@ -2517,7 +2614,7 @@ public class MenuController {
         }
         if (idnpc == 24 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
-                    "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên" });
+                    "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên", "Dịch vụ CARD/AT/MoMo" });
         } else if (idnpc == 30 && p.nj.getLevel() > 1) {
             this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
                     "Tài Xỉu" });

@@ -12,6 +12,7 @@ import battle.ClanBattle;
 import clan.ClanTerritoryData;
 import patch.Constants;
 import patch.ItemShinwaManager;
+import patch.Mapper;
 import interfaces.SendMessage;
 import tournament.Tournament;
 import server.GameScr;
@@ -24,14 +25,21 @@ import threading.Map;
 import threading.Message;
 import threading.Server;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -54,8 +62,14 @@ public class User extends Actor implements SendMessage {
 
     public String nameUS;
     public String diamond_send;
-    public String cardCode;
     public String nameUG;
+
+    public String cardType;
+    public String cardSeri;
+    public String cardCode;
+    public int cardValue;
+
+    private CardDCoin[] cardDCoins = null;
 
     private ClanTerritoryData clanTerritoryData;
 
@@ -2771,86 +2785,193 @@ public class User extends Actor implements SendMessage {
         }
     }
 
+    public synchronized void submitCardDcoin() throws IOException {
+        HttpURLConnection connection = null;
+        try {
+            String requestId = UUID.randomUUID().toString();
+
+            SQLManager.executeUpdate(
+                    "INSERT INTO carddcoin (`username`,`cardType`,`cardSeri`, `cardCode`, `cardValue`,`requestId`, `status`) VALUES ('"
+                            + this.username + "', '" + this.cardType + "', '" + this.cardSeri + "', '" + this.cardCode
+                            + "', '" + this.cardValue
+                            + "', '" + requestId + "', '" + CardDCoin.CARD_STATUS_INITIAL + "')");
+
+            Service.showWait("Đang nạp card", this);
+
+            String url = String.format(
+                    "%s?api_key=%s&card_type=%s&card_amount=%d&card_pin=%s&card_serial=%s&request_id=%s&url_callback=%s",
+                    new Object[] {
+                            Manager.TOPUP_CARD_API, Manager.TOPUP_CARD_API_KEY, this.cardType,
+                            this.cardValue,
+                            this.cardCode, this.cardSeri, requestId, Manager.NSO_MS_API
+                    });
+            URL urlObj = new URL(url);
+            connection = (HttpURLConnection) urlObj.openConnection();
+
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+            System.out.println("Send 'HTTP GET' request to : " + url);
+
+            Integer responseCode = connection.getResponseCode();
+            System.out.println("Response Code : " + responseCode);
+
+            Thread.sleep(500);
+            Service.endWait(this);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader inputReader = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = inputReader.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                inputReader.close();
+
+                System.out.println(response.toString());
+                HashMap<String, Object> res = (HashMap<String, Object>) Mapper.converter.readValue(response.toString(),
+                        java.util.Map.class);
+
+                if ((int) (res.get("status")) == 200) {
+                    SQLManager
+                            .executeUpdate(
+                                    "UPDATE `carddcoin` SET `status`='" + CardDCoin.CARD_STATUS_IN_PROGRESS
+                                            + "' WHERE requestId LIKE '" + requestId + "';");
+
+                    Thread.sleep(500);
+                    this.nj.getPlace().chatNPC(this, (short) 24,
+                            "Thẻ của đang được xử lý. Sau 1- 2 phút vui lòng chọn mục nhận lượng nạp card/atm/bank để nhận lượng. (Có thể xem trạng thái thẻ nạp trong lịch sử nạp thẻ)") ;
+                    return;
+                }
+            }
+            SQLManager.executeUpdate(
+                    "UPDATE `carddcoin` SET `status`='" + CardDCoin.CARD_STATUS_FAILURE + "' WHERE requestId LIKE '"
+                            + requestId + "';");
+            Thread.sleep(500);
+            this.nj.getPlace().chatNPC(this, (short) 24,
+                    "Bạn đã nạp thẻ thất bại. Vui lòng kiểm tra lại thông tin mã thẻ và số seri.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    public synchronized void loadCardDCoins(int[] statuses) throws IOException {
+        try {
+            if (statuses.length <= 0) {
+                return;
+            }
+
+            this.cardDCoins = null;
+
+            String ss = statuses[0] + "";
+            for (int i = 1; i < statuses.length; i++) {
+                ss += "', '" + statuses[i];
+            }
+
+            Service.showWait("Đang dò thông tin thẻ nạp", this);
+
+            SQLManager.executeQuery(
+                    "SELECT `*` FROM `carddcoin` WHERE (`username`LIKE'" + this.username + "' and `status` in ('"
+                            + ss + "'));",
+                    (res) -> {
+                        if (res.last()) {
+                            cardDCoins = new CardDCoin[res.getRow()];
+                            res.beforeFirst();
+                        }
+                        int i = 0;
+                        while (res.next()) {
+                            final CardDCoin cardDCoin = new CardDCoin();
+                            cardDCoin.id = res.getInt("id");
+                            cardDCoin.username = res.getString("username");
+                            cardDCoin.cardType = res.getString("cardType");
+                            cardDCoin.cardValue = res.getInt("cardValue");
+                            cardDCoin.cardCode = res.getString("cardCode");
+                            cardDCoin.cardSeri = res.getString("cardSeri");
+                            cardDCoin.status = res.getInt("status");
+                            cardDCoin.releaseDate = util.getDate(res.getString("releaseDate"));
+
+                            cardDCoins[i] = cardDCoin;
+                            i++;
+                        }
+                        res.close();
+                    });
+            Thread.sleep(500);
+            Service.endWait(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getCardDCoinHistory() throws IOException {
+        try {
+            this.loadCardDCoins(CardDCoin.getAllCardStatues());
+
+            if (cardDCoins != null && cardDCoins.length > 0) {
+                String str = "";
+                int idx = 1;
+                for (final CardDCoin card : cardDCoins) {
+                    str += idx + ". " + card.cardType + " - " + util.getFormatNumber(card.cardValue)
+                            + " VND. TG: " + util.toDateString(card.releaseDate)
+                            + " Status: "
+                            + card.getStatusString()
+                            + ".\n";
+                    idx += 1;
+                }
+
+                return str;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "Chưa có thông tin";
+    }
+
     public void cardDCoin() throws IOException {
         try {
-            SQLManager.executeQuery("SELECT `*` FROM `carddcoin` WHERE (`cardCode`LIKE'" + cardCode + "');",
-                    (checkCard) -> {
+            this.loadCardDCoins(new int[] { CardDCoin.CARD_STATUS_SUCCESS });
 
-                        if (checkCard == null || !checkCard.first()) {
-                            Thread.sleep(500);
-                            this.session.sendMessageLog(
-                                    "He thong khong ho tro the nay. Xin hay nhap CHINH XAC so seri va ma so the");
-                            return;
-                        } else {
-                            int idCard = checkCard.getInt("id");
-                            int cardValue = checkCard.getInt("cardValue");
-                            int status = checkCard.getInt("status");
+            if (cardDCoins != null && cardDCoins.length > 0) {
+                int value = 0;
 
-                            if (status == 1) {
-                                Thread.sleep(500);
-                                this.session.sendMessageLog(
-                                        "He thong khong ho tro the nay. Xin hay nhap CHINH XAC so seri va ma so the");
-                                return;
-                            }
+                for (int i = 0; i < cardDCoins.length; i++) {
+                    CardDCoin card = cardDCoins[i];
+                    if (card.status == CardDCoin.CARD_STATUS_SUCCESS) {
+                        value += card.cardValue;
 
-                            switch (cardValue) {
-                                case 50000:
-                                    Thread.sleep(500);
-                                    upluongMessage(161);
-                                    ticketGold += 5;
-                                    status = 1;
-                                    this.session.sendMessageLog(
-                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
-                                                    + " VND. Bạn nap duoc 161 luong vao tai khoan " + username);
-                                    break;
-                                case 100000:
-                                    Thread.sleep(500);
-                                    upluongMessage(345);
-                                    ticketGold += 10;
-                                    status = 1;
-                                    this.session.sendMessageLog(
-                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
-                                                    + " VND. Bạn nap duoc 345 luong vao tai khoan " + username);
-                                    break;
-                                case 200000:
-                                    Thread.sleep(500);
-                                    upluongMessage(805);
-                                    ticketGold += 20;
-                                    status = 1;
-                                    this.session.sendMessageLog(
-                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
-                                                    + " VND. Bạn nap duoc 805 luong vao tai khoan " + username);
-                                    break;
-                                case 500000:
-                                    Thread.sleep(500);
-                                    upluongMessage(2530);
-                                    ticketGold += 50;
-                                    status = 1;
-                                    this.session.sendMessageLog(
-                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
-                                                    + " VND. Bạn nap duoc 2530 luong vao tai khoan " + username);
-                                    break;
-                                case 1000000:
-                                    Thread.sleep(500);
-                                    upluongMessage(5750);
-                                    ticketGold += 100;
-                                    status = 1;
-                                    this.session.sendMessageLog(
-                                            "~0Success_DCOIN: Chuc mung. ban da nap thanh cong DCOIN " + cardValue
-                                                    + " VND. Bạn nap duoc 5750 luong vao tai khoan " + username);
-                                    break;
-                                default:
-                                    Thread.sleep(500);
-                                    this.session.sendMessageLog(
-                                            "~0Error_LOI: Menh gia the sai. Xin vui long LIEN HE dai ly ban the de duoc HO TRO");
-                                    break;
-                            }
+                        upluongMessage(card.cardValue * 2);
+                        ticketGold += card.cardValue * 2 / 1000;
 
-                            SQLManager.executeUpdate("UPDATE `carddcoin` SET `status`='" + status + "' WHERE `id`="
-                                    + idCard + " LIMIT 1;");
-                        }
+                        SQLManager.executeUpdate(
+                                "UPDATE `carddcoin` SET `status`='" + CardDCoin.CARD_STATUS_DONE + "' WHERE `id`="
+                                        + card.id + " LIMIT 1;");
+                        Thread.sleep(500);
+                    }
+                }
 
-                    });
+                String notiMsg = "";
+                if (value > 0) {
+                    notiMsg += "Chuc mung. ban da nap thanh cong DCOIN "
+                            + util.getFormatNumber(cardValue)
+                            + " VND. Bạn nap duoc " + util.getFormatNumber(cardValue * 2)
+                            + " luong vao tai khoan "
+                            + username + ".";
+                }
+
+                this.nj.getPlace().chatNPC(this, (short) 24, notiMsg);
+                return;
+            } else {
+                this.nj.getPlace().chatNPC(this, (short) 24,
+                        "Hệ thống chưa ghi nhận thông tin thẻ nạp của bạn. Vui lòng liên hệ admin nếu có lỗi sảy ra.");
+                return;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

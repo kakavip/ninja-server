@@ -119,6 +119,22 @@ public class Draw {
                 }
             }
 
+            case 24_7_0: {
+                p.cardCode = str;
+                if (str.length() > 0 && util.CheckString(str, "^\\d+")) {
+                    Draw.server.menu.sendWrite(p, (short) 24_7_1, "Nhập Seri");
+                }
+                break;
+            }
+
+            case 24_7_1: {
+                p.cardSeri = str;
+                if (str.length() > 0 && util.CheckString(str, "^\\d+")) {
+                    p.submitCardDcoin();
+                }
+                break;
+            }
+
             case 24_8: {
                 p.nameUS = str;
                 Ninja user_gift_gold = PlayerManager.getInstance().getNinja(p.nameUS);
