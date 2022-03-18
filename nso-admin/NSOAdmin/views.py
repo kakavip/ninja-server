@@ -1,3 +1,5 @@
+import json
+from sre_constants import FAILURE, SUCCESS
 from typing import Optional
 import re
 from django.http.response import JsonResponse
@@ -8,13 +10,16 @@ from rest_framework import status
 from django.http import FileResponse
 from django.db import transaction
 from ratelimit.decorators import ratelimit
+from NSOAdmin.enums.card_status_enum import CardStatusEnum
 from common import response, secure
 from django.http import HttpResponse
 from django.core.cache import caches
+import logging
 
-from NSOAdmin.models import Player
+from NSOAdmin.models import CardDCoin, Player
 from common.base_exception import BaseApiException
 
+logger = logging.getLogger(__name__)
 
 cache = caches["default"]
 
@@ -121,3 +126,42 @@ def jar_x3_file(request):
 
 def jar_hsl_x3_file(request):
     return FileResponse(open("packages/nso-ms.auto_hsl.nodomain.jar", "rb"))
+
+
+def jar_new_file(request):
+    return FileResponse(open("packages/nso-ms.v188.nodomain.jar", "rb"))
+
+
+def apk_new_file(request):
+    return FileResponse(open("packages/NSO_WORLD_v1.8.8.NODOMAIN.apk", "rb"))
+
+
+@api_view(["GET"])
+@transaction.atomic
+def topup_card_webhook(request, *args, **kwargs):
+    if request.method == "GET":
+        logger.info("Data webhook: " + json.dumps(request.GET))
+
+        try:
+            value_send = request.GET.get("value_send")
+            request_id = request.GET.get("request_id")
+            value_real = request.GET.get("value_real")
+            guest_receive = request.GET.get("guest_receive")
+            _status = int(request.GET.get("status"))
+
+            card: CardDCoin = CardDCoin.objects.get(
+                request_id=request_id, status=int(CardStatusEnum.IN_PROGRESS)
+            )
+            if _status == 200:
+                card.status = int(CardStatusEnum.SUCCESS)
+            elif _status == 201:
+                card.status = int(CardStatusEnum.WRONG_VALUE)
+            else:
+                card.status = int(CardStatusEnum.FAILURE)
+
+            card.save()
+        except Exception as ex:
+            logger.info("ERROR: " + str(ex))
+            return response.fail("Failure: " + str(ex))
+
+        return response.success({"status": "Success"})

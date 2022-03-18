@@ -22,6 +22,11 @@ RUN mvn package && cp target/NinjaServer.jar NinjaServer.jar
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 
+RUN apk update && \
+    apk add --no-cache tzdata
+
+ENV TZ="Asia/Ho_Chi_Minh"
+
 RUN mkdir cache
 
 # copy config files

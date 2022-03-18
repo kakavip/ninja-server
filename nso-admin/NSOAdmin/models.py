@@ -3,6 +3,8 @@ from django.db.models.fields import IntegerField
 from jsonfield import JSONField
 from django.db.models import Sum
 import json
+from NSOAdmin.enums.card_status_enum import CardStatusEnum
+from NSOAdmin.enums.card_type_enum import CardTypeEnum
 
 from NSOAdmin.enums.item_type_enum import ItemTypeEnum
 from NSOAdmin.enums.ninja_class_enum import NinjaClassEnum
@@ -541,3 +543,60 @@ class ClanShop(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+class CardDCoin(models.Model):
+    id = models.AutoField(primary_key=True)
+    username = models.CharField(help_text="Username", max_length=100)
+    card_type = models.CharField(
+        help_text="Card Type",
+        blank=True,
+        null=True,
+        db_column="cardType",
+        choices=CardTypeEnum.to_choices(),
+        max_length=50,
+    )
+    card_seri = models.CharField(
+        help_text="Card Seri",
+        max_length=100,
+        null=True,
+        blank=True,
+        db_column="cardSeri",
+        default="",
+    )
+    card_code = models.CharField(
+        help_text="Card Code",
+        max_length=100,
+        null=True,
+        blank=True,
+        db_column="cardCode",
+        default="",
+    )
+    card_value = models.IntegerField(
+        help_text="Card Value",
+        db_column="cardValue",
+        default=0,
+        null=False,
+        blank=False,
+    )
+    request_id = models.CharField(
+        help_text="Request Id",
+        null=True,
+        blank=True,
+        db_column="requestId",
+        default="",
+        max_length=100,
+    )
+    status = models.IntegerField(
+        help_text="Status", choices=CardStatusEnum.to_choices(), null=False, blank=False
+    )
+    release_date = models.DateTimeField(db_column="releaseDate", auto_now_add=True)
+
+    class Meta:
+        db_table = "carddcoin"
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+    def save(self, *args, **kwargs) -> None:
+        return super().save(*args, **kwargs)

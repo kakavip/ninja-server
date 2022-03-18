@@ -1,8 +1,11 @@
 from django.contrib import admin
 from django.db import models
 
+from django.utils.html import format_html
+
 from NSOAdmin.actions import lock_some_accounts_action, unlock_som_accounts_action
 from .models import (
+    CardDCoin,
     Clan,
     ClanItem,
     ClanShop,
@@ -233,7 +236,7 @@ class ItemAdmin(admin.ModelAdmin):
         "nclass",
         "gender",
         "level",
-        "icon_id",
+        "icon_show",
         "part",
         "uptoup",
         "is_expires",
@@ -267,6 +270,14 @@ class ItemAdmin(admin.ModelAdmin):
         "option_2",
         "option_3",
     ]
+
+    def icon_show(self, obj: Item) -> str:
+        return format_html(
+            '<img src="{}" height="{}"/>', f"/res/icon/4/{obj.icon_id}.png", 50
+        )
+
+    icon_show.allow_tags = True  # type: ignore
+    icon_show.short_description = "Icon"  # type: ignore
 
 
 @admin.register(ItemSell)
@@ -503,3 +514,23 @@ class ClanShopAdmin(admin.ModelAdmin):
     list_display_links = ["id"]
     empty_display_value = "--empty--"
     fields = ["add", "luong", "conghien", "mota", "icon", "an"]
+
+
+@admin.register(CardDCoin)
+class CardDCoinAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "username",
+        "card_type",
+        "card_seri",
+        "card_code",
+        "card_value",
+        "request_id",
+        "status",
+        "release_date",
+    ]
+    list_display_links = ["id"]
+    list_filter = ["card_type", "status"]
+    search_fields = ["username", "card_code", "card_seri", "request_id"]
+    empty_display_value = "--empty--"
+    fields = ["username", "card_type", "card_value", "status"]
