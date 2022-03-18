@@ -8,6 +8,9 @@ import battle.ClanBattleData;
 import battle.GBattle;
 import cache.ItemCache;
 import cache.ItemOptionCache;
+import cache.MapCache;
+import cache.MobCache;
+import cache.NpcCache;
 import clan.ClanThanThu;
 import real.*;
 
@@ -38,12 +41,16 @@ public class Manager {
 
     public static ItemCache[] itemCaches;
     public static ItemOptionCache[] itemOptionCaches;
+    public static MapCache[] mapCaches;
+    public static NpcCache[] npcCaches;
+    public static MobCache[] mobCaches;
 
     public static int TIME_MAINTAIN = 5;
     public static int BOSS_WAIT_TIME_UNIT;
     public static int MIN_YEN_BOSS;
     public static int MAX_YEN_BOSS;
     public static int TIME_DISCONNECT = 10;
+    public static int TIME_NO_LOGIN_DISCONNECT;
     public static int MAX_LEVEL;
     public static int MAX_LUGGAGE;
     public static int MAX_ITEM_QUANTITY;
@@ -126,6 +133,10 @@ public class Manager {
     public static int[] MIN_MAX_YEN_RUONG_MAY_MAN = new int[2];
     public static int[] MIN_MAX_YEN_RUONG_TINH_SAO = new int[2];
     public static int[] MIN_MAX_YEN_RUONG_MA_QUAI = new int[2];
+
+    public static String TOPUP_CARD_API;
+    public static String TOPUP_CARD_API_KEY;
+    public static String NSO_MS_API;
 
     public Manager() {
         entrys = new HashMap<>();
@@ -237,6 +248,7 @@ public class Manager {
             TIME_DESTROY_MAP = Integer.parseInt(properties.getProperty("time-Destroy-Map"));
             MAX_CLIENT = Short.parseShort(properties.getProperty("max-Client"));
             TIME_DISCONNECT = Short.parseShort(properties.getProperty("time-disconnect"));
+            TIME_NO_LOGIN_DISCONNECT = Short.parseShort(properties.getProperty("time-no-login-disconnect"));
 
             Resource.TIME_REMOVE_RESOURCE = Long.parseLong(properties.getProperty("time-remove-resource")) * 60000;
             User.DIFFER_USE_ITEM_TIME = Short.parseShort(properties.getProperty("differ-use-item-time"));
@@ -393,6 +405,9 @@ public class Manager {
             this.vsItem = 70;
         }
 
+        TOPUP_CARD_API = System.getenv("TOPUP_CARD_API");
+        TOPUP_CARD_API_KEY = System.getenv("TOPUP_CARD_API_KEY");
+        NSO_MS_API = System.getenv("NSO_MS_API");
         MAX_CLIENT_PER_SOCKET = Short.parseShort(configMap.get("max-Client-Per-Socket"));
         MAX_SOCKET_PER_CLIENT = Short.parseShort(configMap.get("max-Socket-Per-Client"));
         SQLManager.create(mysql_host, mysql_port, mysql_database, mysql_user, mysql_pass);
@@ -452,7 +467,89 @@ public class Manager {
             System.exit(0);
         }
 
+        System.out.println("Load Map mapCache..");
+        try {
+            SQLManager.executeQuery("SELECT * FROM `map`;", (res) -> {
+                if (res.last()) {
+                    mapCaches = new MapCache[res.getRow()];
+                    res.beforeFirst();
+                }
+                int i = 0;
+                while (res.next()) {
+                    final MapCache mapCache = new MapCache();
+                    mapCache.mapName = res.getString("name");
+                    mapCaches[i] = mapCache;
+                    ++i;
+                }
+                res.close();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+        System.out.println("Load Map npcCache..");
+        try {
+            SQLManager.executeQuery("SELECT * FROM `npc`;", (res) -> {
+                if (res.last()) {
+                    npcCaches = new NpcCache[res.getRow()];
+                    res.beforeFirst();
+                }
+                int i = 0;
+                while (res.next()) {
+                    final NpcCache npcCache = new NpcCache();
+                    npcCache.name = res.getString("name");
+                    npcCache.headId = res.getShort("head");
+                    npcCache.bodyId = res.getShort("body");
+                    npcCache.legId = res.getShort("leg");
+                    final JSONArray jarr = (JSONArray) JSONValue.parse(res.getString("menu"));
+                    npcCache.menu = new String[jarr.size()][];
+                    for (int j = 0; j < npcCache.menu.length; j++) {
+                        final JSONArray jarr2 = (JSONArray) jarr.get(j);
+                        npcCache.menu[j] = new String[jarr2.size()];
+                        for (int k2 = 0; k2 < npcCache.menu[j].length; k2++) {
+                            npcCache.menu[j][k2] = jarr2.get(k2).toString();
+                        }
+                    }
+
+                    npcCaches[i] = npcCache;
+                    ++i;
+                }
+                res.close();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+        System.out.println("Load Map mobCache..");
+        try {
+            SQLManager.executeQuery("SELECT * FROM `mob`;", (res) -> {
+                if (res.last()) {
+                    mobCaches = new MobCache[res.getRow()];
+                    res.beforeFirst();
+                }
+                int i = 0;
+                while (res.next()) {
+                    final MobCache mobCache = new MobCache();
+                    mobCache.type = res.getByte("type");
+                    mobCache.name = res.getString("name");
+                    mobCache.hp = res.getInt("hp");
+                    mobCache.rangeMove = res.getByte("rangeMove");
+                    mobCache.speed = res.getByte("speed");
+
+                    mobCaches[i] = mobCache;
+                    ++i;
+                }
+                res.close();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
         Service.createCacheItem();
+        // Service.createCacheMap();
     }
 
     public void loadDataBase() {
@@ -1024,6 +1121,9 @@ public class Manager {
     }
 
     public void sendMap(final User p) throws IOException {
+        // if (cache[1] == null) {
+        // cache[1] = GameScr.loadFile("cache/map");
+        // }
         final Message m = new Message(-28);
         m.writer().writeByte(-121);
         m.writer().write(cache[1].toByteArray());

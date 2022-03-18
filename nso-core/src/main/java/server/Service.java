@@ -735,6 +735,46 @@ public class Service {
         }
     }
 
+    public static void createCacheMap() {
+        try {
+            ByteArrayOutputStream bas = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(bas);
+            dos.writeByte(Manager.vsMap);
+            dos.writeByte(Manager.mapCaches.length);
+            for (short i = 0; i < Manager.mapCaches.length; ++i) {
+                dos.writeUTF(Manager.mapCaches[i].mapName);
+            }
+            dos.writeByte(Manager.npcCaches.length);
+            for (byte j = 0; j < Manager.npcCaches.length; ++j) {
+                dos.writeUTF(Manager.npcCaches[j].name);
+                dos.writeShort(Manager.npcCaches[j].headId);
+                dos.writeShort(Manager.npcCaches[j].bodyId);
+                dos.writeShort(Manager.npcCaches[j].legId);
+                dos.writeByte(Manager.npcCaches[j].menu.length);
+                for (short k = 0; k < Manager.npcCaches[j].menu.length; ++k) {
+                    dos.writeByte(Manager.npcCaches[j].menu[k].length);
+                    for (short m = 0; m < Manager.npcCaches[j].menu[k].length; ++m) {
+                        dos.writeUTF(Manager.npcCaches[j].menu[k][m]);
+                    }
+                }
+            }
+            dos.writeByte(Manager.mobCaches.length);
+            for (short l = 0; l < Manager.mobCaches.length; ++l) {
+                dos.writeByte(Manager.mobCaches[l].type);
+                dos.writeUTF(Manager.mobCaches[l].name);
+                dos.writeInt(Manager.mobCaches[l].hp);
+                dos.writeByte(Manager.mobCaches[l].rangeMove);
+                dos.writeByte(Manager.mobCaches[l].speed);
+            }
+            byte[] ab = bas.toByteArray();
+            GameScr.saveFile("cache/map", ab);
+            dos.close();
+            bas.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void openMenuBox(User p) {
         Message m = null;
         try {
