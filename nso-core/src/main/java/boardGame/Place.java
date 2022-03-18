@@ -1852,6 +1852,20 @@ public class Place {
                 }
             }
         }
+        if (p.nj.get().getPramItem(130) > 0 && util.nextInt(1, 18) == 18) {
+            GameCanvas.addEffect(p.session, (byte) 1, mob.id, (byte) 64, 10, 1);
+            int dame = mob.hp / 100 * 10;
+            this.attackMob(dame, mob.id, false);
+        }
+
+        // skill phượng hoàng
+        if (p.nj.get().getPramItem(131) > 0 && util.nextInt(1, 20) == 20) {
+            for (int f = 0; f < _mobs.size(); f++) {
+                GameCanvas.addEffect(p.session, (byte) 1, _mobs.get(f).id, (byte) 65, 10, 1);
+                int dame = mob.hp / 100 * 30;
+                this.attackMob(dame, _mobs.get(f).id, false);
+            }
+        }
         if (mob == null || mob.isDie) {
             return;
         }
