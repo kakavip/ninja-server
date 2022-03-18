@@ -30,6 +30,15 @@ CREATE TABLE `carddcoin` (
   `releaseDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(11) NOT NULL DEFAULT '0'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+alter table `carddcoin`
+add column `username` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
+add column `cardType` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
+add column `cardSeri` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
+add column `requestId` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '';
+
+alter table `carddcoin`
+modify column `cardCode` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '';
 --
 -- Dumping data for table `carddcoin`
 --
@@ -25206,6 +25215,11 @@ CREATE TABLE `npc` (
   `talkid` smallint(6) NOT NULL DEFAULT '-1',
   `talk` varchar(5000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 ROW_FORMAT = DYNAMIC;
+
+alter table `npc`
+add column `menu` varchar(5000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[]';
+
+
 --
 -- Dumping data for table `npc`
 --
