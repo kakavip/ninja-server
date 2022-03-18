@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import real.User;
 import server.Ip;
 import server.util;
+import threading.Manager;
 import threading.Message;
 import threading.Server;
 
@@ -55,8 +56,10 @@ public class Session extends Thread {
     private final String clientIpAddress;
 
     public volatile long lastTimeReceiveData;
+    public volatile long createdAt;
 
     public Session(final @NotNull Socket socket, final @NotNull ISessionHandler handler) {
+        this.login = false;
         this.connected = false;
         this.getKeyComplete = false;
         this.sendDatas = new LinkedBlockingQueue<>();
@@ -73,6 +76,7 @@ public class Session extends Thread {
             ioEx.printStackTrace();
         }
         lastTimeReceiveData = System.currentTimeMillis();
+        createdAt = System.currentTimeMillis();
     }
 
     public static boolean check(String ip) {
@@ -320,6 +324,10 @@ public class Session extends Thread {
             this.login = true;
             Server.getInstance().manager.getPackMessage(p);
         }
+    }
+
+    public boolean isExpired() {
+        return !this.login && (System.currentTimeMillis() - this.createdAt > Manager.TIME_NO_LOGIN_DISCONNECT * 1000);
     }
 
     public void disconnect() {

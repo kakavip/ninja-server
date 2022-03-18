@@ -65,7 +65,7 @@ public class PlayerManager {
         if (this.conns_size(clientIpAddress) > 1) {
             int counter = 0;
             for (Session conn : this.conns_ip.get(clientIpAddress)) {
-                if (conn != null && conn.user == null) {
+                if (conn != null && conn.isExpired()) {
                     counter += 1;
 
                     if (counter >= Manager.MAX_SOCKET_PER_CLIENT) {
