@@ -146,8 +146,7 @@ public class useItem {
                     p.session.sendMessageLog("Bạn cần phải tháo trang bị thú cưới đang sử dụng");
                     return;
                 }
-                if (!item.isLock()) {
-
+                if (!item.isLock() && item.option.size() <= 2) {
                     for (byte i = 0; i < 4; ++i) {
                         int attemp = 400;
                         int optionId = -1;
@@ -184,27 +183,18 @@ public class useItem {
                 }
 
                 if (p.nj.clone != null && p.nj.isNhanban) {
-                    if (item.id == 801) {
-
-                        p.nj.clone.ID_HORSE = 47;
-                    }
-                    if (item.id == 802) {
-                        p.nj.clone.ID_HORSE = 48;
-                    }
-                    if (item.id == 803) {
-                        p.nj.clone.ID_HORSE = 49;
-                    }
-                    if (item.id == 798) {
-                        p.nj.clone.ID_HORSE = 36;
-                    }
-                    if (item.id == 828) {
-                        p.nj.clone.ID_HORSE = 63;
-                    }
-                    if (item.id == 842) {
-                        p.nj.clone.ID_HORSE = 72;
+                    if (ItemData.isIdNewMounts(item.id)) {
+                        p.nj.clone.ID_HORSE = ItemData.idNewItemMounts[1][ItemData.checkIdNewMounts(item.id)];
                     }
 
                     Service.CharViewInfo(p, false);
+                }
+
+                if (p.nj.isHuman) {
+                    if (!ItemData.isIdNewMounts(item.id)) {
+                        p.nj.get().ID_HORSE = -1;
+                        p.sendInfoMeNewItem();
+                    }
                 }
             } else if (p.nj.get().ItemMounts[4] == null) {
                 p.session.sendMessageLog("Bạn cần có thú cưới để sử dụng");
