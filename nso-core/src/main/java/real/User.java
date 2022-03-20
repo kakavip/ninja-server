@@ -2843,7 +2843,7 @@ public class User extends Actor implements SendMessage {
 
                     Thread.sleep(500);
                     this.nj.getPlace().chatNPC(this, (short) 24,
-                            "Thẻ của đang được xử lý. Sau 1- 2 phút vui lòng chọn mục nhận lượng nạp card/atm/bank để nhận lượng. (Có thể xem trạng thái thẻ nạp trong lịch sử nạp thẻ)") ;
+                            "Thẻ của đang được xử lý. Sau 1- 2 phút vui lòng chọn mục nhận lượng nạp card/atm/bank để nhận lượng. (Có thể xem trạng thái thẻ nạp trong lịch sử nạp thẻ)");
                     return;
                 }
             }
