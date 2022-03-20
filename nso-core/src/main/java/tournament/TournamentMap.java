@@ -5,6 +5,7 @@ import real.MapTemplate;
 import threading.Map;
 import threading.Server;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import static interfaces.IBattle.*;
@@ -27,12 +28,18 @@ public class TournamentMap extends Map {
                     id == HAC_DAI_ID ||
                     id == HANH_LANG_TREN ||
                     id == HANH_LANG_DUOI ||
-                    id == HANH_LANG_GIUA
-            ) {
+                    id == HANH_LANG_GIUA) {
                 this.area[i].battle = Server.getInstance().globalBattle;
             }
         }
         setName(template.name);
+
+        try {
+            this.loadMapFromResource();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.loadMap(this.template.id);
 
         this.initMob();
         this.runing = true;

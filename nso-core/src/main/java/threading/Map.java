@@ -7,8 +7,12 @@ import org.jetbrains.annotations.Nullable;
 import battlewithmaster.BattleWithMasterPlace;
 import clan.ClanTerritory;
 import real.*;
+import server.GameScr;
 import server.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -85,6 +89,13 @@ public class Map extends Thread {
                 break;
             }
         }
+
+        try {
+            this.loadMapFromResource();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.loadMap(this.template.id);
 
         this.initMob();
         this.runing = true;
@@ -271,27 +282,27 @@ public class Map extends Thread {
     }
 
     public int getMobLdgtId() {
-        val id = template.id;
+        int _id = template.id;
 
-        if (id == 81) {
+        if (_id == 81) {
             return 80;
-        } else if (id == 82) {
+        } else if (_id == 82) {
             return 77;
-        } else if (id == 83) {
+        } else if (_id == 83) {
             return 76;
-        } else if (id == 84) {
+        } else if (_id == 84) {
             return 72;
-        } else if (id == 85) {
+        } else if (_id == 85) {
             return 74;
-        } else if (id == 86) {
+        } else if (_id == 86) {
             return 79;
-        } else if (id == 87) {
+        } else if (_id == 87) {
             return 73;
-        } else if (id == 88) {
+        } else if (_id == 88) {
             return 78;
-        } else if (id == 89) {
+        } else if (_id == 89) {
             return 75;
-        } else if (id == 90) {
+        } else if (_id == 90) {
             return 116;
         }
         return -1;
@@ -454,5 +465,317 @@ public class Map extends Thread {
         }
 
         return true;
+    }
+
+    public int ushort(short s) {
+        return s & 0xFFFF;
+    }
+
+    public void loadMapFromResource() throws IOException {
+        // if (this.id == 0 || this.id == 56 || (this.id > 72 && this.id < 125) ||
+        // (this.id > 125 && this.id < 133) ||
+        // (this.id > 133 && this.id < 139) || this.id > 148) {
+        // return;
+        // }
+        ByteArrayInputStream bai = null;
+        DataInputStream dis = null;
+        try {
+            byte[] ab = GameScr.loadFile("res/map/" + this.id).toByteArray();
+            bai = new ByteArrayInputStream(ab);
+            dis = new DataInputStream(bai);
+            this.template.tmw = this.ushort((short) dis.read());
+            this.template.tmh = this.ushort((short) dis.read());
+            this.template.maps = new char[dis.available()];
+            int i;
+            for (i = 0; i < this.template.tmw * this.template.tmh; i++)
+                this.template.maps[i] = (char) dis.readByte();
+            this.template.types = new int[this.template.maps.length];
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dis != null) {
+                dis.close();
+            }
+            if (bai != null) {
+                bai.close();
+            }
+        }
+    }
+
+    public void loadMap(int tileId) {
+        // this.template.types = new int[this.template.tmw * this.template.tmh];
+        this.template.pxh = (short) (this.template.tmh * 24);
+        this.template.pxw = (short) (this.template.tmw * 24);
+        try {
+            int i;
+            for (i = 0; i < this.template.tmh * this.template.tmw; ++i) {
+                if (tileId == 4) {
+                    if (this.template.maps[i] == 1 || this.template.maps[i] == 2 || this.template.maps[i] == 3
+                            || this.template.maps[i] == 4 || this.template.maps[i] == 5 || this.template.maps[i] == 6
+                            || this.template.maps[i] == 9 || this.template.maps[i] == 10 || this.template.maps[i] == 79
+                            || this.template.maps[i] == 80 || this.template.maps[i] == 13 || this.template.maps[i] == 14
+                            || this.template.maps[i] == 43 || this.template.maps[i] == 44 || this.template.maps[i] == 45
+                            || this.template.maps[i] == 50) {
+                        this.template.types[i] |= MapTemplate.T_TOP;
+                    }
+                    if (this.template.maps[i] == 9 || this.template.maps[i] == 11) {
+                        this.template.types[i] |= MapTemplate.T_LEFT;
+                    }
+                    if (this.template.maps[i] == 10 || this.template.maps[i] == 12) {
+                        this.template.types[i] |= MapTemplate.T_RIGHT;
+                    }
+                    if (this.template.maps[i] == 13 || this.template.maps[i] == 14) {
+                        this.template.types[i] |= MapTemplate.T_BRIDGE;
+                    }
+                    if (this.template.maps[i] == 76 || this.template.maps[i] == 77) {
+                        this.template.types[i] |= MapTemplate.T_WATERFLOW;
+                        if (this.template.maps[i] == 78) {
+                            this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                        }
+                    }
+                } else if (tileId == 1) {
+                    if (this.template.maps[i] == 1 || this.template.maps[i] == 2 || this.template.maps[i] == 3
+                            || this.template.maps[i] == 4 || this.template.maps[i] == 5 || this.template.maps[i] == 6
+                            || this.template.maps[i] == 7 || this.template.maps[i] == 36 || this.template.maps[i] == 37
+                            || this.template.maps[i] == 54 || this.template.maps[i] == 91 || this.template.maps[i] == 92
+                            || this.template.maps[i] == 93 || this.template.maps[i] == 94 || this.template.maps[i] == 73
+                            || this.template.maps[i] == 74 || this.template.maps[i] == 97 || this.template.maps[i] == 98
+                            || this.template.maps[i] == 116 || this.template.maps[i] == 117
+                            || this.template.maps[i] == 118 || this.template.maps[i] == 120
+                            || this.template.maps[i] == 61) {
+                        this.template.types[i] |= MapTemplate.T_TOP;
+                    }
+                    if (this.template.maps[i] == 2 || this.template.maps[i] == 3 || this.template.maps[i] == 4
+                            || this.template.maps[i] == 5 || this.template.maps[i] == 6 || this.template.maps[i] == 20
+                            || this.template.maps[i] == 21 || this.template.maps[i] == 22 || this.template.maps[i] == 23
+                            || this.template.maps[i] == 36 || this.template.maps[i] == 37 || this.template.maps[i] == 38
+                            || this.template.maps[i] == 39 || this.template.maps[i] == 61) {
+                        this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                    }
+                    if (this.template.maps[i] == 8 || this.template.maps[i] == 9 || this.template.maps[i] == 10
+                            || this.template.maps[i] == 12 || this.template.maps[i] == 13 || this.template.maps[i] == 14
+                            || this.template.maps[i] == 30) {
+                        this.template.types[i] |= MapTemplate.T_TREE;
+                    }
+                    if (this.template.maps[i] == 17) {
+                        this.template.types[i] |= MapTemplate.T_WATERFALL;
+                    }
+                    if (this.template.maps[i] == 18) {
+                        this.template.types[i] |= MapTemplate.T_TOPFALL;
+                    }
+                    if (this.template.maps[i] == 37 || this.template.maps[i] == 38 || this.template.maps[i] == 61) {
+                        this.template.types[i] |= MapTemplate.T_LEFT;
+                    }
+                    if (this.template.maps[i] == 36 || this.template.maps[i] == 39 || this.template.maps[i] == 61) {
+                        this.template.types[i] |= MapTemplate.T_RIGHT;
+                    }
+                    if (this.template.maps[i] == 19) {
+                        this.template.types[i] |= MapTemplate.T_WATERFLOW;
+                        if ((this.template.types[i - this.template.tmw]
+                                & MapTemplate.T_SOLIDGROUND) == MapTemplate.T_SOLIDGROUND) {
+                            this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                        }
+                    }
+                    if (this.template.maps[i] == 35) {
+                        this.template.types[i] |= MapTemplate.T_UNDERWATER;
+                    }
+                    if (this.template.maps[i] == 7) {
+                        this.template.types[i] |= MapTemplate.T_BRIDGE;
+                    }
+                    if (this.template.maps[i] == 32 || this.template.maps[i] == 33 || this.template.maps[i] == 34) {
+                        this.template.types[i] |= MapTemplate.T_OUTSIDE;
+                    }
+                } else if (tileId == 2) {
+                    if (this.template.maps[i] == 1 || this.template.maps[i] == 2 || this.template.maps[i] == 3
+                            || this.template.maps[i] == 4 || this.template.maps[i] == 5 || this.template.maps[i] == 6
+                            || this.template.maps[i] == 7 || this.template.maps[i] == 36 || this.template.maps[i] == 37
+                            || this.template.maps[i] == 54 || this.template.maps[i] == 61 || this.template.maps[i] == 73
+                            || this.template.maps[i] == 76 || this.template.maps[i] == 77 || this.template.maps[i] == 78
+                            || this.template.maps[i] == 79 || this.template.maps[i] == 82 || this.template.maps[i] == 83
+                            || this.template.maps[i] == 98 || this.template.maps[i] == 99
+                            || this.template.maps[i] == 100 || this.template.maps[i] == 102
+                            || this.template.maps[i] == 103 || this.template.maps[i] == 108
+                            || this.template.maps[i] == 109 || this.template.maps[i] == 110
+                            || this.template.maps[i] == 112 || this.template.maps[i] == 113
+                            || this.template.maps[i] == 116 || this.template.maps[i] == 117
+                            || this.template.maps[i] == 125 || this.template.maps[i] == 126
+                            || this.template.maps[i] == 127 || this.template.maps[i] == 129
+                            || this.template.maps[i] == 130) {
+                        this.template.types[i] |= MapTemplate.T_TOP;
+                    }
+                    if (this.template.maps[i] == 1 || this.template.maps[i] == 3 || this.template.maps[i] == 4
+                            || this.template.maps[i] == 5 || this.template.maps[i] == 6 || this.template.maps[i] == 20
+                            || this.template.maps[i] == 21 || this.template.maps[i] == 22 || this.template.maps[i] == 23
+                            || this.template.maps[i] == 36 || this.template.maps[i] == 37 || this.template.maps[i] == 38
+                            || this.template.maps[i] == 39 || this.template.maps[i] == 55
+                            || this.template.maps[i] == 109 || this.template.maps[i] == 111
+                            || this.template.maps[i] == 112 || this.template.maps[i] == 113
+                            || this.template.maps[i] == 114 || this.template.maps[i] == 115
+                            || this.template.maps[i] == 116 || this.template.maps[i] == 127
+                            || this.template.maps[i] == 129 || this.template.maps[i] == 130) {
+                        this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                    }
+                    if (this.template.maps[i] == 8 || this.template.maps[i] == 9 || this.template.maps[i] == 10
+                            || this.template.maps[i] == 12 || this.template.maps[i] == 13 || this.template.maps[i] == 14
+                            || this.template.maps[i] == 30 || this.template.maps[i] == 135) {
+                        this.template.types[i] |= MapTemplate.T_TREE;
+                    }
+                    if (this.template.maps[i] == 17) {
+                        this.template.types[i] |= MapTemplate.T_WATERFALL;
+                    }
+                    if (this.template.maps[i] == 18) {
+                        this.template.types[i] |= MapTemplate.T_TOPFALL;
+                    }
+                    if (this.template.maps[i] == 61 || this.template.maps[i] == 37 || this.template.maps[i] == 38
+                            || this.template.maps[i] == 127 || this.template.maps[i] == 130
+                            || this.template.maps[i] == 131) {
+                        this.template.types[i] |= MapTemplate.T_LEFT;
+                    }
+                    if (this.template.maps[i] == 61 || this.template.maps[i] == 36 || this.template.maps[i] == 39
+                            || this.template.maps[i] == 127 || this.template.maps[i] == 129
+                            || this.template.maps[i] == 132) {
+                        this.template.types[i] |= MapTemplate.T_RIGHT;
+                    }
+                    if (this.template.maps[i] == 19) {
+                        this.template.types[i] |= MapTemplate.T_WATERFLOW;
+                        if ((this.template.types[i - this.template.tmw]
+                                & MapTemplate.T_SOLIDGROUND) == MapTemplate.T_SOLIDGROUND) {
+                            this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                        }
+                    }
+                    if (this.template.maps[i] == 134) {
+                        this.template.types[i] |= MapTemplate.T_WATERFLOW;
+                        if ((this.template.types[i - this.template.tmw]
+                                & MapTemplate.T_SOLIDGROUND) == MapTemplate.T_SOLIDGROUND) {
+                            this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                        }
+                    }
+                    if (this.template.maps[i] == 35) {
+                        this.template.types[i] |= MapTemplate.T_UNDERWATER;
+                    }
+                    if (this.template.maps[i] == 7) {
+                        this.template.types[i] |= MapTemplate.T_BRIDGE;
+                    }
+                    if (this.template.maps[i] == 32 || this.template.maps[i] == 33 || this.template.maps[i] == 34) {
+                        this.template.types[i] |= MapTemplate.T_OUTSIDE;
+                    }
+                    if (this.template.maps[i] == 61 || this.template.maps[i] == 127) {
+                        this.template.types[i] |= MapTemplate.T_BOTTOM;
+                    }
+                } else if (tileId == 3) {
+                    if (this.template.maps[i] == 1 || this.template.maps[i] == 2 || this.template.maps[i] == 3
+                            || this.template.maps[i] == 4 || this.template.maps[i] == 5 || this.template.maps[i] == 6
+                            || this.template.maps[i] == 7 || this.template.maps[i] == 11 || this.template.maps[i] == 14
+                            || this.template.maps[i] == 17 || this.template.maps[i] == 43 || this.template.maps[i] == 51
+                            || this.template.maps[i] == 63 || this.template.maps[i] == 65 || this.template.maps[i] == 67
+                            || this.template.maps[i] == 68 || this.template.maps[i] == 71 || this.template.maps[i] == 72
+                            || this.template.maps[i] == 83 || this.template.maps[i] == 84 || this.template.maps[i] == 85
+                            || this.template.maps[i] == 87 || this.template.maps[i] == 91 || this.template.maps[i] == 94
+                            || this.template.maps[i] == 97 || this.template.maps[i] == 98
+                            || this.template.maps[i] == 106 || this.template.maps[i] == 107
+                            || this.template.maps[i] == 111 || this.template.maps[i] == 113
+                            || this.template.maps[i] == 117 || this.template.maps[i] == 118
+                            || this.template.maps[i] == 119 || this.template.maps[i] == 125
+                            || this.template.maps[i] == 126 || this.template.maps[i] == 129
+                            || this.template.maps[i] == 130 || this.template.maps[i] == 131
+                            || this.template.maps[i] == 133 || this.template.maps[i] == 136
+                            || this.template.maps[i] == 138 || this.template.maps[i] == 139
+                            || this.template.maps[i] == 142) {
+                        this.template.types[i] |= MapTemplate.T_TOP;
+                    }
+                    if (this.template.maps[i] == 124 || this.template.maps[i] == 116 || this.template.maps[i] == 123
+                            || this.template.maps[i] == 44 || this.template.maps[i] == 12 || this.template.maps[i] == 15
+                            || this.template.maps[i] == 15 || this.template.maps[i] == 45 || this.template.maps[i] == 10
+                            || this.template.maps[i] == 9) {
+                        this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                    }
+                    if (this.template.maps[i] == 23) {
+                        this.template.types[i] |= MapTemplate.T_WATERFALL;
+                    }
+                    if (this.template.maps[i] == 24) {
+                        this.template.types[i] |= MapTemplate.T_TOPFALL;
+                    }
+                    if (this.template.maps[i] == 6 || this.template.maps[i] == 15 || this.template.maps[i] == 51
+                            || this.template.maps[i] == 95 || this.template.maps[i] == 97
+                            || this.template.maps[i] == 106 || this.template.maps[i] == 111
+                            || this.template.maps[i] == 123 || this.template.maps[i] == 125
+                            || this.template.maps[i] == 138 || this.template.maps[i] == 140) {
+                        this.template.types[i] |= MapTemplate.T_LEFT;
+                    }
+                    if (this.template.maps[i] == 7 || this.template.maps[i] == 16 || this.template.maps[i] == 51
+                            || this.template.maps[i] == 96 || this.template.maps[i] == 98
+                            || this.template.maps[i] == 107 || this.template.maps[i] == 111
+                            || this.template.maps[i] == 124 || this.template.maps[i] == 126
+                            || this.template.maps[i] == 139 || this.template.maps[i] == 141) {
+                        this.template.types[i] |= MapTemplate.T_RIGHT;
+                    }
+                    if (this.template.maps[i] == 25) {
+                        this.template.types[i] |= MapTemplate.T_WATERFLOW;
+                        if ((this.template.types[i - this.template.tmw]
+                                & MapTemplate.T_SOLIDGROUND) == MapTemplate.T_SOLIDGROUND) {
+                            this.template.types[i] |= MapTemplate.T_SOLIDGROUND;
+                        }
+                    }
+                    if (this.template.maps[i] == 34) {
+                        this.template.types[i] |= MapTemplate.T_UNDERWATER;
+                    }
+                    if (this.template.maps[i] == 17) {
+                        this.template.types[i] |= MapTemplate.T_BRIDGE;
+                    }
+                    if (this.template.maps[i] == 33 || this.template.maps[i] == 103 || this.template.maps[i] == 104
+                            || this.template.maps[i] == 105 || this.template.maps[i] == 26
+                            || this.template.maps[i] == 33) {
+                        this.template.types[i] |= MapTemplate.T_OUTSIDE;
+                    }
+                    if (this.template.maps[i] == 51 || this.template.maps[i] == 111 || this.template.maps[i] == 68) {
+                        this.template.types[i] |= MapTemplate.T_BOTTOM;
+                    }
+                    if (this.template.maps[i] == 82 || this.template.maps[i] == 110 || this.template.maps[i] == 143) {
+                        this.template.types[i] |= MapTemplate.T_DIE;
+                    }
+                    if (this.template.maps[i] == 113) {
+                        this.template.types[i] |= MapTemplate.T_BANG;
+                    }
+                    if (this.template.maps[i] == 142) {
+                        this.template.types[i] |= 0x8000;
+                    }
+                    if (this.template.maps[i] == 40 || this.template.maps[i] == 41) {
+                        this.template.types[i] |= MapTemplate.T_JUM8;
+                    }
+                    if (this.template.maps[i] == 110) {
+                        this.template.types[i] |= MapTemplate.T_NT0;
+                    }
+                    if (this.template.maps[i] == 143) {
+                        this.template.types[i] |= MapTemplate.T_NT1;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public short touchY(short x, short y) {
+        short yOld = y;
+        while (y < this.template.pxh) {
+            if (tileTypeAt(x, y, 2))
+                return y;
+            y = (short) (y + 1);
+        }
+        if ((short) this.template.pxh != 0) {
+            return (short) this.template.pxh;
+        }
+        return (short) (yOld + 24);
+    }
+
+    public boolean tileTypeAt(int px, int py, int t) {
+        boolean result;
+        try {
+            result = ((this.template.types[py / 24 * this.template.tmw + px / 24] & t) == t);
+        } catch (Exception ex) {
+            result = false;
+            ex.printStackTrace();
+        }
+        return result;
     }
 }

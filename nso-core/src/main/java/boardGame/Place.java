@@ -1731,12 +1731,19 @@ public class Place {
         m.cleanup();
     }
 
-    @SneakyThrows
-    public ItemMap LeaveItem(final int id, int x, int y) {
+    public ItemMap LeaveItem(final int id, int x, int y) throws IOException {
         return LeaveItem(id, x, y, 1);
     }
 
+    public ItemMap LeaveBossItem(final int id, int x, int y) throws IOException {
+        return LeaveItem(id, x, y, 1, true);
+    }
+
     public ItemMap LeaveItem(final int id, int njX, int njY, int quantity) throws IOException {
+        return this.LeaveItem(id, njX, njY, quantity, false);
+    }
+
+    public ItemMap LeaveItem(final int id, int njX, int njY, int quantity, boolean isBoss) throws IOException {
 
         int rand = 0;
         if (id == 457) {
@@ -1774,8 +1781,18 @@ public class Place {
         final ItemMap im = new ItemMap();
         im.itemMapId = this.getItemMapNotId();
 
-        im.x = (short) util.nextInt(njX - 2, njX + 2);
-        im.y = (short) njY;
+        if (isBoss) {
+            im.x = (short) util.nextInt(njX - 120, njX + 120);
+        } else {
+            im.x = (short) util.nextInt(njX - 30, njX + 30);
+        }
+
+        if (data.type != 5 && data.type != 4) {
+            im.y = (short) njY;
+        } else {
+            im.y = this.map.touchY((short) njX, (short) njY);
+        }
+
         im.item = item;
         item.quantity = quantity;
         this._itemMap.add(im);
@@ -2219,7 +2236,7 @@ public class Place {
             val _ninja = p.nj;
             if ((util.nextInt(100) < 50 || curMob.templates.id == 69)
                     && TaskHandle.itemDrop(_ninja, curMob) != -1 && curMob.isDie) {
-                final ItemMap item = LeaveItem(TaskHandle.itemDrop(_ninja, curMob), _ninja.x, _ninja.y);
+                final ItemMap item = LeaveItem(TaskHandle.itemDrop(_ninja, curMob), curMob.x, curMob.y);
                 item.master = _ninja.id;
                 item.item.setLock(true);
             }
@@ -2330,17 +2347,17 @@ public class Place {
                     || curMob.templates.id == CandyBattle.GIO_KEO_TRANG_ID) {
                 if (curMob.templates.id == CandyBattle.GIO_KEO_DEN_ID && curMob.attackCount.get() >= 10) {
                     candyBattle.upPoint(PK_DEN, -5);
-                    LeaveItem(CandyBattle.KEO_NGOT_ID, p.nj.x + util.nextInt(0, 10), p.nj.y, 5);
+                    LeaveItem(CandyBattle.KEO_NGOT_ID, curMob.x, curMob.y, 5);
                     curMob.attackCount.set(0);
                     refreshMob(curMob.id, true);
                 } else if (curMob.templates.id == CandyBattle.GIO_KEO_TRANG_ID && curMob.attackCount.get() >= 10) {
                     candyBattle.upPoint(PK_TRANG, -5);
-                    LeaveItem(CandyBattle.KEO_NGOT_ID, p.nj.x + util.nextInt(0, 10), p.nj.y, 5);
+                    LeaveItem(CandyBattle.KEO_NGOT_ID, curMob.x, curMob.y, 5);
                     curMob.attackCount.set(0);
                     refreshMob(curMob.id, true);
                 }
             } else {
-                LeaveItem(CandyBattle.KEO_NGOT_ID, p.nj.x + util.nextInt(0, 10), p.nj.y, 2);
+                LeaveItem(CandyBattle.KEO_NGOT_ID, curMob.x, curMob.y, 2);
             }
         }
 
@@ -2401,7 +2418,7 @@ public class Place {
 
             } else {
                 if (curMob.lvboss == 1) {
-                    ItemMap itemMap = LeaveItem((short) 231, p.nj.x, p.nj.y);
+                    ItemMap itemMap = LeaveItem((short) 231, curMob.x, curMob.y);
                 }
             }
             leaveItemLogic(body, curMob, p, master);
@@ -2496,7 +2513,7 @@ public class Place {
                 && curMob.templates.id == 81) {
             // Lam thach thao
             if (10 >= util.nextInt(1, 100)) {
-                final ItemMap itemMap = LeaveItem((short) 261, p.nj.x, p.nj.y);
+                final ItemMap itemMap = LeaveItem((short) 261, curMob.x, curMob.y);
                 itemMap.item.expires = util.TimeMinutes(30);
                 itemMap.master = master;
             }
@@ -2507,7 +2524,7 @@ public class Place {
                 final int index = util.nextInt(0, eventItems.length - 1);
                 if (util.nextInt(100) <= Manager.EVENT_ITEM_DROP_PERCENT && eventItems[index] != -1) {
 
-                    val itemMap = this.LeaveItem(eventItems[index], p.nj.x, p.nj.y);
+                    val itemMap = this.LeaveItem(eventItems[index], curMob.x, curMob.y);
                     if (itemMap != null) {
                         itemMap.item.isExpires = false;
                         itemMap.item.quantity = 1;
@@ -2521,7 +2538,7 @@ public class Place {
                     && (this.map.isLangCo() || canDropItem || (body.getLevel() > 110
                             && curMob.level >= 100))) {
 
-                final ItemMap im = this.LeaveItem(arid[randomIndex], p.nj.x, p.nj.y);
+                final ItemMap im = this.LeaveItem(arid[randomIndex], curMob.x, curMob.y);
                 if (im != null) {
                     int quantity = 1;
                     if (curMob.lvboss == 0 && !this.map.isLangCo() && !this.map.VDMQ()) {
@@ -2603,7 +2620,7 @@ public class Place {
             for (int i = 0; i < nItemBoss; i++) {
                 short itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
 
-                ItemMap im = this.LeaveItem(itemId, p.nj.x, p.nj.y);
+                ItemMap im = this.LeaveBossItem(itemId, curMob.x, curMob.y);
                 if (im != null) {
                     if (im.item.id == 12) {
                         im.item.quantity = curMob.level * (Manager.YEN_COEF * 15) * util.nextInt(90, 100) / 100;

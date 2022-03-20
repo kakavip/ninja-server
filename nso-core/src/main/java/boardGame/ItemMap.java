@@ -16,14 +16,15 @@ public class ItemMap {
     public long nextTimeRefresh;
 
     public ItemMap() {
-        this.removedelay = 80000L + System.currentTimeMillis();
+        this.removedelay = 30000L + System.currentTimeMillis();
         this.master = -1;
         visible = true;
     }
 
     /**
      *
-     * @param removedelay = -1 mean that the  eternal item that is never being removed
+     * @param removedelay = -1 mean that the eternal item that is never being
+     *                    removed
      * @return
      */
     @NotNull
