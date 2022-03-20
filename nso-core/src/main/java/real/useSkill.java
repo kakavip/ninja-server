@@ -193,7 +193,7 @@ public class useSkill {
         final SkillTemplates temp = SkillData.Templates(skill.id, skill.point);
         switch (skilltemp) {
             case 49: {
-                if (n.isDie) {
+                if (n.isDie && !n.getPlace().map.isLangCo()) {
                     n.p.liveFromDead();
                     n.p.setEffect(11, 0, 5000, p.nj.get().getPramSkill(28));
                     break;
@@ -208,7 +208,7 @@ public class useSkill {
         final Ninja nj = p.nj.getPlace().getNinja(idP);
         m.cleanup();
         final Skill skill = p.nj.get().getSkill(p.nj.get().getCSkill());
-        if (nj != null && nj.isDie && skill.id == 49) {
+        if (nj != null && nj.isDie && skill.id == 49 && !nj.getPlace().map.isLangCo()) {
             final SkillTemplates temp = SkillData.Templates(skill.id, skill.point);
             if (p.nj.get().mp < temp.manaUse) {
                 MessageSubCommand.sendMP(p.nj);
