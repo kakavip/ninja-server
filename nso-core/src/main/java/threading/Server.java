@@ -75,13 +75,15 @@ public class Server {
     public DaemonThread daemonThread;
 
     public static String[] HOURLY_TIPS = new String[] {
-            "Nạp lượng tỷ lệ 1:2 (10k vnd = 20k lượng) vui lòng liên hệ admin.",
-            "Chiến trường sẽ bắt đầu mở vào 16h và 21h.",
+            "Nạp lượng tỷ lệ 1:2 (10k vnd = 20k lượng) bằng card tự động npc Okanechan và liên hệ admin nếu nạp bằng momo/atm với tỷ lệ ưu đãi hơn.",
+            "Chiến trường sẽ bắt đầu mở vào 16h và 21h hàng ngày.",
             "Nhận quà tân thủ tại NPC Vua Hùng.",
             "Cởi thú cưỡi và pet sau khi đánh Boss để nhặt rìu khi làm nhiệm vụ nhặt rìu.",
             "Kiếm lượng bằng cách làm nvhn, nvct, săn TA/TL/Boss hoặc dùng Phúc nang nhẫn giả.",
             "Tử Hạ Ma Thần sẽ xuất hiện tại khu 17 ở map cuối của các trường.",
-            "Thần thú sẽ xuất hiện vào khung giờ lẻ. Hãy theo dõi để săn và nhận được nhiều vật phẩm ý nghĩa."
+            "Thần thú sẽ xuất hiện vào khung giờ chẵn. Hãy theo dõi để săn và nhận được nhiều vật phẩm ý nghĩa.",
+            "Nếu gặp lỗi hiển thị với phiên bản hiện tại vui lòng xoá game và truy cập http://nso-ms.tk để download phiên bản mới.",
+            "Nếu bị lỗi hiển thị nhiệm vụ tìm bảo vật lv34 hãy huỷ nhiệm vụ và nhận lại để tiếp tục tại map rừng kappa"
     };
 
     @NotNull
@@ -200,7 +202,7 @@ public class Server {
             final Calendar rightNow = Calendar.getInstance();
             final short minutes = (short) rightNow.get(12);
 
-            if (minutes % 60 == 0) {
+            if (minutes % 30 == 0) {
                 Manager.serverChat("Tips", HOURLY_TIPS[util.nextInt(HOURLY_TIPS.length)]);
             }
 
