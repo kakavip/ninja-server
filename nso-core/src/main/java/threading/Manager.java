@@ -361,11 +361,6 @@ public class Manager {
                 }
             }
         }
-        if (configMap.containsKey("debug")) {
-            util.setDebug(Boolean.parseBoolean(configMap.get("debug")));
-        } else {
-            util.setDebug(false);
-        }
 
         if (configMap.containsKey("host")) {
             this.host = configMap.get("host");
@@ -383,6 +378,12 @@ public class Manager {
         this.mysql_user = System.getenv("DB_USER");
         this.mysql_pass = System.getenv("DB_PASS");
         this.mysql_database = System.getenv("DB_DATABASE");
+
+        try {
+            util.setDebug(Boolean.parseBoolean(System.getenv("DEBUG")));
+        } catch (Exception e) {
+            util.setDebug(false);
+        }
 
         if (configMap.containsKey("version-Data")) {
             this.vsData = Byte.parseByte(configMap.get("version-Data"));
