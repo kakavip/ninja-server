@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -90,11 +91,7 @@ public class Map extends Thread {
             }
         }
 
-        try {
-            this.loadMapFromResource();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.loadMapFromResource();
         this.loadMap(this.template.id);
 
         this.initMob();
@@ -471,7 +468,7 @@ public class Map extends Thread {
         return s & 0xFFFF;
     }
 
-    public void loadMapFromResource() throws IOException {
+    public void loadMapFromResource() {
         // if (this.id == 0 || this.id == 56 || (this.id > 72 && this.id < 125) ||
         // (this.id > 125 && this.id < 133) ||
         // (this.id > 133 && this.id < 139) || this.id > 148) {
@@ -481,6 +478,8 @@ public class Map extends Thread {
         DataInputStream dis = null;
         try {
             byte[] ab = GameScr.loadFile("res/map/" + this.id).toByteArray();
+            // System.out.println("MAP " + this.id + " DATA: " + Arrays.toString(ab));
+
             bai = new ByteArrayInputStream(ab);
             dis = new DataInputStream(bai);
             this.template.tmw = this.ushort((short) dis.read());
@@ -490,15 +489,10 @@ public class Map extends Thread {
             for (i = 0; i < this.template.tmw * this.template.tmh; i++)
                 this.template.maps[i] = (char) dis.readByte();
             this.template.types = new int[this.template.maps.length];
+            dis.close();
+            bai.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (dis != null) {
-                dis.close();
-            }
-            if (bai != null) {
-                bai.close();
-            }
         }
     }
 

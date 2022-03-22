@@ -34,11 +34,7 @@ public class TournamentMap extends Map {
         }
         setName(template.name);
 
-        try {
-            this.loadMapFromResource();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.loadMapFromResource();
         this.loadMap(this.template.id);
 
         this.initMob();

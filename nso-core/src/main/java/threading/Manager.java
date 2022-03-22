@@ -273,7 +273,6 @@ public class Manager {
             MIN_MAX_YEN_RUONG_MA_QUAI = parseIntArray(properties.getProperty("yen-ruong-ma-quai"));
             LDGT_REWARD_ITEM_ID = parseShortArray(properties.getProperty("ldgt-reward-item-id"));
             GameScr.ArryenLuck = parseIntArray(properties.getProperty("yen-lat-hinh"));
-            util.setDebug(Boolean.parseBoolean(properties.getProperty("debug")));
 
             ITEM_LV_10 = getListItemByMaxLevel(10, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
             ITEM_LV_20 = getListItemByMaxLevel(20, MAX_PERCENT, N_YEN, N_DA, N_HP_MP, N_PMNG);
