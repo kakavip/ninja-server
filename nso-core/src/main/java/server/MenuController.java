@@ -2430,26 +2430,30 @@ public class MenuController {
                 case 572: {
                     switch (menuId) {
                         case 0: {
-                            p.typeTBLOption = $240;
+                            p.typeTBLOptionDistance = $240;
                             break;
                         }
                         case 1: {
-                            p.typeTBLOption = $480;
+                            p.typeTBLOptionDistance = $480;
                             break;
                         }
                         case 2: {
-                            p.typeTBLOption = ALL_MAP;
+                            p.typeTBLOptionDistance = ALL_MAP;
                             break;
                         }
                         case 3: {
-                            p.typeTBLOption = PICK_ALL;
+                            p.typeTBLOptionPick = PICK_ALL;
                             break;
                         }
                         case 4: {
-                            p.typeTBLOption = USEFUL;
+                            p.typeTBLOptionPick = USEFUL;
                             break;
                         }
                         case 5: {
+                            p.autoHslOfTBL = !p.autoHslOfTBL;
+                            break;
+                        }
+                        case 6: {
                             p.activeTBL = !p.activeTBL;
                             break;
                         }

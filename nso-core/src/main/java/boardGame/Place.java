@@ -4274,12 +4274,14 @@ public class Place {
             e.printStackTrace();
         }
         if (!p.containsItem(572)) {
-            p.typeTBLOption = NOT_USE;
+            p.typeTBLOptionDistance = NOT_USE;
+            p.typeTBLOptionPick = NOT_USE;
 
-        } else {
+        } else if (!p.nj.get().isDie) {
 
-            if (p.typeTBLOption == $240 || p.typeTBLOption == $480 || p.typeTBLOption == ALL_MAP) {
-                List<ItemMap> itemMaps = findItemMapInDistance(p.nj.get().x, p.nj.get().y, p.typeTBLOption.getValue(),
+            if (p.typeTBLOptionDistance.getValue() > 0) {
+                List<ItemMap> itemMaps = findItemMapInDistance(p.nj.get().x, p.nj.get().y,
+                        p.typeTBLOptionDistance.getValue(),
                         p.filter, p.nj.get().id);
 
                 for (ItemMap itemMap : itemMaps) {
@@ -4291,15 +4293,21 @@ public class Place {
             }
 
             if (p.activeTBL) {
-                final Mob mobInDistance = findMobInDistance(p.nj.get().x, p.nj.get().y, p.typeTBLOption.getValue());
+                final Mob mobInDistance = findMobInDistance(p.nj.get().x, p.nj.get().y,
+                        p.typeTBLOptionDistance.getValue());
                 if (mobInDistance != null) {
                     sendXYPlayerWithEffect(p, p.nj.get().x, p.nj.get().y);
                     p.nj.get().x = mobInDistance.x;
                     boolean typeFly = mobInDistance.templates.type == 4;
-                    p.nj.get().y = typeFly ? (short) (mobInDistance.y - 25) : mobInDistance.y;
+                    p.nj.get().y = typeFly ? this.map.touchY((short) mobInDistance.x, (short) mobInDistance.y)
+                            : mobInDistance.y;
                     sendXYPlayer(p);
                 }
             }
+        }
+
+        if (p.nj.get().isDie && p.autoHslOfTBL && p.activeTBL && p.nj.isHuman) {
+            this.wakeUpDieReturn(p);
         }
         // Nhiem vu heo rung
         if (map.id == 74 && p != null && p.nj != null && p.nj.get() != null

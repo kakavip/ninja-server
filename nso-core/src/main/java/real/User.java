@@ -45,6 +45,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static real.User.TypeTBLOption.ALL_MAP;
+import static real.User.TypeTBLOption.PICK_ALL;
 import static server.util.*;
 
 public class User extends Actor implements SendMessage {
@@ -101,7 +102,11 @@ public class User extends Actor implements SendMessage {
     }
 
     public TypeTBLOption typeTBLOption = ALL_MAP;
+    public TypeTBLOption typeTBLOptionDistance = ALL_MAP;
+    public TypeTBLOption typeTBLOptionPick = PICK_ALL;
+
     public boolean activeTBL = false;
+    public boolean autoHslOfTBL = false;
     public boolean filter = false;
 
     public User() {
