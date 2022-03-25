@@ -2063,7 +2063,7 @@ public class MenuController {
                         case 2: {
                             p.typemenu = 24_2;
                             doMenuArray(p, new String[] { "Cấp 10", "Cấp 20", "Cấp 30", "Cấp 40", "Cấp 50", "Cấp 70",
-                                    "Cấp 90", "Cấp 130" });
+                                    "Cấp 90", "Cấp 130", "Cấp 150" });
                             break;
                         }
                         case 3: {
@@ -2276,11 +2276,35 @@ public class MenuController {
                                         "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
                                 p.nj.reward130 = 1;
                                 p.upluongMessage(20000);
-                                ;
                                 p.nj.upyenMessage(2000000);
                                 p.nj.upxuMessage(2000000);
 
                                 for (short itemId : Manager.IDS_THUONG_LV130) {
+                                    if (itemId != -1) {
+                                        Item it = ItemData.itemDefault(itemId);
+                                        p.nj.addItemBag(true, it);
+                                    }
+                                }
+                            }
+                            break;
+                        case 8:
+                            if (p.nj.getLevel() < 150) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Trình độ của con không đủ để nhận thưởng.");
+                            } else if (p.nj.reward150 == 1) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Con đã nhận phần thưởng này rồi. Mỗi người chỉ được nhận 1 lần.");
+                            } else if (p.nj.getAvailableBag() < Manager.IDS_THUONG_LV150.length + 1) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId, "Hành trang không đủ chỗ trống");
+                            } else {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Hãy luyện tập chăm chỉ để tăng cấp và nhận phần thưởng con nhé");
+                                p.nj.reward150 = 1;
+                                p.upluongMessage(30000);
+                                p.nj.upyenMessage(3000000);
+                                p.nj.upxuMessage(3000000);
+
+                                for (short itemId : Manager.IDS_THUONG_LV150) {
                                     if (itemId != -1) {
                                         Item it = ItemData.itemDefault(itemId);
                                         p.nj.addItemBag(true, it);

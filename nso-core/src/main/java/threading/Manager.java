@@ -117,6 +117,7 @@ public class Manager {
     public static short[] IDS_THUONG_LV70;
     public static short[] IDS_THUONG_LV90;
     public static short[] IDS_THUONG_LV130;
+    public static short[] IDS_THUONG_LV150;
     public static short MULTI_EXP;
     public static short N_THREAD_STOP;
     public static short MAX_CLIENT_PER_SOCKET;
@@ -235,6 +236,7 @@ public class Manager {
             IDS_THUONG_LV70 = parseShortArray(properties.getProperty("thuong-lv70"));
             IDS_THUONG_LV90 = parseShortArray(properties.getProperty("thuong-lv90"));
             IDS_THUONG_LV130 = parseShortArray(properties.getProperty("thuong-lv130"));
+            IDS_THUONG_LV150 = parseShortArray(properties.getProperty("thuong-lv150"));
 
             // Server.MOMENT_BOSS_REFRESH =
             // parseShortArray(properties.getProperty("moment-boss-refresh"));
