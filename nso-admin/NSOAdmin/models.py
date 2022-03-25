@@ -195,6 +195,7 @@ class Npc(models.Model):
     type = models.IntegerField()
     talk_id = models.IntegerField(db_column="talkid")
     talk = JSONField(blank=True, null=True, default=[])
+    menu = JSONField(blank=True, null=True, default=[])
 
     class Meta:
         db_table = "npc"

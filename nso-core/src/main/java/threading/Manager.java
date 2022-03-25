@@ -551,7 +551,7 @@ public class Manager {
         }
 
         Service.createCacheItem();
-        // Service.createCacheMap();
+        Service.createCacheMap();
     }
 
     public void loadDataBase() {
@@ -1115,7 +1115,7 @@ public class Manager {
     static {
         Manager.server = Server.getInstance();
         cache[0] = GameScr.loadFile("res/cache/data.bin");
-        cache[1] = GameScr.loadFile("res/cache/map");
+        // cache[1] = GameScr.loadFile("res/cache/map");
         cache[2] = GameScr.loadFile("res/cache/skill");
         // cache[3] = GameScr.loadFile("res/cache/item");
         cache[4] = GameScr.loadFile("res/cache/skillnhanban");
@@ -1123,9 +1123,9 @@ public class Manager {
     }
 
     public void sendMap(final User p) throws IOException {
-        // if (cache[1] == null) {
-        // cache[1] = GameScr.loadFile("cache/map");
-        // }
+        if (cache[1] == null) {
+            cache[1] = GameScr.loadFile("cache/map");
+        }
         final Message m = new Message(-28);
         m.writer().writeByte(-121);
         m.writer().write(cache[1].toByteArray());

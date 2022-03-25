@@ -159,11 +159,21 @@ class CloneNinjaAdmin(CharacterAdmin):
 
 @admin.register(Npc)
 class NpcAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "head", "body", "leg", "type", "talk_id", "talk"]
+    list_display = [
+        "id",
+        "name",
+        "head",
+        "body",
+        "leg",
+        "type",
+        "talk_id",
+        "talk",
+        "menu",
+    ]
     list_display_links = ["id", "name"]
     empty_display_value = "--empty--"
     search_fields = ["name"]
-    fields = ["name", "head", "body", "leg", "type", "talk_id", "talk"]
+    fields = ["name", "head", "body", "leg", "type", "talk_id", "talk", "menu"]
 
 
 @admin.register(NpcDaily)
