@@ -24941,6 +24941,13 @@ CHANGE rewardThienBang rankedKage int(11) NOT NULL DEFAULT '0',
 CHANGE rewardDiaBang rankedGenin int(11) NOT NULL DEFAULT '0',
 add column rewardTournament int(11) NOT NULL DEFAULT '0';
 
+alter table `ninja`
+modify column `ItemCaiTrang` text NOT NULL,
+modify column `ItemBST` text NOT NULL;
+update `ninja` set `ItemCaiTrang`='[]', `ItemBST`='[]' where id is not null;
+alter table `ninja`
+add column `reward150` int(11) NOT NULL DEFAULT '0';
+
 
 --
 -- Dumping data for table `ninja`

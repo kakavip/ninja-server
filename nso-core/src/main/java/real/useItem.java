@@ -1314,7 +1314,13 @@ public class useItem {
                         p.sendYellowMessage("Bạn không đủ mảnh để ghép.");
                         return;
                     }
-                    p.nj.removeItemBag(p.nj.getIndexBagid(item.id, true), 100);
+                    int yenup = GameScr.coinUpJraiJumitos[0];
+                    if (p.nj.yen < yenup) {
+                        p.sendYellowMessage("Bạn không đủ " + yenup + " yên để ghép.");
+                        return;
+                    }
+                    p.nj.upyenMessage(-yenup);
+                    p.nj.removeItemBags(item.id, 100);
                     p.nj.ItemBST[checkID] = ItemData.itemDefault(ItemData.checkIdJiraiNam(checkID));
                     p.nj.ItemBST[checkID].setUpgrade(1);
                     p.nj.ItemBST[checkID].setLock(true);
@@ -1329,8 +1335,73 @@ public class useItem {
                         p.sendYellowMessage("Bạn không đủ mảnh để nâng cấp.");
                         return;
                     }
+                    int yenup = GameScr.coinUpJraiJumitos[p.nj.ItemBST[checkID].getUpgrade()];
+                    if (p.nj.yen < yenup) {
+                        p.sendYellowMessage("Bạn không đủ " + yenup + " yên để nâng cấp.");
+                        return;
+                    }
+                    p.nj.upyenMessage(-yenup);
                     p.nj.ItemBST[checkID].setUpgrade(p.nj.ItemBST[checkID].getUpgrade() + 1);
-                    p.nj.removeItemBag(p.nj.getIndexBagid(item.id, true), p.nj.ItemBST[checkID].getUpgrade() * 100);
+                    p.nj.removeItemBags(item.id, p.nj.ItemBST[checkID].getUpgrade() * 100);
+                    p.sendYellowMessage(
+                            ItemData.ItemDataId(p.nj.ItemBST[checkID].id).name + " đã được nâng cấp.");
+                }
+                break;
+            }
+
+            // Mảnh jirai
+            case 760:
+            case 761:
+            case 762:
+            case 763:
+            case 764:
+            case 765:
+            case 766:
+            case 767:
+            case 768: {
+                if (p.nj.isNhanban) {
+                    p.sendYellowMessage("Chức năng này không dành cho phân thân!");
+                    return;
+                }
+                if (p.nj.gender == 1) {
+                    p.sendYellowMessage("Giới tính không phù hợp.");
+                    return;
+                }
+                int checkID = item.id - 760;
+                if (p.nj.ItemBST[checkID] == null) {
+                    if (p.nj.quantityItemyTotal(item.id) < 100) {
+                        p.sendYellowMessage("Bạn không đủ mảnh để ghép.");
+                        return;
+                    }
+                    int yenup = GameScr.coinUpJraiJumitos[0];
+                    if (p.nj.yen < yenup) {
+                        p.sendYellowMessage("Bạn không đủ " + yenup + " yên để ghép.");
+                        return;
+                    }
+                    p.nj.upyenMessage(-yenup);
+                    p.nj.removeItemBags(item.id, 100);
+                    p.nj.ItemBST[checkID] = ItemData.itemDefault(ItemData.checkIdJiraiNu(checkID));
+                    p.nj.ItemBST[checkID].setUpgrade(1);
+                    p.sendYellowMessage(ItemData.ItemDataId(p.nj.ItemBST[checkID].id).name
+                            + " đã được thêm vào bộ sưu tập.");
+                } else {
+                    if (p.nj.ItemBST[checkID].getUpgrade() >= 16) {
+                        p.sendYellowMessage("Bộ sưu tập này đã đạt điểm tối đa, không thể nâng cấp thêm.");
+                        return;
+                    }
+                    if (p.nj.quantityItemyTotal(item.id) < (p.nj.ItemBST[checkID].getUpgrade() + 1) * 100) {
+                        p.sendYellowMessage("Bạn không đủ mảnh để nâng cấp.");
+                        return;
+                    }
+
+                    int yenup = GameScr.coinUpJraiJumitos[p.nj.ItemBST[checkID].getUpgrade()];
+                    if (p.nj.yen < yenup) {
+                        p.sendYellowMessage("Bạn không đủ " + yenup + " yên để nâng cấp.");
+                        return;
+                    }
+                    p.nj.upyenMessage(-yenup);
+                    p.nj.ItemBST[checkID].setUpgrade(p.nj.ItemBST[checkID].getUpgrade() + 1);
+                    p.nj.removeItemBags(item.id, p.nj.ItemBST[checkID].getUpgrade() * 100);
                     p.sendYellowMessage(
                             ItemData.ItemDataId(p.nj.ItemBST[checkID].id).name + " đã được nâng cấp.");
                 }

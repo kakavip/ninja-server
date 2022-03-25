@@ -1535,9 +1535,9 @@ public class User extends Actor implements SendMessage {
             return;
         }
         SQLManager.executeUpdate(
-                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `exptype`, `nactpoint`, `skill`) VALUES "
+                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `ItemCaiTrang`, `ItemBST`, `exptype`, `nactpoint`, `skill`) VALUES "
                         + "(\"" + name + "\"," + gender + "," + head
-                        + ",'[]','[]','[]','[]', '[]', '[]','[]', 1, 30, '[{\"id\": 0, \"point\": 0}]');");
+                        + ",'[]','[]','[]','[]', '[]', '[]','[]','[]','[]', 1, 30, '[{\"id\": 0, \"point\": 0}]');");
         for (byte i = 0; i < this.sortNinja.length; ++i) {
             if (this.sortNinja[i] == null) {
                 this.sortNinja[i] = name;

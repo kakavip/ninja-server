@@ -1311,9 +1311,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public boolean hoanThanhNhiemVu(int typeNhiemVu) {
         TaskOrder task = this.tasks[typeNhiemVu];
         if (task != null) {
-            if (task.isDone()) {
-                this.getRewards(task);
-
+            if (task.isDone() && this.getRewards(task)) {
                 huyNhiemVu(typeNhiemVu);
                 return true;
             } else {
@@ -1324,8 +1322,21 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     }
 
     @SneakyThrows
-    private void getRewards(final TaskOrder task) {
+    private boolean getRewards(final TaskOrder task) {
         if (task.isDone()) {
+            if (util.nextInt(10) < 3) {
+                if (this.getAvailableBag() < 3) {
+                    p.sendYellowMessage("Hành trang không đủ chỗ trống.");
+                    return false;
+                }
+
+                short[] jraiPeaceSet = util.concatArray(ItemData.JRAI_PIECE_IDS, ItemData.JUMITO_PIECE_IDS);
+                Item item = ItemData.itemDefault(jraiPeaceSet[util.nextInt(jraiPeaceSet.length)]);
+                item.quantity = util.nextInt(1, 2);
+
+                this.addItemBag(true, item);
+            }
+
             if (task.getTaskId() == TaskOrder.NHIEM_VU_HANG_NGAY) {
                 int luck = util.nextInt(100);
                 if (luck <= 30) {
@@ -1389,7 +1400,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     this.upNActPoint(3);
                 }
             }
+
+            return true;
         }
+
+        return false;
     }
 
     private void upDVPoints(int point, int type) {

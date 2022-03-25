@@ -27,6 +27,8 @@ import static threading.Manager.MAX_DA_LV;;
 public class ItemData {
 
     public static final int[] CHECK_PART_HEAD = new int[] { 226, 223, 258, 264, 267 };
+    public static final short[] JRAI_PIECE_IDS = new short[] { 733, 734, 735, 736, 737, 738, 739, 740, 741 };
+    public static final short[] JUMITO_PIECE_IDS = new short[] { 760, 761, 762, 763, 764, 765, 766, 767, 768 };
 
     public static final Option VU_KHI_OPTION = new Option(106, 0);
     public static final Option TRANG_BI_OPTION = new Option(107, 0);

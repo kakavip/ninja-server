@@ -33,6 +33,7 @@ public class GameScr {
     public static final int[] coinUpAdorns;
     public static final int[] coinUpWeapons;
     public static final int[] goldUps;
+    public static final int[] coinUpJraiJumitos;
     public static final int[] maxPercents;
     public static short[] LAT_HINH_ID;
     public static short[] LAT_HINH_RARE_IDS;
@@ -980,7 +981,8 @@ public class GameScr {
         // update nvdv
         p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.LAT_HINH_KILL_ID);
 
-        short[] itemIds = LAT_HINH_ID;
+        short[] itemIds = util.concatArray(LAT_HINH_ID,
+                ItemData.JRAI_PIECE_IDS, ItemData.JUMITO_PIECE_IDS);
 
         boolean hasRareItem = false;
         short[] randLatHinhIds = new short[9];
@@ -1681,6 +1683,8 @@ public class GameScr {
         coinUpWeapons = new int[] { 540, 1260, 3960, 18810, 25920, 40800, 84480, 414720, 533760, 806400, 1620480,
                 8017920, 9461760, 14684160, 22026240, 33039360 };
         goldUps = new int[] { 1, 2, 3, 4, 5, 10, 15, 20, 50, 100, 150, 200, 300, 400, 500, 600 };
+        coinUpJraiJumitos = new int[] { 10_000, 20_000, 40_000, 80_000, 160_000, 320_000, 640_000, 1_280_000, 2_560_000,
+                5_120_000, 10_240_000, 20_480_000, 40_960_000, 81_920_000, 163_840_000, 327_680_000 };
         // maxPercents = new int[] { 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20,
         // 15, 10, 5 };
         maxPercents = new int[] { 80, 76, 72, 68, 64, 60, 56, 52, 45, 40, 35, 30,
@@ -1688,5 +1692,4 @@ public class GameScr {
         ArryenLuck = new int[] { 10_000, 20_000 };
         ArrdayLuck = new byte[] { 3, 7, 15, 30 };
     }
-
 }
