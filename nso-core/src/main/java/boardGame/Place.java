@@ -882,14 +882,13 @@ public class Place {
 
                 Map ma = Manager.getMapid(mapid);
 
-                val _ninja = p.nj;
-
-                if (TaskHandle.isLockChangeMap((short) mapid, _ninja.getTaskId())) {
-                    restPoint(_ninja);
-                    goToMap(p, p.nj.mapLTD);
-                    GameCanvas.startOKDlg(_ninja.p.session, Text.get(0, 84));
-                    return;
-                }
+                // val _ninja = p.nj;
+                // if (TaskHandle.isLockChangeMap((short) mapid, _ninja.getTaskId())) {
+                // restPoint(_ninja);
+                // goToMap(p, p.nj.mapLTD);
+                // GameCanvas.startOKDlg(_ninja.p.session, Text.get(0, 84));
+                // return;
+                // }
 
                 if (this.map.cave != null) {
                     for (byte j = 0; j < this.map.cave.map.length; ++j) {

@@ -1543,10 +1543,10 @@ public class useItem {
                 }
                 if (indexMenu == 0 || indexMenu == 1 || indexMenu == 2) {
                     final Map ma = getMapid(Map.arrTruong[indexMenu]);
-                    if (TaskHandle.isLockChangeMap2((short) ma.id, p.nj.getTaskId())) {
-                        GameCanvas.startOKDlg(p.session, Text.get(0, 84));
-                        return;
-                    }
+                    // if (TaskHandle.isLockChangeMap2((short) ma.id, p.nj.getTaskId())) {
+                    // GameCanvas.startOKDlg(p.session, Text.get(0, 84));
+                    // return;
+                    // }
                     for (final Place area : ma.area) {
                         if (area.getNumplayers() < ma.template.maxplayers) {
                             p.nj.getPlace().leave(p);
@@ -1559,10 +1559,10 @@ public class useItem {
                         || indexMenu == 8 || indexMenu == 9) {
                     final Map ma = getMapid(Map.arrLang[indexMenu - 3]);
                     assert ma != null;
-                    if (TaskHandle.isLockChangeMap2((short) ma.id, p.nj.getTaskId())) {
-                        GameCanvas.startOKDlg(p.session, Text.get(0, 84));
-                        return;
-                    }
+                    // if (TaskHandle.isLockChangeMap2((short) ma.id, p.nj.getTaskId())) {
+                    // GameCanvas.startOKDlg(p.session, Text.get(0, 84));
+                    // return;
+                    // }
                     for (final Place area : ma.area) {
                         if (area.getNumplayers() < ma.template.maxplayers) {
                             p.nj.getPlace().leave(p);
