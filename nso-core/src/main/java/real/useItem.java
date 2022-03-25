@@ -1145,15 +1145,14 @@ public class useItem {
             }
             case 572: {
                 // TBL
-                String[] tblOptions = new String[] { "Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map",
-                        "Nhặt tất cả", "Nhặt v.phẩm hữu dụng", "Tắt HSL", "Tắt tàn sát" };
+                String[] tblOptions = new String[] { "Phạm vi", "Nhặt vật phẩm", "Tắt HSL", "Tắt tàn sát" };
 
                 p.typemenu = 572;
                 if (!p.activeTBL) {
-                    tblOptions[6] = "Bật tàn sát";
+                    tblOptions[3] = "Bật tàn sát";
                 }
                 if (!p.autoHslOfTBL) {
-                    tblOptions[5] = "Bật HSL";
+                    tblOptions[2] = "Bật HSL";
                 }
 
                 MenuController.doMenuArray(p, tblOptions);

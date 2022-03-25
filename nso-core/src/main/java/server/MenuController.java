@@ -2454,6 +2454,29 @@ public class MenuController {
                 case 572: {
                     switch (menuId) {
                         case 0: {
+                            p.typemenu = 572_0;
+                            this.doMenuArray(p, new String[] { "Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map" });
+                            break;
+                        }
+                        case 1: {
+                            p.typemenu = 572_1;
+                            this.doMenuArray(p, new String[] { "Không nhặt", "Nhật v.phẩm hữu dụng", "Nhặt tất cả" });
+                            break;
+                        }
+                        case 2: {
+                            p.autoHslOfTBL = !p.autoHslOfTBL;
+                            break;
+                        }
+                        case 3: {
+                            p.activeTBL = !p.activeTBL;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case 572_0: {
+                    switch (menuId) {
+                        case 0: {
                             p.typeTBLOptionDistance = $240;
                             break;
                         }
@@ -2465,20 +2488,21 @@ public class MenuController {
                             p.typeTBLOptionDistance = ALL_MAP;
                             break;
                         }
-                        case 3: {
-                            p.typeTBLOptionPick = PICK_ALL;
+                    }
+                    break;
+                }
+                case 572_1: {
+                    switch (menuId) {
+                        case 0: {
+                            p.typeTBLOptionPick = NOT_USE;
                             break;
                         }
-                        case 4: {
+                        case 1: {
                             p.typeTBLOptionPick = USEFUL;
                             break;
                         }
-                        case 5: {
-                            p.autoHslOfTBL = !p.autoHslOfTBL;
-                            break;
-                        }
-                        case 6: {
-                            p.activeTBL = !p.activeTBL;
+                        case 2: {
+                            p.typeTBLOptionPick = PICK_ALL;
                             break;
                         }
                     }
