@@ -686,7 +686,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                             nj.ItemBag[index] = item;
                         }
                     }
-                    nj.ItemBox = new Item[30];
+                    nj.ItemBox = new Item[90];
                     jar = (JSONArray) JSONValue.parse(red.getString("ItemBox"));
                     if (jar != null) {
                         for (byte j = 0; j < jar.size(); ++j) {
