@@ -2047,6 +2047,9 @@ public class MenuController {
                 }
 
                 case 24: {
+                    if (p.nj.getTaskId() == 0) {
+                        menuId = 3;
+                    }
                     switch (menuId) {
                         case 0: {
                             p.typemenu = 24_0;
@@ -2664,15 +2667,15 @@ public class MenuController {
                     "Sự kiện 8/3 đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bó hoa để tặng những người mình yêu thương...",
                     p);
         }
-        if (idnpc == 24 && p.nj.getLevel() > 1) {
+        if (idnpc == 24 && p.nj.getLevel() >= 1) {
             this.doMenuArray(p, new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
-                    "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên", "Dịch vụ CARD/AT/MoMo" });
-        } else if (idnpc == 30 && p.nj.getLevel() > 1) {
+                    "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên", "Dịch vụ CARD/ATM/MoMo" });
+        } else if (idnpc == 30 && p.nj.getLevel() >= 1) {
             this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
                     "Tài Xỉu" });
-        } else if (idnpc == 28 && p.nj.getLevel() > 1) {
+        } else if (idnpc == 28 && p.nj.getLevel() >= 1) {
             this.doMenuArray(p, new String[] { "Gian hàng", "Bán vật phẩm", "Nhận lại vật phẩm", "Tìm kiếm vật phẩm" });
-        } else if (idnpc == 32 && p.nj.getLevel() > 1) {
+        } else if (idnpc == 32 && p.nj.getLevel() >= 1) {
             this.doMenuArray(p, new String[] { "Gia tộc chiến", "Tinh luyện", "Bí kíp" });
         } else if (idnpc == 0 && (p.nj.getPlace().map.isGtcMap() ||
                 p.nj.getPlace().map.loiDaiMap())) {

@@ -26,6 +26,7 @@ public class TaskList {
                                                 .counts(new int[] {
                                                                 -1, -1, -1, -1, -1, -1, -1
                                                 })
+                                                .bypass(true)
                                                 .build(),
                                 builder()
                                                 .taskId(1)

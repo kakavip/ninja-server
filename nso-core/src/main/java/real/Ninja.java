@@ -700,6 +700,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                         }
                     }
 
+                    nj.caiTrang = red.getByte("caiTrang");
                     nj.ItemBST = new Item[9];
                     jar = (JSONArray) JSONValue.parse(red.getString("ItemBST"));
                     if (jar != null) {
@@ -947,6 +948,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             sqlSET = sqlSET + ",`ItemMounts`='" + jarr.toJSONString() + "'";
             jarr.clear();
 
+            sqlSET = sqlSET + ",`caiTrang`=" + this.caiTrang + "";
             for (byte j = 0; j < this.ItemBST.length; ++j) {
                 if (this.ItemBST[j] != null) {
                     jarr.add(ItemData.ObjectItem(this.ItemBST[j], j));

@@ -104,6 +104,7 @@ public class User extends Actor implements SendMessage {
     public TypeTBLOption typeTBLOption = ALL_MAP;
     public TypeTBLOption typeTBLOptionDistance = ALL_MAP;
     public TypeTBLOption typeTBLOptionPick = PICK_ALL;
+    public Mob mobTBL = null;
 
     public boolean activeTBL = false;
     public boolean autoHslOfTBL = false;
@@ -1535,9 +1536,9 @@ public class User extends Actor implements SendMessage {
             return;
         }
         SQLManager.executeUpdate(
-                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `ItemCaiTrang`, `ItemBST`, `exptype`, `nactpoint`, `skill`) VALUES "
+                "INSERT INTO ninja(`name`,`gender`,`head`,`ItemBag`,`ItemBox`,`ItemBody`,`ItemMounts`, `friend`, `effect`, `clan`, `ItemCaiTrang`, `ItemBST`, `exptype`, `nactpoint`, `skill`, `yen`, `xu`) VALUES "
                         + "(\"" + name + "\"," + gender + "," + head
-                        + ",'[]','[]','[]','[]', '[]', '[]','[]','[]','[]', 1, 30, '[{\"id\": 0, \"point\": 0}]');");
+                        + ",'[]','[]','[]','[]', '[]', '[]','[]','[]','[]', 1, 30, '[{\"id\": 0, \"point\": 0}]', '100000', '100000');");
         for (byte i = 0; i < this.sortNinja.length; ++i) {
             if (this.sortNinja[i] == null) {
                 this.sortNinja[i] = name;

@@ -24948,6 +24948,10 @@ update `ninja` set `ItemCaiTrang`='[]', `ItemBST`='[]' where id is not null;
 alter table `ninja`
 add column `reward150` int(11) NOT NULL DEFAULT '0';
 
+update `ninja` set `caiTrang`='-1' where id is not null;
+alter table `ninja`
+modify column `caiTrang` smallint(6) NOT NULL DEFAULT '-1';
+
 
 --
 -- Dumping data for table `ninja`

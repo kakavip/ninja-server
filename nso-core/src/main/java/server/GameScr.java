@@ -991,7 +991,7 @@ public class GameScr {
                 randLatHinhIds[i] = LAT_HINH_RARE_IDS[util.nextInt(LAT_HINH_RARE_IDS.length)];
                 hasRareItem = true;
             } else {
-                randLatHinhIds[i] = itemIds[util.nextInt(itemIds.length - 1)];
+                randLatHinhIds[i] = itemIds[util.nextInt(itemIds.length)];
             }
         }
 

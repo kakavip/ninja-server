@@ -4291,13 +4291,16 @@ public class Place {
                 }
             }
 
-            if (p.activeTBL) {
+            if (p.activeTBL
+                    && (p.mobTBL == null || p.mobTBL != null && _mobs.indexOf(p.mobTBL) == -1
+                            || p.mobTBL != null && p.mobTBL.isDie)) {
                 final Mob mobInDistance = findMobInDistance(p.nj.get().x, p.nj.get().y,
                         p.typeTBLOptionDistance.getValue());
                 if (mobInDistance != null) {
+                    p.mobTBL = mobInDistance;
                     sendXYPlayerWithEffect(p, p.nj.get().x, p.nj.get().y);
                     p.nj.get().x = mobInDistance.x;
-                    boolean typeFly = mobInDistance.templates.type == 4;
+                    boolean typeFly = mobInDistance.templates.type == 4 || mobInDistance.templates.type == 5;
                     p.nj.get().y = typeFly ? this.map.touchY((short) mobInDistance.x, (short) mobInDistance.y)
                             : mobInDistance.y;
                     sendXYPlayer(p);
