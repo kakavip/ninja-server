@@ -960,7 +960,7 @@ public class GameScr {
         m.writer().flush();
         p.sendMessage(m);
         m.cleanup();
-        p.sendInfo(false);
+        // p.sendInfo(false);
     }
 
     public static void LuckValue(final User p, Message m) throws IOException {
