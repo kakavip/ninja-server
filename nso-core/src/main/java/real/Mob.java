@@ -295,6 +295,12 @@ public class Mob {
                         break;
                 }
             }
+
+            // except boss end map && hd 9x
+            if (this.level != 150 && this.level != 99) {
+                this.templates.arrIdItem = util.concatArray(this.templates.arrIdItem, ItemData.JRAI_PIECE_IDS,
+                        ItemData.JUMITO_PIECE_IDS);
+            }
         }
 
     }
