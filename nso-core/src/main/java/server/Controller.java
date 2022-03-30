@@ -338,7 +338,8 @@ public class Controller implements ISessionHandler {
                     if (p != null && !p.nj.isDie) {
                         val cloneMessage = message.cloneMessage();
                         p.nj.getPlace().FightMob(p.nj.get(), message);
-                        if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()) {
+                        if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()
+                                && p.nj.get().canAttack()) {
                             p.nj.getPlace().FightMob(p.nj.clone, (Message) cloneMessage);
                         }
                         break;
@@ -351,7 +352,8 @@ public class Controller implements ISessionHandler {
                         if (p.nj.getPlace().canAttackNinja(p.nj.get(), message.cloneMessage())) {
                             val cloneMessage = message.cloneMessage();
                             p.nj.getPlace().attackNinja(p.nj.get(), message);
-                            if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()) {
+                            if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()
+                                    && p.nj.get().canAttack()) {
                                 p.nj.getPlace().attackNinja(p.nj.clone, (Message) cloneMessage);
                             }
                             break;
@@ -484,6 +486,10 @@ public class Controller implements ISessionHandler {
                     break;
                 }
                 case 102: {
+                    if (p.isGuest) {
+                        p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+                        break;
+                    }
                     // Shinwa
                     val indexUI = message.reader().readByte();
                     val price = message.reader().readInt();

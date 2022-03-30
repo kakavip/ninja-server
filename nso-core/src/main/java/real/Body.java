@@ -1413,4 +1413,29 @@ public class Body implements ISoloer {
         return true;
 
     }
+
+    public boolean canAttack() {
+        User p = this.c.p;
+
+        if (!this.canUseSkill()) {
+            return false;
+        }
+
+        if (!this.canUseVukhi()) {
+            p.sendYellowMessage("Vũ khí không hợp lệ");
+            return false;
+        }
+
+        if (!this.canUseBikip()) {
+            p.sendYellowMessage("Bí kíp không hợp lệ");
+            return false;
+        }
+
+        if (this.isIce || this.isWind) {
+            util.Debug("Choáng hoặc đóng băng");
+            return false;
+        }
+
+        return true;
+    }
 }

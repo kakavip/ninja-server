@@ -1806,31 +1806,6 @@ public class Place {
         return im;
     }
 
-    private boolean canAttack(final Body body) {
-        User p = body.c.p;
-
-        if (!body.canUseSkill()) {
-            return false;
-        }
-
-        if (!body.canUseVukhi()) {
-            p.sendYellowMessage("Vũ khí không hợp lệ");
-            return false;
-        }
-
-        if (!body.canUseBikip()) {
-            p.sendYellowMessage("Bí kíp không hợp lệ");
-            return false;
-        }
-
-        if (body.isIce || body.isWind) {
-            util.Debug("Choáng hoặc đóng băng");
-            return false;
-        }
-
-        return true;
-    }
-
     public void FightMob(@Nullable final Body body, @Nullable final Message m) throws IOException {
         if (body == null || m == null) {
             return;
@@ -1842,7 +1817,7 @@ public class Place {
             body.setCSkill(body.getSkills().get(0).id);
         }
 
-        if (!canAttack(body)) {
+        if (!body.canAttack()) {
             return;
         }
 
@@ -1995,7 +1970,7 @@ public class Place {
             return;
         }
 
-        if (!canAttack(_char)) {
+        if (!_char.canAttack()) {
             return;
         }
 
@@ -2619,7 +2594,7 @@ public class Place {
 
             // drop item
             for (int i = 0; i < nItemBoss; i++) {
-                short itemId = curMob.templates.arrIdItem[util.nextInt(0, curMob.templates.arrIdItem.length - 1)];
+                short itemId = curMob.templates.arrIdItem[util.nextInt(curMob.templates.arrIdItem.length)];
 
                 ItemMap im = this.LeaveBossItem(itemId, curMob.x, curMob.y);
                 if (im != null) {
@@ -2794,7 +2769,7 @@ public class Place {
                 return;
             }
 
-            if (canAttackNinja(body, other) && canAttack(body)) {
+            if (canAttackNinja(body, other) && body.canAttack()) {
                 if (body.getCSkill() == -1 && body.getSkills().size() > 0) {
                     body.setCSkill(body.getSkills().get(0).id);
                 }
