@@ -1479,10 +1479,16 @@ public class GameScr {
             final int i = mainItem.option.indexOf(new Option(EXP_ID, 0));
             p.endLoad(true);
 
+            boolean lock = false;
+
             try {
                 while (true) {
                     val index = m.reader().readByte();
                     Item item = p.nj.ItemBag[index];
+                    if (item.isLock()) {
+                        lock = true;
+                    }
+
                     p.nj.removeItemBag(index);
 
                     if (item.isTypeNgocKham()) {
@@ -1507,10 +1513,13 @@ public class GameScr {
                         } else if (item.getUpgrade() == 10) {
                             exp += 10_000;
                         }
-
                     }
                 }
             } catch (Exception e) {
+            }
+
+            if (lock) {
+                mainItem.setLock(true);
             }
 
             int oldUpGrad = getNextUpgrade(mainItem.option.get(i).param);
