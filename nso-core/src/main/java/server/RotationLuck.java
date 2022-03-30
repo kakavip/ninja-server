@@ -93,6 +93,12 @@ public class RotationLuck extends Thread {
     }
 
     protected synchronized void joinLuck(final User p, final int joinAmount) throws IOException {
+
+        if (p.isGuest) {
+            p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
+
         if (!this.open || joinAmount <= 0) {
             return;
         }

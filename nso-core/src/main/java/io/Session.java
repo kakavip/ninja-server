@@ -310,8 +310,14 @@ public class Session extends Thread {
     }
 
     public void loginGame(final @NotNull Message m) throws Exception {
-        final String uname = util.strSQL(m.reader().readUTF());
+        String uname = util.strSQL(m.reader().readUTF());
         final String passw = util.strSQL(m.reader().readUTF());
+
+        if (uname.equals("-1")) {
+            uname = this.getClientIpAddress();
+        }
+
+        util.Debug("uname/passw: " + uname + "/" + passw);
         final String version = m.reader().readUTF();
         final String t1 = m.reader().readUTF();
         final String packages = m.reader().readUTF();

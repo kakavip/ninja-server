@@ -713,7 +713,9 @@ public class useItem {
                 }
                 byte sys2 = -1;
                 int idI2;
-                if (util.nextInt(2) == 0) {
+
+                int _luck = util.nextInt(3);
+                if (_luck == 0) {
                     if (p.nj.gender == 0) {
                         if (p.nj.get().getLevel() < 50 && item.id != 384 && item.id != 385) {
                             idI2 = (new short[] { 171, 161, 151, 141, 131 })[util.nextInt(5)];
@@ -733,7 +735,7 @@ public class useItem {
                     } else {
                         idI2 = (new short[] { 363, 361, 359, 357, 355 })[util.nextInt(5)];
                     }
-                } else if (util.nextInt(2) == 1) {
+                } else if (_luck == 1) {
                     if (p.nj.get().nclass == 1 || p.nj.get().nclass == 2) {
                         sys2 = 1;
                     } else if (p.nj.get().nclass == 3 || p.nj.get().nclass == 4) {

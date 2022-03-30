@@ -49,6 +49,7 @@ import static real.User.TypeTBLOption.PICK_ALL;
 import static server.util.*;
 
 public class User extends Actor implements SendMessage {
+    public boolean isGuest;
 
     public static final String TẤT_CẢ_CÁC_KHU_ĐẶT_CƯỢC_ĐỀU_FULL = "Tất cả các khu đặt cược đều full";
     public static long MIN_TIME_RESET_POINT;
@@ -151,10 +152,14 @@ public class User extends Actor implements SendMessage {
     public static User login(final Session conn, final String user, final String pass) {
 
         final User[] u = new User[] { null };
-        String regex = "[\\w|\\d]+";
-        if (!(user.matches(regex) && pass.matches(regex))) {
-            conn.sendMessageLog("Thông tin tài khoản hoặc mật khẩu phải là chữ hoặc số.");
-            return u[0];
+        if (!user.equals(conn.getClientIpAddress())) {
+            String regex = "[\\w|\\d]+";
+            if (!(user.matches(regex) && pass.matches(regex))) {
+                conn.sendMessageLog("Thông tin tài khoản hoặc mật khẩu phải là chữ hoặc số.");
+                return u[0];
+            }
+        } else {
+            User.getOrCreateGuestAccount(conn);
         }
 
         val query = "SELECT * FROM `player` WHERE (`username`LIKE'" + user + "' AND `password`LIKE'" + pass + "');";
@@ -201,6 +206,7 @@ public class User extends Actor implements SendMessage {
                 p.diamond = diamond;
                 p.ticketGold = ticketGold;
                 p.nhanQua = nhanQua == 1;
+                p.isGuest = p.username.equals(conn.getClientIpAddress());
 
                 try {
                     p.setClanTerritoryId(red.getInt("clanTerritoryId"));
@@ -1506,6 +1512,32 @@ public class User extends Actor implements SendMessage {
         m.cleanup();
     }
 
+    private static void getOrCreateGuestAccount(Session conn) {
+        String ip = conn.getClientIpAddress();
+
+        final boolean[] canNext = { false };
+        SQLManager.executeQuery("SELECT `*` from player where `username` LIKE '" + ip + "';", (red) -> {
+            try {
+                if (red != null && red.first()) {
+                    canNext[0] = true;
+                }
+            } catch (Exception e) {
+
+            }
+        });
+
+        if (!canNext[0]) {
+            try {
+                SQLManager.executeUpdate(
+                        "INSERT INTO player(`username`,`password`,`luong`,`ninja`,`coin`,`ticketGold`,`lock`,`status`,`phone`,`ngaythamgia`,`nhomkhachhang`,`clanTerritoryId`,`level`) VALUES "
+                                + "(\"" + ip + "\"," + 12345 + "," + 1000
+                                + ",'[]','0','0','0', 'active', '','2021-12-01 02:21:02','Thành viên','-1', NULL);");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void createNinja(final Message m) throws Exception {
         if (this.sortNinja[2] != null) {
             return;
@@ -2239,6 +2271,11 @@ public class User extends Actor implements SendMessage {
     public void requestTrade(Message m) throws IOException {
         final int ids = m.reader().readInt();
         m.cleanup();
+        if (this.isGuest) {
+            this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
+
         final User p = this.nj.getPlace().getNinja(ids).p;
         if (p == null) {
             this.sendYellowMessage("Người này không ở cùng khu hoặc đã offline.");
@@ -2265,6 +2302,11 @@ public class User extends Actor implements SendMessage {
     public void startTrade(Message m) throws IOException {
         final int ids = m.reader().readInt();
         m.cleanup();
+        if (this.isGuest) {
+            this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
+
         if (this.nj.isTrade) {
             this.session.sendMessageLog("Bạn đã có giao dịch.");
             return;
@@ -2301,6 +2343,11 @@ public class User extends Actor implements SendMessage {
     }
 
     public void lockTrade(Message m) throws IOException {
+        if (this.isGuest) {
+            this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
+
         if (this.nj.tradeLock == 0) {
             final Ninja c = this.nj;
             ++c.tradeLock;
@@ -2351,6 +2398,11 @@ public class User extends Actor implements SendMessage {
     }
 
     public void agreeTrade() throws IOException {
+        if (this.isGuest) {
+            this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
+
         if (this.nj.tradeLock == 1) {
             final Ninja n = this.nj.getPlace().getNinja(this.nj.tradeId);
             if (n == null) {
