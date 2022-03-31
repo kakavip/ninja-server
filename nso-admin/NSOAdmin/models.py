@@ -5,6 +5,7 @@ from django.db.models import Sum
 import json
 from NSOAdmin.enums.card_status_enum import CardStatusEnum
 from NSOAdmin.enums.card_type_enum import CardTypeEnum
+from NSOAdmin.enums.cg_type_enum import CGTypeEnum
 
 from NSOAdmin.enums.item_type_enum import ItemTypeEnum
 from NSOAdmin.enums.ninja_class_enum import NinjaClassEnum
@@ -32,9 +33,10 @@ class Player(models.Model):
     customer_group = models.CharField(
         blank=True,
         null=True,
-        default="Thành viên",
+        default=CGTypeEnum.MEMBER.value,
         db_column="nhomkhachhang",
         max_length=30,
+        choices=CGTypeEnum.to_choices(),
     )
     clan_territory_id = models.IntegerField(
         blank=True, null=True, default=-1, db_column="clanTerritoryId"

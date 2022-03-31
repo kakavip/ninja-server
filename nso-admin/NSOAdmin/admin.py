@@ -36,6 +36,7 @@ class PlayerAdmin(admin.ModelAdmin):
     list_display = [
         "pk",
         "username",
+        "customer_group",
         "status",
         "lock",
         "ninja",
@@ -56,9 +57,10 @@ class PlayerAdmin(admin.ModelAdmin):
         "status",
         # "ticket_gold",
         "nhan_qua",
+        "customer_group",
     ]
     search_fields = ["username", "password", "ninja", "ip"]
-    list_filter = ["status", "nhan_qua", "lock"]
+    list_filter = ["status", "nhan_qua", "lock", "customer_group"]
     actions = [lock_some_accounts_action, unlock_som_accounts_action]
 
 
