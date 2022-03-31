@@ -1415,12 +1415,15 @@ public class Body implements ISoloer {
     }
 
     public boolean canAttack() {
-        User p = this.c.p;
-
         if (!this.canUseSkill()) {
             return false;
         }
 
+        return this.canAttackWithNoSkill();
+    }
+
+    public boolean canAttackWithNoSkill() {
+        User p = this.c.p;
         if (!this.canUseVukhi()) {
             p.sendYellowMessage("Vũ khí không hợp lệ");
             return false;

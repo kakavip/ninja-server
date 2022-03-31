@@ -339,7 +339,7 @@ public class Controller implements ISessionHandler {
                         val cloneMessage = message.cloneMessage();
                         p.nj.getPlace().FightMob(p.nj.get(), message);
                         if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()
-                                && p.nj.get().canAttack()) {
+                                && p.nj.get().canAttackWithNoSkill()) {
                             p.nj.getPlace().FightMob(p.nj.clone, (Message) cloneMessage);
                         }
                         break;
@@ -353,7 +353,7 @@ public class Controller implements ISessionHandler {
                             val cloneMessage = message.cloneMessage();
                             p.nj.getPlace().attackNinja(p.nj.get(), message);
                             if (p.nj.get().isHuman && p.nj.clone != null && p.nj.clone.isIslive()
-                                    && p.nj.get().canAttack()) {
+                                    && p.nj.get().canAttackWithNoSkill()) {
                                 p.nj.getPlace().attackNinja(p.nj.clone, (Message) cloneMessage);
                             }
                             break;
