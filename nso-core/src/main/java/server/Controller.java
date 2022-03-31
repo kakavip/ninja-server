@@ -127,6 +127,10 @@ public class Controller implements ISessionHandler {
                 }
                 case -12: {
                     if (p != null && !p.nj.isDie) {
+                        if (p.isGuest) {
+                            p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+                            break;
+                        }
                         final byte index = message.reader().readByte();
                         p.nj.getPlace().leaveItemBackground(p, index);
                         break;
