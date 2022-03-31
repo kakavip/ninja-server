@@ -1529,9 +1529,11 @@ public class User extends Actor implements SendMessage {
         if (!canNext[0]) {
             try {
                 SQLManager.executeUpdate(
-                        "INSERT INTO player(`username`,`password`,`luong`,`ninja`,`coin`,`ticketGold`,`lock`,`status`,`phone`,`ngaythamgia`,`nhomkhachhang`,`clanTerritoryId`,`level`) VALUES "
+                        "INSERT INTO player(`username`,`password`,`luong`,`ninja`,`coin`,`ticketGold`,`lock`,`status`,`phone`,`ngaythamgia`,`nhomkhachhang`,`clanTerritoryId`,`level`, `ip`) VALUES "
                                 + "(\"" + ip + "\"," + 12345 + "," + 1000
-                                + ",'[]','0','0','0', 'active', '','2021-12-01 02:21:02','Thành viên','-1', NULL);");
+                                + ",'[]','0','0','0', 'active', NULL,'2021-12-01 02:21:02','Dùng Thử','-1', NULL, '"
+                                + ip
+                                + "');");
             } catch (Exception e) {
                 e.printStackTrace();
             }
