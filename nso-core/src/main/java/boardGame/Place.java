@@ -1931,7 +1931,6 @@ public class Place {
             for (int j = 0; j < this.getUsers().size(); ++j) {
                 Service.PlayerAttack(this.getUsers().get(j), arMob, body);
             }
-            long xpup = 0L;
             for (byte k = 0; k < arMob.length; ++k) {
                 if (arMob[k] != null) {
                     if (arMob[k].isDie) {
@@ -1940,27 +1939,6 @@ public class Place {
                     int stQuai = body.getPramItem(ST_LEN_QUAI_ID);
                     float dame = util.nextInt((int) body.dameMin(), (int) body.dameMax());
                     attackAMob(body, arMob[k], (int) (dame + stQuai));
-                }
-            }
-
-            if (xpup > 0L) {
-                if (this.map.cave != null) {
-                    this.map.cave.updateXP(xpup);
-                } else {
-                    if (p.nj.isNhanban) {
-                        xpup /= 4L;
-                    }
-                    p.updateExp(xpup, true);
-                    xpup /= 5L;
-                    if (body.party != null) {
-                        for (int i2 = 0; i2 < this.getUsers().size(); ++i2) {
-                            final User p2 = this.getUsers().get(i2);
-                            if (p2.nj.id != p.nj.id && p2.nj.party == p.nj.party
-                                    && Math.abs(p2.nj.getLevel() - p.nj.getLevel()) <= 10) {
-                                p2.updateExp(xpup, true);
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -2145,6 +2123,35 @@ public class Place {
 
         if (this.map.cave != null || (curMob.level > 1 && Math.abs(curMob.level - body.getLevel()) <= 10)) {
             xpup += xpnew * (75 + 2.5 * (curMob.level - body.getLevel())) / 200;
+        }
+        if (isCloneAttackWithChuthan) {
+            if (Math.abs(curMob.level - p.nj.get().getLevel()) <= 10) {
+                xpup /= 10;
+            } else {
+                xpup = 0L;
+            }
+        }
+
+        if (xpup > 0L) {
+            if (this.map.cave != null) {
+                this.map.cave.updateXP(xpup / 2);
+            } else {
+
+                if (p.nj.isNhanban) {
+                    xpup /= 4L;
+                }
+                p.updateExp(xpup, true);
+                xpup /= 10L;
+                if (body.party != null) {
+                    for (int i2 = 0; i2 < this.getUsers().size(); ++i2) {
+                        final User p2 = this.getUsers().get(i2);
+                        if (p2.nj.id != p.nj.id && p2.nj.party == p.nj.party
+                                && Math.abs(p2.nj.getLevel() - p.nj.getLevel()) <= 10) {
+                            p2.updateExp(xpup, true);
+                        }
+                    }
+                }
+            }
         }
 
         if (map.isLdgtMap()) {
@@ -2437,27 +2444,6 @@ public class Place {
                         }
                     } else {
                         this.map.cave.openMap();
-                    }
-                }
-            }
-        }
-        if (xpup > 0L) {
-            if (this.map.cave != null) {
-                this.map.cave.updateXP(xpup / 2);
-            } else {
-
-                if (p.nj.isNhanban) {
-                    xpup /= 2L;
-                }
-                p.updateExp(xpup, true);
-                xpup /= 10L;
-                if (body.party != null) {
-                    for (int i2 = 0; i2 < this.getUsers().size(); ++i2) {
-                        final User p2 = this.getUsers().get(i2);
-                        if (p2.nj.id != p.nj.id && p2.nj.party == p.nj.party
-                                && Math.abs(p2.nj.getLevel() - p.nj.getLevel()) <= 10) {
-                            p2.updateExp(xpup, true);
-                        }
                     }
                 }
             }
