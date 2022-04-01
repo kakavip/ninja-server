@@ -1954,7 +1954,7 @@ public class Place {
             return;
         }
 
-        val p = _char.c.p;
+        User p = _char.c.p;
         if (_char.getCSkill() == -1 && _char.getSkills().size() > 0) {
             _char.setCSkill(_char.getSkills().get(0).id);
         }
@@ -2071,7 +2071,7 @@ public class Place {
         if (curMob.isDie) {
             return;
         }
-        val p = body.c.p;
+        User p = body.c.p;
 
         boolean isCloneAttackWithChuthan = body instanceof CloneChar && !p.nj.isNhanban;
 
@@ -2081,7 +2081,7 @@ public class Place {
             curMob.isThieuDot = true;
             curMob.masterThieuDot = body;
         }
-        if (this.map.cave == null && curMob.isIsboss() && body.getLevel() - curMob.level > 30) {
+        if (this.map.cave == null && curMob.isIsboss() && body.getLevel() - curMob.level > 15) {
             dame = 0;
         }
         final int oldhp = curMob.hp;
