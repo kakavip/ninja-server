@@ -29,6 +29,8 @@ public class Map extends Thread {
     public volatile long lastTimeActive;
     public boolean isEndOfSchoolMap;
 
+    public int multi = 1;
+
     @NotNull
     public static final int[] arrLang;
     @NotNull
@@ -53,10 +55,14 @@ public class Map extends Thread {
     }
 
     public Map(final int id, final Cave cave) {
-        this(id, cave, MapTemplate.arrTemplate[id].numarea);
+        this(id, cave, 1);
     }
 
-    public Map(final int id, final Cave cave, final int maxArea) {
+    public Map(final int id, final Cave cave, final int multi) {
+        this(id, cave, MapTemplate.arrTemplate[id].numarea, multi);
+    }
+
+    private Map(final int id, final Cave cave, final int maxArea, final int multi) {
         this.timeMap = -1L;
         this.id = id;
         this.template = MapTemplate.arrTemplate[id];
@@ -94,6 +100,7 @@ public class Map extends Thread {
         this.loadMapFromResource();
         this.loadMap(this.template.id);
 
+        this.multi = multi;
         this.initMob();
         this.runing = true;
         lastTimeActive = System.currentTimeMillis();
@@ -169,6 +176,9 @@ public class Map extends Thread {
                     m.hpmax = n3;
                     m.hp = n3;
                 }
+
+                m.hpmax *= this.multi;
+                m.hp *= this.multi;
 
                 if (isLdgtMap()) {
                     m.isRefresh = false;

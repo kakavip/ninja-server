@@ -1471,6 +1471,8 @@ public class Place {
                     mob.hpmax = n4;
                     mob.hp = n4;
                 }
+                mob.hpmax *= map.multi;
+                mob.hp *= map.multi;
                 mob.status = 5;
                 mob.isDie = false;
                 mob.setTimeRefresh(0L);

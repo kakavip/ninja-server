@@ -486,15 +486,19 @@ public class MenuController {
                                         }
                                     }
 
+                                    int multi = 1;
+                                    if (p.nj.get().getLevel() > 130) {
+                                        multi = 2;
+                                    }
                                     if (p.nj.party != null) {
                                         if (p.nj.party.cave == null) {
-                                            cave = new Cave(9);
+                                            cave = new Cave(9, multi);
                                             p.nj.party.openCave(cave, p.nj.name);
                                         } else {
                                             cave = p.nj.party.cave;
                                         }
                                     } else {
-                                        cave = new Cave(9);
+                                        cave = new Cave(9, multi);
                                     }
                                     p.nj.caveID = cave.caveID;
                                 }
