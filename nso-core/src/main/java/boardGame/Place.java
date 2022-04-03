@@ -2136,10 +2136,9 @@ public class Place {
             if (this.map.cave != null) {
                 this.map.cave.updateXP(xpup / 2);
             } else {
-
-                if (p.nj.isNhanban) {
-                    xpup /= 4L;
-                }
+                // if (p.nj.isNhanban) {
+                // xpup /= 4L;
+                // }
                 p.updateExp(xpup, true);
                 xpup /= 10L;
                 if (body.party != null) {
