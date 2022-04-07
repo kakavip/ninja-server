@@ -157,12 +157,12 @@ public class Manager {
             this.rotationluck[0].start();
         }
         if (rotationluck[1] == null) {
-            this.rotationluck[1] = new RotationLuck("Vòng xoay thường", (byte) 0, (short) 120, 500_000, 100_000_000,
+            this.rotationluck[1] = new RotationLuck("Vòng xoay thường", (byte) 0, (short) 120, 5_000_000, 100_000_000,
                     1_500_000_000);
             this.rotationluck[1].start();
         }
         if (rotationluck[2] == null) {
-            this.rotationluck[2] = new RotationLuck("Tài xỉu", (byte) 2, (short) 60, 500_000, 200_000_000,
+            this.rotationluck[2] = new RotationLuck("Tài xỉu", (byte) 2, (short) 60, 5_000_000, 200_000_000,
                     2_000_000_000);
             this.rotationluck[2].start();
         }
