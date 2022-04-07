@@ -2042,8 +2042,8 @@ public class Place {
                 Mob mob = arrMob[i];
                 if (mob != null) {
                     int fantal = (int) _char.Fatal();
-                    if (fantal > 1000) {
-                        fantal = 1000;
+                    if (fantal > 750) {
+                        fantal = 750;
                     }
                     boolean flag = (util.nextInt(1000) < fantal);
                     int dame = (int) _char.dameMax();
@@ -2086,8 +2086,14 @@ public class Place {
             curMob.isThieuDot = true;
             curMob.masterThieuDot = body;
         }
-        if (this.map.cave == null && curMob.isIsboss() && body.getLevel() - curMob.level > 15) {
-            dame = 0;
+        if (this.map.cave == null && curMob.isIsboss()) {
+            if (this.map.isLangCo()) {
+                if (body.getLevel() - curMob.level > 30) {
+                    dame = 0;
+                }
+            } else if (body.getLevel() - curMob.level > 15) {
+                dame = 0;
+            }
         }
         final int oldhp = curMob.hp;
         int fatal = (int) body.Fatal();
@@ -2109,7 +2115,7 @@ public class Place {
         if (p.nj.isNhanban) {
             dame = dame * p.nj.clone.percendame / 100;
         }
-        int xpnew = (Math.max(dame, 1000) / 50) * body.getLevel();
+        int xpnew = (Math.max(dame, 1000) / 50) * body.getLevel() * 5;
         if (body.getEffType((byte) 18) != null) {
             xpnew *= body.getEffType((byte) 18).param;
         }
@@ -2141,9 +2147,6 @@ public class Place {
             if (this.map.cave != null) {
                 this.map.cave.updateXP(xpup / 2);
             } else {
-                // if (p.nj.isNhanban) {
-                // xpup /= 4L;
-                // }
                 p.updateExp(xpup, true);
                 xpup /= 10L;
                 if (body.party != null) {
@@ -2354,9 +2357,9 @@ public class Place {
             ++this.numMobDie;
             if (this.map.cave != null) {
                 if (!curMob.isIsboss()) {
-                    this.map.cave.updatePoint((int) (Math.pow(3, curMob.lvboss)));
+                    this.map.cave.updatePoint((int) (Math.pow(2, curMob.lvboss)));
                 } else {
-                    this.map.cave.updatePoint(20);
+                    this.map.cave.updatePoint(10);
                 }
             }
             final int master = curMob.sortNinjaFight();
@@ -3082,7 +3085,7 @@ public class Place {
                 }
                 case 0: {
                     mob.isFire = true;
-                    mob.timeFire = System.currentTimeMillis() + 3000L - reduceFireTime;
+                    mob.timeFire = System.currentTimeMillis() + 2000L - reduceFireTime;
                     break;
                 }
                 case 1: {
@@ -3117,7 +3120,7 @@ public class Place {
                 }
                 case 0: {
                     mob.isIce = true;
-                    mob.timeIce = System.currentTimeMillis() + 2500L - reduceIceTime;
+                    mob.timeIce = System.currentTimeMillis() + 1000L - reduceIceTime;
                     break;
                 }
                 case 1: {
@@ -3153,7 +3156,7 @@ public class Place {
                 }
                 case 0: {
                     mob.isWind = true;
-                    mob.timeWind = System.currentTimeMillis() + 2000L - reduceWindTime;
+                    mob.timeWind = System.currentTimeMillis() + 1000L - reduceWindTime;
                     break;
                 }
                 case 1: {
@@ -3193,15 +3196,15 @@ public class Place {
                     break;
                 }
                 case 0: {
-                    time = 3000L - reduceTime;
+                    time = 2000L - reduceTime;
                     break;
                 }
                 case 1: {
-                    time = 4000 - reduceTime;
+                    time = 2000 - reduceTime;
                     break;
                 }
                 case 2: {
-                    time = 5000 - reduceTime;
+                    time = 4000 - reduceTime;
                     break;
                 }
             }
@@ -3240,19 +3243,19 @@ public class Place {
                     break;
                 }
                 case 0: {
-                    time = 2500L - reduceIceTime;
+                    time = 1000L - reduceIceTime;
                     break;
                 }
                 case 1: {
-                    time = 3000L - reduceIceTime;
+                    time = 1500L - reduceIceTime;
                     break;
                 }
                 case 2: {
-                    time = 2000 - reduceIceTime;
+                    time = 1500 - reduceIceTime;
                     break;
                 }
                 case 3: {
-                    time = 5000 - reduceIceTime;
+                    time = 3000 - reduceIceTime;
                     break;
                 }
             }
@@ -3288,16 +3291,15 @@ public class Place {
                     break;
                 }
                 case 0: {
-                    time = 2000L - reduceTime;
-
+                    time = 1000L - reduceTime;
                     break;
                 }
                 case 1: {
-                    time = 2000 - reduceTime;
+                    time = 1000 - reduceTime;
                     break;
                 }
                 case 3: {
-                    time = 5000 - reduceTime;
+                    time = 2000 - reduceTime;
                     break;
                 }
             }
@@ -3346,7 +3348,7 @@ public class Place {
                                 dy = 160;
                             }
                             if (Math.abs(user.nj.get().x - mob.x) < dx && Math.abs(user.nj.get().y - mob.y) < dy) {
-                                int dame = mob.level * mob.level / 4;
+                                int dame = mob.level * mob.level / 10;
                                 if (this.map.cave != null && this.map.cave.finsh > 0 && this.map.getXHD() == 6) {
                                     final int dup = dame = dame * (10 * this.map.cave.finsh + 100) / 100;
                                 }

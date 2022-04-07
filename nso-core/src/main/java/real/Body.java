@@ -1121,10 +1121,10 @@ public class Body implements ISoloer {
         }
 
         int fantal = this.Fatal();
-        if (fantal > 1000) {
-            fantal = 1000;
+        if (fantal > 750) {
+            fantal = 750;
         }
-        boolean flag = (util.nextInt(1, 1500) < fantal);
+        boolean flag = (util.nextInt(1, 1000) < fantal);
 
         int miss = other.Miss();
 
@@ -1135,7 +1135,7 @@ public class Body implements ISoloer {
         }
 
         miss -= Exactly();
-        if (miss > 10000) {
+        if (miss > 7500) {
             miss = 7500;
         }
         if (util.nextInt(0, 10000) < miss) {
