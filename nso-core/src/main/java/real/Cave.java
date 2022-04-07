@@ -34,7 +34,7 @@ public class Cave {
         this(x, 1);
     }
 
-    public Cave(final int x, final int multi) {
+    public Cave(final int x, final float multi) {
         this.level = 0;
         this.finsh = 0;
         this.x = -1;
@@ -64,7 +64,7 @@ public class Cave {
         Cave.caves.put(this.caveID, this);
     }
 
-    private void initMap(final int x, final int multi) {
+    private void initMap(final int x, final float multi) {
         switch (x) {
             case 3: {
                 this.map[0] = new Map(91, this, multi);

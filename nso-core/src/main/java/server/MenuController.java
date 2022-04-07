@@ -472,23 +472,37 @@ public class MenuController {
                                         return;
                                     }
 
+                                    int caveLevel = 1;
+                                    if (p.nj.getLevel() > 130) {
+                                        caveLevel = 2;
+                                    }
+
                                     if (p.nj.party != null && p.nj.party.getKey() != null
                                             && p.nj.party.getKey().get().getLevel() >= 90) {
                                         synchronized (p.nj.party.ninjas) {
                                             for (byte i = 0; i < p.nj.party.ninjas.size(); ++i) {
-                                                if (p.nj.party.ninjas.get(i).getLevel() < 90
-                                                        || p.nj.party.ninjas.get(i).getLevel() > 151) {
-                                                    p.session.sendMessageLog(
-                                                            "Thành viên trong nhóm trình độ không phù hợp");
-                                                    return;
+                                                if (caveLevel == 1) {
+                                                    if (p.nj.party.ninjas.get(i).getLevel() < 90
+                                                            || p.nj.party.ninjas.get(i).getLevel() > 130) {
+                                                        p.session.sendMessageLog(
+                                                                "Thành viên trong nhóm trình độ không phù hợp");
+                                                        return;
+                                                    }
+                                                } else {
+                                                    if (p.nj.party.ninjas.get(i).getLevel() <= 130
+                                                            || p.nj.party.ninjas.get(i).getLevel() > 150) {
+                                                        p.session.sendMessageLog(
+                                                                "Thành viên trong nhóm trình độ không phù hợp");
+                                                        return;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
 
-                                    int multi = 1;
+                                    float multi = 1.0f;
                                     if (p.nj.get().getLevel() > 130) {
-                                        multi = 2;
+                                        multi = 1.5f;
                                     }
                                     if (p.nj.party != null) {
                                         if (p.nj.party.cave == null) {

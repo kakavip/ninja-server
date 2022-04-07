@@ -29,7 +29,7 @@ public class Map extends Thread {
     public volatile long lastTimeActive;
     public boolean isEndOfSchoolMap;
 
-    public int multi = 1;
+    public float multi = 1.0f;
 
     @NotNull
     public static final int[] arrLang;
@@ -58,11 +58,11 @@ public class Map extends Thread {
         this(id, cave, 1);
     }
 
-    public Map(final int id, final Cave cave, final int multi) {
+    public Map(final int id, final Cave cave, final float multi) {
         this(id, cave, MapTemplate.arrTemplate[id].numarea, multi);
     }
 
-    private Map(final int id, final Cave cave, final int maxArea, final int multi) {
+    private Map(final int id, final Cave cave, final int maxArea, final float multi) {
         this.timeMap = -1L;
         this.id = id;
         this.template = MapTemplate.arrTemplate[id];
@@ -177,8 +177,8 @@ public class Map extends Thread {
                     m.hp = n3;
                 }
 
-                m.hpmax *= this.multi;
-                m.hp *= this.multi;
+                m.hpmax = (int) (m.hpmax * this.multi);
+                m.hp = (int) (m.hp * this.multi);
 
                 if (isLdgtMap()) {
                     m.isRefresh = false;
