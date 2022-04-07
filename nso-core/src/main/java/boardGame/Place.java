@@ -540,7 +540,7 @@ public class Place {
                 val item1 = itemDefault(Integer.parseInt(s[1]));
                 if (item1.isTypeNgocKham()) {
                     for (int i = 0; i < Integer.parseInt(s[2]); i++) {
-                        val item = itemNgocDefault(Integer.parseInt(s[1]), x, true);
+                        val item = itemNgocDefault(Integer.parseInt(s[1]), x, true, true);
                         item.quantity = 1;
                         p.nj.addItemBag(false, item);
                     }
@@ -1763,18 +1763,23 @@ public class Place {
             return null;
         }
         Item item;
-        if (data.type < 10) {
-            if (data.type == 1) {
-                item = itemDefault(id);
-                item.sys = GameScr.SysClass(data.nclass);
-            } else {
-                final byte sys = (byte) util.nextInt(1, 3);
-                item = itemDefault(id, sys);
-            }
+        if (ItemData.isNgoc(id)) {
+            boolean canMCS = this.map.cave == null && !this.map.isEndOfSchoolMap;
+            item = itemNgocDefault(id, 1, true, canMCS);
         } else {
-            item = itemDefault(id);
+            if (data.type < 10) {
+                if (data.type == 1) {
+                    item = itemDefault(id);
+                    item.sys = GameScr.SysClass(data.nclass);
+                } else {
+                    final byte sys = (byte) util.nextInt(1, 3);
+                    item = itemDefault(id, sys);
+                }
+            } else {
+                item = itemDefault(id);
+            }
         }
-        if (item.isTypeNgocKham() || item.isTypeBody()) {
+        if (item.isTypeBody()) {
             for (Option option : item.option) {
                 option.param = util.nextInt(option.param * 70 / 100, option.param);
             }

@@ -987,7 +987,7 @@ public class GameScr {
         boolean hasRareItem = false;
         short[] randLatHinhIds = new short[9];
         for (byte i = 0; i < 9; i++) {
-            if (!hasRareItem && util.nextInt(100) < 1) {
+            if (!hasRareItem && util.nextInt(250) < 3) {
                 randLatHinhIds[i] = LAT_HINH_RARE_IDS[util.nextInt(LAT_HINH_RARE_IDS.length)];
                 hasRareItem = true;
             } else {
@@ -1598,10 +1598,30 @@ public class GameScr {
         for (int j = oldUpGrad; j < nextUpgrade; j++) {
 
             for (Option option : mainItem.option) {
-                if (ItemData.PARAMS.containsKey(option.id)) {
-                    option.param += (option.param / Math.abs(option.param))
-                            * util.nextInt((int) (0.4 * ItemData.PARAMS.get(option.id)),
-                                    (int) (0.7 * ItemData.PARAMS.get(option.id)));
+                if (ItemData.PARAMS.containsKey(option.id) && option.param > 0) {
+                    if (ItemData.EXTRA_PARAMS.containsKey(option.id)) {
+                        int counter = 0;
+                        int maxParam = 0;
+                        for (Integer cs : ItemData.EXTRA_PARAMS.get(option.id)) {
+                            maxParam += cs;
+                            counter += 1;
+
+                            if (counter >= j) {
+                                break;
+                            }
+                        }
+                        if (maxParam == 0) {
+                            maxParam = 1;
+                        }
+
+                        int percent = (int) (option.param * 100.0f / maxParam);
+                        option.param += util.nextInt(percent, 100) * ItemData.EXTRA_PARAMS.get(option.id).get(j + 1);
+
+                    } else {
+                        option.param += (option.param / Math.abs(option.param))
+                                * util.nextInt((int) (0.4 * ItemData.PARAMS.get(option.id)),
+                                        (int) (0.7 * ItemData.PARAMS.get(option.id)));
+                    }
                 }
             }
 
