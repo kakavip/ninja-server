@@ -628,7 +628,7 @@ public class useItem {
                 } else {
                     final short[] arId = { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,
                             4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 242, 275, 276, 277, 278,
-                            280, 280, 280, 283, 284, 285, 436, 437 };
+                            283, 284, 285, 436, 437 };
                     final short idI = arId[util.nextInt(arId.length)];
                     final ItemData data2 = ItemData.ItemDataId(idI);
                     Item itemup;
@@ -1020,7 +1020,7 @@ public class useItem {
                 } else {
                     final short[] arId = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6,
                             6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 280, 280, 280, 436,
-                            437, 539, 540, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632,
+                            437, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632,
                             633, 634, 635, 636, 637 };
                     final short idI = arId[util.nextInt(arId.length)];
                     final ItemData data2 = ItemData.ItemDataId(idI);
