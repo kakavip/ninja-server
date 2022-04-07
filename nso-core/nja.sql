@@ -24952,6 +24952,8 @@ update `ninja` set `caiTrang`='-1' where id is not null;
 alter table `ninja`
 modify column `caiTrang` smallint(6) NOT NULL DEFAULT '-1';
 
+alter table `ninja`
+modify column `DVPoints` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '[300,300,300,300,300,300,300,300,300,300]';
 
 --
 -- Dumping data for table `ninja`
