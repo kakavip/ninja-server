@@ -868,6 +868,7 @@ public class TaskList {
                                                                 -1, 250, 250, -1
                                                 })
                                                 .rewards(new int[][] {
+                                                                { 226, 1 },
                                                                 { EXP_ID, 80_000_000 },
                                                                 { LUONG_ID, 200 },
 
@@ -890,7 +891,7 @@ public class TaskList {
                                                                 "Báo cáo với Guriin"
                                                 })
                                                 .rewards(new int[][] {
-                                                                { 226, 1 },
+
                                                                 { EXP_ID, 80_000_000 },
                                                                 { LUONG_ID, 200 },
                                                 })
@@ -1046,6 +1047,7 @@ public class TaskList {
                                                                 "Báo cáo với Guriin"
                                                 })
                                                 .rewards(new int[][] {
+                                                                { 227, 1 },
                                                                 { EXP_ID, 100_000_000 },
                                                                 { LUONG_ID, 500 },
                                                 })
@@ -1082,7 +1084,6 @@ public class TaskList {
                                                                 -1
                                                 })
                                                 .rewards(new int[][] {
-                                                                { 227, 1 },
                                                                 { EXP_ID, 100_000_000 },
                                                                 { LUONG_ID, 500 },
                                                 })

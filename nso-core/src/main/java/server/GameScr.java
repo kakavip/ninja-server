@@ -1596,31 +1596,31 @@ public class GameScr {
 
     public static void upgradeNgoc(Item mainItem, int oldUpGrad, int nextUpgrade) {
         for (int j = oldUpGrad; j < nextUpgrade; j++) {
-
             for (Option option : mainItem.option) {
-                if (ItemData.PARAMS.containsKey(option.id) && option.param > 0) {
-                    if (ItemData.EXTRA_PARAMS.containsKey(option.id)) {
-                        int counter = 0;
+                if (ItemData.PARAMS.containsKey(option.id)) {
+                    if (ItemData.EXTRA_PARAMS.containsKey(option.id) && option.param > 0) {
                         int maxParam = 0;
-                        for (Integer cs : ItemData.EXTRA_PARAMS.get(option.id)) {
-                            maxParam += cs;
-                            counter += 1;
-
-                            if (counter >= j) {
-                                break;
-                            }
+                        for (int i = 0; i < j; i++) {
+                            maxParam += ItemData.EXTRA_PARAMS.get(option.id).get(i);
                         }
                         if (maxParam == 0) {
                             maxParam = 1;
                         }
 
                         int percent = (int) (option.param * 100.0f / maxParam);
-                        option.param += util.nextInt(percent, 100) * ItemData.EXTRA_PARAMS.get(option.id).get(j + 1);
+                        percent = Math.min(99, percent);
+                        util.Debug("Percent Ngoc option " + option.id + " up to " + (j + 1) + ": " + percent);
+
+                        option.param += (int) (util.nextInt(percent, 100) * 1.0f / 100
+                                * ItemData.EXTRA_PARAMS.get(option.id).get(j));
 
                     } else {
+                        if (option.param == 0) {
+                            option.param = -1;
+                        }
                         option.param += (option.param / Math.abs(option.param))
-                                * util.nextInt((int) (0.4 * ItemData.PARAMS.get(option.id)),
-                                        (int) (0.7 * ItemData.PARAMS.get(option.id)));
+                                * util.nextInt((int) (0.1 * ItemData.PARAMS.get(option.id)),
+                                        (int) (0.3 * ItemData.PARAMS.get(option.id)));
                     }
                 }
             }

@@ -672,7 +672,7 @@ public class ItemData {
     }
 
     private static double getLowCoef() {
-        return util.nextInt(60, 100) * 1.0 / 100;
+        return util.nextInt(30) * 1.0 / 100;
     }
 
     @NotNull
@@ -704,7 +704,7 @@ public class ItemData {
                                     : PARAMS.get(TAN_CONG_ID)));
             item.option.add(
                     new Option(CHI_MANG_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(CHI_MANG_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(CHI_MANG_ID))
                                     : PARAMS.get(CHI_MANG_ID))));
 
             item.option.add(TRANG_BI_OPTION);
@@ -723,7 +723,7 @@ public class ItemData {
                             random ? (int) (getHighCoef(canMCS) * PARAMS.get(NE_DON_ID)) : PARAMS.get(NE_DON_ID)));
             item.option.add(
                     new Option(MOI_GIAY_HOI_PHUC_MP_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(MOI_GIAY_HOI_PHUC_MP_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(MOI_GIAY_HOI_PHUC_MP_ID))
                                     : PARAMS.get(MOI_GIAY_HOI_PHUC_MP_ID))));
         }
 
@@ -734,7 +734,7 @@ public class ItemData {
                             random ? (int) (getHighCoef(canMCS) * PARAMS.get(ST_LEN_QUAI_ID))
                                     : PARAMS.get(ST_LEN_QUAI_ID)));
             item.option.add(new Option(NE_DON_ID,
-                    -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(NE_DON_ID)) : PARAMS.get(NE_DON_ID))));
+                    -(random ? (int) (getLowCoef() * PARAMS.get(NE_DON_ID)) : PARAMS.get(NE_DON_ID))));
 
             item.option.add(TRANG_BI_OPTION);
             item.option
@@ -751,7 +751,7 @@ public class ItemData {
                             : PARAMS.get(CHI_MANG_ID)));
             item.option.add(
                     new Option(KHANG_TAT_CA_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(KHANG_TAT_CA_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(KHANG_TAT_CA_ID))
                                     : PARAMS.get(KHANG_TAT_CA_ID))));
 
         }
@@ -764,7 +764,7 @@ public class ItemData {
                             random ? (int) (getHighCoef(canMCS) * PARAMS.get(ST_LEN_NGUOI_ID))
                                     : PARAMS.get(ST_LEN_NGUOI_ID)));
             item.option.add(
-                    new Option(HP_TOI_DA_ID, -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(HP_TOI_DA_ID))
+                    new Option(HP_TOI_DA_ID, -(random ? (int) (getLowCoef() * PARAMS.get(HP_TOI_DA_ID))
                             : PARAMS.get(HP_TOI_DA_ID))));
 
             item.option.add(TRANG_BI_OPTION);
@@ -773,7 +773,7 @@ public class ItemData {
                             : PARAMS.get(KHANG_SAT_THUONG_CHI_MANG_ID)));
             item.option.add(
                     new Option(MOI_GIAY_HOI_PHUC_HP_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(MOI_GIAY_HOI_PHUC_HP_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(MOI_GIAY_HOI_PHUC_HP_ID))
                                     : PARAMS.get(MOI_GIAY_HOI_PHUC_HP_ID))));
 
             item.option.add(TRANG_SUC_OPTION);
@@ -783,7 +783,7 @@ public class ItemData {
                                     : PARAMS.get(CHINH_XAC_ID)));
             item.option.add(
                     new Option(PHAN_DON_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(PHAN_DON_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(PHAN_DON_ID))
                                     : PARAMS.get(PHAN_DON_ID))));
 
         }
@@ -797,7 +797,7 @@ public class ItemData {
                                     : PARAMS.get(ST_CHI_MANG_ID)));
             item.option.add(
                     new Option(CHINH_XAC_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(CHINH_XAC_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(CHINH_XAC_ID))
                                     : PARAMS.get(CHINH_XAC_ID))));
 
             item.option.add(TRANG_BI_OPTION);
@@ -807,7 +807,7 @@ public class ItemData {
                                     : PARAMS.get(HP_TOI_DA_ID)));
             item.option.add(
                     new Option(MP_TOI_DA_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(MP_TOI_DA_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(MP_TOI_DA_ID))
                                     : PARAMS.get(MP_TOI_DA_ID))));
 
             item.option.add(TRANG_SUC_OPTION);
@@ -817,7 +817,7 @@ public class ItemData {
                                     : PARAMS.get(MP_TOI_DA_ID)));
             item.option.add(
                     new Option(GIAM_TRU_ST_ID,
-                            -(random ? (int) (getHighCoef(canMCS) * PARAMS.get(GIAM_TRU_ST_ID))
+                            -(random ? (int) (getLowCoef() * PARAMS.get(GIAM_TRU_ST_ID))
                                     : PARAMS.get(GIAM_TRU_ST_ID))));
 
         }
