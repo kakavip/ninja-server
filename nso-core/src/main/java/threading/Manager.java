@@ -92,6 +92,8 @@ public class Manager {
     public static short[] VDMQ_ITEM_IDS;
     public static short[] EMPTY = new short[0];
 
+    public static short[] EXPAND_TASK_ITEM_IDS;
+
     public static long MIN_TIME_REFRESH_MOB;
     public static long MIN_TIME_REFRESH_BOSS;
     public static short[] BOSS_ITEM_LV45;
@@ -152,7 +154,7 @@ public class Manager {
         this.loadConfigFile();
         this.EVENT = 0;
         if (this.rotationluck[0] == null) {
-            this.rotationluck[0] = new RotationLuck("Vòng xoay vip", (byte) 1, (short) 120, 1_000, 1_000_000,
+            this.rotationluck[0] = new RotationLuck("Vòng xoay vip", (byte) 1, (short) 120, 5_000, 1_000_000,
                     500_000_000, "lượng");
             this.rotationluck[0].start();
         }
@@ -205,6 +207,7 @@ public class Manager {
             N_YEN = Byte.parseByte(properties.getProperty("n-yen"));
             LANG_CO_ITEM_IDS = parseShortArray(properties.getProperty("lang-co-item-ids"));
             VDMQ_ITEM_IDS = parseShortArray(properties.getProperty("vdmq-item-ids"));
+            EXPAND_TASK_ITEM_IDS = parseShortArray(properties.getProperty("expand-task-item-ids"));
             N_DA = Byte.parseByte(properties.getProperty("n-da"));
             N_HP_MP = Byte.parseByte(properties.getProperty("n-hp-mp"));
             N_PMNG = Byte.parseByte(properties.getProperty("n-pmng"));

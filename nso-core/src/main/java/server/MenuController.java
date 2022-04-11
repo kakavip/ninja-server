@@ -2472,6 +2472,126 @@ public class MenuController {
                     p.upluongMessage(-10_000);
                     break;
                 }
+                case 36_7: {
+                    switch (menuId) {
+                        case 0:
+                            p.typemenu = 36_7_0;
+                            this.doMenuArray(p, new String[] { "Tre xanh 100 đốt", "Tre vàng 100 đốt" });
+                            break;
+                        case 1:
+                            p.typemenu = 36_7_1;
+                            this.doMenuArray(p, new String[] { "Nhận", "Huỷ", "Hoàn thành", "Hướng dẫn" });
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case 36_7_0: {
+                    int itemId = 592 + menuId;
+
+                    if (server.manager.EVENT != 0 && EventItem.isEventItem(itemId)) {
+
+                        if (p.nj.quantityItemyTotal(itemId) <= 0) {
+                            p.session.sendMessageLog(
+                                    "Bạn không đủ " + ItemData.ItemDataId(itemId).name + " để sử dụng.");
+                            break;
+                        }
+
+                        EventItem entry = EventItem.getEventItemFromOutputItemId(itemId);
+                        if (entry == null) {
+                            p.sendYellowMessage("Sự kiện này đã kết thúc không còn sử dụng được vật phẩm này nữa");
+                            return;
+                        }
+
+                        if (EventItem.isEventGiftUserItem(itemId)) {
+                            server.menu.sendWrite(p, (short) (MIN_EVENT_MENU_ID + itemId),
+                                    "Nhập tên người muốn tặng");
+                        } else {
+                            if (util.nextInt(10) < 3) {
+                                p.updateExp(entry.getOutput().getExp(), false);
+                            } else {
+                                final short[] arId = entry.getOutput().getIdItems();
+                                final short idI = arId[util.nextInt(arId.length)];
+                                p.nj.randomItem(false, idI);
+                            }
+                            p.nj.updateEventData(itemId, 1);
+                            p.nj.removeItemBags(itemId, 1);
+                        }
+                    }
+                    break;
+                }
+                case 36_7_1: {
+                    switch (menuId) {
+                        case 0: {
+                            if (p.nj.getTasks()[NHIEM_VU_MO_RONG] != null) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Bạn chưa hoàn thành nhiệm vụ, không thể nhận tiếp.");
+                                break;
+                            }
+
+                            if (p.nj.quantityItemyTotal(595) <= 0) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId,
+                                        "Bạn chưa có tín vật. vui lòng  tại ghoso.");
+                                break;
+                            }
+
+                            TaskOrder task = createMoRongTask();
+                            p.nj.addTaskOrder(task);
+                            p.nj.removeItemBags(595, 1);
+
+                            String tsTxt = "";
+                            switch (task.getKillId()) {
+                                case TaskOrder.VXMM_NORMAL_KILL_ID:
+                                    tsTxt = "VXMM Thường";
+                                    break;
+                                case TaskOrder.VXMM_VIP_KILL_ID:
+                                    tsTxt = "VXMM VIP";
+                                    break;
+                                case TaskOrder.TAI_XIU_KILL_ID:
+                                    tsTxt = "Tài Xỉu";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            p.nj.getPlace().chatNPC(p, (short) npcId,
+                                    "Chẳng có thông tin mật nào cả. Cùng ta thử thách vận may với " + task.getMaxCount()
+                                            + " ván "
+                                            + tsTxt + " nào.");
+                            break;
+                        }
+                        case 1: {
+                            if (p.nj.getTasks()[NHIEM_VU_MO_RONG] != null) {
+                                p.nj.huyNhiemVu(NHIEM_VU_MO_RONG);
+                                p.nj.getPlace().chatNPC(p, (short) npcId, "Huỷ nhiệm vụ thành công.");
+                            } else {
+                                p.nj.getPlace().chatNPC(p, (short) npcId, "Con chưa có nhiệm vụ nào cả.");
+                            }
+                            break;
+                        }
+                        case 2: {
+                            if (!p.nj.hoanThanhNhiemVu(NHIEM_VU_MO_RONG)) {
+                                p.nj.getPlace().chatNPC(p, (short) npcId, "Hãy tiếp tục hoàn thành nhiệm vụ ta giao.");
+                                break;
+                            }
+                            break;
+                        }
+                        case 3: {
+                            String s = "";
+                            if (p.nj.getTasks()[NHIEM_VU_MO_RONG] != null) {
+                                TaskOrder task = p.nj.getTasks()[NHIEM_VU_MO_RONG];
+                                s += task.mrText();
+                            } else {
+                                s = "Chưa có thông tin.";
+                            }
+
+                            Service.sendThongBao(p.nj, s);
+                            break;
+                        }
+                    }
+                    break;
+                }
                 case 572: {
                     switch (menuId) {
                         case 0: {
@@ -2676,13 +2796,17 @@ public class MenuController {
             String[] itemNames = new String[EventItem.entrys.length + 2];
 
             for (int i = 0; i < itemNames.length - 2; i++) {
-                itemNames[i] = "Làm " + EventItem.entrys[i].getOutput().getItemData().name;
+                itemNames[i] = "Làm ";
+                if (EventItem.entrys[i].getOutput().getCount() > 1) {
+                    itemNames[i] += EventItem.entrys[i].getOutput().getCount() + " ";
+                }
+                itemNames[i] += EventItem.entrys[i].getOutput().getItemData().name;
             }
             itemNames[EventItem.entrys.length] = "Hướng dẫn";
             itemNames[EventItem.entrys.length + 1] = "Top sự kiện";
 
             createMenu(33, itemNames,
-                    "Sự kiện 8/3 đã chính thức bắt đầu. Nhanh tay thu thập đủ các nguyên liệu làm bó hoa để tặng những người mình yêu thương...",
+                    "Dù ai đi ngược về xuôi, nhớ ngày Giỗ Tổ mùng mười tháng ba… Câu ca dao đã được khắc sâu trong lòng mỗi người dân Việt Nam chúng ta từ xưa nay luôn nhắc nhở công lao các vị vua đã dựng nước.",
                     p);
         }
         if (idnpc == 24 && p.nj.getLevel() >= 1) {
@@ -2765,7 +2889,11 @@ public class MenuController {
             short featureCode = Manager.ID_FEATURES[index];
             switch (featureCode) {
                 case 1: {
-                    p.nj.get().exptype = 0;
+                    p.nj.get().exptype = (byte) (1 - p.nj.get().exptype);
+                    String status = p.nj.get().exptype == 1 ? "bật" : "tắt";
+
+                    p.nj.getPlace().chatNPC(p, idNpc,
+                            "Con đang " + status + " nhận EXP.");
                     break;
                 }
                 case 2: {
@@ -2820,6 +2948,13 @@ public class MenuController {
 
                     break;
                 }
+                case 7: {
+                    // su kien
+                    p.typemenu = 36_7;
+                    doMenuArray(p, new String[] {
+                            "Tre 100 đốt", "Nhiệm vụ truyền tin" });
+                    break;
+                }
                 default:
                     p.nj.getPlace().chatNPC(p, idNpc, "Ta đứng đây từ " + (util.nextInt(0, 1) == 1 ? "chiều" : "trưa"));
             }
@@ -2848,7 +2983,8 @@ public class MenuController {
                             }
 
                         }
-                        huongDan += "Để làm " + entry.getOutput().getItem().getData().name + " cần\n\t" + s;
+                        huongDan += "Để làm " + entry.getOutput().getCount() + " "
+                                + entry.getOutput().getItem().getData().name + " cần\n\t" + s;
                         if (entry.getCoin() > 0) {
                             huongDan += ", " + entry.getCoin() + " xu";
                         }
@@ -2914,7 +3050,7 @@ public class MenuController {
             }
 
             Item it = entry.getOutput().getItem();
-            it.quantity = quantity;
+            it.quantity = quantity * it.quantity;
 
             p.nj.addItemBag(true, it);
             p.nj.upxuMessage(-entry.getCoin() * quantity);

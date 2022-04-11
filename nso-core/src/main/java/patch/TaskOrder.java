@@ -3,6 +3,8 @@ package patch;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import server.RotationLuck;
 import server.util;
 import threading.Map;
 import threading.Server;
@@ -19,17 +21,18 @@ public class TaskOrder implements Serializable, Cloneable {
     public static int NHIEM_VU_HANG_NGAY = 0;
     public static int NHIEM_VU_TA_THU = 1;
     public static int NHIEM_VU_DANH_VONG = 2;
+    public static int NHIEM_VU_MO_RONG = 3;
 
-    public static int BU_NHIN_KILL_ID = -1;
-    public static int NORMAL_MOB_KILL_ID = -2;
-    public static int INCREASE_PK_POINT_KILL_ID = -3;
-    public static int TAI_XIU_KILL_ID = -4;
-    public static int VXMM_NORMAL_KILL_ID = -5;
-    public static int TA_MOB_KILL_ID = -6;
-    public static int TL_MOB_KILL_ID = -7;
-    public static int UPGRADE_TONE_KILL_ID = -8;
-    public static int LAT_HINH_KILL_ID = -9;
-    public static int VXMM_VIP_KILL_ID = -10;
+    public static final int BU_NHIN_KILL_ID = -1;
+    public static final int NORMAL_MOB_KILL_ID = -2;
+    public static final int INCREASE_PK_POINT_KILL_ID = -3;
+    public static final int TAI_XIU_KILL_ID = -4;
+    public static final int VXMM_NORMAL_KILL_ID = -5;
+    public static final int TA_MOB_KILL_ID = -6;
+    public static final int TL_MOB_KILL_ID = -7;
+    public static final int UPGRADE_TONE_KILL_ID = -8;
+    public static final int LAT_HINH_KILL_ID = -9;
+    public static final int VXMM_VIP_KILL_ID = -10;
 
     public static int MAX_NVDV_PER_DAY = 30;
     public static int MAX_NVHN_PER_DAY = 20;
@@ -98,9 +101,11 @@ public class TaskOrder implements Serializable, Cloneable {
             this.name = "Nhiệm vụ tà thú";
         } else if (taskId == NHIEM_VU_DANH_VONG) {
             this.name = "Nhiệm vụ danh vọng";
+        } else if (taskId == NHIEM_VU_MO_RONG) {
+            this.name = "Nhiệm vụ mở rộng";
         }
         Server.getInstance();
-        if (taskId != NHIEM_VU_DANH_VONG) {
+        if (taskId == NHIEM_VU_HANG_NGAY || taskId == NHIEM_VU_TA_THU) {
             this.description = "Ghi chú: Đi đến " + Server.getMapById(mapId).template.name + " để hoàn thành nhiệm vụ";
         }
         this.killId = killId;
@@ -195,11 +200,36 @@ public class TaskOrder implements Serializable, Cloneable {
         return new TaskOrder(0, maxCount, TaskOrder.NHIEM_VU_DANH_VONG, randKillId, -1);
     }
 
+    @NotNull
+    public synchronized static TaskOrder createMoRongTask() {
+        int rand = util.nextInt(3);
+        int maxCount = util.nextInt(5, 7);
+
+        int killId = -1;
+        switch (rand) {
+            case 0:
+                killId = TaskOrder.VXMM_NORMAL_KILL_ID;
+                break;
+            case 1:
+                killId = TaskOrder.VXMM_VIP_KILL_ID;
+                break;
+            case 2:
+                killId = TaskOrder.TAI_XIU_KILL_ID;
+                break;
+        }
+
+        return new TaskOrder(0, maxCount, TaskOrder.NHIEM_VU_MO_RONG, killId, -1);
+    }
+
     public int nvdvType() {
         return -this.killId - 1;
     }
 
     public String nvdvText() {
+        return String.format(TaskOrder.NVDV_NAMES[this.nvdvType()], this.count, this.maxCount);
+    }
+
+    public String mrText() {
         return String.format(TaskOrder.NVDV_NAMES[this.nvdvType()], this.count, this.maxCount);
     }
 

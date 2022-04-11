@@ -662,6 +662,10 @@ public class ItemData {
         return id <= 655 && id >= 652;
     }
 
+    public static boolean isNgocSao(int id) {
+        return id <= 228 && id >= 222;
+    }
+
     private static double getHighCoef(boolean canMax) {
         int percent = 85;
         if (canMax) {

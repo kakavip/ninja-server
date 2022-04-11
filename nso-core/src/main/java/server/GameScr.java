@@ -1599,21 +1599,7 @@ public class GameScr {
             for (Option option : mainItem.option) {
                 if (ItemData.PARAMS.containsKey(option.id)) {
                     if (ItemData.EXTRA_PARAMS.containsKey(option.id) && option.param > 0) {
-                        int maxParam = 0;
-                        for (int i = 0; i < j; i++) {
-                            maxParam += ItemData.EXTRA_PARAMS.get(option.id).get(i);
-                        }
-                        if (maxParam == 0) {
-                            maxParam = 1;
-                        }
-
-                        int percent = (int) (option.param * 100.0f / maxParam);
-                        percent = Math.min(99, percent);
-                        util.Debug("Percent Ngoc option " + option.id + " up to " + (j + 1) + ": " + percent);
-
-                        option.param += (int) (util.nextInt(percent, 100) * 1.0f / 100
-                                * ItemData.EXTRA_PARAMS.get(option.id).get(j));
-
+                        option.param += ItemData.EXTRA_PARAMS.get(option.id).get(j);
                     } else {
                         if (option.param == 0) {
                             option.param = -1;

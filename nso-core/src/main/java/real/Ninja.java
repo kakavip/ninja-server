@@ -140,7 +140,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     @Nullable
     public EventData eventData;
     @NotNull
-    private TaskOrder[] tasks = new TaskOrder[3];
+    private TaskOrder[] tasks = new TaskOrder[4];
     @Nullable
     private Battle battle;
     @Nullable
@@ -548,6 +548,29 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         m.cleanup();
     }
 
+    public boolean randomItem(boolean isLock, short itemId) {
+        Item itemup = ItemData.itemDefault(itemId);
+        if (itemup == null) {
+            return true;
+        }
+
+        if (itemup.isPrecious()) {
+            if (!util.percent(100, itemup.getPercentAppear())) {
+                itemup = Item.defaultRandomItem();
+            }
+
+            if ((itemup.id == 385) && !util.percent(100, itemup.getPercentAppear())) {
+                itemup = Item.defaultRandomItem();
+            }
+
+        }
+
+        itemup.setLock(isLock);
+
+        this.addItemBag(true, itemup);
+        return false;
+    }
+
     public int upxu(long x) {
         if (x >= 2000000000L - this.xu) {
             this.xu = 2000000000;
@@ -821,8 +844,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                         nj.DVPoints[j] = Integer.parseInt(jarr2.get((int) j).toString());
                     }
 
-                    if (nj.getTasks().length != 3) {
-                        nj.setTasks(new TaskOrder[3]);
+                    if (nj.getTasks().length != 4) {
+                        nj.setTasks(new TaskOrder[4]);
                     }
 
                     jar = (JSONArray) JSONValue.parse(red.getString("clan"));
@@ -1217,7 +1240,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         if (task == null) {
             return;
         }
-        if (task.getTaskId() != TaskOrder.NHIEM_VU_DANH_VONG) {
+        if (task.getTaskId() == TaskOrder.NHIEM_VU_HANG_NGAY || task.getTaskId() == TaskOrder.NHIEM_VU_TA_THU) {
             sendATaskMessage(task);
         }
         this.getTasks()[task.getTaskId()] = task;
@@ -1225,7 +1248,8 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
     public void sendTaskOrders() {
         for (TaskOrder task : this.getTasks()) {
-            if (task == null || task.getTaskId() == TaskOrder.NHIEM_VU_DANH_VONG) {
+            if (task == null || task.getTaskId() != TaskOrder.NHIEM_VU_HANG_NGAY
+                    && task.getTaskId() != TaskOrder.NHIEM_VU_TA_THU) {
                 continue;
             }
             this.sendATaskMessage(task);
@@ -1250,7 +1274,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             nvdvCount++;
         }
         this.tasks[typeNhiemVu] = null;
-        if (typeNhiemVu != TaskOrder.NHIEM_VU_DANH_VONG) {
+        if (typeNhiemVu == TaskOrder.NHIEM_VU_HANG_NGAY || typeNhiemVu == TaskOrder.NHIEM_VU_TA_THU) {
             val m = new Message(-158);
             val ds = m.writer();
             ds.writeByte(typeNhiemVu);
@@ -1286,11 +1310,11 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
         if (task.getKillId() == killId) {
             task.setCount(task.getCount() + point);
-            if (typeTask != TaskOrder.NHIEM_VU_DANH_VONG) {
+            if (typeTask == TaskOrder.NHIEM_VU_HANG_NGAY || typeTask == TaskOrder.NHIEM_VU_TA_THU) {
                 updateTaskMessage(task);
             } else {
                 if (task.isDone()) {
-                    this.p.sendYellowMessage("Đã hoàn thành nhiệm vụ danh vọng.");
+                    this.p.sendYellowMessage("Đã hoàn thành nhiệm vụ.");
                 }
             }
         }
@@ -1401,6 +1425,16 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                 if (this.nvdvCount % 10 == 0) {
                     this.upNActPoint(3);
                 }
+            } else if (task.getTaskId() == TaskOrder.NHIEM_VU_MO_RONG) {
+                if (this.getAvailableBag() < 3) {
+                    p.sendYellowMessage("Hành trang không đủ chỗ trống.");
+                    return false;
+                }
+
+                short randId = Manager.EXPAND_TASK_ITEM_IDS[util.nextInt(Manager.EXPAND_TASK_ITEM_IDS.length)];
+
+                Item it = ItemData.itemDefault(randId);
+                this.addItemBag(false, it);
             }
 
             return true;

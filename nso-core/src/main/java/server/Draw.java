@@ -400,8 +400,8 @@ public class Draw {
                             final short[] arId = entry.getOutput().getIdItems();
                             final short idI = arId[util.nextInt(arId.length)];
                             if (idI != -1) {
-                                randomItem(p, false, idI);
-                                randomItem(user_gift.p, false, idI);
+                                p.nj.randomItem(false, idI);
+                                user_gift.randomItem(false, idI);
                             }
                         }
 
@@ -418,29 +418,6 @@ public class Draw {
                 break;
             }
         }
-    }
-
-    private static boolean randomItem(User p, boolean isLock, short itemId) {
-        Item itemup = ItemData.itemDefault(itemId);
-        if (itemup == null) {
-            return true;
-        }
-
-        if (itemup.isPrecious()) {
-            if (!util.percent(100, itemup.getPercentAppear())) {
-                itemup = Item.defaultRandomItem();
-            }
-
-            if ((itemup.id == 385) && !util.percent(100, itemup.getPercentAppear())) {
-                itemup = Item.defaultRandomItem();
-            }
-
-        }
-
-        itemup.setLock(isLock);
-
-        p.nj.addItemBag(true, itemup);
-        return false;
     }
 
     static {

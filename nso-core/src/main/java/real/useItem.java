@@ -1429,6 +1429,10 @@ public class useItem {
                         p.sendYellowMessage("Sự kiện này đã kết thúc không còn sử dụng được vật phẩm này nữa");
                         return;
                     }
+                    if (!entry.getOutput().isCanUse()) {
+                        p.sendYellowMessage("Vật phẩm sự kiện này không thể sử dụng trực tiếp.");
+                        return;
+                    }
 
                     if (EventItem.isEventGiftUserItem(item.id)) {
                         server.menu.sendWrite(p, (short) (MenuController.MIN_EVENT_MENU_ID + item.id),
@@ -1439,8 +1443,9 @@ public class useItem {
                         } else {
                             final short[] arId = entry.getOutput().getIdItems();
                             final short idI = arId[util.nextInt(arId.length)];
-                            randomItem(p, item.isLock(), idI);
+                            p.nj.randomItem(item.isLock(), idI);
                         }
+                        p.nj.updateEventData(item.id, 1);
                         p.nj.removeItemBag(index, 1);
                     }
 
@@ -1495,29 +1500,6 @@ public class useItem {
 
         TaskHandle.useItemUpdate(p.nj, item.id);
 
-    }
-
-    private static boolean randomItem(User p, boolean isLock, short itemId) {
-        Item itemup = ItemData.itemDefault(itemId);
-        if (itemup == null) {
-            return true;
-        }
-
-        if (itemup.isPrecious()) {
-            if (!util.percent(100, itemup.getPercentAppear())) {
-                itemup = Item.defaultRandomItem();
-            }
-
-            if ((itemup.id == 385) && !util.percent(100, itemup.getPercentAppear())) {
-                itemup = Item.defaultRandomItem();
-            }
-
-        }
-
-        itemup.setLock(isLock);
-
-        p.nj.addItemBag(true, itemup);
-        return false;
     }
 
     private static void upDaDanhVong(User p, Item item) {

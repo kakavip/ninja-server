@@ -13,11 +13,12 @@ import java.io.Serializable;
 @Setter
 public class EventOutput implements Serializable {
 
-
     private int id;
     private short[] idItems;
     private long exp;
     private boolean cloneCanUse;
+    private boolean canUse;
+    private int count = 1;
 
     public EventOutput() {
     }
@@ -29,7 +30,9 @@ public class EventOutput implements Serializable {
 
     @NotNull
     public Item getItem() {
-        return ItemData.itemDefault(this.id);
+        Item item = ItemData.itemDefault(this.id);
+        item.quantity = this.count;
+        return item;
     }
 
 

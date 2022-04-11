@@ -15,6 +15,10 @@ import patch.TaskOrder;
 
 public class RotationLuck extends Thread {
 
+    public static byte VXMM_NORMAL = 0;
+    public static byte VXMM_VIP = 1;
+    public static byte TAI_XIU = 2;
+
     protected String title;
     protected short time;
     protected int total;
@@ -150,16 +154,20 @@ public class RotationLuck extends Thread {
             switch (this.type) {
                 case 0:
                     p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.VXMM_NORMAL_KILL_ID);
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_MO_RONG, 1, TaskOrder.VXMM_NORMAL_KILL_ID);
                     break;
                 case 1:
                     p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.VXMM_VIP_KILL_ID);
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_MO_RONG, 1, TaskOrder.VXMM_VIP_KILL_ID);
                     break;
                 case 2:
                     p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_DANH_VONG, 1, TaskOrder.TAI_XIU_KILL_ID);
+                    p.nj.updateTaskOrder(TaskOrder.NHIEM_VU_MO_RONG, 1, TaskOrder.TAI_XIU_KILL_ID);
                     break;
                 default:
                     break;
             }
+            // update extra task
         }
 
         final Players players = p2;
