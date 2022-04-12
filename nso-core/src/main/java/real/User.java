@@ -1781,23 +1781,26 @@ public class User extends Actor implements SendMessage {
             this.mobMeMessage(0, (byte) 0);
         }
         moveItemBackToBag(index, idItemBag);
+        this.removeOrMoveBackNewItem(itembody);
+    }
 
-        if (itembody != null) {
-            if (ItemData.isIdNewCaiTrang(itembody.id)) {
+    public void removeOrMoveBackNewItem(Item item) {
+        if (item != null) {
+            if (ItemData.isIdNewCaiTrang(item.id)) {
                 this.nj.ID_HAIR = -1;
                 this.nj.ID_Body = -1;
                 this.nj.ID_LEG = -1;
                 this.sendInfoMeNewItem();
-            } else if (ItemData.checkIdNewWP(itembody.id) != -1) {
+            } else if (ItemData.checkIdNewWP(item.id) != -1) {
                 this.nj.ID_WEA_PONE = -1;
                 this.sendInfoMeNewItem();
-            } else if (ItemData.checkIdNewMatNa(itembody.id) != -1) {
+            } else if (ItemData.checkIdNewMatNa(item.id) != -1) {
                 this.nj.ID_MAT_NA = -1;
                 this.sendInfoMeNewItem();
-            } else if (ItemData.checkIdNewYoroi(itembody.id) != -1) {
+            } else if (ItemData.checkIdNewYoroi(item.id) != -1) {
                 this.nj.ID_PP = -1;
                 this.sendInfoMeNewItem();
-            } else if (ItemData.checkIdNewBienHinh(itembody.id) != -1) {
+            } else if (ItemData.checkIdNewBienHinh(item.id) != -1) {
                 this.nj.ID_Bien_Hinh = -1;
                 this.sendInfoMeNewItem();
             }

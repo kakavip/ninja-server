@@ -173,9 +173,12 @@ public class useItem {
                         }
                         final int idOp = useItem.arrOp[optionId];
                         int par = useItem.arrParam[optionId];
-                        // Soi den
-                        if (item.isExpires) {
+                        // Soi den && new pet
+                        if (item.isExpires || item.id == 523) {
                             par *= 10;
+                            if (item.id != 523) {
+                                par *= 3;
+                            }
                         }
                         final Option option2 = new Option(idOp, par);
                         item.option.add(option2);

@@ -203,7 +203,7 @@ public class TaskOrder implements Serializable, Cloneable {
     @NotNull
     public synchronized static TaskOrder createMoRongTask() {
         int rand = util.nextInt(3);
-        int maxCount = util.nextInt(5, 7);
+        int maxCount = util.nextInt(2, 5);
 
         int killId = -1;
         switch (rand) {

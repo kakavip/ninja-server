@@ -630,7 +630,7 @@ public class Body implements ISoloer {
         } else if (i == 3) {
             potential = this.getPotential3();
         }
-        potential = potential * (100 + this.getPramItem(58)) / 100;
+        potential = potential * (100 + Math.min(this.getPramItem(58), 30)) / 100;
         potential += this.getPramItem(57);
         return potential;
     }

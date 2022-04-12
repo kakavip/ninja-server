@@ -1350,7 +1350,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     @SneakyThrows
     private boolean getRewards(final TaskOrder task) {
         if (task.isDone()) {
-            if (util.nextInt(10) < 3) {
+            if (util.nextInt(10) < 3 && task.getTaskId() != TaskOrder.NHIEM_VU_HANG_NGAY) {
                 if (this.getAvailableBag() < 3) {
                     p.sendYellowMessage("Hành trang không đủ chỗ trống.");
                     return false;
