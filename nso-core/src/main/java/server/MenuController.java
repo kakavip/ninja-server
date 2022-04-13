@@ -2491,33 +2491,7 @@ public class MenuController {
                     int itemId = 592 + menuId;
 
                     if (server.manager.EVENT != 0 && EventItem.isEventItem(itemId)) {
-
-                        if (p.nj.quantityItemyTotal(itemId) <= 0) {
-                            p.session.sendMessageLog(
-                                    "Bạn không đủ " + ItemData.ItemDataId(itemId).name + " để sử dụng.");
-                            break;
-                        }
-
-                        EventItem entry = EventItem.getEventItemFromOutputItemId(itemId);
-                        if (entry == null) {
-                            p.sendYellowMessage("Sự kiện này đã kết thúc không còn sử dụng được vật phẩm này nữa");
-                            return;
-                        }
-
-                        if (EventItem.isEventGiftUserItem(itemId)) {
-                            server.menu.sendWrite(p, (short) (MIN_EVENT_MENU_ID + itemId),
-                                    "Nhập tên người muốn tặng");
-                        } else {
-                            if (util.nextInt(10) < 3) {
-                                p.updateExp(entry.getOutput().getExp(), false);
-                            } else {
-                                final short[] arId = entry.getOutput().getIdItems();
-                                final short idI = arId[util.nextInt(arId.length)];
-                                p.nj.randomItem(false, idI);
-                            }
-                            p.nj.updateEventData(itemId, 1);
-                            p.nj.removeItemBags(itemId, 1);
-                        }
+                        this.sendWrite(p, (short) (itemId + MIN_EVENT_MENU_ID), "Nhập số lượng.");
                     }
                     break;
                 }

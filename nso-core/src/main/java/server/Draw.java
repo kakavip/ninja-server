@@ -8,6 +8,7 @@ import real.PlayerManager;
 import java.io.IOException;
 
 import patch.EventItem;
+import threading.Manager;
 import threading.Message;
 import real.User;
 import threading.Server;
@@ -322,94 +323,145 @@ public class Draw {
                         }
                     } else if (menuId < MenuController.MIN_EVENT_MENU_ID * 2) {
                         int itemId = menuId - MenuController.MIN_EVENT_MENU_ID;
-
-                        p.nameUG = str;
-                        String partnerName = p.nameUG;
-                        Ninja user_gift = PlayerManager.getInstance().getNinja(partnerName);
-                        if (user_gift == null) {
-                            p.sendYellowMessage("Người chơi không có online. Không thể nhận quà.");
-                            break;
-                        }
-                        if (user_gift.gender != 0) {
-                            p.sendYellowMessage("Bạn chỉ có thể tặng cho nhân vật nữ.");
-                            break;
-                        }
-                        if (user_gift.name.equals(p.nj.name)) {
-                            p.sendYellowMessage("Bạn không thể tặng cho chính mình.");
-                            break;
-                        }
-
-                        Draw.server.menu.sendWrite(p, (short) (MenuController.MIN_EVENT_MENU_ID * 2 + itemId),
-                                "Nhập số lượng");
-                        break;
-                    } else {
-                        // give gift item
-                        int itemId = menuId - 2 * MenuController.MIN_EVENT_MENU_ID;
-
-                        int quantity;
-                        try {
-                            quantity = Integer.parseInt(str);
-                            if (quantity > 100 || quantity <= 0) {
-                                p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 100.");
+                        if (Draw.server.manager.EVENT == Manager.EVENT_8_3) {
+                            p.nameUG = str;
+                            String partnerName = p.nameUG;
+                            Ninja user_gift = PlayerManager.getInstance().getNinja(partnerName);
+                            if (user_gift == null) {
+                                p.sendYellowMessage("Người chơi không có online. Không thể nhận quà.");
                                 break;
                             }
-                        } catch (NumberFormatException ex) {
-                            p.session.sendMessageLog("Sai định dạng.");
-                            break;
-                        }
+                            if (user_gift.gender != 0) {
+                                p.sendYellowMessage("Bạn chỉ có thể tặng cho nhân vật nữ.");
+                                break;
+                            }
+                            if (user_gift.name.equals(p.nj.name)) {
+                                p.sendYellowMessage("Bạn không thể tặng cho chính mình.");
+                                break;
+                            }
 
-                        util.Debug("Số lượng: " + quantity);
+                            Draw.server.menu.sendWrite(p, (short) (MenuController.MIN_EVENT_MENU_ID * 2 + itemId),
+                                    "Nhập số lượng");
+                        } else {
+                            try {
+                                int quantity = Integer.parseInt(str);
+                                if (quantity > 100 || quantity <= 0) {
+                                    p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 100.");
+                                    break;
+                                }
 
-                        String partnerName = p.nameUG;
-                        Ninja user_gift = PlayerManager.getInstance().getNinja(partnerName);
-                        if (user_gift == null) {
-                            p.sendYellowMessage("Người chơi không có online. Không thể nhận quà.");
-                            break;
-                        }
-                        if (user_gift.gender != 0) {
-                            p.sendYellowMessage("Bạn chỉ có thể tặng cho nhân vật nữ.");
-                            break;
-                        }
-                        if (user_gift.name.equals(p.nj.name)) {
-                            p.sendYellowMessage("Bạn không thể tặng cho chính mình.");
-                            break;
-                        }
+                                if (p.nj.getAvailableBag() < quantity) {
+                                    p.session.sendMessageLog("Hành trang của bạn không đủ " + quantity + " ô trống.");
+                                    break;
+                                }
 
-                        EventItem entry = EventItem.getEventItemFromOutputItemId(itemId);
-                        if (p.nj.quantityItemyTotal(itemId) < quantity) {
-                            p.sendYellowMessage("Bạn không có đủ " + quantity + " "
-                                    + entry.getOutput().getItemData().name + " để tặng");
-                            break;
-                        }
+                                if (p.nj.quantityItemyTotal(itemId) < quantity) {
+                                    p.session.sendMessageLog(
+                                            "Bạn không đủ " + quantity + " " + ItemData.ItemDataId(itemId).name
+                                                    + " để sử dụng.");
+                                    break;
+                                }
 
-                        if (user_gift.getAvailableBag() <= quantity) {
-                            p.sendYellowMessage("Hành trang đối phương không đủ chỗ trống để nhận " + quantity + " "
-                                    + entry.getOutput().getItemData().name);
-                            break;
-                        }
-                        if (p.nj.getAvailableBag() <= quantity) {
-                            p.sendYellowMessage("Hành trang của bạn không đủ chỗ trống để tặng " + quantity + " "
-                                    + entry.getOutput().getItemData().name);
-                            break;
-                        }
+                                EventItem entry = EventItem.getEventItemFromOutputItemId(itemId);
+                                if (entry == null) {
+                                    p.sendYellowMessage(
+                                            "Sự kiện này đã kết thúc không còn sử dụng được vật phẩm này nữa");
+                                    return;
+                                }
 
-                        for (int i = 0; i < quantity; i++) {
-                            p.updateExp(entry.getOutput().getExp(), false);
-                            user_gift.p.updateExp(entry.getOutput().getExp(), false);
+                                for (int i = 0; i < quantity; i++) {
+                                    if (EventItem.isEventGiftUserItem(itemId)) {
+                                        server.menu.sendWrite(p, (short) (MenuController.MIN_EVENT_MENU_ID + itemId),
+                                                "Nhập tên người muốn tặng");
+                                    } else {
+                                        if (util.nextInt(10) < 3) {
+                                            p.updateExp(entry.getOutput().getExp(), false);
+                                        } else {
+                                            final short[] arId = entry.getOutput().getIdItems();
+                                            final short idI = arId[util.nextInt(arId.length)];
+                                            p.nj.randomItem(false, idI);
+                                        }
+                                    }
+                                }
 
-                            final short[] arId = entry.getOutput().getIdItems();
-                            final short idI = arId[util.nextInt(arId.length)];
-                            if (idI != -1) {
-                                p.nj.randomItem(false, idI);
-                                user_gift.randomItem(false, idI);
+                                p.nj.updateEventData(itemId, quantity);
+                                p.nj.removeItemBags(itemId, quantity);
+                            } catch (NumberFormatException ex) {
+                                p.session.sendMessageLog("Sai định dạng.");
+                                break;
                             }
                         }
+                        break;
+                    } else {
+                        if (Draw.server.manager.EVENT == Manager.EVENT_8_3) {
+                            // give gift item
+                            int itemId = menuId - 2 * MenuController.MIN_EVENT_MENU_ID;
 
-                        user_gift.p.session.sendMessageLog("Bạn vừa được " + p.nj.name + " tặng " + quantity + " "
-                                + entry.getOutput().getItemData().name);
+                            int quantity;
+                            try {
+                                quantity = Integer.parseInt(str);
+                                if (quantity > 100 || quantity <= 0) {
+                                    p.session.sendMessageLog("Một lần nhập chỉ từ 0 -> 100.");
+                                    break;
+                                }
+                            } catch (NumberFormatException ex) {
+                                p.session.sendMessageLog("Sai định dạng.");
+                                break;
+                            }
 
-                        p.nj.updateEventData(itemId, quantity);
-                        p.nj.removeItemBags(itemId, quantity);
+                            util.Debug("Số lượng: " + quantity);
+
+                            String partnerName = p.nameUG;
+                            Ninja user_gift = PlayerManager.getInstance().getNinja(partnerName);
+                            if (user_gift == null) {
+                                p.sendYellowMessage("Người chơi không có online. Không thể nhận quà.");
+                                break;
+                            }
+                            if (user_gift.gender != 0) {
+                                p.sendYellowMessage("Bạn chỉ có thể tặng cho nhân vật nữ.");
+                                break;
+                            }
+                            if (user_gift.name.equals(p.nj.name)) {
+                                p.sendYellowMessage("Bạn không thể tặng cho chính mình.");
+                                break;
+                            }
+
+                            EventItem entry = EventItem.getEventItemFromOutputItemId(itemId);
+                            if (p.nj.quantityItemyTotal(itemId) < quantity) {
+                                p.sendYellowMessage("Bạn không có đủ " + quantity + " "
+                                        + entry.getOutput().getItemData().name + " để tặng");
+                                break;
+                            }
+
+                            if (user_gift.getAvailableBag() <= quantity) {
+                                p.sendYellowMessage("Hành trang đối phương không đủ chỗ trống để nhận " + quantity + " "
+                                        + entry.getOutput().getItemData().name);
+                                break;
+                            }
+                            if (p.nj.getAvailableBag() <= quantity) {
+                                p.sendYellowMessage("Hành trang của bạn không đủ chỗ trống để tặng " + quantity + " "
+                                        + entry.getOutput().getItemData().name);
+                                break;
+                            }
+
+                            for (int i = 0; i < quantity; i++) {
+                                p.updateExp(entry.getOutput().getExp(), false);
+                                user_gift.p.updateExp(entry.getOutput().getExp(), false);
+
+                                final short[] arId = entry.getOutput().getIdItems();
+                                final short idI = arId[util.nextInt(arId.length)];
+                                if (idI != -1) {
+                                    p.nj.randomItem(false, idI);
+                                    user_gift.randomItem(false, idI);
+                                }
+                            }
+
+                            user_gift.p.session.sendMessageLog("Bạn vừa được " + p.nj.name + " tặng " + quantity + " "
+                                    + entry.getOutput().getItemData().name);
+
+                            p.nj.updateEventData(itemId, quantity);
+                            p.nj.removeItemBags(itemId, quantity);
+                        }
                         break;
                     }
 

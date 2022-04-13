@@ -75,7 +75,7 @@ public class Server {
     public DaemonThread daemonThread;
 
     public static String[] HOURLY_TIPS = new String[] {
-            "Nạp lượng tỷ lệ 1:2 (10k vnd = 20k lượng) bằng card tự động npc Okanechan và liên hệ admin nếu nạp bằng momo/atm với tỷ lệ ưu đãi hơn.",
+            "Khuyến mại nạp lượng 100% bằng card tự động npc Okanechan và liên hệ admin nếu nạp bằng momo/atm với tỷ lệ ưu đãi hơn.",
             "Chiến trường sẽ bắt đầu mở vào 16h và 21h hàng ngày.",
             "Nhận quà tân thủ tại NPC Vua Hùng.",
             "Cởi thú cưỡi và pet sau khi đánh Boss để nhặt rìu khi làm nhiệm vụ nhặt rìu.",
@@ -83,7 +83,9 @@ public class Server {
             "Tử Hạ Ma Thần sẽ xuất hiện tại khu 17 ở map cuối của các trường.",
             "Thần thú sẽ xuất hiện vào khung giờ chẵn. Hãy theo dõi để săn và nhận được nhiều vật phẩm ý nghĩa.",
             "Nếu gặp lỗi hiển thị với phiên bản hiện tại vui lòng xoá game và truy cập http://nso-ms.tk để download phiên bản mới.",
-            "Nếu bị lỗi hiển thị nhiệm vụ tìm bảo vật lv34 hãy huỷ nhiệm vụ và nhận lại để tiếp tục tại map rừng kappa"
+            "Nếu bị lỗi hiển thị nhiệm vụ tìm bảo vật lv34 hãy huỷ nhiệm vụ và nhận lại để tiếp tục tại map rừng kappa",
+            "Mua phiếu may mắn lật hình để có cơ hội nhận đc bát bảo,rương bạch ngân,rương huyền bí và sói vĩnh viễn.",
+            "Tham gia lật hình, làm nvhn, nvdv và săn boss trên KTG để có thể nhận đc mảnh Jrai/Jumito."
     };
 
     @NotNull

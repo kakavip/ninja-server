@@ -3013,8 +3013,8 @@ public class User extends Actor implements SendMessage {
                     if (card.status == CardDCoin.CARD_STATUS_SUCCESS) {
                         value += card.cardValue;
 
-                        upluongMessage(card.cardValue * 2);
-                        ticketGold += card.cardValue * 2 / 1000;
+                        upluongMessage(card.cardValue * 2 * Manager.MULTI_TOPUP);
+                        ticketGold += card.cardValue * 2 * Manager.MULTI_TOPUP / 1000;
 
                         SQLManager.executeUpdate(
                                 "UPDATE `carddcoin` SET `status`='" + CardDCoin.CARD_STATUS_DONE + "' WHERE `id`="
@@ -3026,8 +3026,8 @@ public class User extends Actor implements SendMessage {
                 String notiMsg = "";
                 if (value > 0) {
                     notiMsg += "Chuc mung. ban da nap thanh cong DCOIN "
-                            + util.getFormatNumber(cardValue)
-                            + " VND. Bạn nap duoc " + util.getFormatNumber(cardValue * 2)
+                            + util.getFormatNumber(value)
+                            + " VND. Bạn nap duoc " + util.getFormatNumber(value * 2 * Manager.MULTI_TOPUP)
                             + " luong vao tai khoan "
                             + username + ".";
                 }

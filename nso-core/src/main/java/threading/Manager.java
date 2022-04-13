@@ -38,6 +38,12 @@ import static server.util.concatArray;
 
 @SuppressWarnings("ALL")
 public class Manager {
+    public static final int EVENT_NONE = 0;
+    public static final int EVENT_HE = 1;
+    public static final int EVENT_TRUNG_THU = 2;
+    public static final int EVENT_TET_NGUYEN_DAN = 4;
+    public static final int EVENT_8_3 = 5;
+    public static final int EVENT_VUA_HUNG = 6;
 
     public static ItemCache[] itemCaches;
     public static ItemOptionCache[] itemOptionCaches;
@@ -121,6 +127,7 @@ public class Manager {
     public static short[] IDS_THUONG_LV130;
     public static short[] IDS_THUONG_LV150;
     public static short MULTI_EXP;
+    public static short MULTI_TOPUP;
     public static short N_THREAD_STOP;
     public static short MAX_CLIENT_PER_SOCKET;
     public static short MAX_SOCKET_PER_CLIENT;
@@ -247,6 +254,7 @@ public class Manager {
             Server.MAX_BOSS = Short.parseShort(properties.getProperty("max-boss"));
 
             MULTI_EXP = Short.parseShort(properties.getProperty("multi-exp"));
+            MULTI_TOPUP = Short.parseShort(properties.getProperty("multi-topup"));
             TIME_MAINTAIN = Integer.parseInt(properties.getProperty("time-bao-tri"));
             N_THREAD_STOP = Short.parseShort(properties.getProperty("n-thread-stop"));
 
