@@ -4165,9 +4165,12 @@ public class Place {
         }
         for (byte l = 0; l < p.nj.get().ItemBody.length; ++l) {
             final Item item = p.nj.get().ItemBody[l];
-            if (item != null && item.isExpires && item.isExpired()) {
-                p.removeOrMoveBackNewItem(item);
-                p.nj.removeItemBody(l);
+            if (item != null) {
+                if (item.isExpires) {
+                    if (item.isExpired()) {
+                        p.nj.removeItemBody(l);
+                    }
+                }
             }
         }
         for (byte l = 0; l < p.nj.ItemBox.length; ++l) {
