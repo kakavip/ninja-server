@@ -3458,7 +3458,7 @@ public class User extends Actor implements SendMessage {
             return false;
         }
         if (item.getUpgrade() < 99) {
-            this.nj.p.sendYellowMessage("Thú cưới chưa đạt cấp độ tối đa");
+            this.sendYellowMessage("Thú cưới chưa đạt cấp độ tối đa");
             return false;
         }
         if (item.sys < 4) {
@@ -3484,31 +3484,31 @@ public class User extends Actor implements SendMessage {
                     this.loadMounts();
                 } catch (IOException ex) {
                 }
-                this.nj.p.sendYellowMessage("Nâng cấp thành công, thú cưới được tặng 1 sao");
+                this.sendYellowMessage("Nâng cấp thành công, thú cưới được tặng 1 sao");
             } else {
-                this.nj.p.sendYellowMessage("Nâng cấp thất bại, hao phí 1 Chuyển tinh thạch");
+                this.sendYellowMessage("Nâng cấp thất bại, hao phí 1 Chuyển tinh thạch");
             }
             return true;
         }
-        this.nj.p.sendYellowMessage("Không thể nâng thêm sao");
+        this.sendYellowMessage("Không thể nâng thêm sao");
         return false;
     }
 
     public boolean updateXpMounts(final int xpup, final byte type) {
         final Item item = this.nj.get().ItemMounts[4];
         if (item == null) {
-            this.nj.p.sendYellowMessage("Bạn cần có thú cưới");
+            this.sendYellowMessage("Bạn cần có thú cưới");
             return false;
         }
         if (item.isExpires) {
             return false;
         }
-        if (type == 0 && item.id != 443 && item.id != 523 && item.id != 524) {
-            this.nj.p.sendYellowMessage("Chỉ sử dụng cho thú cưới");
+        if (type == 0 && item.id != 443) {
+            this.sendYellowMessage("Chỉ sử dụng cho thú cưới");
             return false;
         }
         if (type == 1 && item.id != 485 && item.id != 524) {
-            this.nj.p.sendYellowMessage("Chỉ sử dụng cho xe máy");
+            this.sendYellowMessage("Chỉ sử dụng cho xe máy");
             return false;
         }
         if (item.getUpgrade() < 99) {
@@ -3555,7 +3555,7 @@ public class User extends Actor implements SendMessage {
             }
             return true;
         }
-        this.nj.p.sendYellowMessage("Thú cưới đã đạt cấp tối đa");
+        this.sendYellowMessage("Thú cưới đã đạt cấp tối đa");
         return false;
     }
 

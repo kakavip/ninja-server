@@ -178,6 +178,8 @@ public class useItem {
                             par *= 10;
                             if (item.id != 523) {
                                 par *= 3;
+                            } else if (!item.isExpires) {
+                                par *= 2;
                             }
                         }
                         final Option option2 = new Option(idOp, par);
