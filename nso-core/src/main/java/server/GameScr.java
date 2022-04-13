@@ -987,7 +987,7 @@ public class GameScr {
         boolean hasRareItem = false;
         short[] randLatHinhIds = new short[9];
         for (byte i = 0; i < 9; i++) {
-            if (!hasRareItem && util.nextInt(250) < 1) {
+            if (!hasRareItem && util.nextInt(250) < 3) {
                 randLatHinhIds[i] = LAT_HINH_RARE_IDS[util.nextInt(LAT_HINH_RARE_IDS.length)];
                 hasRareItem = true;
             } else {
@@ -1016,7 +1016,7 @@ public class GameScr {
         } else {
             item = ItemData.itemDefault(id);
         }
-        if (id == 523 || id == 419) {
+        if (id == 419) {
             item.isExpires = true;
             item.expires = util.TimeDay(GameScr.ArrdayLuck[util.nextInt(GameScr.ArrdayLuck.length)]);
         }

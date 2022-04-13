@@ -1898,6 +1898,10 @@ public class User extends Actor implements SendMessage {
                         for (Option op : this.nj.ItemCaiTrang[10].option) {
                             if (op.id == 100) {
                                 op.param += op.param * 2 / 10;
+                            } else if (op.id == 58) {
+                                if (this.nj.ItemCaiTrang[10].getUpgrade() <= 5) {
+                                    op.param += 3;
+                                }
                             } else if (op.id == 84 || op.id == 86) {
                                 if (this.nj.ItemCaiTrang[10].getUpgrade() > 5
                                         && this.nj.ItemCaiTrang[10].getUpgrade() <= 10) {

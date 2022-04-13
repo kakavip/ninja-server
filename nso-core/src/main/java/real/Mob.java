@@ -297,7 +297,7 @@ public class Mob {
             }
 
             // except boss end map && hd 9x
-            if (this.level != 150 && this.level != 99) {
+            if (this.crtPlace != null && this.crtPlace.map.cave == null && !this.crtPlace.map.isEndOfSchoolMap) {
                 this.templates.arrIdItem = util.concatArray(this.templates.arrIdItem, ItemData.JRAI_PIECE_IDS,
                         ItemData.JUMITO_PIECE_IDS);
             }
