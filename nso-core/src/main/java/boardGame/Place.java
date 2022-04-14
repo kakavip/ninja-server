@@ -2492,8 +2492,12 @@ public class Place {
         } else {
             if (server.manager.EVENT != 0 && canDropItem) {
                 val eventItems = EventItem.getEventDropItemIds();
-                final int index = util.nextInt(0, eventItems.length - 1);
-                if (util.nextInt(100) <= Manager.EVENT_ITEM_DROP_PERCENT && eventItems[index] != -1) {
+                final int index = util.nextInt(eventItems.length);
+                int percent = Manager.EVENT_ITEM_DROP_PERCENT;
+                if (body.getEffId(41) != null || body.getEffId(40) != null) {
+                    percent = percent * 3 / 2;
+                }
+                if (util.nextInt(100) <= percent && eventItems[index] != -1) {
 
                     val itemMap = this.LeaveItem(eventItems[index], curMob.x, curMob.y);
                     if (itemMap != null) {
