@@ -527,10 +527,6 @@ public class MenuController {
                             p.setPointPB(p.nj.pointCave);
                             break label;
                         case 3:
-                            if (p.isGuest) {
-                                p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
-                                break;
-                            }
                             if (optionId == 0) {
                                 // Thach dau loi dai
                                 this.sendWrite(p, (short) 2, "Nhập tên nhân vật");

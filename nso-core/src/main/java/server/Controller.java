@@ -426,7 +426,7 @@ public class Controller implements ISessionHandler {
                     break;
                 }
                 case 99: {
-                    val parnerId = message.reader().readInt();
+                    int parnerId = message.reader().readInt();
                     this.goToWaitingBetRoom(p.nj.getPlace().getNinja(parnerId), p.nj);
                     break;
                 }
@@ -790,6 +790,11 @@ public class Controller implements ISessionHandler {
     }
 
     private void goToWaitingBetRoom(Ninja partner, Ninja me) throws IOException {
+        if (partner.p.isGuest || me.p.isGuest) {
+            partner.p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            me.p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
         Battle battle = new Battle(partner, me);
         battle.tick();
         battle.enter();
