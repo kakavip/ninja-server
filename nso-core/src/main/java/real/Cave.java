@@ -176,7 +176,7 @@ public class Cave {
                     nj.upNActPoint(2);
                     nj.p.sendYellowMessage("Bạn nhận được 2 điểm hoạt động");
 
-                    if (nj.party != null && nj.party.cave != null) {
+                    if (nj.party.cave != null) {
                         nj.party.cave = null;
                     }
 

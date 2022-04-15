@@ -834,7 +834,7 @@ public class GameScr {
         if (item.getUpgrade() >= 15) {
             percent += 3;
         }
-        final boolean suc = util.nextInt(1, 100) <= percent;
+        final boolean suc = util.nextInt(100) < percent;
         m.cleanup();
         item.setLock(true);
         util.Debug("type " + type + " index " + index + " percen " + percent);
@@ -987,7 +987,7 @@ public class GameScr {
         boolean hasRareItem = false;
         short[] randLatHinhIds = new short[9];
         for (byte i = 0; i < 9; i++) {
-            if (!hasRareItem && util.nextInt(250) < 3) {
+            if (!hasRareItem && util.nextInt(250) < 2) {
                 randLatHinhIds[i] = LAT_HINH_RARE_IDS[util.nextInt(LAT_HINH_RARE_IDS.length)];
                 hasRareItem = true;
             } else {
@@ -1230,7 +1230,7 @@ public class GameScr {
             p.nj.upXuMessage(-(yen - preYen));
         }
 
-        it.setLock(true);
+        it.setLock(it.isLock());
         if (percent >= util.nextInt(80) || util.debug) {
             for (byte k = 0; k < it.option.size(); ++k) {
                 final Option option = it.option.get(k);
@@ -1341,7 +1341,7 @@ public class GameScr {
             for (byte k = 0; k < arrIndex.length; ++k) {
                 p.nj.removeItemBag(arrIndex[k], 1);
             }
-            item.setLock(true);
+            item.setLock(item.isLock());
             p.sendYellowMessage("Đã dịch chuyển trang bị");
             p.requestItemInfoMessage(item, index, 3);
         }
@@ -1349,7 +1349,7 @@ public class GameScr {
     }
 
     @SneakyThrows
-    public static void requestMapTemplate(User user, Message m) {
+    public static void requestMapTemplate(User user, Message m) throws IOException {
 
         final int templateId = m.reader().readUnsignedByte();
         m.cleanup();
@@ -1361,7 +1361,7 @@ public class GameScr {
         } else {
             ms.writer().writeByte(-109);
         }
-        val data = loadFile(url).toByteArray();
+        byte[] data = loadFile(url).toByteArray();
         ms.writer().write(data);
         user.sendMessage(ms);
 
@@ -1375,14 +1375,14 @@ public class GameScr {
             return;
         }
 
-        val type = m.reader().readByte();
-        val indexUI = m.reader().readByte();
+        byte type = m.reader().readByte();
+        byte indexUI = m.reader().readByte();
 
         if (type == 0) {
             // Kham ngoc
-            val ngocIndex = m.reader().readByte();
-            val ngocItem = p.nj.ItemBag[ngocIndex];
-            val item = p.nj.ItemBag[indexUI];
+            byte ngocIndex = m.reader().readByte();
+            Item ngocItem = p.nj.ItemBag[ngocIndex];
+            Item item = p.nj.ItemBag[indexUI];
             p.endLoad(true);
             if (!item.getData().isTrangSuc() &&
                     !item.getData().isTrangPhuc() &&
@@ -1396,7 +1396,7 @@ public class GameScr {
                 return;
             }
 
-            val yen = ngocItem.option.get(ngocItem.option.indexOf(new Option(ItemData.GIA_KHAM_OPTION_ID, 0))).param;
+            int yen = ngocItem.option.get(ngocItem.option.indexOf(new Option(ItemData.GIA_KHAM_OPTION_ID, 0))).param;
 
             if (p.nj.yen < yen) {
                 p.sendYellowMessage("Không đủ yên để khảm");

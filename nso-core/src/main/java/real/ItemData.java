@@ -596,6 +596,9 @@ public class ItemData {
             if (maxDa < minDa) {
                 maxDa = minDa + 1;
             }
+            if (maxDa == minDa) {
+                maxDa += 1;
+            }
 
             items[a] = (short) util.nextInt(minDa, maxDa);
             a++;
