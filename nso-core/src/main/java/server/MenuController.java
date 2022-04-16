@@ -1998,6 +1998,10 @@ public class MenuController {
                     break;
                 }
                 case 28: {
+                    if (p.isGuest) {
+                        p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+                        break;
+                    }
                     // Shinwa
                     switch (menuId) {
                         case 0: {

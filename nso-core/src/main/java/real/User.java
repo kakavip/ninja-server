@@ -2280,12 +2280,12 @@ public class User extends Actor implements SendMessage {
     public void requestTrade(Message m) throws IOException {
         final int ids = m.reader().readInt();
         m.cleanup();
-        if (this.isGuest) {
+        final User p = this.nj.getPlace().getNinja(ids).p;
+        if (this.isGuest || p != null && p.isGuest) {
             this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
             return;
         }
 
-        final User p = this.nj.getPlace().getNinja(ids).p;
         if (p == null) {
             this.sendYellowMessage("Người này không ở cùng khu hoặc đã offline.");
         } else if (Math.abs(this.nj.get().x - p.nj.get().x) > 100 || Math.abs(this.nj.get().y - p.nj.get().y) > 100) {
@@ -2311,16 +2311,16 @@ public class User extends Actor implements SendMessage {
     public void startTrade(Message m) throws IOException {
         final int ids = m.reader().readInt();
         m.cleanup();
-        if (this.isGuest) {
-            this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
-            return;
-        }
 
         if (this.nj.isTrade) {
             this.session.sendMessageLog("Bạn đã có giao dịch.");
             return;
         }
         final User p = this.nj.getPlace().getNinja(ids).p;
+        if (this.isGuest || p != null && p.isGuest) {
+            this.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+            return;
+        }
         if (p == null) {
             this.sendYellowMessage("Người này không ở cùng khu hoặc đã offline.");
         } else if (Math.abs(this.nj.get().x - p.nj.get().x) > 100 || Math.abs(this.nj.get().y - p.nj.get().y) > 100) {

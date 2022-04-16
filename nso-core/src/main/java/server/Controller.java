@@ -490,10 +490,6 @@ public class Controller implements ISessionHandler {
                     break;
                 }
                 case 102: {
-                    if (p.isGuest) {
-                        p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
-                        break;
-                    }
                     // Shinwa
                     val indexUI = message.reader().readByte();
                     val price = message.reader().readInt();
