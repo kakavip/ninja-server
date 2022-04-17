@@ -138,7 +138,7 @@ public class Cave {
                     nj.getPlace().leave(nj.p);
                     nj.p.restCave();
                     final Manager manager = this.server.manager;
-                    final Map ma = Manager.getMapid(nj.mapLTD);
+                    final Map ma = Manager.getMapid(nj.getMapLTD());
                     if (ma != null)
                         for (byte k = 0; k < ma.area.length; ++k) {
                             if (ma.area[k].getNumplayers() < ma.template.maxplayers) {

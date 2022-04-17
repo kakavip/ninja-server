@@ -885,7 +885,7 @@ public class Place {
                 // val _ninja = p.nj;
                 // if (TaskHandle.isLockChangeMap((short) mapid, _ninja.getTaskId())) {
                 // restPoint(_ninja);
-                // goToMap(p, p.nj.mapLTD);
+                // goToMap(p, p.nj.getMapLTD());
                 // GameCanvas.startOKDlg(_ninja.p.session, Text.get(0, 84));
                 // return;
                 // }
@@ -2979,7 +2979,7 @@ public class Place {
         } else if (this.map.cave != null) {
             ma = this.map.cave.map[0];
         } else {
-            ma = Manager.getMapid(p.nj.mapLTD);
+            ma = Manager.getMapid(p.nj.getMapLTD());
         }
 
         if (map.isLdgtMap()
@@ -4258,7 +4258,7 @@ public class Place {
 
                 for (ItemMap itemMap : itemMaps) {
                     if (p.nj.getAvailableBag() != 0 && itemMap != null && itemMap.item != null
-                            && itemMap.item.getData().type != 25) {
+                            && itemMap.item.getData().type != 25 && !TaskHandle.itemPick(p.nj, itemMap.item.id)) {
                         removeItemMap(p, (short) _itemMap.indexOf(itemMap), itemMap);
                     }
                 }

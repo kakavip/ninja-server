@@ -25,6 +25,7 @@ import server.Service;
 import server.util;
 import tasks.TaskTemplate;
 import threading.Manager;
+import threading.Map;
 import threading.Message;
 import threading.Server;
 
@@ -49,7 +50,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
     public int maxluggage;
     protected byte levelBag;
     public int mapType;
-    public int mapLTD;
+    private int mapLTD;
     public int mapid;
     public int mobAtk;
     public long eff5buff;
@@ -785,7 +786,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
                     nj.setMapid(util.UnsignedByte((byte) Integer.parseInt(jar.get(0).toString())));
                     nj.x = Short.parseShort(jar.get(1).toString());
                     nj.y = Short.parseShort(jar.get(2).toString());
-                    nj.mapLTD = Short.parseShort(jar.get(3).toString());
+                    nj.setMapLTD(Short.parseShort(jar.get(3).toString()));
                     nj.mapType = Short.parseShort(jar.get(4).toString());
                     jar = (JSONArray) JSONValue.parse(red.getString("effect"));
                     try {
@@ -902,7 +903,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
             jarr.add(this.getMapid());
             jarr.add(this.x);
             jarr.add(this.y);
-            jarr.add(this.mapLTD);
+            jarr.add(this.getMapLTD());
             jarr.add(this.mapType);
             val friends = Mapper.converter.writeValueAsString(this.friend);
 
@@ -1201,6 +1202,27 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
 
     public int getMapId() {
         return getMapid();
+    }
+
+    public int getMapLTD() {
+        return this.mapLTD;
+    }
+
+    public void setMapLTD(final int mapId) {
+        for (int i = 0; i < Map.arrLang.length; i++) {
+            if (mapId == Map.arrLang[i]) {
+                this.mapLTD = mapId;
+                return;
+            }
+        }
+
+        for (int i = 0; i < Map.arrTruong.length; i++) {
+            if (mapId == Map.arrTruong[i]) {
+                this.mapLTD = mapId;
+                return;
+            }
+        }
+        this.mapLTD = 22;
     }
 
     @Override

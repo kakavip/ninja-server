@@ -344,7 +344,7 @@ public class useItem {
             }
             case 34:
             case 36: {
-                final Map map = getMapid(p.nj.mapLTD);
+                final Map map = getMapid(p.nj.getMapLTD());
                 if (map != null) {
                     for (byte i = 0; i < map.area.length; ++i) {
                         if (map.area[i].getNumplayers() < map.template.maxplayers) {

@@ -469,7 +469,7 @@ public class User extends Actor implements SendMessage {
                     boolean isturn = false;
                     if (map.getXHD() != -1 || map.VDMQ()) {
                         isturn = true;
-                        map = Manager.getMapid(this.nj.mapLTD);
+                        map = Manager.getMapid(this.nj.getMapLTD());
                     }
                     for (int l = 0; l < map.area.length; ++l) {
                         if (map.area[l].getNumplayers() < map.template.maxplayers) {

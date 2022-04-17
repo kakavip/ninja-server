@@ -888,7 +888,7 @@ public class MenuController {
                             break;
                         }
                         case 1: {
-                            p.nj.mapLTD = p.nj.getPlace().map.id;
+                            p.nj.setMapLTD(p.nj.getPlace().map.id);
                             p.nj.getPlace().chatNPC(p, (short) npcId,
                                     "Tốt lắm, ngươi đã chọn nơi này làm nơi trở về khi bị trọng thương");
                             break;
