@@ -26,6 +26,7 @@ import threading.Map;
 import threading.Message;
 import threading.Server;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -91,34 +92,38 @@ public class Place {
         this.buNhins = new CopyOnWriteArrayList<>();
         defaultItemMap = new ArrayList<>();
 
-        if (map.id == 29) {
-            LeaveItem(212, 660, 480).setRemovedelay(-1);
-            LeaveItem(212, 480, 456).setRemovedelay(-1);
-            LeaveItem(212, 516, 360).setRemovedelay(-1);
-            LeaveItem(212, 997, 288).setRemovedelay(-1);
-            LeaveItem(212, 234, 336).setRemovedelay(-1);
-            LeaveItem(212, 325, 96).setRemovedelay(-1);
-            LeaveItem(212, 1141, 360).setRemovedelay(-1);
-        } else if (map.id == 64) {
-            LeaveItem(236, 134, 720).setRemovedelay(-1);
-            LeaveItem(236, 119, 624).setRemovedelay(-1);
-            LeaveItem(236, 299, 456).setRemovedelay(-1);
-            LeaveItem(236, 499, 408).setRemovedelay(-1);
-            LeaveItem(236, 495, 120).setRemovedelay(-1);
-            LeaveItem(236, 380, 168).setRemovedelay(-1);
-            LeaveItem(236, 125, 216).setRemovedelay(-1);
-            LeaveItem(236, 127, 432).setRemovedelay(-1);
-        } else if (map.id == 42) {
-            LeaveItem(347, 744, 480).setRemovedelay(-1);
-            LeaveItem(347, 744, 408).setRemovedelay(-1);
-            LeaveItem(347, 694, 336).setRemovedelay(-1);
-            LeaveItem(347, 533, 240).setRemovedelay(-1);
-            LeaveItem(347, 482, 192).setRemovedelay(-1);
-            LeaveItem(347, 656, 912).setRemovedelay(-1);
-            LeaveItem(347, 685, 720).setRemovedelay(-1);
-            LeaveItem(347, 550, 600).setRemovedelay(-1);
-            LeaveItem(347, 625, 600).setRemovedelay(-1);
-            LeaveItem(347, 700, 600).setRemovedelay(-1);
+        try {
+            if (map.id == 29) {
+                LeaveItem(212, 660, 480).setRemovedelay(-1);
+                LeaveItem(212, 480, 456).setRemovedelay(-1);
+                LeaveItem(212, 516, 360).setRemovedelay(-1);
+                LeaveItem(212, 997, 288).setRemovedelay(-1);
+                LeaveItem(212, 234, 336).setRemovedelay(-1);
+                LeaveItem(212, 325, 96).setRemovedelay(-1);
+                LeaveItem(212, 1141, 360).setRemovedelay(-1);
+            } else if (map.id == 64) {
+                LeaveItem(236, 134, 720).setRemovedelay(-1);
+                LeaveItem(236, 119, 624).setRemovedelay(-1);
+                LeaveItem(236, 299, 456).setRemovedelay(-1);
+                LeaveItem(236, 499, 408).setRemovedelay(-1);
+                LeaveItem(236, 495, 120).setRemovedelay(-1);
+                LeaveItem(236, 380, 168).setRemovedelay(-1);
+                LeaveItem(236, 125, 216).setRemovedelay(-1);
+                LeaveItem(236, 127, 432).setRemovedelay(-1);
+            } else if (map.id == 42) {
+                LeaveItem(347, 744, 480).setRemovedelay(-1);
+                LeaveItem(347, 744, 408).setRemovedelay(-1);
+                LeaveItem(347, 694, 336).setRemovedelay(-1);
+                LeaveItem(347, 533, 240).setRemovedelay(-1);
+                LeaveItem(347, 482, 192).setRemovedelay(-1);
+                LeaveItem(347, 656, 912).setRemovedelay(-1);
+                LeaveItem(347, 685, 720).setRemovedelay(-1);
+                LeaveItem(347, 550, 600).setRemovedelay(-1);
+                LeaveItem(347, 625, 600).setRemovedelay(-1);
+                LeaveItem(347, 700, 600).setRemovedelay(-1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -380,7 +385,7 @@ public class Place {
             return;
         }
 
-        val m = new Message(-23);
+        Message m = new Message(-23);
         try {
             m.writer().writeInt(p.nj.get().id);
             m.writer().writeUTF(chat);
@@ -429,7 +434,7 @@ public class Place {
             if (Integer.parseInt(s[2]) < EventItem.entrys.length) {
                 EventItem entry = EventItem.entrys[Integer.parseInt(s[2])];
                 if (entry != null) {
-                    val quantity = Integer.parseInt(s[1]);
+                    int quantity = Integer.parseInt(s[1]);
                     if (quantity <= 5000) {
                         for (int i = 0; i < quantity; i++) {
                             lamSuKien(p, entry);
@@ -462,14 +467,14 @@ public class Place {
             }
 
             if (util.CheckString(chat, "^a \\d+$")) {
-                val count = Integer.parseInt(chat.split(" ")[1]);
+                int count = Integer.parseInt(chat.split(" ")[1]);
                 for (int i = 0; i < count; i++) {
                     p.nj.upMainTask();
                 }
             }
 
             if (util.CheckString(chat, "^tpk \\d")) {
-                val tokens = chat.split(" ");
+                String[] tokens = chat.split(" ");
                 p.nj.changeTypePk(Short.parseShort(tokens[1]));
             }
             if ("q".equals(chat)) {
@@ -529,18 +534,18 @@ public class Place {
             }
 
             if (util.CheckString(chat, "^t \\d*")) {
-                val s = chat.split(" ");
+                String[] s = chat.split(" ");
                 leave(p);
                 final Map map = Server.getMapById(Integer.parseInt(s[1]));
                 map.getFreeArea().EnterMap0(p.nj);
             }
 
             if (util.CheckString(chat, "^a \\d* \\d*$")) {
-                val s = chat.split(" ");
-                val item1 = itemDefault(Integer.parseInt(s[1]));
+                String[] s = chat.split(" ");
+                Item item1 = itemDefault(Integer.parseInt(s[1]));
                 if (item1.isTypeNgocKham()) {
                     for (int i = 0; i < Integer.parseInt(s[2]); i++) {
-                        val item = itemNgocDefault(Integer.parseInt(s[1]), x, true, true);
+                        Item item = itemNgocDefault(Integer.parseInt(s[1]), x, true, true);
                         item.quantity = 1;
                         p.nj.addItemBag(false, item);
                     }
@@ -550,7 +555,7 @@ public class Place {
                     }
 
                 } else {
-                    val item = itemDefault(Integer.parseInt(s[1]));
+                    Item item = itemDefault(Integer.parseInt(s[1]));
                     item.quantity = Integer.parseInt(s[2]);
                     p.nj.addItemBag(true, item);
                 }
@@ -651,7 +656,7 @@ public class Place {
 
                     self.sendMounts(p.nj.get(), recv);
                 }
-                val u = Arrays.asList(p);
+                List<@Nullable User> u = Arrays.asList(p);
                 for (BuNhin buNhin : self.buNhins) {
                     MessageSubCommand.sendBuNhin(buNhin, u);
                 }
@@ -755,7 +760,7 @@ public class Place {
             m.writer().writeShort(240);
         }
         if (self.map.id == 33) {
-            val hasJainTask = p.nj.getTaskId() == 17 && p.nj.getTaskIndex() == 1;
+            boolean hasJainTask = p.nj.getTaskId() == 17 && p.nj.getTaskIndex() == 1;
             m.writer().writeByte(self.map.template.npc.length - (hasJainTask ? 0 : 1));
             for (final Npc npc : self.map.template.npc) {
 
@@ -847,7 +852,7 @@ public class Place {
         }
 
         p.nj.setMapid(27);
-        val map = Server.getInstance().getMapById(27);
+        Map map = Server.getInstance().getMapById(27);
         p.nj.x = map.template.x0;
         p.nj.y = map.template.y0;
         try {
@@ -1118,7 +1123,7 @@ public class Place {
         final short xold = nj.get().x;
         final short yold = nj.get().y;
         nj.y = y;
-        val dx = Math.abs(xold - x);
+        int dx = Math.abs(xold - x);
 
         if (dx > nj.speed() * 18 && dx > MOVE_LIMIT && nj.hasBattle()) {
             nj.x = (short) ((xold + x) / 2);
@@ -1225,7 +1230,7 @@ public class Place {
                         return;
                     }
 
-                    val ninja = p.nj;
+                    Ninja ninja = p.nj;
 
                     if (data.type == 19 || p.nj.getAvailableBag() > 0
                             || (p.nj.getIndexBagid(item.id, item.isLock()) != -1 && data.isUpToUp)) {
@@ -1253,9 +1258,13 @@ public class Place {
                                     && ninja.getTaskId() != 22
                                     && ninja.getTaskId() != 23;
                             if (isShowWaiting) {
-                                val lastHp = ninja.hp;
+                                int lastHp = ninja.hp;
                                 Service.showWait("Nhặt Vật phẩm", ninja);
-                                Thread.sleep(2000L);
+                                try {
+                                    Thread.sleep(2000L);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 Service.endWait(ninja);
                                 if (lastHp > ninja.hp) {
                                     canPickItem = false;
@@ -1287,7 +1296,7 @@ public class Place {
                                                 && player.getTaskIndex() == ninja.getTaskIndex()
                                                 && (player.getAvailableBag() != -1)) {
                                             player.upMainTask();
-                                            val itemClone = item.clone();
+                                            Item itemClone = item.clone();
                                             if (itemClone.id == 238) {
                                                 itemClone.id++;
                                             }
@@ -1316,7 +1325,7 @@ public class Place {
             return;
         }
 
-        val item = itemmap.item;
+        Item item = itemmap.item;
         if (itemmap.removedelay != -1) {
             this._itemMap.remove(index);
         } else {
@@ -1527,13 +1536,17 @@ public class Place {
         if (p == null) {
             return;
         }
-        val m = new Message(-137);
-        m.writer().writeByte(-1);
-        m.writer().writeInt(p.nj.get().id);
-        m.writer().writeShort(lastX);
-        m.writer().writeShort(lastY);
-        sendMessage(m);
-        m.cleanup();
+        try {
+            Message m = new Message(-137);
+            m.writer().writeByte(-1);
+            m.writer().writeInt(p.nj.get().id);
+            m.writer().writeShort(lastX);
+            m.writer().writeShort(lastY);
+            sendMessage(m);
+            m.cleanup();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendXYPlayer(@Nullable final User p) throws IOException {
@@ -1950,7 +1963,7 @@ public class Place {
     }
 
     public synchronized void PlayerAttack(@Nullable final Ninja _char, @Nullable Mob[] arrMob,
-            @Nullable Ninja[] arrChar) {
+            @Nullable Ninja[] arrChar) throws IOException {
         if (_char == null) {
             return;
         }
@@ -2011,7 +2024,7 @@ public class Place {
         if (arrChar != null) {
             byte i;
             for (i = 0; i < arrChar.length; i = (byte) (i + 1)) {
-                val player = arrChar[i];
+                Ninja player = arrChar[i];
                 if (player != null) {
 
                     int dame = (int) _char.dameMax();
@@ -2064,7 +2077,11 @@ public class Place {
         if (_char == null || mob == null) {
             return;
         }
-        attackAMob(_char.get(), mob, dame + _char.getPramItem(ST_LEN_QUAI_ID));
+        try {
+            attackAMob(_char.get(), mob, dame + _char.getPramItem(ST_LEN_QUAI_ID));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -2225,7 +2242,7 @@ public class Place {
         }
 
         if ((curMob.templates.id != 0 || p.nj.getTaskId() == 40) && curMob.lvboss != 3 && !curMob.isIsboss()) {
-            val _ninja = p.nj;
+            Ninja _ninja = p.nj;
             if ((util.nextInt(100) < 50 || curMob.templates.id == 69)
                     && TaskHandle.itemDrop(_ninja, curMob) != -1 && curMob.isDie) {
                 final ItemMap item = LeaveItem(TaskHandle.itemDrop(_ninja, curMob), curMob.x, curMob.y);
@@ -2265,13 +2282,13 @@ public class Place {
             if (curMob.templates.id == 57
                     && p.nj.getTaskId() == 36
                     && p.nj.getTaskIndex() == 1) {
-                val item = ItemData.itemDefault(taskTemplates[36].getItemsPick()[p.nj.getTaskIndex()]);
+                Item item = ItemData.itemDefault(taskTemplates[36].getItemsPick()[p.nj.getTaskIndex()]);
                 item.quantity = 1;
                 item.setLock(true);
 
                 p.nj.addItemBag(false, item.clone());
                 p.nj.upMainTask();
-                val m = new Message(-6);
+                Message m = new Message(-6);
                 if (p != null && p.nj != null && p.nj.party != null) {
                     for (Ninja ninja : p.nj.party.getNinjas()) {
                         if (ninja != null && ninja.id != p.nj.id
@@ -2377,9 +2394,9 @@ public class Place {
                     --this.numTA;
 
                     if (canDropItem) {
-                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * (YEN_COEF * 3.5)
-                                * util.nextInt(90, 100) / 100;
-                        body.c.upyenMessage((long) yen);
+                        long yen = (long) (Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * (YEN_COEF * 3.5)
+                                * util.nextInt(90, 100) / 100);
+                        body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
 
                         if (isReceivedLuong) {
@@ -2391,8 +2408,8 @@ public class Place {
                     --this.numTL;
 
                     if (canDropItem) {
-                        val yen = Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * (YEN_COEF * 12)
-                                * util.nextInt(90, 100) / 100;
+                        long yen = (long) (Math.min(curMob.level, MAX_LEVEL_RECEIVE_YEN_COEF) * (YEN_COEF * 12)
+                                * util.nextInt(90, 100) / 100);
                         body.c.upyenMessage(yen);
                         p.sendYellowMessage("Bạn nhận được " + yen + " yên");
 
@@ -2410,7 +2427,7 @@ public class Place {
 
             } else {
                 if (curMob.lvboss == 1) {
-                    ItemMap itemMap = LeaveItem((short) 231, curMob.x, curMob.y);
+                    LeaveItem((short) 231, curMob.x, curMob.y);
                 }
             }
             leaveItemLogic(body, curMob, p, master);
@@ -2491,7 +2508,7 @@ public class Place {
 
         } else {
             if (server.manager.EVENT != 0 && canDropItem) {
-                val eventItems = EventItem.getEventDropItemIds();
+                Short[] eventItems = EventItem.getEventDropItemIds();
                 final int index = util.nextInt(eventItems.length);
                 int percent = Manager.EVENT_ITEM_DROP_PERCENT;
                 if (body.getEffId(41) != null || body.getEffId(40) != null) {
@@ -2499,7 +2516,7 @@ public class Place {
                 }
                 if (util.nextInt(100) <= percent && eventItems[index] != -1) {
 
-                    val itemMap = this.LeaveItem(eventItems[index], curMob.x, curMob.y);
+                    ItemMap itemMap = this.LeaveItem(eventItems[index], curMob.x, curMob.y);
                     if (itemMap != null) {
                         itemMap.item.isExpires = false;
                         itemMap.item.quantity = 1;
@@ -2608,7 +2625,7 @@ public class Place {
     }
 
     @SneakyThrows
-    private void AttackPlayer(@Nullable final Ninja body, @Nullable Ninja other) {
+    private void AttackPlayer(@Nullable final Ninja body, @Nullable Ninja other) throws IOException {
         if (body == null || other == null) {
             return;
         }
@@ -2711,7 +2728,7 @@ public class Place {
         }
 
         short myPk = body.getTypepk();
-        val p = body.c.p;
+        User p = body.c.p;
 
         if (body.isNhanban) {
             myPk = body.c.getTypepk();
@@ -2984,7 +3001,7 @@ public class Place {
 
         if (map.isLdgtMap()
                 && (p.getClanTerritoryData() != null && p.getClanTerritoryData().getClanTerritory() != null)) {
-            val area = p.getClanTerritoryData().getClanTerritory().openedMap.get(80);
+            Place area = p.getClanTerritoryData().getClanTerritory().openedMap.get(80);
             if (area != null) {
                 resetDieReturn(p, area);
                 return;
@@ -3057,12 +3074,12 @@ public class Place {
     }
 
     @SneakyThrows
-    public void sendFatalMessage(int dame, @Nullable final Ninja victim) {
+    public void sendFatalMessage(int dame, @Nullable final Ninja victim) throws IOException {
         if (victim == null) {
             return;
         }
 
-        val m = new Message(62);
+        Message m = new Message(62);
         m.writer().writeInt(victim.id);
         m.writer().writeInt(victim.hp);
         m.writer().writeInt(-Math.abs(dame));
@@ -3525,8 +3542,8 @@ public class Place {
                     return;
                 }
                 if (!mob.isDie) {
-                    val body = n.get();
-                    val item = body.ItemBody[10];
+                    Body body = n.get();
+                    Item item = body.ItemBody[10];
                     final int dame = item == null ? 0 : item.findParamById(ClanThanThu.ST_QUAI_ID);
                     if (mob.level >= 70) {
                         n.p.updateExp(dame, true);
@@ -3623,10 +3640,10 @@ public class Place {
                     }
                 }
             }
-            val users = this.getUsers();
+            List<@Nullable User> users = this.getUsers();
             for (int i = 0; i < users.size(); ++i) {
                 try {
-                    val user = this.getUsers().get(i);
+                    User user = this.getUsers().get(i);
                     if (user == null) {
                         continue;
                     }
@@ -3700,7 +3717,7 @@ public class Place {
                                 .filter(m -> m.templates.id == this.map.getMobLdgtId())
                                 .collect(Collectors.toList());
                         if (map.id != 80 && map.id != 90) {
-                            val randomMob = ldgtMobs.get(util.nextInt(ldgtMobs.size()));
+                            Mob randomMob = ldgtMobs.get(util.nextInt(ldgtMobs.size()));
                             this.refreshMob(randomMob.id);
                             recoverTa = true;
                         }
@@ -3719,7 +3736,7 @@ public class Place {
                 }
 
             }
-            val currentTime = System.currentTimeMillis();
+            long currentTime = System.currentTimeMillis();
             updateMission(currentTime);
         }
     }
@@ -3731,7 +3748,7 @@ public class Place {
                     continue;
                 }
                 if ("Jaian".equals(user.nj.name)) {
-                    val ninjaAI = user.nj;
+                    Ninja ninjaAI = user.nj;
                     if (ninjaAI == null) {
                         continue;
                     }
@@ -3793,11 +3810,11 @@ public class Place {
 
         } else if (map.id == 74) {
             if (getUsers().size() == 1) {
-                val nj = getUsers().get(0);
-                if (nj == null) {
+                User njU = getUsers().get(0);
+                if (njU == null) {
                     return;
                 }
-                if (nj.expiredTime == -1 || currentTime >= nj.expiredTime) {
+                if (njU.expiredTime == -1 || currentTime >= njU.expiredTime) {
                     for (User user : getUsers()) {
                         gietHeoRungGoBack(user, "Nhiệm vụ thất bại do hết thời gian");
                     }
@@ -3814,19 +3831,19 @@ public class Place {
             }
         } else if (map.id == 78) {
             if (getUsers().size() == 1) {
-                val u = getUsers().get(0);
+                User u = getUsers().get(0);
                 if (u != null) {
                     if (u.expiredTime == -1 || currentTime >= u.expiredTime) {
-                        val nj = u.nj;
+                        Ninja nj = u.nj;
                         nj.getPlace().gotoHaruna(u);
                         Service.batDauTinhGio(u, 0);
                         u.sendYellowMessage("Thời gian trong địa đạo đã hết");
                     } else if (_mobs.stream().allMatch(m -> m.isDie)) {
-                        if (_itemMap.size() == 0 && !u.nj.hasItemInBag(232)) {
+                        if (_itemMap.isEmpty() && !u.nj.hasItemInBag(232)) {
                             if (u.nj.getTaskId() < taskTemplates.length) {
-                                val task = taskTemplates[u.nj.getTaskId()];
-                                val index = util.nextInt(0, _mobs.size()) % _mobs.size();
-                                final ItemMap itemMap = LeaveItem(task.getItemsPick()[u.nj.getTaskIndex()],
+                                TaskTemplate task = taskTemplates[u.nj.getTaskId()];
+                                int index = util.nextInt(0, _mobs.size()) % _mobs.size();
+                                LeaveItem(task.getItemsPick()[u.nj.getTaskIndex()],
                                         _mobs.get(index).x, _mobs.get(index).y);
                                 u.expiredTime = System.currentTimeMillis() + 50000;
                                 u.sendYellowMessage("Bạn có 50 giây để tìm tấm địa đồ");
@@ -4061,12 +4078,16 @@ public class Place {
             return;
         }
 
-        val m = messageSubCommand2(17);
-        m.writer().writeInt(p.nj.id);
-        m.writer().writeInt(p.nj.hp);
-        m.writer().flush();
-        sendMessage(m);
-        m.cleanup();
+        try {
+            Message m = messageSubCommand2(17);
+            m.writer().writeInt(p.nj.id);
+            m.writer().writeInt(p.nj.hp);
+            m.writer().flush();
+            sendMessage(m);
+            m.cleanup();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateMp(final @Nullable User p) throws IOException {
@@ -4191,12 +4212,12 @@ public class Place {
     // </editor-fold>
 
     @SneakyThrows
-    public void updateSpecialEvent(final @Nullable User p) {
+    public void updateSpecialEvent(final @Nullable User p) throws IOException {
 
         if (p == null) {
             return;
         }
-        val nj = p.nj;
+        Ninja nj = p.nj;
 
         TeamBattle t = nj.party == null ? nj : nj.party;
         if (t.hasBattle()) {
@@ -4235,8 +4256,8 @@ public class Place {
         try {
             if (nj.isHuman) {
                 if (nj.clone != null && nj.clone.isIslive() && nj.clone.nclass == 6) {
-                    val skills = nj.clone.getWinBuffSkills();
-                    val winBuffSkill = skills[util.nextInt(skills.length)];
+                    short[] skills = nj.clone.getWinBuffSkills();
+                    short winBuffSkill = skills[util.nextInt(skills.length)];
                     if (winBuffSkill != -1) {
                         useSkill.useSkill(nj.clone, winBuffSkill);
                     }
@@ -4314,7 +4335,7 @@ public class Place {
             MessageSubCommand.sendHP(p.nj.get(), getUsers());
             MessageSubCommand.sendMP(p.nj.get(), getUsers());
             Service.batDauTinhGio(p, 0);
-            val m = new Message(57);
+            Message m = new Message(57);
             m.writer().flush();
             p.sendMessage(m);
             m.cleanup();
@@ -4345,15 +4366,15 @@ public class Place {
     }
 
     @SneakyThrows
-    public void sendPlayersInfo(final @Nullable Ninja nj, final @Nullable Message message) {
+    public void sendPlayersInfo(final @Nullable Ninja nj, final @Nullable Message message) throws IOException {
         if (nj == null || message == null) {
             return;
         }
-        val m = new Message(25);
-        val ds = m.writer();
-        val size = message.reader().readByte();
+        Message m = new Message(25);
+        DataOutputStream ds = m.writer();
+        byte size = message.reader().readByte();
         for (int i = 0; i < size; i++) {
-            val ninja = getNinja(message.reader().readInt());
+            Ninja ninja = getNinja(message.reader().readInt());
             if (ninja == null) {
                 continue;
             }

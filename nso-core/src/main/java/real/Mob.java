@@ -1,10 +1,8 @@
 package real;
 
 import boardGame.Place;
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
 import io.Session;
 import lombok.SneakyThrows;
-import lombok.val;
 import patch.Constants;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +10,7 @@ import candybattle.CandyBattle;
 import server.Service;
 import server.util;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -257,6 +256,7 @@ public class Mob {
                     case 45:
                         this.templates.arrIdItem = BOSS_ITEM_LV45;
                         break;
+                    case 50:
                     case 55:
                         this.templates.arrIdItem = BOSS_ITEM_LV55;
                         break;
@@ -327,7 +327,7 @@ public class Mob {
     }
 
     @SneakyThrows
-    public void update(final @NotNull Place place) {
+    public void update(final @NotNull Place place) throws IOException {
         if (this.crtPlace == null) {
             this.crtPlace = place;
 
@@ -343,9 +343,9 @@ public class Mob {
                 this.isThieuDot = false;
             } else {
                 Service.sendThieuDot(place.getUsers(), this.id);
-                val dame = effId.param * this.masterThieuDot.dameMax() / 2000;
+                int dame = effId.param * this.masterThieuDot.dameMax() / 2000;
                 this.updateHP(dame);
-                val expUp = (long) this.level * dame / 1000;
+                long expUp = (long) this.level * dame / 1000;
                 if (masterThieuDot instanceof Ninja) {
                     ((Ninja) masterThieuDot).p.updateExp(expUp, true);
                 } else {

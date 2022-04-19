@@ -977,7 +977,7 @@ public class TaskHandle {
                 }
             }
 
-            if (count == 7) {
+            if (count >= 7) {
                 if (ninja.p.nj.getAvailableBag() == 0) {
                     ninja.p.session.sendMessageLog("Hành trang không đủ chỗ trống");
                 } else {

@@ -1784,7 +1784,7 @@ public class Ninja extends Body implements TeamBattle, IGlobalBattler {
         }
     }
 
-    public void nhanQuaTanThu() throws IOException {
+    public synchronized void nhanQuaTanThu() throws IOException {
         if (p == null) {
             return;
         }
