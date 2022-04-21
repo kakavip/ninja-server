@@ -188,6 +188,7 @@ public class Map extends Thread {
                 }
 
                 m.setIsboss(this.template.arrisboss[i]);
+                m.setCrtPlace(this.area[j]);
                 this.area[j].getMobs().add(m);
 
                 if (!m.isIsboss()) {

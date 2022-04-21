@@ -666,7 +666,7 @@ public class Place {
                         p.menuCaiTrang = 0;
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 2;
+                        p.nj.useCave = 4;
                         p.setClanTerritoryId(-1);
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
@@ -686,7 +686,7 @@ public class Place {
                         p.menuCaiTrang = 0;
                         p.nj.pointCave = 0;
                         p.nj.nCave = 1;
-                        p.nj.useCave = 2;
+                        p.nj.useCave = 4;
                         p.nj.ddClan = false;
                         p.nj.nvhnCount = 0;
                         p.nj.nvdvCount = 0;
@@ -2610,7 +2610,7 @@ public class Place {
 
             // drop item
             for (int i = 0; i < nItemBoss; i++) {
-                short itemId = curMob.templates.arrIdItem[util.nextInt(curMob.templates.arrIdItem.length)];
+                short itemId = curMob.getArrItemIds()[util.nextInt(curMob.getArrItemIds().length)];
 
                 ItemMap im = this.LeaveBossItem(itemId, curMob.x, curMob.y);
                 if (im != null) {

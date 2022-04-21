@@ -76,60 +76,115 @@ public class Mob {
         this.isDie = false;
         this.nFight = new HashMap<>();
         this.crtPlace = null;
+    }
 
-        this.setArrItemIds();
+    public void setCrtPlace(Place place) {
+        this.crtPlace = place;
     }
 
     public short[] getArrItemIds() {
+        if (this.isboss) {
+            if (this.crtPlace != null && this.crtPlace.map.isLangCo()) {
+                this.arrItemIds = BOSS_LC_ITEM;
+            } else {
+                switch (this.level) {
+                    case 45:
+                        this.arrItemIds = BOSS_ITEM_LV45;
+                        break;
+                    case 50:
+                    case 55:
+                        this.arrItemIds = BOSS_ITEM_LV55;
+                        break;
+                    case 60:
+                        this.arrItemIds = BOSS_ITEM_LV60;
+                        break;
+                    case 65:
+                        this.arrItemIds = BOSS_ITEM_LV65;
+                        break;
+                    case 75:
+                        this.arrItemIds = BOSS_ITEM_LV75;
+                        break;
+                    case 90:
+                        this.arrItemIds = BOSS_ITEM_LV90;
+                        break;
+                    case 99:
+                        this.arrItemIds = BOSS_ITEM_LV99;
+                        break;
+                    case 100:
+                        this.arrItemIds = BOSS_ITEM_LV100;
+                        break;
+                    case 110:
+                        this.arrItemIds = BOSS_ITEM_LV110;
+                        break;
+                    case 130:
+                        this.arrItemIds = BOSS_ITEM_LV130;
+                        break;
+                    case 140:
+                        this.arrItemIds = BOSS_ITEM_LV140;
+                        break;
+                    case 150:
+                        this.arrItemIds = BOSS_ITEM_LV150;
+                        break;
+                    default:
+                        this.arrItemIds = BOSS_DEFAULT_ITEM;
+                        break;
+                }
+            }
+
+            // except boss end map && hd 9x
+            if (this.crtPlace != null && this.crtPlace.map.cave == null && !this.crtPlace.map.isEndOfSchoolMap) {
+                this.arrItemIds = util.concatArray(this.arrItemIds, ItemData.JRAI_PIECE_IDS,
+                        ItemData.JUMITO_PIECE_IDS);
+            }
+        } else {
+            int curMobMaxLv = this.level - this.level % 10 + 10;
+            if (curMobMaxLv > 100) {
+                curMobMaxLv = 100;
+            }
+
+            switch (curMobMaxLv) {
+                case 10:
+                    this.arrItemIds = ITEM_LV_10;
+                    break;
+                case 20:
+                    this.arrItemIds = ITEM_LV_20;
+                    break;
+                case 30:
+                    this.arrItemIds = ITEM_LV_30;
+                    break;
+                case 40:
+                    this.arrItemIds = ITEM_LV_40;
+                    break;
+                case 50:
+                    this.arrItemIds = ITEM_LV_50;
+                    break;
+                case 60:
+                    this.arrItemIds = ITEM_LV_60;
+                    break;
+                case 70:
+                    this.arrItemIds = ITEM_LV_70;
+                    break;
+                case 80:
+                    this.arrItemIds = ITEM_LV_80;
+                    break;
+                case 90:
+                    this.arrItemIds = ITEM_LV_90;
+                    break;
+                case 100:
+                case 110:
+                case 120:
+                case 130:
+                case 140:
+                case 150:
+                case 160:
+                    this.arrItemIds = ITEM_LV_100;
+                    break;
+                default:
+                    this.arrItemIds = new short[0];
+            }
+        }
+
         return this.arrItemIds;
-    }
-
-    private void setArrItemIds() {
-        int curMobMaxLv = this.level - this.level % 10 + 10;
-        if (curMobMaxLv > 100) {
-            curMobMaxLv = 100;
-        }
-
-        switch (curMobMaxLv) {
-            case 10:
-                this.arrItemIds = ITEM_LV_10;
-                break;
-            case 20:
-                this.arrItemIds = ITEM_LV_20;
-                break;
-            case 30:
-                this.arrItemIds = ITEM_LV_30;
-                break;
-            case 40:
-                this.arrItemIds = ITEM_LV_40;
-                break;
-            case 50:
-                this.arrItemIds = ITEM_LV_50;
-                break;
-            case 60:
-                this.arrItemIds = ITEM_LV_60;
-                break;
-            case 70:
-                this.arrItemIds = ITEM_LV_70;
-                break;
-            case 80:
-                this.arrItemIds = ITEM_LV_80;
-                break;
-            case 90:
-                this.arrItemIds = ITEM_LV_90;
-                break;
-            case 100:
-            case 110:
-            case 120:
-            case 130:
-            case 140:
-            case 150:
-            case 160:
-                this.arrItemIds = ITEM_LV_100;
-                break;
-            default:
-                this.arrItemIds = new short[0];
-        }
     }
 
     public void updateHP(final int num) {
@@ -224,9 +279,6 @@ public class Mob {
 
     public void setIsboss(boolean isboss) {
         this.isboss = isboss;
-
-        // update item.
-        this.updateBossItemDrop();
     }
 
     public int getDefensePercent() {
@@ -245,64 +297,6 @@ public class Mob {
         } else {
             return 5 * this.lvboss;
         }
-    }
-
-    private void updateBossItemDrop() {
-        if (this.isboss) {
-            if (this.crtPlace != null && this.crtPlace.map.isLangCo()) {
-                this.templates.arrIdItem = BOSS_LC_ITEM;
-            } else {
-                switch (this.level) {
-                    case 45:
-                        this.templates.arrIdItem = BOSS_ITEM_LV45;
-                        break;
-                    case 50:
-                    case 55:
-                        this.templates.arrIdItem = BOSS_ITEM_LV55;
-                        break;
-                    case 60:
-                        this.templates.arrIdItem = BOSS_ITEM_LV60;
-                        break;
-                    case 65:
-                        this.templates.arrIdItem = BOSS_ITEM_LV65;
-                        break;
-                    case 75:
-                        this.templates.arrIdItem = BOSS_ITEM_LV75;
-                        break;
-                    case 90:
-                        this.templates.arrIdItem = BOSS_ITEM_LV90;
-                        break;
-                    case 99:
-                        this.templates.arrIdItem = BOSS_ITEM_LV99;
-                        break;
-                    case 100:
-                        this.templates.arrIdItem = BOSS_ITEM_LV100;
-                        break;
-                    case 110:
-                        this.templates.arrIdItem = BOSS_ITEM_LV110;
-                        break;
-                    case 130:
-                        this.templates.arrIdItem = BOSS_ITEM_LV130;
-                        break;
-                    case 140:
-                        this.templates.arrIdItem = BOSS_ITEM_LV140;
-                        break;
-                    case 150:
-                        this.templates.arrIdItem = BOSS_ITEM_LV150;
-                        break;
-                    default:
-                        this.templates.arrIdItem = BOSS_DEFAULT_ITEM;
-                        break;
-                }
-            }
-
-            // except boss end map && hd 9x
-            if (this.crtPlace != null && this.crtPlace.map.cave == null && !this.crtPlace.map.isEndOfSchoolMap) {
-                this.templates.arrIdItem = util.concatArray(this.templates.arrIdItem, ItemData.JRAI_PIECE_IDS,
-                        ItemData.JUMITO_PIECE_IDS);
-            }
-        }
-
     }
 
     public long getReduceIceTime() {
@@ -328,12 +322,6 @@ public class Mob {
 
     @SneakyThrows
     public void update(final @NotNull Place place) throws IOException {
-        if (this.crtPlace == null) {
-            this.crtPlace = place;
-
-            this.updateBossItemDrop();
-        }
-
         if (isThieuDot
                 && masterThieuDot != null) {
             final Effect effId = masterThieuDot.getEffId(THIEU_DOT_ID);

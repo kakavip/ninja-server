@@ -1041,7 +1041,7 @@ public class TaskHandle {
                 Service.openUISay(ninja, npcId, "Ta bán nâng cấp trang bị");
                 ninja.upMainTask();
                 return true;
-            } else if (ninja.getTaskIndex() == 3 && npcId == 24 && index == 5) {
+            } else if (ninja.getTaskIndex() == 3 && npcId == 24 && (index == 5 || index == 4 || index == 3)) {
                 Service.openUISay(ninja, npcId, "Gì liên quan tới tiền lại gặp ta");
                 ninja.upMainTask();
                 return true;
