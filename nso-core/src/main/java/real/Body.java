@@ -1312,7 +1312,8 @@ public class Body implements ISoloer {
 
     public List<Skill> getSkills() {
         if (this.nclass == 0) {
-            if (skills.size() == 0) {
+            if (skills.size() == 0 || skills.size() > 1) {
+                this.skills.clear();
                 this.skills.add(new Skill(0));
             }
         }
