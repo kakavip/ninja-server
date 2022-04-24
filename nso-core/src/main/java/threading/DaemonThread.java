@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static patch.Constants.TRUNG_DI_LONG_ID;
 import static patch.Constants.TRUNG_HAI_MA_ID;
@@ -121,11 +122,14 @@ public class DaemonThread extends Thread {
     }
 
     private void flushAndControlConnectUser() {
+        List<String> blackListIps = util.ReadBlackListIps().stream().map(ip -> ip.getName())
+                .collect(Collectors.toList());
         long currentTime = System.currentTimeMillis();
         for (Session conn : playerManager.conns) {
             try {
                 if (conn != null) {
-                    if (currentTime - conn.lastTimeReceiveData > TIME_TO_DISCONNECT) {
+                    if (currentTime - conn.lastTimeReceiveData > TIME_TO_DISCONNECT
+                            || blackListIps.contains(conn.getClientIpAddress())) {
                         conn.disconnect();
                         PlayerManager.getInstance().kickSession(conn);
 
