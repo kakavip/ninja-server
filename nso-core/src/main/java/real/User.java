@@ -968,16 +968,16 @@ public class User extends Actor implements SendMessage {
             nj.upMainTask();
         }
 
-        if (this.nj.get().getPpoint()
-                + this.nj.get().getPotential0()
-                + this.nj.get().getPotential1()
-                + nj.get().getPotential2()
-                + nj.get().getPotential3() > (Level.totalpPoint(nj.get().getLevel()) + 25
-                        + nj.get().getTiemNangSo() * 10 + nj.get().getBanghoa() * 10)) {
-            session.sendMessageLog("Lỗi cộng điểm tiềm năng, tiềm năng được reset");
-            restPpoint(this.nj.get());
-            return;
-        }
+        // if (this.nj.get().getPpoint()
+        // + this.nj.get().getPotential0()
+        // + this.nj.get().getPotential1()
+        // + nj.get().getPotential2()
+        // + nj.get().getPotential3() > (Level.totalpPoint(nj.get().getLevel()) + 25
+        // + nj.get().getTiemNangSo() * 10 + nj.get().getBanghoa() * 10)) {
+        // session.sendMessageLog("Lỗi cộng điểm tiềm năng, tiềm năng được reset");
+        // restPpoint(this.nj.get());
+        // return;
+        // }
 
         switch (num) {
             case 0: {
@@ -1016,6 +1016,10 @@ public class User extends Actor implements SendMessage {
 
     @SneakyThrows
     public synchronized void restPpoint(Body body) {
+        if (body.nclass == 0) {
+            return;
+        }
+
         if (lastTimeResetPoint != -1 && System.currentTimeMillis() - lastTimeResetPoint < MIN_TIME_RESET_POINT) {
             return;
         }
@@ -1031,6 +1035,10 @@ public class User extends Actor implements SendMessage {
 
     @SneakyThrows
     public synchronized void restSpoint() {
+        if (this.nj.get().nclass == 0) {
+            return;
+        }
+
         if (lastTimeResetPoint != -1 && System.currentTimeMillis() - lastTimeResetPoint < MIN_TIME_RESET_POINT) {
             return;
         }

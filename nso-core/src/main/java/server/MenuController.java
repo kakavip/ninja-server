@@ -1152,6 +1152,12 @@ public class MenuController {
                                 p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần tẩy điểm tiềm năng của con đã hết.");
                                 return;
                             } else {
+                                if (p.nj.get().nclass == 0) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Chưa vào lớp không thể tẩy điểm tiềm năng.");
+                                    return;
+                                }
+
                                 p.nj.timesResetPpoint -= 1;
                                 p.restPpoint(p.nj.get());
                                 if (p.nj.timesResetPpoint == 0) {
@@ -1169,6 +1175,12 @@ public class MenuController {
                                 p.nj.getPlace().chatNPC(p, (short) npcId, "Số lần tẩy điểm kỹ năng của con đã hết.");
                                 return;
                             } else {
+                                if (p.nj.get().nclass == 0) {
+                                    p.nj.getPlace().chatNPC(p, (short) npcId,
+                                            "Chưa vào lớp không thể tẩy điểm kĩ năng.");
+                                    return;
+                                }
+
                                 p.nj.timesResetSpoint -= 1;
                                 p.restSpoint();
                                 if (p.nj.timesResetSpoint == 0) {
