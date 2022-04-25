@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Battle {
 
-
     public static short MATCHING_WAIT_FOR_INFORMATION = 300;
     public static short MATCHING_WAIT_DURATION = 60;
     public static short MATCHING_DURATION = 10 * 60;
@@ -50,9 +49,7 @@ public class Battle {
     @Nullable
     private List<@NotNull Ninja> viewer;
 
-
-    public Battle(final @NotNull Ninja ninja1,@NotNull Ninja ninja2) {
-
+    public Battle(final @NotNull Ninja ninja1, @NotNull Ninja ninja2) {
 
         this.team1 = ninja1.party == null ? ninja1 : ninja1.party;
         this.team2 = ninja2.party == null ? ninja2 : ninja2.party;
@@ -79,13 +76,13 @@ public class Battle {
             Service.batDauTinhGio(team1, MATCHING_WAIT_FOR_INFORMATION);
             Service.batDauTinhGio(team2, MATCHING_WAIT_FOR_INFORMATION);
         } else if (this.state == Battle.DOI_1_PHUT_STATE) {
+            Manager.serverChat("Server", team1.getTeamName() + " ( " + team1.getKeyLevel() + ") đang thách đấu với " +
+                    team2.getTeamName() + " (" + team2.getKeyLevel() + ") " + finalXu + " xu ở lôi đài.");
             team1.updateEffect(new Effect(14, 0, MATCHING_WAIT_DURATION * 1000, 0));
             team2.updateEffect(new Effect(14, 0, MATCHING_WAIT_DURATION * 1000, 0));
             Service.batDauTinhGio(team1, 0);
             Service.batDauTinhGio(team2, 0);
         } else if (this.state == Battle.CHIEN_DAU_STATE) {
-            Manager.serverChat("Server", team1.getTeamName() + " ( " + team1.getKeyLevel() + ") đang thách đấu với " +
-                    team2.getTeamName() + " (" + team2.getKeyLevel() + ") " + finalXu + " xu ở lôi đài.");
             team1.changeTypePk(Constants.PK_TRANG, team2);
             team2.changeTypePk(Constants.PK_DEN, team1);
             Service.batDauTinhGio(team1, MATCHING_DURATION);
@@ -128,8 +125,7 @@ public class Battle {
 
     }
 
-
-    public void setXu(long xu,final @NotNull TeamBattle team) {
+    public void setXu(long xu, final @NotNull TeamBattle team) {
 
         if (xu < MIN_XU) {
             team.notifyMessage("Xu đặt tối thiểu 1000 xu");
@@ -158,7 +154,6 @@ public class Battle {
             }
         }
 
-
         String msg;
         if (this.canStart()) {
             // Start
@@ -175,7 +170,6 @@ public class Battle {
         this.team2.notifyMessage(msg);
     }
 
-
     public long getFinalXu() {
         return finalXu;
     }
@@ -185,7 +179,6 @@ public class Battle {
     }
 
     public void start() {
-
 
         this.finalXu = this.xu1;
 
@@ -215,7 +208,6 @@ public class Battle {
         this.startTime = System.currentTimeMillis();
     }
 
-
     public boolean isExpired() {
         long timeLimit;
 
@@ -240,7 +232,6 @@ public class Battle {
 
         TeamBattle winner = team == team1 ? team2 : team1;
         TeamBattle looser = team == team1 ? team1 : team2;
-
 
         looser.notifyMessage("# đã bị " + winner.getTeamName() + " đánh bại");
         looser.upXuMessage(-getFinalXu());

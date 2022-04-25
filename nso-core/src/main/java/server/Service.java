@@ -460,7 +460,9 @@ public class Service {
     public static void sendBattleList(User p) {
         val m = new Message(-156);
         val battles = Battle.battles.entrySet()
-                .stream().filter(e -> e.getValue().getState() == Battle.CHIEN_DAU_STATE)
+                .stream()
+                .filter(e -> e.getValue().getState() == Battle.CHIEN_DAU_STATE
+                        || e.getValue().getState() == Battle.DOI_1_PHUT_STATE)
                 .collect(Collectors.toList());
         m.writer().writeByte(battles.size());
         battles.forEach(e -> {
