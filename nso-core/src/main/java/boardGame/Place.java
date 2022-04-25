@@ -2593,7 +2593,7 @@ public class Place {
 
                 if (this.map.cave == null) {
                     if (this.map.isEndOfSchoolMap) {
-                        luong *= 2;
+                        luong /= 2;
                     } else {
                         luong *= 1.5;
                     }
