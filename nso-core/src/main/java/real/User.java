@@ -1007,8 +1007,8 @@ public class User extends Actor implements SendMessage {
         final Body b = this.nj.get();
 
         b.updatePpoint(b.getPpoint() - point);
-        this.nj.get().upHP(this.nj.get().getMaxHP());
-        this.nj.get().upMP(this.nj.get().getMaxMP());
+        // this.nj.get().upHP(this.nj.get().getMaxHP());
+        // this.nj.get().upMP(this.nj.get().getMaxMP());
         this.updatePotential();
     }
 
