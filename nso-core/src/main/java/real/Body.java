@@ -1138,7 +1138,8 @@ public class Body implements ISoloer {
         if (miss > 7500) {
             miss = 7500;
         }
-        if (util.nextInt(0, 10000) < miss) {
+        boolean missLuck = util.nextInt(0, 10000) < miss;
+        if (missLuck) {
             dame = 0;
         }
 
@@ -1200,7 +1201,9 @@ public class Body implements ISoloer {
             }
         }
 
-        this.upHP(-other.ReactDame());
+        if (!missLuck) {
+            this.upHP(-other.ReactDame());
+        }
         other.getPlace().attackNinja(dame, other.id);
         MessageSubCommand.sendHP(this, other.getPlace().getUsers());
         MessageSubCommand.sendHP(other, other.getPlace().getUsers());
