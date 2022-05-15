@@ -966,12 +966,17 @@ public class useItem {
                     break;
                 }
 
-                short randId = Manager.EXPAND_TASK_ITEM_IDS[util.nextInt(Manager.EXPAND_TASK_ITEM_IDS.length)];
+                if (p.nj.y == 456 && (p.nj.x >= 107 && p.nj.x <= 2701)) {
 
-                Item it = ItemData.itemDefault(randId);
-                p.nj.addItemBag(false, it);
+                    short randId = Manager.EXPAND_TASK_ITEM_IDS[util.nextInt(Manager.EXPAND_TASK_ITEM_IDS.length)];
 
-                p.nj.removeItemBag(index, 1);
+                    Item it = ItemData.itemDefault(randId);
+                    p.nj.addItemBag(false, it);
+
+                    p.nj.removeItemBag(index, 1);
+                } else {
+                    p.sendYellowMessage("Hãy tới chỗ có nước ở làng chài để câu.");
+                }
                 break;
             }
             case 573: {

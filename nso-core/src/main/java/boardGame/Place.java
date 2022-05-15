@@ -2603,9 +2603,11 @@ public class Place {
             }
 
             int nItemBoss = N_ITEM_BOSS;
+            int nYen = 15;
             if (this.map.cave != null && this.map.getXHD() == 9 && !canDropBossLuong) {
-                p.upluongMessage(20L);
-                nItemBoss /= 4;
+                p.upluongMessage(10L);
+                nItemBoss /= 5;
+                nYen /= 5;
             }
 
             // drop item
@@ -2615,10 +2617,10 @@ public class Place {
                 ItemMap im = this.LeaveBossItem(itemId, curMob.x, curMob.y);
                 if (im != null) {
                     if (im.item.id == 12) {
-                        im.item.quantity = curMob.level * (Manager.YEN_COEF * 15) * util.nextInt(90, 100) / 100;
+                        im.item.quantity = curMob.level * (Manager.YEN_COEF * nYen) * util.nextInt(90, 100) / 100;
                     }
                     // NOTE anyone can pick up
-                    // im.master = master;
+                    im.master = master;
                 }
             }
         }
