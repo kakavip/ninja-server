@@ -960,6 +960,20 @@ public class useItem {
                 p.nj.removeItemBag(index, 1);
                 break;
             }
+            case 548: {
+                if (p.nj.getAvailableBag() < 3) {
+                    p.sendYellowMessage("Hành trang không đủ chỗ trống.");
+                    break;
+                }
+
+                short randId = Manager.EXPAND_TASK_ITEM_IDS[util.nextInt(Manager.EXPAND_TASK_ITEM_IDS.length)];
+
+                Item it = ItemData.itemDefault(randId);
+                p.nj.addItemBag(false, it);
+
+                p.nj.removeItemBag(index, 1);
+                break;
+            }
             case 573: {
                 if (p.updateXpMounts(200, (byte) 0)) {
                     p.nj.removeItemBag(index, 1);
@@ -1443,7 +1457,7 @@ public class useItem {
                         server.menu.sendWrite(p, (short) (MenuController.MIN_EVENT_MENU_ID + item.id),
                                 "Nhập tên người muốn tặng");
                     } else {
-                        if (util.nextInt(10) < 3) {
+                        if (util.nextInt(10) < 5) {
                             p.updateExp(entry.getOutput().getExp(), false);
                         } else {
                             final short[] arId = entry.getOutput().getIdItems();
