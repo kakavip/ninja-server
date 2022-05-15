@@ -3119,49 +3119,37 @@ public class User extends Actor implements SendMessage {
                             }
                             if (itemId != -1 && itemQuantity > 0) {
                                 Item it = ItemData.itemDefault(itemId);
-                                if (ItemData.isNgocSao(itemId)) {
-                                    it.setLock(true);
-                                }
+                                it.setLock(true);
                                 it.quantity = itemQuantity;
                                 nj.addItemBag(true, it);
                             }
                             if (itemId1 != -1 && itemQuantity1 > 0) {
                                 Item it1 = ItemData.itemDefault(itemId1);
-                                if (ItemData.isNgocSao(itemId1)) {
-                                    it1.setLock(true);
-                                }
+                                it1.setLock(true);
                                 it1.quantity = itemQuantity1;
                                 nj.addItemBag(true, it1);
                             }
                             if (itemId2 != -1 && itemQuantity2 > 0) {
                                 Item it2 = ItemData.itemDefault(itemId2);
-                                if (ItemData.isNgocSao(itemId2)) {
-                                    it2.setLock(true);
-                                }
+                                it2.setLock(true);
                                 it2.quantity = itemQuantity2;
                                 nj.addItemBag(true, it2);
                             }
                             if (itemId3 != -1 && itemQuantity3 > 0) {
                                 Item it3 = ItemData.itemDefault(itemId3);
-                                if (ItemData.isNgocSao(itemId3)) {
-                                    it3.setLock(true);
-                                }
+                                it3.setLock(true);
                                 it3.quantity = itemQuantity3;
                                 nj.addItemBag(true, it3);
                             }
                             if (itemId4 != -1 && itemQuantity4 > 0) {
                                 Item it4 = ItemData.itemDefault(itemId4);
-                                if (ItemData.isNgocSao(itemId4)) {
-                                    it4.setLock(true);
-                                }
+                                it4.setLock(true);
                                 it4.quantity = itemQuantity4;
                                 nj.addItemBag(true, it4);
                             }
                             if (itemId5 != -1 && itemQuantity5 > 0) {
                                 Item it5 = ItemData.itemDefault(itemId5);
-                                if (ItemData.isNgocSao(itemId5)) {
-                                    it5.setLock(true);
-                                }
+                                it5.setLock(true);
                                 it5.quantity = itemQuantity5;
                                 nj.addItemBag(true, it5);
                             }
