@@ -495,6 +495,11 @@ public class Controller implements ISessionHandler {
                     val price = message.reader().readInt();
                     val item = p.nj.ItemBag[indexUI];
 
+                    if (p.isGuest) {
+                        p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+                        break;
+                    }
+
                     // int FEE = 50_000;
                     int FEE_GOLD = 25;
                     if (item != null && p.luong >= FEE_GOLD) {
@@ -522,6 +527,11 @@ public class Controller implements ISessionHandler {
                     val itemId = message.reader().readInt();
                     val itemShinwa = ItemShinwaManager.findItemById(itemId);
                     boolean canBuy = !ItemShinwaManager.items.get(-1).contains(itemShinwa);
+
+                    if (p.isGuest) {
+                        p.session.sendMessageLog("Tài khoản dùng thử không thể sử dụng tính năng này");
+                        break;
+                    }
 
                     if (!itemShinwa.isExpired() && itemShinwa.getPrice() <= p.nj.getXu() && canBuy) {
                         // final byte bagNull = p.nj.getAvailableBag();
