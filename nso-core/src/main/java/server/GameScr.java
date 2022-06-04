@@ -973,7 +973,13 @@ public class GameScr {
             p.session.sendMessageLog("Hành trang không đủ chỗ trống.");
             return;
         }
-        if (p.nj.quantityItemyTotal(340) <= 0) {
+
+        if (p.nj.quantityItemyTotal(340) < 0) {
+            p.lockAcc();
+            return;
+        }
+
+        if (p.nj.quantityItemyTotal(340) == 0) {
             p.session.sendMessageLog("Cần có phiếu may mắn.");
             return;
         }
