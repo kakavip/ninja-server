@@ -45,8 +45,6 @@ services:
       - 80:80
     depends_on:
       - nja_admin
-      - php_myadmin
-      - portainer
 
   redis:
     image: redis:4.0.11
