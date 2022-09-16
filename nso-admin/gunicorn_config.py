@@ -65,11 +65,11 @@ backlog = 2048
 #       A positive integer. Generally set in the 1-5 seconds range.
 #
 
-workers = 3
+workers = 1
 worker_class = "sync"
 worker_connections = 1000
 timeout = 300
-keepalive = 2
+keepalive = 1
 
 #
 #   spew - Install a trace function that spews every line of Python
