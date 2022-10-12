@@ -2586,12 +2586,14 @@ public class MenuController {
                     switch (menuId) {
                         case 0: {
                             p.typemenu = 572_0;
-                            this.doMenuArray(p, new String[] { "Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map" });
+                            MenuController.doMenuArray(p,
+                                    new String[] { "Phạm vi 240", "Phạm vi 480", "Phạm vi toàn map" });
                             break;
                         }
                         case 1: {
                             p.typemenu = 572_1;
-                            this.doMenuArray(p, new String[] { "Không nhặt", "Nhật v.phẩm hữu dụng", "Nhặt tất cả" });
+                            MenuController.doMenuArray(p,
+                                    new String[] { "Không nhặt", "Nhật v.phẩm hữu dụng", "Nhặt tất cả" });
                             break;
                         }
                         case 2: {

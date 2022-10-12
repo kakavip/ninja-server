@@ -45,7 +45,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static real.User.TypeTBLOption.ALL_MAP;
+import static real.User.TypeTBLOption.$0;
 import static real.User.TypeTBLOption.PICK_ALL;
+import static real.User.TypeTBLOption.NOT_USE;
 import static server.util.*;
 
 public class User extends Actor implements SendMessage {
@@ -85,6 +87,7 @@ public class User extends Actor implements SendMessage {
 
     public enum TypeTBLOption {
         NOT_USE(-1),
+        $0(-1),
         $240(240),
         $480(480),
         ALL_MAP(888888),
@@ -102,14 +105,13 @@ public class User extends Actor implements SendMessage {
         }
     }
 
-    public TypeTBLOption typeTBLOption = ALL_MAP;
-    public TypeTBLOption typeTBLOptionDistance = ALL_MAP;
-    public TypeTBLOption typeTBLOptionPick = PICK_ALL;
+    // public TypeTBLOption typeTBLOption = ALL_MAP;
+    public TypeTBLOption typeTBLOptionDistance = $0;
+    public TypeTBLOption typeTBLOptionPick = NOT_USE;
     public Mob mobTBL = null;
 
     public boolean activeTBL = false;
     public boolean autoHslOfTBL = false;
-    public boolean filter = false;
 
     public User() {
         this.username = null;
@@ -120,8 +122,8 @@ public class User extends Actor implements SendMessage {
         this.passnew = "";
         this.nhanQua = false;
         this.setClanTerritoryId(-1);
+        this.resetTBL();
         this.server = Server.getInstance();
-
     }
 
     public boolean containsItem(int id) {
@@ -147,6 +149,13 @@ public class User extends Actor implements SendMessage {
         }
         this.luong += (int) x;
         return (int) x;
+    }
+
+    public void resetTBL() {
+        this.activeTBL = false;
+        this.autoHslOfTBL = false;
+        this.typeTBLOptionPick = NOT_USE;
+        this.typeTBLOptionDistance = $0;
     }
 
     public static User login(final Session conn, final String user, final String pass) {

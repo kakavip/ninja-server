@@ -3024,18 +3024,18 @@ public class Place {
         }
     }
 
-    private void goToMap(final User p, int mapId) {
-        final Map map = Manager.getMapid(mapId);
-        if (map != null) {
-            for (byte i = 0; i < map.area.length; ++i) {
-                if (map.area[i].getNumplayers() < map.template.maxplayers) {
-                    this.leave(p);
-                    map.area[i].EnterMap0(p.nj);
-                    break;
-                }
-            }
-        }
-    }
+    // private void goToMap(final User p, int mapId) {
+    // final Map map = Manager.getMapid(mapId);
+    // if (map != null) {
+    // for (byte i = 0; i < map.area.length; ++i) {
+    // if (map.area[i].getNumplayers() < map.template.maxplayers) {
+    // this.leave(p);
+    // map.area[i].EnterMap0(p.nj);
+    // break;
+    // }
+    // }
+    // }
+    // }
 
     private void resetDieReturn(final @Nullable User p, final @Nullable Place area) throws IOException {
         if (p == null || area == null) {
@@ -3373,7 +3373,7 @@ public class Place {
                             if (Math.abs(user.nj.get().x - mob.x) < dx && Math.abs(user.nj.get().y - mob.y) < dy) {
                                 int dame = mob.level * mob.level / 10;
                                 if (this.map.cave != null && this.map.cave.finsh > 0 && this.map.getXHD() == 6) {
-                                    final int dup = dame = dame * (10 * this.map.cave.finsh + 100) / 100;
+                                    dame = dame * (10 * this.map.cave.finsh + 100) / 100;
                                 }
                                 if (mob.lvboss == 1) {
                                     dame *= 2;
@@ -4054,7 +4054,7 @@ public class Place {
         }
     }
 
-    private List<ItemMap> findItemMapInDistance(int x, int y, int distance, boolean filter, int master) {
+    private List<ItemMap> findItemMapInDistance(int x, int y, int distance, int master) {
         List<ItemMap> itemMaps = new ArrayList<>();
         for (ItemMap itemMap : this._itemMap) {
             if (itemMap != null && (itemMap.master == -1 || itemMap.master == master)
@@ -4113,26 +4113,26 @@ public class Place {
         }
     }
 
-    private void updateHp(final @Nullable User p) throws IOException {
-        if (p == null) {
-            return;
-        }
-        Message msg = null;
-        try {
-            msg = new Message(-30);
-            msg.writer().writeByte(-122);
-            msg.writer().writeInt(p.nj.hp);
-            p.sendMessage(msg);
+    // private void updateHp(final @Nullable User p) throws IOException {
+    // if (p == null) {
+    // return;
+    // }
+    // Message msg = null;
+    // try {
+    // msg = new Message(-30);
+    // msg.writer().writeByte(-122);
+    // msg.writer().writeInt(p.nj.hp);
+    // p.sendMessage(msg);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // } finally {
 
-            if (msg != null) {
-                msg.cleanup();
-            }
-        }
-    }
+    // if (msg != null) {
+    // msg.cleanup();
+    // }
+    // }
+    // }
 
     private void updateExpiredItemMap() throws IOException {
         for (int i = 0; i < this._itemMap.size(); ++i) {
@@ -4268,49 +4268,59 @@ public class Place {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (!p.containsItem(572)) {
-            p.typeTBLOptionDistance = NOT_USE;
-            p.typeTBLOptionPick = NOT_USE;
 
-        } else if (!p.nj.get().isDie) {
+        // handle TBL
+        this.handleAutoTBLforUser(p);
 
-            if (p.typeTBLOptionDistance.getValue() > 0) {
-                List<ItemMap> itemMaps = findItemMapInDistance(p.nj.get().x, p.nj.get().y,
-                        p.typeTBLOptionDistance.getValue(),
-                        p.filter, p.nj.get().id);
-
-                for (ItemMap itemMap : itemMaps) {
-                    if (p.nj.getAvailableBag() != 0 && itemMap != null && itemMap.item != null
-                            && itemMap.item.getData().type != 25 && !TaskHandle.itemPick(p.nj, itemMap.item.id)) {
-                        removeItemMap(p, (short) _itemMap.indexOf(itemMap), itemMap);
-                    }
-                }
-            }
-
-            if (p.activeTBL
-                    && (p.mobTBL == null || p.mobTBL != null && _mobs.indexOf(p.mobTBL) == -1
-                            || p.mobTBL != null && p.mobTBL.isDie)) {
-                final Mob mobInDistance = findMobInDistance(p.nj.get().x, p.nj.get().y,
-                        p.typeTBLOptionDistance.getValue());
-                if (mobInDistance != null) {
-                    p.mobTBL = mobInDistance;
-                    sendXYPlayerWithEffect(p, p.nj.get().x, p.nj.get().y);
-                    p.nj.get().x = mobInDistance.x;
-                    boolean typeFly = mobInDistance.templates.type == 4 || mobInDistance.templates.type == 5;
-                    p.nj.get().y = typeFly ? this.map.touchY((short) mobInDistance.x, (short) mobInDistance.y)
-                            : mobInDistance.y;
-                    sendXYPlayer(p);
-                }
-            }
-        }
-
-        if (p.nj.get().isDie && p.autoHslOfTBL && p.activeTBL && p.nj.isHuman) {
-            this.wakeUpDieReturn(p);
-        }
         // Nhiem vu heo rung
         if (map.id == 74 && p != null && p.nj != null && p.nj.get() != null
                 && p.nj.get().isDie) {
             gietHeoRungGoBack(p, "Nhiệm vụ thất bại do hít quá nhiều khí độc");
+        }
+    }
+
+    @SneakyThrows
+    private void handleAutoTBLforUser(User p) {
+        if (!p.containsItem(572)) {
+            p.resetTBL();
+        } else if (p.activeTBL) {
+            if (!p.nj.get().isDie) {
+                if (p.typeTBLOptionDistance.getValue() > 0 && p.typeTBLOptionPick != NOT_USE) {
+                    List<ItemMap> itemMaps = findItemMapInDistance(p.nj.get().x, p.nj.get().y,
+                            p.typeTBLOptionDistance.getValue(), p.nj.get().id);
+
+                    for (ItemMap itemMap : itemMaps) {
+                        if (p.nj.getAvailableBag() > 2 && itemMap != null && itemMap.item != null
+                                && itemMap.item.getData().type != 25) {
+
+                            final boolean usefulItemCanPick = itemMap.item.id <= 22
+                                    || TaskHandle.itemPick(p.nj, itemMap.item.id);
+                            if (p.typeTBLOptionPick == USEFUL && !usefulItemCanPick) {
+                                continue;
+                            }
+
+                            removeItemMap(p, (short) _itemMap.indexOf(itemMap), itemMap);
+                        }
+                    }
+                }
+
+                if (p.mobTBL == null || p.mobTBL != null && _mobs.indexOf(p.mobTBL) == -1
+                        || p.mobTBL != null && p.mobTBL.isDie) {
+                    final Mob mobInDistance = findMobInDistance(p.nj.get().x, p.nj.get().y,
+                            p.typeTBLOptionDistance.getValue());
+                    if (mobInDistance != null) {
+                        p.mobTBL = mobInDistance;
+                        sendXYPlayerWithEffect(p, p.nj.get().x, p.nj.get().y);
+                        p.nj.get().x = mobInDistance.x;
+                        boolean typeFly = mobInDistance.templates.type == 4 || mobInDistance.templates.type == 5;
+                        p.nj.get().y = typeFly ? this.map.touchY((short) mobInDistance.x, (short) mobInDistance.y)
+                                : mobInDistance.y;
+                        sendXYPlayer(p);
+                    }
+                }
+            } else if (p.autoHslOfTBL && p.nj.isHuman) { // hsl for TBL
+                this.wakeUpDieReturn(p);
+            }
         }
     }
 

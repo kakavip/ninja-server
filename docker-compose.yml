@@ -84,7 +84,7 @@ services:
   mysql:
     restart: always
     image: mysql:5.7.20
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max_allowed_packet=1073741824  --disable-partition-engine-check
     volumes:
       - local_mysql_data:/var/lib/mysql
       - ./mysql/backups:/backups

@@ -204,7 +204,7 @@ public class Server {
             final Calendar rightNow = Calendar.getInstance();
             final short minutes = (short) rightNow.get(12);
 
-            if (minutes % 30 == 0) {
+            if (minutes % 5 == 0) {
                 Manager.serverChat("Tips", HOURLY_TIPS[util.nextInt(HOURLY_TIPS.length)]);
             }
 
