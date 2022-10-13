@@ -17,7 +17,6 @@ public class Effect {
     public static final String TIME_START = "timeStart";
     public static final String TIME_SAVE = "saveTime";
 
-
     public int timeStart;
     public int timeLength;
     public int param;
@@ -63,7 +62,7 @@ public class Effect {
 
     public static boolean isPermanentEffect(final @NotNull Effect effect) {
         val type = effect.template.type;
-        return type == 0 || type == 18 || type == 25 || type == 26  || type == 28;
+        return type == 0 || type == 18 || type == 25 || type == 26 || type == 28;
     }
 
     public boolean isExpired() {
@@ -74,7 +73,7 @@ public class Effect {
         return (int) ((this.timeRemove - System.currentTimeMillis()) / A_SECOND);
     }
 
-    public static Effect fromJSONObject(final  @NotNull JSONObject jsonObject) {
+    public static Effect fromJSONObject(final @NotNull JSONObject jsonObject) {
         Effect object = new Effect();
         val effTemplate = new EffectData();
         object.template = effTemplate;
@@ -89,7 +88,10 @@ public class Effect {
         object.param = Integer.parseInt(jsonObject.get(PARAM).toString());
         object.timeStart = Integer.parseInt(jsonObject.get(TIME_START).toString());
         object.timeLength = Integer.parseInt(jsonObject.get(TIME_LENGTH).toString());
-        object.timeRemove = Long.parseLong(jsonObject.get(TIME_REMOVE).toString());
+        
+        long lastTimeSave = Long.parseLong(jsonObject.get(TIME_REMOVE).toString());
+        long lastTimeRemove = Long.parseLong(jsonObject.get(TIME_REMOVE).toString())
+        object.timeRemove = System.currentTimeMillis() + (lastTimeSave - lastTimeRemove);
 
         return object;
     }
