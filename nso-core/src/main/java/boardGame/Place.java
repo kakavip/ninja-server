@@ -4281,7 +4281,7 @@ public class Place {
 
     @SneakyThrows
     private void handleAutoTBLforUser(User p) {
-        if (!p.containsItem(572)) {
+        if (!p.containsItem(TBL_ITEM_ID)) {
             p.resetTBL();
         } else if (p.activeTBL) {
             if (!p.nj.get().isDie) {
@@ -4291,10 +4291,11 @@ public class Place {
 
                     for (ItemMap itemMap : itemMaps) {
                         if (p.nj.getAvailableBag() > 2 && itemMap != null && itemMap.item != null
-                                && itemMap.item.getData().type != 25) {
+                                && itemMap.item.getData().type != ITEM_TYPE_VPNV_1) {
 
+                            // tone, hpmp, vpnv, pmng
                             final boolean usefulItemCanPick = itemMap.item.id <= 22
-                                    || TaskHandle.itemPick(p.nj, itemMap.item.id);
+                                    || TaskHandle.itemPick(p.nj, itemMap.item.id) || itemMap.item.id == PMNG_ITEM_ID;
                             if (p.typeTBLOptionPick == USEFUL && !usefulItemCanPick) {
                                 continue;
                             }

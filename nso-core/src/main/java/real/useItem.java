@@ -23,6 +23,7 @@ import threading.Server;
 import threading.Manager;
 import threading.Map;
 
+import static patch.Constants.*;
 import static threading.Manager.*;
 
 public class useItem {
@@ -1169,7 +1170,7 @@ public class useItem {
                 p.nj.removeItemBag(index, 1);
                 break;
             }
-            case 572: {
+            case TBL_ITEM_ID: {
                 // TBL
                 String[] tblOptions = new String[] { "Phạm vi", "Nhặt vật phẩm", "Tắt HSL", "Tắt tàn sát" };
 

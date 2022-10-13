@@ -21,6 +21,7 @@ import java.util.Map;
 
 import threading.Server;
 
+import static patch.Constants.*;
 import static clan.ClanThanThu.*;
 import static threading.Manager.MIN_DA_LV;
 import static threading.Manager.MAX_DA_LV;;
@@ -371,7 +372,7 @@ public class ItemData {
             item.setLock(true);
             item.expires = util.TimeDay(3);
             return item;
-        } else if (id == 572) {
+        } else if (id == TBL_ITEM_ID) {
             // Thien bien lenh
             Item item = itemDefault(id, (byte) 0);
             item.isExpires = true;
@@ -589,36 +590,34 @@ public class ItemData {
 
         int a = 0;
 
+        // get max tone & min tone
+        int minDa = MIN_DA_LV;
+        int maxDa = MIN_DA_LV + 1;
+        maxDa = Math.min(Math.max((short) maxLv / 10, maxDa), MAX_DA_LV);
         for (int i = 0; i < nDa; i++) {
-            int minDa = MIN_DA_LV - 1;
-            int maxDa = Math.min((short) maxLv / 10, MAX_DA_LV);
-
-            if (maxDa < minDa) {
-                maxDa = minDa + 1;
-            }
-            if (maxDa == minDa) {
-                maxDa += 1;
-            }
-
             items[a] = (short) util.nextInt(minDa, maxDa);
             a++;
         }
 
+        // get empty
         for (int j = 0; j < nNull; j++) {
             items[a] = (short) -1;
             a++;
         }
 
+        // get money
         for (int j = 0; j < nYen; j++) {
             items[a] = (short) 12;
             a++;
         }
 
+        // get pmng
         for (int j = 0; j < nPmng; j++) {
             items[a] = (short) 38;
             a++;
         }
 
+        // get nhpmp
         for (int j = 0; j < nHpMp; j++) {
             for (int n = 0; n < setHp.length; n++) {
                 items[a] = (short) setHp[n];

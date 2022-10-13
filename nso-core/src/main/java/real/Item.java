@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static patch.Constants.*;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item implements Serializable {
     @JsonProperty(required = true, value = "isLock")
@@ -47,7 +49,6 @@ public class Item implements Serializable {
         this.option = new ArrayList<>();
         this.ngocs = new ArrayList<>();
     }
-
 
     @JsonIgnore
     @NotNull
@@ -139,13 +140,15 @@ public class Item implements Serializable {
 
     @JsonIgnore
     public int getOptionShopMin(final int opid, final int param) {
-        if (opid == 0 || opid == 1 || opid == 21 || opid == 22 || opid == 23 || opid == 24 || opid == 25 || opid == 26) {
+        if (opid == 0 || opid == 1 || opid == 21 || opid == 22 || opid == 23 || opid == 24 || opid == 25
+                || opid == 26) {
             return param - 50 + 1;
         }
         if (opid == 6 || opid == 7 || opid == 8 || opid == 9 || opid == 19) {
             return param - 10 + 1;
         }
-        if (opid == 2 || opid == 3 || opid == 4 || opid == 5 || opid == 10 || opid == 11 || opid == 12 || opid == 13 || opid == 14 || opid == 15 || opid == 17 || opid == 18 || opid == 20) {
+        if (opid == 2 || opid == 3 || opid == 4 || opid == 5 || opid == 10 || opid == 11 || opid == 12 || opid == 13
+                || opid == 14 || opid == 15 || opid == 17 || opid == 18 || opid == 20) {
             return param - 5 + 1;
         }
         if (opid == 16) {
@@ -278,7 +281,7 @@ public class Item implements Serializable {
         return System.currentTimeMillis() >= this.expires;
     }
 
-    private static final short[] DEFAULT_RANDOM_ITEM_IDS = new short[]{7, 8, 9, 436, 437, 438, 695};
+    private static final short[] DEFAULT_RANDOM_ITEM_IDS = new short[] { 7, 8, 9, 436, 437, 438, 695 };
 
     public static Item defaultRandomItem() {
         return ItemData.itemDefault(DEFAULT_RANDOM_ITEM_IDS[util.nextInt(DEFAULT_RANDOM_ITEM_IDS.length)]);
@@ -297,7 +300,7 @@ public class Item implements Serializable {
     @JsonIgnore
     protected boolean isTypeTask() {
         val data = this.getData();
-        return (data.type == 23 || data.type == 24 || data.type == 25);
+        return (data.type == ITEM_TYPE_VPNV_1 || data.type == ITEM_TYPE_VPNV_2 || data.type == ITEM_TYPE_VPNV_3);
     }
 
     public boolean isLock() {

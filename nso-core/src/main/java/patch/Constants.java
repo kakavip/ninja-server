@@ -32,4 +32,11 @@ public class Constants {
     public static final int BOSS_LAO_DAI_ID = 198;
     public static final int BOSS_LAO_TAM_ID = 199;
     public static final int BOSS_LAO_NHI_ID = 200;
+
+    public static final int PMNG_ITEM_ID = 38;
+    public static final int TBL_ITEM_ID = 572;
+
+    public static final int ITEM_TYPE_VPNV_1 = 23;
+    public static final int ITEM_TYPE_VPNV_2 = 24;
+    public static final int ITEM_TYPE_VPNV_3 = 25;
 }

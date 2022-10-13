@@ -909,7 +909,7 @@ public class MenuController {
                                     p.session.sendMessageLog("Trình độ 60 mới có thể sử dụng chức năng này");
                                     return;
                                 }
-                                final Manager manager = this.server.manager;
+                                // final Manager manager = this.server.manager;
                                 final Map ma = Manager.getMapid(139);
                                 for (final Place area : ma.area) {
                                     if (area.getNumplayers() < ma.template.maxplayers) {
@@ -1905,12 +1905,12 @@ public class MenuController {
                     switch (menuId) {
                         case 0: {
                             p.typemenu = 92_0;
-                            this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
+                            MenuController.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                             break;
                         }
                         case 1: {
                             p.typemenu = 92_1;
-                            this.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
+                            MenuController.doMenuArray(p, new String[] { "Thông tin", "Luật chơi" });
                             break;
                         }
                         case 2: {
@@ -2025,7 +2025,7 @@ public class MenuController {
                                         "Ngọc bội", "Giày",
                                         "Bùa", "Linh tinh" };
                                 p.typemenu = 28_0;
-                                this.doMenuArray(p, itemShinwaTypes);
+                                MenuController.doMenuArray(p, itemShinwaTypes);
                             }
 
                             break;
@@ -2492,11 +2492,11 @@ public class MenuController {
                     switch (menuId) {
                         case 0:
                             p.typemenu = 36_7_0;
-                            this.doMenuArray(p, new String[] { "Tre xanh 100 đốt", "Tre vàng 100 đốt" });
+                            MenuController.doMenuArray(p, new String[] { "Tre xanh 100 đốt", "Tre vàng 100 đốt" });
                             break;
                         case 1:
                             p.typemenu = 36_7_1;
-                            this.doMenuArray(p, new String[] { "Nhận", "Huỷ", "Hoàn thành", "Hướng dẫn" });
+                            MenuController.doMenuArray(p, new String[] { "Nhận", "Huỷ", "Hoàn thành", "Hướng dẫn" });
                             break;
                         default:
                             break;
@@ -2802,15 +2802,17 @@ public class MenuController {
                     p);
         }
         if (idnpc == 24 && p.nj.getLevel() >= 1) {
-            this.doMenuArray(p, new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
-                    "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên", "Dịch vụ CARD/ATM/MoMo" });
+            MenuController.doMenuArray(p,
+                    new String[] { "Đổi lượng", "Đổi yên qua xu", "Nhận thưởng thăng cấp", "Nói chuyện",
+                            "Mã quà tặng", "Tặng lượng", "Ký gửi Xu/Yên", "Dịch vụ CARD/ATM/MoMo" });
         } else if (idnpc == 30 && p.nj.getLevel() >= 1) {
-            this.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
+            MenuController.doMenuArray(p, new String[] { "Lật hình", "Mã quà tặng", "Vòng quay VIP", "Vòng quay thường",
                     "Tài Xỉu" });
         } else if (idnpc == 28 && p.nj.getLevel() >= 1) {
-            this.doMenuArray(p, new String[] { "Gian hàng", "Bán vật phẩm", "Nhận lại vật phẩm", "Tìm kiếm vật phẩm" });
+            MenuController.doMenuArray(p,
+                    new String[] { "Gian hàng", "Bán vật phẩm", "Nhận lại vật phẩm", "Tìm kiếm vật phẩm" });
         } else if (idnpc == 32 && p.nj.getLevel() >= 1) {
-            this.doMenuArray(p, new String[] { "Gia tộc chiến", "Tinh luyện", "Bí kíp" });
+            MenuController.doMenuArray(p, new String[] { "Gia tộc chiến", "Tinh luyện", "Bí kíp" });
         } else if (idnpc == 0 && (p.nj.getPlace().map.isGtcMap() ||
                 p.nj.getPlace().map.loiDaiMap())) {
             if (p.nj.hasBattle() || p.nj.getClanBattle() != null) {
