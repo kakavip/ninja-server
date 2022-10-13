@@ -88,9 +88,9 @@ public class Effect {
         object.param = Integer.parseInt(jsonObject.get(PARAM).toString());
         object.timeStart = Integer.parseInt(jsonObject.get(TIME_START).toString());
         object.timeLength = Integer.parseInt(jsonObject.get(TIME_LENGTH).toString());
-        
+
         long lastTimeSave = Long.parseLong(jsonObject.get(TIME_SAVE).toString());
-        long lastTimeRemove = Long.parseLong(jsonObject.get(TIME_REMOVE).toString())
+        long lastTimeRemove = Long.parseLong(jsonObject.get(TIME_REMOVE).toString());
         object.timeRemove = System.currentTimeMillis() + (lastTimeSave - lastTimeRemove);
 
         return object;
