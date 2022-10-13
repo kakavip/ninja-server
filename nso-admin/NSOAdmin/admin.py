@@ -368,6 +368,7 @@ class SkillAdmin(admin.ModelAdmin):
 class EffectAdmin(admin.ModelAdmin):
     list_display = ["id", "type", "name", "icon_id"]
     list_display_links = ["id", "name"]
+    list_filter = ["type"]
     empty_display_value = "--empty--"
     search_fields = ["id", "name"]
     fields = ["type", "name", "icon_id"]
