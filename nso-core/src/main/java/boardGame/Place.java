@@ -1200,6 +1200,110 @@ public class Place {
         m.cleanup();
     }
 
+    public boolean pickItemMap(final User p, ItemMap itemMap, short index) throws IOException {
+        if (!itemMap.visible) {
+            return false;
+        }
+
+        final Item item = itemMap.item;
+        final ItemData data = ItemDataId(item.id);
+
+        if (itemMap.master != -1 && itemMap.master != p.nj.id) {
+            p.sendYellowMessage("Vật phẩm của người khác.");
+            return false;
+        }
+        if (Math.abs(itemMap.x - p.nj.get().x) > 50 || Math.abs(itemMap.y - p.nj.get().y) > 30) {
+            p.sendYellowMessage("Khoảng cách quá xa.");
+            return false;
+        }
+
+        Ninja ninja = p.nj;
+
+        if (data.type == 19 || p.nj.getAvailableBag() > 0
+                || (p.nj.getIndexBagid(item.id, item.isLock()) != -1 && data.isUpToUp)) {
+            boolean canPickItem = true;
+            boolean isTaskItem = TaskHandle.itemPick(ninja, item.getData().id);
+
+            if (isTaskItem) {
+                itemMap.item.setLock(true);
+                TaskTemplate task = null;
+                if (taskTemplates.length > ninja.getTaskId()) {
+                    task = taskTemplates[ninja.getTaskId()];
+                }
+                boolean isShowWaiting = itemMap != null && task != null
+                        && itemMap.item.id == (task.getItemsPick() != null
+                                && task.getItemsPick().length > ninja.getTaskIndex()
+                                        ? task.getItemsPick()[ninja.getTaskIndex()]
+                                        : -5)
+                        && ninja.getTaskId() != 31
+                        && item.id != 238
+                        && item.id != 349
+                        && item.id != 350
+                        && ninja.getTaskId() != 14
+                        && ninja.getTaskIndex() != 2
+                        && ninja.getTaskId() != 18
+                        && ninja.getTaskId() != 22
+                        && ninja.getTaskId() != 23;
+                if (isShowWaiting) {
+                    int lastHp = ninja.hp;
+                    Service.showWait("Nhặt Vật phẩm", ninja);
+                    try {
+                        Thread.sleep(2000L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Service.endWait(ninja);
+                    if (lastHp > ninja.hp) {
+                        canPickItem = false;
+                    }
+                }
+                if (!canPickItem) {
+                    return false;
+                }
+
+                if (ninja.getAvailableBag() > 0) {
+                    ninja.upMainTask();
+                    if (itemMap.item.id == 238) {
+                        if (util.percent(100, 50)) {
+                            p.sendYellowMessage("Bạn đã bị dơi lửa đốt");
+                            p.nj.get().upHP(-1000);
+                        }
+                        itemMap.item.id++;
+                    }
+                    removeItemMap(p, index, itemMap);
+                    if (ninja.party != null) {
+                        short k;
+                        for (k = 0; k < this.getNumplayers(); k = (short) (k + 1)) {
+                            Ninja player = this.getUsers().get(k).nj;
+
+                            if (player != null && player.p != null && player.party != null
+                                    && player.id != ninja.id
+                                    && player.party.id == ninja.party.id
+                                    && player.getTaskId() == ninja.getTaskId()
+                                    && player.getTaskIndex() == ninja.getTaskIndex()
+                                    && (player.getAvailableBag() != -1)) {
+                                player.upMainTask();
+                                Item itemClone = item.clone();
+                                if (itemClone.id == 238) {
+                                    itemClone.id++;
+                                }
+                                itemClone.setLock(true);
+                                player.addItemBag(item.getData().isUpToUp, itemClone);
+                            }
+                        }
+                    }
+                }
+            } else {
+                removeItemMap(p, index, itemMap);
+            }
+
+            return true;
+        } else {
+            p.session.sendMessageLog("Hành trang không đủ chỗ trống.");
+            return false;
+        }
+    }
+
     @SneakyThrows
     public void pickItem(@Nullable final User p, @Nullable Message m) throws IOException {
         synchronized (this._itemMap) {
@@ -1215,104 +1319,9 @@ public class Place {
             for (short i = 0; i < this._itemMap.size(); ++i) {
                 if (this._itemMap.get(i).itemMapId == itemmapid) {
                     final ItemMap itemMap = this._itemMap.get(i);
-                    if (!itemMap.visible) {
-                        return;
-                    }
-                    final Item item = itemMap.item;
-                    final ItemData data = ItemDataId(item.id);
 
-                    if (itemMap.master != -1 && itemMap.master != p.nj.id) {
-                        p.sendYellowMessage("Vật phẩm của người khác.");
-                        return;
-                    }
-                    if (Math.abs(itemMap.x - p.nj.get().x) > 50 || Math.abs(itemMap.y - p.nj.get().y) > 30) {
-                        p.sendYellowMessage("Khoảng cách quá xa.");
-                        return;
-                    }
-
-                    Ninja ninja = p.nj;
-
-                    if (data.type == 19 || p.nj.getAvailableBag() > 0
-                            || (p.nj.getIndexBagid(item.id, item.isLock()) != -1 && data.isUpToUp)) {
-                        boolean canPickItem = true;
-                        boolean isTaskItem = TaskHandle.itemPick(ninja, item.getData().id);
-
-                        if (isTaskItem) {
-                            itemMap.item.setLock(true);
-                            TaskTemplate task = null;
-                            if (taskTemplates.length > ninja.getTaskId()) {
-                                task = taskTemplates[ninja.getTaskId()];
-                            }
-                            boolean isShowWaiting = itemMap != null && task != null
-                                    && itemMap.item.id == (task.getItemsPick() != null
-                                            && task.getItemsPick().length > ninja.getTaskIndex()
-                                                    ? task.getItemsPick()[ninja.getTaskIndex()]
-                                                    : -5)
-                                    && ninja.getTaskId() != 31
-                                    && item.id != 238
-                                    && item.id != 349
-                                    && item.id != 350
-                                    && ninja.getTaskId() != 14
-                                    && ninja.getTaskIndex() != 2
-                                    && ninja.getTaskId() != 18
-                                    && ninja.getTaskId() != 22
-                                    && ninja.getTaskId() != 23;
-                            if (isShowWaiting) {
-                                int lastHp = ninja.hp;
-                                Service.showWait("Nhặt Vật phẩm", ninja);
-                                try {
-                                    Thread.sleep(2000L);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                Service.endWait(ninja);
-                                if (lastHp > ninja.hp) {
-                                    canPickItem = false;
-                                }
-                            }
-                            if (!canPickItem) {
-                                return;
-                            }
-
-                            if (ninja.getAvailableBag() > 0) {
-                                ninja.upMainTask();
-                                if (itemMap.item.id == 238) {
-                                    if (util.percent(100, 50)) {
-                                        p.sendYellowMessage("Bạn đã bị dơi lửa đốt");
-                                        p.nj.get().upHP(-1000);
-                                    }
-                                    itemMap.item.id++;
-                                }
-                                removeItemMap(p, i, itemMap);
-                                if (ninja.party != null) {
-                                    short k;
-                                    for (k = 0; k < this.getNumplayers(); k = (short) (k + 1)) {
-                                        Ninja player = this.getUsers().get(k).nj;
-
-                                        if (player != null && player.p != null && player.party != null
-                                                && player.id != ninja.id
-                                                && player.party.id == ninja.party.id
-                                                && player.getTaskId() == ninja.getTaskId()
-                                                && player.getTaskIndex() == ninja.getTaskIndex()
-                                                && (player.getAvailableBag() != -1)) {
-                                            player.upMainTask();
-                                            Item itemClone = item.clone();
-                                            if (itemClone.id == 238) {
-                                                itemClone.id++;
-                                            }
-                                            itemClone.setLock(true);
-                                            player.addItemBag(item.getData().isUpToUp, itemClone);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            removeItemMap(p, i, itemMap);
-                        }
-
+                    if (this.pickItemMap(p, itemMap, i)) {
                         break;
-                    } else {
-                        p.session.sendMessageLog("Hành trang không đủ chỗ trống.");
                     }
                 }
             }
@@ -4289,18 +4298,23 @@ public class Place {
                     List<ItemMap> itemMaps = findItemMapInDistance(p.nj.get().x, p.nj.get().y,
                             p.typeTBLOptionDistance.getValue(), p.nj.get().id);
 
-                    for (ItemMap itemMap : itemMaps) {
-                        if (p.nj.getAvailableBag() > 2 && itemMap != null && itemMap.item != null
-                                && itemMap.item.getData().type != ITEM_TYPE_VPNV_1) {
+                    synchronized (itemMaps) {
+                        for (short i = 0; i < itemMaps.size(); ++i) {
+                            final ItemMap itemMap = itemMaps.get(i);
 
-                            // tone, hpmp, vpnv, pmng
-                            final boolean usefulItemCanPick = itemMap.item.id <= 22
-                                    || TaskHandle.itemPick(p.nj, itemMap.item.id) || itemMap.item.id == PMNG_ITEM_ID;
-                            if (p.typeTBLOptionPick == USEFUL && !usefulItemCanPick) {
-                                continue;
+                            if (p.nj.getAvailableBag() > 2 && itemMap != null && itemMap.item != null
+                                    && itemMap.item.getData().type != ITEM_TYPE_VPNV_1) {
+
+                                // tone, hpmp, vpnv, pmng
+                                final boolean usefulItemCanPick = itemMap.item.id <= 22
+                                        || TaskHandle.itemPick(p.nj, itemMap.item.id)
+                                        || itemMap.item.id == PMNG_ITEM_ID;
+                                if (p.typeTBLOptionPick == USEFUL && !usefulItemCanPick) {
+                                    continue;
+                                }
+
+                                this.pickItemMap(p, itemMap, i);
                             }
-
-                            removeItemMap(p, (short) _itemMap.indexOf(itemMap), itemMap);
                         }
                     }
                 }
