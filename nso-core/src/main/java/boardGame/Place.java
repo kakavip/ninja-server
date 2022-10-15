@@ -2535,7 +2535,7 @@ public class Place {
             }
 
             int randomIndex = arid.length == 0 ? 0 : util.nextInt(arid.length);
-            if (randomIndex > 0 && arid[randomIndex] != -1
+            if (randomIndex > 0 && arid[randomIndex] > 0
                     && (this.map.isLangCo() || canDropItem || (body.getLevel() > 110
                             && curMob.level >= 100))) {
 
@@ -2622,14 +2622,15 @@ public class Place {
             // drop item
             for (int i = 0; i < nItemBoss; i++) {
                 short itemId = curMob.getArrItemIds()[util.nextInt(curMob.getArrItemIds().length)];
-
-                ItemMap im = this.LeaveBossItem(itemId, curMob.x, curMob.y);
-                if (im != null) {
-                    if (im.item.id == 12) {
-                        im.item.quantity = curMob.level * (Manager.YEN_COEF * nYen) * util.nextInt(90, 100) / 100;
+                if (itemId != -1) {
+                    ItemMap im = this.LeaveBossItem(itemId, curMob.x, curMob.y);
+                    if (im != null) {
+                        if (im.item.id == 12) {
+                            im.item.quantity = curMob.level * (Manager.YEN_COEF * nYen) * util.nextInt(90, 100) / 100;
+                        }
+                        // NOTE anyone can pick up
+                        im.master = master;
                     }
-                    // NOTE anyone can pick up
-                    im.master = master;
                 }
             }
         }

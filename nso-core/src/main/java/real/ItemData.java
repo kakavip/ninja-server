@@ -619,17 +619,10 @@ public class ItemData {
 
         // get nhpmp
         for (int j = 0; j < nHpMp; j++) {
-            for (int n = 0; n < setHp.length; n++) {
-                items[a] = (short) setHp[n];
-                a++;
-
-                break;
-            }
-            for (int n = 0; n < setMp.length; n++) {
-                items[a] = (short) setMp[n];
-                a++;
-                break;
-            }
+            items[a] = (short) setHp[0];
+            a++;
+            items[a] = (short) setMp[0];
+            a++;
         }
 
         for (int j = 0; j < setVuKhi.length; j++) {
